@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antimatter Dimension Save Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <h1>Antimatter Dimension Save Editor</h1>
+        <div class="input-container">
+            <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
+            <button id="decryptButton">Decrypt</button>
+        </div>
+        <div id="jsoneditor" class="json-editor"></div>
+        <div class="input-container">
+            <button id="encryptButton">Encrypt</button>
+            <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
+        </div>
+    </div>
+    <script src="./pako.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
