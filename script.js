@@ -7,6 +7,15 @@ const options = {
 };
 const editor = new JSONEditor(container, options);
 
+document.getElementById('pasteButton').addEventListener('click', async () => {
+    try {
+        const text = await navigator.clipboard.readText();
+        document.getElementById('input').value = text;
+    } catch (err) {
+        alert('Failed to read clipboard contents: ' + err);
+    }
+});
+
 document.getElementById('decryptButton').addEventListener('click', () => {
     const input = document.getElementById('input').value;
     const output = GameSaveSerializer.deserialize(input);
@@ -21,6 +30,15 @@ document.getElementById('encryptButton').addEventListener('click', () => {
     const json = editor.get();
     const output = GameSaveSerializer.serialize(json);
     document.getElementById('output').value = output;
+});
+
+document.getElementById('copyButton').addEventListener('click', () => {
+    const output = document.getElementById('output').value;
+    navigator.clipboard.writeText(output).then(() => {
+        alert('Copied to clipboard');
+    }).catch(err => {
+        alert('Failed to copy: ' + err);
+    });
 });
 
 // Toggle dark mode

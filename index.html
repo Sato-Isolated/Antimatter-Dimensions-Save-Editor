@@ -14,18 +14,22 @@
             <h1>Antimatter Dimension Save Editor</h1>
             <div>
                 <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
+                <button id="pasteButton"><i class="fas fa-paste"></i> Paste</button>
                 <button id="decryptButton"><i class="fas fa-unlock-alt"></i> Decrypt</button>
             </div>
             <div id="jsoneditor" class="json-editor"></div>
             <div>
                 <button id="encryptButton"><i class="fas fa-lock"></i> Encrypt</button>
+                <button id="copyButton"><i class="fas fa-copy"></i> Copy</button>
                 <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
-            </div>
+              
+           </div>
             <button id="toggleTheme"><i class="fas fa-sun"></i></button>
         </div>
         <div class="changelog-section">
             <h2>Changelog</h2>
             <ul id="changelogList">
+                <li><strong>v1.0.3</strong> — Added paste and copy buttons for convenience.</li>
                 <li><strong>v1.0.2</strong> — Added dark theme.</li>
                 <li><strong>v1.0.1</strong> — Implemented save editor functionality.</li>
                 <li><strong>v1.0.0</strong> — Initial release of the save editor.</li>
