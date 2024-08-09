@@ -6,18 +6,30 @@
     <title>Antimatter Dimension Save Editor</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
+<body class="dark-mode">
     <div class="container">
-        <h1>Antimatter Dimension Save Editor</h1>
-        <div class="input-container">
-            <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
-            <button id="decryptButton">Decrypt</button>
+        <div class="editor-section">
+            <h1>Antimatter Dimension Save Editor</h1>
+            <div>
+                <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
+                <button id="decryptButton"><i class="fas fa-unlock-alt"></i> Decrypt</button>
+            </div>
+            <div id="jsoneditor" class="json-editor"></div>
+            <div>
+                <button id="encryptButton"><i class="fas fa-lock"></i> Encrypt</button>
+                <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
+            </div>
+            <button id="toggleTheme"><i class="fas fa-sun"></i></button>
         </div>
-        <div id="jsoneditor" class="json-editor"></div>
-        <div class="input-container">
-            <button id="encryptButton">Encrypt</button>
-            <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
+        <div class="changelog-section">
+            <h2>Changelog</h2>
+            <ul id="changelogList">
+                <li><strong>v1.0.2</strong> — Added dark theme.</li>
+                <li><strong>v1.0.1</strong> — Implemented save editor functionality.</li>
+                <li><strong>v1.0.0</strong> — Initial release of the save editor.</li>
+            </ul>
         </div>
     </div>
     <script src="./pako.min.js"></script>
