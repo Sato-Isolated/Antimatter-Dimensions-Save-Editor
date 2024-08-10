@@ -1,0 +1,242 @@
+:root {
+    --background-color: #f4f4f9;
+    /* Very light, neutral background */
+    --text-color: #333333;
+    /* Text in dark gray */
+    --primary-color: #007BFF;
+    /* Bright blue for buttons */
+    --primary-dark-color: #0056b3;
+    --secondary-background-color: #ffffff;
+    /* White for secondary elements */
+    --secondary-border-color: #dddddd;
+    /* Light grey for borders */
+    --highlight-color: #007BFF;
+    /* Bright blue for important elements */
+}
+
+body.dark-mode {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --primary-color: #007BFF;
+    --primary-dark-color: #004499;
+    --secondary-background-color: #2e2e2e;
+    --secondary-border-color: #555555;
+    --highlight-color: #ff9800;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.editor-section {
+    background-color: var(--secondary-background-color);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Light shade */
+    width: 100%;
+    border: 1px solid var(--secondary-border-color);
+}
+
+h1 {
+    color: var(--text-color);
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid var(--secondary-border-color);
+    border-radius: 6px;
+    resize: none;
+    box-sizing: border-box;
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    background: linear-gradient(45deg, var(--primary-dark-color), var(--primary-color));
+    color: #ffffff;
+    /* White text on buttons for contrast */
+    border: none;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Light shade */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background: linear-gradient(45deg, var(--primary-dark-color), var(--primary-color));
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button i {
+    margin-right: 8px;
+}
+
+.json-editor {
+    height: 450px;
+    margin-bottom: 20px;
+    border: 1px solid var(--secondary-border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+}
+
+/* Changelog positioned in the top right corner */
+.changelog-section {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Light shade */
+    z-index: 1000;
+    font-size: 0.9em;
+    border: 1px solid var(--secondary-border-color);
+    text-align: center;
+}
+
+.changelog-section h2 {
+    font-size: 1.2em;
+    margin-top: 0;
+    color: var(--highlight-color);
+    /* Use highlight color */
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.changelog-section ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 10px 0 0 0;
+    text-align: left;
+}
+
+.changelog-section ul li {
+    margin-bottom: 5px;
+    line-height: 1.6;
+}
+
+.changelog-section ul li::before {
+    display: none;
+}
+
+.github-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+    z-index: 1000;
+    width: 220px;
+    text-align: center;
+    border: 1px solid var(--secondary-border-color);
+}
+
+.github-link a {
+    color: var(--highlight-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.github-link a:hover {
+    text-decoration: underline;
+}
+
+.github-stats {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+    z-index: 1000;
+    width: 220px;
+    text-align: center;
+    border: 1px solid var(--secondary-border-color);
+}
+
+.github-stats h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: var(--highlight-color);
+    text-transform: uppercase;
+}
+
+.github-badges {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.github-badge {
+    background-color: #28a745;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.github-badge:nth-child(2) {
+    background-color: #007bff;
+}
+
+.github-badge:nth-child(3) {
+    background-color: #ffc107;
+}
+
+.github-badge i {
+    margin-left: 5px;
+}
+
+.github-cta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 220px;
+    text-align: center;
+}
