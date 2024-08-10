@@ -52,3 +52,24 @@ toggleThemeButton.addEventListener('click', () => {
 // Set initial icon based on the mode
 const isDarkMode = document.body.classList.contains('dark-mode');
 toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const repo = 'Sato-Isolated/Antimatter-Dimensions-Save-Editor';
+    const apiUrl = `https://api.github.com/repos/${repo}?t=${new Date().getTime()}`;
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch GitHub data');
+        }
+
+        const repoData = await response.json();
+
+        // Update stars, forks, and issues in the DOM
+        document.getElementById('githubStars').textContent = repoData.stargazers_count;
+        document.getElementById('githubForks').textContent = repoData.forks_count;
+        document.getElementById('githubIssues').textContent = repoData.open_issues_count;
+    } catch (error) {
+        console.error('Error fetching GitHub data:', error);
+    }
+});
