@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antimatter Dimension Save Editor</title>
+    <meta name="description" content="Antimatter Dimensions Save Editor - A tool for modifying your game saves.">
+    <meta name="keywords" content="Antimatter Dimensions, Save Editor, Game, Tool">
+    <meta name="author" content="Sato-Isolated">
+    <title>Antimatter Dimensions Save Editor</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body class="dark-mode">
+    <div class="github-link">
+        <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor" target="_blank">
+            <i class="fab fa-github"></i> Contribute on GitHub
+        </a>
+    </div>
+
+    <div class="github-stats">
+        <h3><i class="fab fa-github"></i> GitHub Stats</h3>
+        <div class="github-badges">
+            <div class="github-badge">
+                <span id="githubStars">0</span> <i class="fas fa-star"></i>
+            </div>
+            <div class="github-badge">
+                <span id="githubForks">0</span> <i class="fas fa-code-branch"></i>
+            </div>
+            <div class="github-badge">
+                <span id="githubIssues">0</span> <i class="fas fa-exclamation-circle"></i>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="editor-section">
-            <h1>Antimatter Dimension Save Editor</h1>
+            <h1>Antimatter Dimensions Save Editor</h1>
             <div>
                 <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
                 <button id="pasteButton"><i class="fas fa-paste"></i> Paste</button>
@@ -22,13 +48,13 @@
                 <button id="encryptButton"><i class="fas fa-lock"></i> Encrypt</button>
                 <button id="copyButton"><i class="fas fa-copy"></i> Copy</button>
                 <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
-              
-           </div>
+            </div>
             <button id="toggleTheme"><i class="fas fa-sun"></i></button>
         </div>
         <div class="changelog-section">
             <h2>Changelog</h2>
             <ul id="changelogList">
+                <li><strong>v1.0.4</strong> — Added GitHub integration and updated meta tags for better SEO.</li>
                 <li><strong>v1.0.3</strong> — Added paste and copy buttons for convenience.</li>
                 <li><strong>v1.0.2</strong> — Added dark theme.</li>
                 <li><strong>v1.0.1</strong> — Implemented save editor functionality.</li>
@@ -36,8 +62,10 @@
             </ul>
         </div>
     </div>
-    <script src="./pako.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
     <script type="module" src="script.js"></script>
 </body>
+
 </html>
