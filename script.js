@@ -44,14 +44,17 @@ document.getElementById('copyButton').addEventListener('click', () => {
 // Toggle dark mode
 const toggleThemeButton = document.getElementById('toggleTheme');
 toggleThemeButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
+    document.body.classList.toggle('dark-theme');
+    document.body.classList.toggle('light-theme');
+    
+    const isDarkMode = document.body.classList.contains('dark-theme');
     toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 });
 
 // Set initial icon based on the mode
-const isDarkMode = document.body.classList.contains('dark-mode');
+const isDarkMode = document.body.classList.contains('dark-theme');
 toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
 
 
 document.addEventListener('DOMContentLoaded', async () => {

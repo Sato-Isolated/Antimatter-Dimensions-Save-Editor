@@ -1,0 +1,343 @@
+$button-padding: 10px 20px;
+$width-editor: 98%;
+
+$light-button-bg-color: #d1f2f3;
+$light-editor-bg-color: #f5f5f5;
+$light-container-bg-color: #fafafa;
+$light-text-color: #333333;
+
+$light-text-color-lighten-20: lighten($light-text-color, 20%);
+$light-editor-bg-color-lighten-5: lighten($light-editor-bg-color, 5%);
+$light-button-bg-color-darken-10: darken($light-button-bg-color, 10%);
+
+$dark-button-bg-color: #004d4d;
+$dark-editor-bg-color: #1e1e1e;
+$dark-container-bg-color: #1a1a1a;
+$dark-text-color: #cccccc;
+
+$dark-text-color-lighten-20: lighten($dark-text-color, 20%);
+$dark-editor-bg-color-lighten-5: lighten($dark-editor-bg-color, 5%);
+$dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
+
+.light-theme {
+  --button-bg-color: #{$light-button-bg-color};
+  --button-bg-color-hover: #{$light-button-bg-color-darken-10};
+  --editor-bg-color: #{$light-editor-bg-color};
+  --editor-bg-color-lighten-5: #{$light-editor-bg-color-lighten-5};
+  --container-bg-color: #{$light-container-bg-color};
+  --text-color: #{$light-text-color};
+  --text-color-lighten-20: #{$light-text-color-lighten-20};
+}
+
+.dark-theme {
+  --button-bg-color: #{$dark-button-bg-color};
+  --button-bg-color-hover: #{$dark-button-bg-color-darken-10};
+  --editor-bg-color: #{$dark-editor-bg-color};
+  --editor-bg-color-lighten-5: #{$dark-editor-bg-color-lighten-5};
+  --container-bg-color: #{$dark-container-bg-color};
+  --text-color: #{$dark-text-color};
+  --text-color-lighten-20: #{$dark-text-color-lighten-20};
+}
+
+@mixin shared-editor-styles {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: var(--text-color);
+
+  h1 {
+    margin: 10px 0;
+    font-size: calc(1.5rem + 1vw);
+  }
+
+  textarea {
+    width: $width-editor;
+    height: 100px;
+    margin: 10px auto;
+    border: 1px solid var(--text-color-lighten-20);
+    border-radius: 5px;
+    padding: 10px;
+    background-color: var(--editor-bg-color-lighten-5);
+    color: var(--text-color);
+
+    resize: none;
+  }
+
+  .group-button {
+    width: $width-editor;
+    margin: 10px auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    button {
+      margin-right: 10px;
+      padding: $button-padding;
+      background-color: var(--button-bg-color);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      color: var(--text-color);
+
+      &:hover {
+        background-color: var(--button-bg-color-hover);
+        transform: translateY(-3px);
+      }
+    }
+  }
+}
+
+.container {
+  background-color: var(--container-bg-color);
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+
+  @media (max-width: 1024px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  .editor-section {
+    background-color: var(--editor-bg-color);
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    margin: 0 auto;
+    border-radius: 25px;
+    padding: 10px;
+    border: 1px solid var(--text-color-lighten-20);
+
+    @media (max-width: 1024px) {
+      width: 80%;
+    }
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+
+    .editor-header {
+      @include shared-editor-styles;
+    }
+
+    .editor-body {
+      .json-editor {
+        height: 60vh;
+        width: $width-editor;
+        margin: 10px auto;
+        border: 1px solid var(--text-color-lighten-20);
+        border-radius: 5px;
+        padding: 10px;
+        background-color: var(--editor-bg-color-lighten-5);
+        color: var(--text-color);
+
+        @media (max-width: 768px) {
+          height: 40vh;
+        }
+      }
+    }
+
+    .editor-footer {
+      @include shared-editor-styles;
+    }
+  }
+
+  .changelog-card {
+    background-color: var(--editor-bg-color-lighten-5);
+    margin: 0 20px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: absolute;
+    width: 15vw;
+    right: 0;
+
+    @media (max-width: 1024px) {
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    @media (max-width: 768px) {
+      position: relative;
+      width: 90%;
+      margin: 20px auto;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      word-wrap: break-word;
+      font-size: 1.75rem;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--text-color);
+        border-left: 3px solid var(--accent-color);
+        background-color: var(--background-lighten-10);
+        border-radius: 5px;
+
+        a {
+          text-decoration: none;
+          color: var(--text-color-lighten-20);
+          font-weight: bold;
+          transition: color 0.3s ease, text-decoration 0.3s ease;
+
+          &:hover {
+            text-decoration: underline;
+            color: var(--accent-color);
+          }
+        }
+
+
+        strong {
+          font-size: 1.2rem;
+          color: var(--accent-color);
+        }
+
+
+        em {
+          font-style: italic;
+          color: var(--text-color-lighten-10);
+        }
+      }
+    }
+
+  }
+
+  .github-card {
+    background-color: var(--editor-bg-color-lighten-5);
+    margin: 0 20px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: absolute;
+    width: 15vw;
+    bottom: 32px;
+    right: 0;
+
+    @media (max-width: 1024px) {
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    @media (max-width: 768px) {
+      position: relative;
+      width: 90%;
+      margin: 20px auto;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+
+      .github-link a {
+        display: block;
+        animation: shake 0.5s ease-in-out;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      word-wrap: break-word;
+      font-size: 1.75rem;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+
+    .github-badges {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      .github-badge {
+        background-color: #238636;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          margin-left: 5px;
+        }
+      }
+
+      .github-badge:nth-child(2) {
+        background-color: #0056b3;
+      }
+
+      .github-badge:nth-child(3) {
+        background-color: #e0a800;
+      }
+    }
+
+    .github-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: bold;
+
+      a {
+        color: var(--text-color-lighten-20);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          color: var(--text-color-lighten-20);
+        }
+      }
+    }
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-5px);
+  }
+}
