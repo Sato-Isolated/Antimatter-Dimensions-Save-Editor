@@ -18,6 +18,14 @@ document.getElementById('pasteButton').addEventListener('click', async () => {
 
 document.getElementById('decryptButton').addEventListener('click', () => {
     const input = document.getElementById('input').value;
+
+    // Check if the file contains "AntimatterDimensionsAndroidSaveFormat"
+    if (input.includes('AntimatterDimensionsAndroidSaveFormat')) {
+        alert("The 'AntimatterDimensionsAndroidSaveFormat' is not supported.");
+        return;
+    }
+
+    // Proceed with decryption if the format is valid
     const output = GameSaveSerializer.deserialize(input);
     if (output) {
         editor.set(output);
