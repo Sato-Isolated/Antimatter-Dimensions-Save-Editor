@@ -1,86 +1,168 @@
 import { GameSaveSerializer } from './gameSaveSerializer.js';
 
+// Utility function for feedback
+const showFeedback = (message, type = 'success') => {
+    const feedback = document.createElement('div');
+    feedback.className = `feedback ${type}`;
+    feedback.textContent = message;
+    document.body.appendChild(feedback);
+    setTimeout(() => feedback.remove(), 3000);
+};
+
+// Button loading state handler
+const setButtonLoading = (button, isLoading) => {
+    button.disabled = isLoading;
+    button.classList.toggle('loading', isLoading);
+};
+
+// Initialize JSON Editor with enhanced options
 const container = document.getElementById('jsoneditor');
 const options = {
     mode: 'tree',
-    modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+    modes: ['code', 'form', 'text', 'tree', 'view'],
+    onError: (err) => {
+        showFeedback(err.toString(), 'error');
+    },
+    onModeChange: (newMode) => {
+        localStorage.setItem('preferredMode', newMode);
+    }
 };
 const editor = new JSONEditor(container, options);
 
+// Restore preferred mode
+const savedMode = localStorage.getItem('preferredMode');
+if (savedMode) editor.setMode(savedMode);
+
+// Paste button handler
 document.getElementById('pasteButton').addEventListener('click', async () => {
+    const button = document.getElementById('pasteButton');
+    setButtonLoading(button, true);
+    
     try {
         const text = await navigator.clipboard.readText();
         document.getElementById('input').value = text;
+        showFeedback('Save data pasted successfully');
     } catch (err) {
-        alert('Failed to read clipboard contents: ' + err);
+        showFeedback('Failed to read clipboard: ' + err, 'error');
+    } finally {
+        setButtonLoading(button, false);
     }
 });
 
+// Decrypt button handler
 document.getElementById('decryptButton').addEventListener('click', () => {
+    const button = document.getElementById('decryptButton');
     const input = document.getElementById('input').value;
-
-    // Check if the file contains "AntimatterDimensionsAndroidSaveFormat"
-    if (input.includes('AntimatterDimensionsAndroidSaveFormat')) {
-        alert("The 'AntimatterDimensionsAndroidSaveFormat' is not supported.");
+    
+    if (!input.trim()) {
+        showFeedback('Please paste your save data first', 'error');
         return;
     }
 
-    // Proceed with decryption if the format is valid
-    const output = GameSaveSerializer.deserialize(input);
-    if (output) {
-        editor.set(output);
-    } else {
-        alert('Decryption error');
-    }
-});
+    setButtonLoading(button, true);
 
-document.getElementById('encryptButton').addEventListener('click', () => {
-    const json = editor.get();
-    const output = GameSaveSerializer.serialize(json);
-    document.getElementById('output').value = output;
-});
-
-document.getElementById('copyButton').addEventListener('click', () => {
-    const output = document.getElementById('output').value;
-    navigator.clipboard.writeText(output).then(() => {
-        alert('Copied to clipboard');
-    }).catch(err => {
-        alert('Failed to copy: ' + err);
-    });
-});
-
-// Toggle dark mode
-const toggleThemeButton = document.getElementById('toggleTheme');
-toggleThemeButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme');
-    document.body.classList.toggle('light-theme');
-    
-    const isDarkMode = document.body.classList.contains('dark-theme');
-    toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-});
-
-// Set initial icon based on the mode
-const isDarkMode = document.body.classList.contains('dark-theme');
-toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const repo = 'Sato-Isolated/Antimatter-Dimensions-Save-Editor';
-    const apiUrl = `https://api.github.com/repos/${repo}?t=${new Date().getTime()}`;
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('Failed to fetch GitHub data');
+        if (input.includes('AntimatterDimensionsAndroidSaveFormat')) {
+            showFeedback('Android format is not supported', 'error');
+            return;
         }
 
-        const repoData = await response.json();
-
-        // Update stars, forks, and issues in the DOM
-        document.getElementById('githubStars').textContent = repoData.stargazers_count;
-        document.getElementById('githubForks').textContent = repoData.forks_count;
-        document.getElementById('githubIssues').textContent = repoData.open_issues_count;
-    } catch (error) {
-        console.error('Error fetching GitHub data:', error);
+        const output = GameSaveSerializer.deserialize(input);
+        if (output) {
+            editor.set(output);
+            showFeedback('Save data decrypted successfully');
+        } else {
+            showFeedback('Failed to decrypt save data', 'error');
+        }
+    } catch (err) {
+        showFeedback('Decryption error: ' + err, 'error');
+    } finally {
+        setButtonLoading(button, false);
     }
 });
+
+// Encrypt button handler
+document.getElementById('encryptButton').addEventListener('click', () => {
+    const button = document.getElementById('encryptButton');
+    setButtonLoading(button, true);
+    
+    try {
+        const json = editor.get();
+        const output = GameSaveSerializer.serialize(json);
+        document.getElementById('output').value = output;
+        showFeedback('Save data encrypted successfully');
+    } catch (err) {
+        showFeedback('Encryption error: ' + err, 'error');
+    } finally {
+        setButtonLoading(button, false);
+    }
+});
+
+// Copy button handler
+document.getElementById('copyButton').addEventListener('click', async () => {
+    const button = document.getElementById('copyButton');
+    const output = document.getElementById('output').value;
+    
+    if (!output.trim()) {
+        showFeedback('No data to copy', 'error');
+        return;
+    }
+
+    setButtonLoading(button, true);
+    
+    try {
+        await navigator.clipboard.writeText(output);
+        showFeedback('Copied to clipboard');
+    } catch (err) {
+        showFeedback('Failed to copy: ' + err, 'error');
+    } finally {
+        setButtonLoading(button, false);
+    }
+});
+
+// Theme toggle with persistence
+const toggleThemeButton = document.getElementById('toggleTheme');
+const setTheme = (isDark) => {
+    document.body.classList.toggle('dark-theme', isDark);
+    document.body.classList.toggle('light-theme', !isDark);
+    toggleThemeButton.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+};
+
+// Initialize theme
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedTheme = localStorage.getItem('theme');
+setTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
+
+toggleThemeButton.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('light-theme');
+    setTheme(isDark);
+});
+
+// GitHub stats with error handling and retry
+const fetchGitHubStats = async (retries = 3) => {
+    const repo = 'Sato-Isolated/Antimatter-Dimensions-Save-Editor';
+    const apiUrl = `https://api.github.com/repos/${repo}?t=${new Date().getTime()}`;
+    
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('API request failed');
+            
+            const data = await response.json();
+            document.getElementById('githubStars').textContent = data.stargazers_count;
+            document.getElementById('githubForks').textContent = data.forks_count;
+            document.getElementById('githubIssues').textContent = data.open_issues_count;
+            return;
+        } catch (err) {
+            if (i === retries - 1) {
+                console.error('Failed to fetch GitHub stats:', err);
+                document.querySelector('.github-badges').style.opacity = '0.5';
+            } else {
+                await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+            }
+        }
+    }
+};
+
+document.addEventListener('DOMContentLoaded', fetchGitHubStats);

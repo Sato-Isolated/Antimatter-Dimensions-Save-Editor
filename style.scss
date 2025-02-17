@@ -19,6 +19,11 @@ $dark-text-color-lighten-20: lighten($dark-text-color, 20%);
 $dark-editor-bg-color-lighten-5: lighten($dark-editor-bg-color, 5%);
 $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
 
+$max-width-mobile: 768px;
+$max-width-tablet: 1024px;
+$border-radius-large: 15px;
+$transition-duration: 0.3s;
+
 .light-theme {
   --button-bg-color: #{$light-button-bg-color};
   --button-bg-color-hover: #{$light-button-bg-color-darken-10};
@@ -126,8 +131,44 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
       width: 90%;
     }
 
+    @media (max-width: $max-width-mobile) {
+      width: 95%;
+      margin: 10px auto;
+      padding: 15px 10px;
+    }
+
     .editor-header {
       @include shared-editor-styles;
+
+      h1 {
+        text-align: center;
+        padding: 0 15px;
+
+        @media (max-width: $max-width-mobile) {
+          font-size: calc(1.2rem + 1vw);
+        }
+      }
+
+      textarea {
+        @media (max-width: $max-width-mobile) {
+          height: 80px;
+          font-size: 14px;
+        }
+      }
+
+      .group-button {
+        @media (max-width: $max-width-mobile) {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+
+          button {
+            margin: 5px;
+            min-width: 120px;
+            padding: 12px 15px;
+          }
+        }
+      }
     }
 
     .editor-body {
@@ -143,6 +184,11 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
 
         @media (max-width: 768px) {
           height: 40vh;
+        }
+
+        @media (max-width: $max-width-mobile) {
+          height: 50vh;
+          font-size: 14px;
         }
       }
     }
@@ -162,6 +208,9 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
     position: absolute;
     width: 15vw;
     right: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     @media (max-width: 1024px) {
       position: relative;
@@ -173,6 +222,13 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
       position: relative;
       width: 90%;
       margin: 20px auto;
+    }
+
+    @media (max-width: $max-width-mobile) {
+      position: static;
+      width: 95%;
+      margin: 15px auto;
+      padding: 15px;
     }
 
     &:hover {
@@ -212,12 +268,10 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
           }
         }
 
-
         strong {
           font-size: 1.2rem;
           color: var(--accent-color);
         }
-
 
         em {
           font-style: italic;
@@ -225,7 +279,6 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
         }
       }
     }
-
   }
 
   .github-card {
@@ -239,6 +292,9 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
     width: 15vw;
     bottom: 32px;
     right: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     @media (max-width: 1024px) {
       position: relative;
@@ -250,6 +306,13 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
       position: relative;
       width: 90%;
       margin: 20px auto;
+    }
+
+    @media (max-width: $max-width-mobile) {
+      position: static;
+      width: 95%;
+      margin: 15px auto;
+      padding: 15px;
     }
 
     &:hover {
@@ -322,8 +385,55 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
   }
 }
 
-@keyframes shake {
+button {
+  position: relative;
+  overflow: hidden;
 
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    transition: transform 0.5s;
+  }
+
+  &:active::after {
+    transform: translate(-50%, -50%) scale(2);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  &.loading {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 25%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        transparent 75%
+      );
+      background-size: 200% 100%;
+      animation: loadingShimmer 1.5s infinite linear;
+    }
+  }
+}
+
+@keyframes shake {
   0%,
   100% {
     transform: translateX(0);
@@ -340,4 +450,60 @@ $dark-button-bg-color-darken-10: darken($dark-button-bg-color, 10%);
   75% {
     transform: translateX(-5px);
   }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 1s infinite;
+}
+
+// Nouveaux styles pour les éléments de feedback et animations
+.feedback {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: var(--editor-bg-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideUp 0.3s ease, fadeOut 0.3s ease 2.7s;
+}
+
+.feedback.error {
+  background: #ff4444;
+  color: white;
+}
+
+.feedback.success {
+  background: #00C851;
+  color: white;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes loadingShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

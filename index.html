@@ -16,6 +16,9 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Antimatter Dimensions Save Editor">
     <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Antimatter Dimensions Save Editor</title>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./style.css">
@@ -27,69 +30,68 @@
     <main class="editor-section">
         <div class="editor-header">
             <h1>Antimatter Dimensions Save Editor</h1>
-            <textarea id="input" placeholder="Paste your encrypted game save here"></textarea>
-            <div class="group-button">
-                <button id="pasteButton"><i class="fas fa-paste"></i> Paste</button>
-                <button id="decryptButton"><i class="fas fa-unlock-alt"></i> Decrypt</button>
+            <textarea id="input" placeholder="Paste your encrypted game save here" aria-label="Input for encrypted game save" spellcheck="false"></textarea>
+            <div class="group-button" role="toolbar" aria-label="Editor controls">
+                <button id="pasteButton" aria-label="Paste save data"><i class="fas fa-paste" aria-hidden="true"></i> Paste</button>
+                <button id="decryptButton" aria-label="Decrypt save data"><i class="fas fa-unlock-alt" aria-hidden="true"></i> Decrypt</button>
             </div>
         </div>
         <div class="editor-body">
-            <div id="jsoneditor" class="json-editor"></div>
+            <div id="jsoneditor" class="json-editor" role="textbox" aria-label="JSON editor"></div>
         </div>
         <div class="editor-footer">
-            <textarea id="output" placeholder="Your encrypted game save will appear here"></textarea>
-            <div class="group-button">
-                <button id="encryptButton"><i class="fas fa-lock"></i> Encrypt</button>
-                <button id="copyButton"><i class="fas fa-copy"></i> Copy</button>
-                <button id="toggleTheme"><i class="fas fa-sun"></i></button>
+            <textarea id="output" placeholder="Your encrypted game save will appear here" aria-label="Output for encrypted game save" spellcheck="false" readonly></textarea>
+            <div class="group-button" role="toolbar" aria-label="Output controls">
+                <button id="encryptButton" aria-label="Encrypt save data"><i class="fas fa-lock" aria-hidden="true"></i> Encrypt</button>
+                <button id="copyButton" aria-label="Copy encrypted save"><i class="fas fa-copy" aria-hidden="true"></i> Copy</button>
+                <button id="toggleTheme" aria-label="Toggle theme"><i class="fas fa-sun" aria-hidden="true"></i></button>
             </div>
         </div>
     </main>
-    <div class="changelog-card">
-        <h2>Changelog</h2>
-        <ul>
-            <li style="color: red;"><strong>INFO</strong> - <em>Android is not supported at the moment.</em></li>
-            <li><strong>v1.0.5</strong> - <em>Major CSS redesign for enhanced responsiveness.</em> The site now adapts
-                more effectively to a range of screen sizes, including mobile devices. <strong>Note:</strong> Some minor
-                adjustments are still needed for smaller screens, which will be addressed in a future update when time
-                permits. Also, as color selection isn't my strongest suit, feel free to <a
-                    href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues">open an issue</a>
-                or submit a <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/pulls">pull
-                    request</a> on GitHub if you have suggestions for improving the color scheme.</li>
-            <li><strong>v1.0.4</strong> - <em>Integrated GitHub for better collaboration</em> and improved meta tags for
-                enhanced SEO.</li>
-            <li><strong>v1.0.3</strong> - <em>Added convenient copy and paste buttons</em> for easier user interaction.
-            </li>
-            <li><strong>v1.0.2</strong> - <em>Introduced dark theme functionality.</em></li>
-            <li><strong>v1.0.1</strong> - <em>Implemented save editor feature</em> for better user experience.</li>
-            <li><strong>v1.0.0</strong> - <em>Initial release of the save editor</em> with foundational features.</li>
-        </ul>
-
-    </div>
-
-
-    <div class="github-card">
-        <h2><i class="fab fa-github"></i> GitHub Stats</h2>
-        <div class="github-badges">
-            <div class="github-badge">
-                <span id="githubStars">0</span> <i class="fas fa-star"></i>
+    <aside class="info-panel">
+        <div class="changelog-card">
+            <h2>Changelog</h2>
+            <ul>
+                <li style="color: red;"><strong>INFO</strong> - <em>Android is not supported at the moment.</em></li>
+                <li><strong>v1.0.5</strong> - <em>Major CSS redesign for enhanced responsiveness.</em> The site now adapts
+                    more effectively to a range of screen sizes, including mobile devices. <strong>Note:</strong> Some minor
+                    adjustments are still needed for smaller screens, which will be addressed in a future update when time
+                    permits. Also, as color selection isn't my strongest suit, feel free to <a
+                        href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues">open an issue</a>
+                    or submit a <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/pulls">pull
+                        request</a> on GitHub if you have suggestions for improving the color scheme.</li>
+                <li><strong>v1.0.4</strong> - <em>Integrated GitHub for better collaboration</em> and improved meta tags for
+                    enhanced SEO.</li>
+                <li><strong>v1.0.3</strong> - <em>Added convenient copy and paste buttons</em> for easier user interaction.
+                </li>
+                <li><strong>v1.0.2</strong> - <em>Introduced dark theme functionality.</em></li>
+                <li><strong>v1.0.1</strong> - <em>Implemented save editor feature</em> for better user experience.</li>
+                <li><strong>v1.0.0</strong> - <em>Initial release of the save editor</em> with foundational features.</li>
+            </ul>
+        </div>
+        <div class="github-card">
+            <h2><i class="fab fa-github"></i> GitHub Stats</h2>
+            <div class="github-badges">
+                <div class="github-badge">
+                    <span id="githubStars">0</span> <i class="fas fa-star"></i>
+                </div>
+                <div class="github-badge">
+                    <span id="githubForks">0</span> <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="github-badge">
+                    <span id="githubIssues">0</span> <i class="fas fa-exclamation-circle"></i>
+                </div>
             </div>
-            <div class="github-badge">
-                <span id="githubForks">0</span> <i class="fas fa-code-branch"></i>
-            </div>
-            <div class="github-badge">
-                <span id="githubIssues">0</span> <i class="fas fa-exclamation-circle"></i>
+            <div class="github-link">
+                <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor" target="_blank">
+                    <i class="fab fa-github"></i> Contribute on GitHub
+                </a>
             </div>
         </div>
-        <div class="github-link">
-            <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor" target="_blank">
-                <i class="fab fa-github"></i> Contribute on GitHub
-            </a>
-        </div>
-    </div>
+    </aside>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
-<script type="module" src="script.js"></script>
 
 </html>

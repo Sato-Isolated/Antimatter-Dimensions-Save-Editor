@@ -60,6 +60,13 @@
     width: 90%;
   }
 }
+@media (max-width: 768px) {
+  .container .editor-section {
+    width: 95%;
+    margin: 10px auto;
+    padding: 15px 10px;
+  }
+}
 .container .editor-section .editor-header {
   display: flex;
   align-items: center;
@@ -102,6 +109,33 @@
   background-color: var(--button-bg-color-hover);
   transform: translateY(-3px);
 }
+.container .editor-section .editor-header h1 {
+  text-align: center;
+  padding: 0 15px;
+}
+@media (max-width: 768px) {
+  .container .editor-section .editor-header h1 {
+    font-size: calc(1.2rem + 1vw);
+  }
+}
+@media (max-width: 768px) {
+  .container .editor-section .editor-header textarea {
+    height: 80px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 768px) {
+  .container .editor-section .editor-header .group-button {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .container .editor-section .editor-header .group-button button {
+    margin: 5px;
+    min-width: 120px;
+    padding: 12px 15px;
+  }
+}
 .container .editor-section .editor-body .json-editor {
   height: 60vh;
   width: 98%;
@@ -115,6 +149,12 @@
 @media (max-width: 768px) {
   .container .editor-section .editor-body .json-editor {
     height: 40vh;
+  }
+}
+@media (max-width: 768px) {
+  .container .editor-section .editor-body .json-editor {
+    height: 50vh;
+    font-size: 14px;
   }
 }
 .container .editor-section .editor-footer {
@@ -169,6 +209,9 @@
   position: absolute;
   width: 15vw;
   right: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 @media (max-width: 1024px) {
   .container .changelog-card {
@@ -182,6 +225,14 @@
     position: relative;
     width: 90%;
     margin: 20px auto;
+  }
+}
+@media (max-width: 768px) {
+  .container .changelog-card {
+    position: static;
+    width: 95%;
+    margin: 15px auto;
+    padding: 15px;
   }
 }
 .container .changelog-card:hover {
@@ -238,6 +289,9 @@
   width: 15vw;
   bottom: 32px;
   right: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 @media (max-width: 1024px) {
   .container .github-card {
@@ -251,6 +305,14 @@
     position: relative;
     width: 90%;
     margin: 20px auto;
+  }
+}
+@media (max-width: 768px) {
+  .container .github-card {
+    position: static;
+    width: 95%;
+    margin: 15px auto;
+    padding: 15px;
   }
 }
 .container .github-card:hover {
@@ -311,6 +373,45 @@
   color: var(--text-color-lighten-20);
 }
 
+button {
+  position: relative;
+  overflow: hidden;
+}
+button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  transition: transform 0.5s;
+}
+button:active::after {
+  transform: translate(-50%, -50%) scale(2);
+}
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+button.loading {
+  position: relative;
+}
+button.loading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.15) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: loadingShimmer 1.5s infinite linear;
+}
+
 @keyframes shake {
   0%, 100% {
     transform: translateX(0);
@@ -323,5 +424,70 @@
   }
   75% {
     transform: translateX(-5px);
+  }
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.loading {
+  animation: pulse 1s infinite;
+}
+
+.feedback {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: var(--editor-bg-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideUp 0.3s ease, fadeOut 0.3s ease 2.7s;
+}
+
+.feedback.error {
+  background: #ff4444;
+  color: white;
+}
+
+.feedback.success {
+  background: #00C851;
+  color: white;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes loadingShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }/*# sourceMappingURL=style.css.map */
