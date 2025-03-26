@@ -20,342 +20,78 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Antimatter Dimensions Save Editor</title>
-    <link rel="stylesheet" href="./scss/main.css">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./style.css">
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<body class="dark-theme">
-    <div class="app-wrapper">
-        <!-- Header with navigation -->
-        <header class="app-header" role="banner">
-            <div class="header-content">
-                <h1>
-                    <i class="fas fa-atom spin" aria-hidden="true"></i>
-                    <span>Antimatter Dimensions Editor</span>
-                </h1>
-                <div class="header-controls">
-                    <button id="showChangelog" 
-                            class="icon-button changelog-link" 
-                            aria-label="View changelog"
-                            title="View changelog">
-                        <i class="fas fa-history animate-spin-hover"></i>
-                    </button>
-                    <button id="toggleTheme" 
-                            class="icon-button" 
-                            aria-label="Toggle theme"
-                            title="Toggle dark/light theme">
-                        <i class="fas fa-sun" aria-hidden="true"></i>
-                    </button>
-                    <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor" 
-                       class="github-button" 
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="View project on GitHub">
-                        <i class="fab fa-github" aria-hidden="true"></i>
-                        <span>GitHub</span>
-                    </a>
+<body class="dark-theme container">
+    <main class="editor-section">
+        <div class="editor-header">
+            <h1>Antimatter Dimensions Save Editor</h1>
+            <textarea id="input" placeholder="Paste your encrypted game save here" aria-label="Input for encrypted game save" spellcheck="false"></textarea>
+            <div class="group-button" role="toolbar" aria-label="Editor controls">
+                <button id="pasteButton" aria-label="Paste save data"><i class="fas fa-paste" aria-hidden="true"></i> Paste</button>
+                <button id="decryptButton" aria-label="Decrypt save data"><i class="fas fa-unlock-alt" aria-hidden="true"></i> Decrypt</button>
+            </div>
+        </div>
+        <div class="editor-body">
+            <div id="jsoneditor" class="json-editor" role="textbox" aria-label="JSON editor"></div>
+        </div>
+        <div class="editor-footer">
+            <textarea id="output" placeholder="Your encrypted game save will appear here" aria-label="Output for encrypted game save" spellcheck="false" readonly></textarea>
+            <div class="group-button" role="toolbar" aria-label="Output controls">
+                <button id="encryptButton" aria-label="Encrypt save data"><i class="fas fa-lock" aria-hidden="true"></i> Encrypt</button>
+                <button id="copyButton" aria-label="Copy encrypted save"><i class="fas fa-copy" aria-hidden="true"></i> Copy</button>
+                <button id="toggleTheme" aria-label="Toggle theme"><i class="fas fa-sun" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </main>
+    <aside class="info-panel">
+        <div class="changelog-card">
+            <h2>Changelog</h2>
+            <ul>
+                <li style="color: red;"><strong>INFO</strong> - <em>Android is not supported at the moment.</em></li>
+                <li><strong>v1.0.5</strong> - <em>Major CSS redesign for enhanced responsiveness.</em> The site now adapts
+                    more effectively to a range of screen sizes, including mobile devices. <strong>Note:</strong> Some minor
+                    adjustments are still needed for smaller screens, which will be addressed in a future update when time
+                    permits. Also, as color selection isn't my strongest suit, feel free to <a
+                        href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues">open an issue</a>
+                    or submit a <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/pulls">pull
+                        request</a> on GitHub if you have suggestions for improving the color scheme.</li>
+                <li><strong>v1.0.4</strong> - <em>Integrated GitHub for better collaboration</em> and improved meta tags for
+                    enhanced SEO.</li>
+                <li><strong>v1.0.3</strong> - <em>Added convenient copy and paste buttons</em> for easier user interaction.
+                </li>
+                <li><strong>v1.0.2</strong> - <em>Introduced dark theme functionality.</em></li>
+                <li><strong>v1.0.1</strong> - <em>Implemented save editor feature</em> for better user experience.</li>
+                <li><strong>v1.0.0</strong> - <em>Initial release of the save editor</em> with foundational features.</li>
+            </ul>
+        </div>
+        <div class="github-card">
+            <h2><i class="fab fa-github"></i> GitHub Stats</h2>
+            <div class="github-badges">
+                <div class="github-badge">
+                    <span id="githubStars">0</span> <i class="fas fa-star"></i>
+                </div>
+                <div class="github-badge">
+                    <span id="githubForks">0</span> <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="github-badge">
+                    <span id="githubIssues">0</span> <i class="fas fa-exclamation-circle"></i>
                 </div>
             </div>
-        </header>
-
-        <!-- Main content -->
-        <main class="app-main">
-            <div class="editor-container">
-                <!-- Input Section -->
-                <section class="save-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Import Save</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <textarea 
-                                    id="input" 
-                                    class="save-textarea"
-                                    placeholder="Paste your encrypted save data here..."
-                                    aria-label="Save data input"
-                                    spellcheck="false"
-                                ></textarea>
-                            </div>
-                            <div class="button-group">
-                                <button id="pasteButton" class="btn primary">
-                                    <i class="fas fa-paste"></i> Paste
-                                </button>
-                                <button id="decryptButton" class="btn secondary">
-                                    <i class="fas fa-unlock-alt"></i> Decrypt
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Editor Section -->
-                <section class="editor-section">
-                    <div class="card">
-                        <!-- Main tabs -->
-                        <div class="card-header with-tabs">
-                            <div class="tabs" role="tablist" aria-label="Editor modes">
-                                <button class="tab-button active" 
-                                        id="structured-tab"
-                                        data-tab="structured" 
-                                        role="tab"
-                                        aria-controls="structured-editor"
-                                        aria-selected="true">
-                                    <i class="fas fa-layer-group" aria-hidden="true"></i>
-                                    <span>Structured Editor</span>
-                                </button>
-                                <button class="tab-button" 
-                                        id="json-tab"
-                                        data-tab="json" 
-                                        role="tab"
-                                        aria-controls="json-editor"
-                                        aria-selected="false">
-                                    <i class="fas fa-code" aria-hidden="true"></i>
-                                    <span>JSON Editor</span>
-                                </button>
-                                <button class="tab-button" 
-                                        id="settings-tab"
-                                        data-tab="settings" 
-                                        role="tab"
-                                        aria-controls="settings-editor"
-                                        aria-selected="false">
-                                    <i class="fas fa-cog" aria-hidden="true"></i>
-                                    <span>Settings</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <!-- Structured editor -->
-                                <div class="tab-pane active" id="structured-editor">
-                                    <div class="editor-layout">
-                                        <!-- Section navigation -->
-                                        <nav class="editor-nav" aria-label="Editor sections">
-                                            <div class="nav-group" role="tablist" aria-label="Editor sections">
-                                                <!-- Navigation buttons -->
-                                                <button class="nav-button active" 
-                                                        data-section="general">
-                                                    <i class="fas fa-sliders-h"></i> General
-                                                </button>
-                                                <button class="nav-button" 
-                                                        data-section="dimensions">
-                                                    <i class="fas fa-cube"></i> Dimensions
-                                                </button>
-                                                <button class="nav-button" 
-                                                        data-section="infinity">
-                                                    <i class="fas fa-infinity"></i> Infinity
-                                                </button>
-                                                <button class="nav-button" 
-                                                        data-section="eternity">
-                                                    <i class="fas fa-hourglass"></i> Eternity
-                                                </button>
-                                                <button class="nav-button" 
-                                                        data-section="reality">
-                                                    <i class="fas fa-door-open"></i> Reality
-                                                </button>
-                                                <button class="nav-button" 
-                                                        data-section="celestials">
-                                                    <i class="fas fa-star"></i> Celestials
-                                                </button>
-                                            </div>
-                                        </nav>
-
-                                        <!-- Section content -->
-                                        <div class="editor-content">
-                                            <!-- Section General -->
-                                            <div class="section-pane active" id="general">
-                                                <h3>General Settings</h3>
-                                                <div class="form-group">
-                                                    <label for="antimatter">Antimatter</label>
-                                                    <input type="text" id="antimatter" name="antimatter">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="infinities">Infinities</label>
-                                                    <input type="text" id="infinities" name="infinities">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="eternities">Eternities</label>
-                                                    <input type="text" id="eternities" name="eternities">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="realities">Realities</label>
-                                                    <input type="text" id="realities" name="realities">
-                                                </div>
-                                            </div>
-
-                                            <!-- Section Dimensions -->
-                                            <div class="section-pane" id="dimensions">
-                                                <h3>Antimatter Dimensions</h3>
-                                                <div id="antimatter-dimensions"></div>
-                                            </div>
-
-                                            <!-- Section Infinity -->
-                                            <div class="section-pane" id="infinity">
-                                                <h3>Infinity</h3>
-                                                <div class="form-group">
-                                                    <label for="infinityPoints">Infinity Points</label>
-                                                    <input type="text" id="infinityPoints" name="infinityPoints">
-                                                </div>
-                                                <div id="infinity-dimensions"></div>
-                                            </div>
-
-                                            <!-- Section Eternity -->
-                                            <div class="section-pane" id="eternity">
-                                                <h3>Eternity</h3>
-                                                <div class="form-group">
-                                                    <label for="eternityPoints">Eternity Points</label>
-                                                    <input type="text" id="eternityPoints" name="eternityPoints">
-                                                </div>
-                                                <div id="time-dimensions"></div>
-                                            </div>
-
-                                            <!-- Section Reality -->
-                                            <div class="section-pane" id="reality">
-                                                <h3>Reality</h3>
-                                                <div class="form-group">
-                                                    <label for="realityMachines">Reality Machines</label>
-                                                    <input type="text" id="realityMachines" name="realityMachines">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="imaginaryMachines">Imaginary Machines</label>
-                                                    <input type="text" id="imaginaryMachines" name="imaginaryMachines">
-                                                </div>
-                                            </div>
-
-                                            <!-- Section Celestials -->
-                                            <div class="section-pane" id="celestials">
-                                                <h3>Celestials</h3>
-                                                <div id="celestials-editor"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- JSON Editor -->
-                                <div class="tab-pane" id="json-editor">
-                                    <div id="jsoneditor"></div>
-                                </div>
-
-                                <!-- Settings -->
-                                <div class="tab-pane" id="settings-editor">
-                                    <div class="settings-layout">
-                                        <h3>Editor Preferences</h3>
-                                        
-                                        <div class="settings-group">
-                                            <h4>Default View</h4>
-                                            <div class="form-group">
-                                                <label>
-                                                    <input type="radio" name="defaultEditor" value="structured" checked>
-                                                    Start with Structured Editor
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="defaultEditor" value="json">
-                                                    Start with JSON Editor
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="settings-group">
-                                            <h4>Editor Behavior</h4>
-                                            <div class="form-group">
-                                                <label>
-                                                    <input type="checkbox" name="autoSave" checked>
-                                                    Auto-save changes
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="confirmDiscardChanges" checked>
-                                                    Confirm before discarding changes
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="settings-group">
-                                            <h4>Display Settings</h4>
-                                            <div class="form-group">
-                                                <label>
-                                                    <input type="checkbox" name="compactMode">
-                                                    Compact display mode
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="showAdvancedOptions">
-                                                    Show advanced options
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="button-group">
-                                            <button id="saveSettings" class="btn primary">
-                                                <i class="fas fa-save"></i> Save Settings
-                                            </button>
-                                            <button id="resetSettings" class="btn secondary">
-                                                <i class="fas fa-undo"></i> Reset to Defaults
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Output Section -->
-                <section class="save-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Export Save</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <textarea 
-                                    id="output" 
-                                    class="save-textarea"
-                                    placeholder="Your encrypted save will appear here..."
-                                    aria-label="Save data output"
-                                    spellcheck="false"
-                                    readonly
-                                ></textarea>
-                            </div>
-                            <div class="button-group">
-                                <button id="encryptButton" class="btn primary">
-                                    <i class="fas fa-lock"></i> Encrypt
-                                </button>
-                                <button id="copyButton" class="btn secondary">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+            <div class="github-link">
+                <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor" target="_blank">
+                    <i class="fab fa-github"></i> Contribute on GitHub
+                </a>
             </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="app-footer" role="contentinfo">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <p>Version <span class="version">2.0.0-BETA-1</span></p>
-                </div>
-                <div class="footer-links">
-                    <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues" 
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label="Report an issue on GitHub">
-                        <i class="fas fa-bug" aria-hidden="true"></i>
-                        Report an Issue
-                    </a>
-                    <span class="separator" aria-hidden="true">|</span>
-                    <p>Not affiliated with Antimatter Dimensions</p>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Scripts -->
+        </div>
+    </aside>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
-    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
