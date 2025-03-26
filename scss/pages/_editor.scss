@@ -1,0 +1,189 @@
+/* Editor page specific styles */
+
+.editor-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  // Save file input/output areas
+  .save-input-area,
+  .save-output-area {
+    @include card-base;
+    padding: $spacing-md;
+  }
+
+  // Structured editor form layout
+  .structured-editor {
+    .section-content {
+      .form-group {
+        margin-bottom: $spacing-lg;
+
+        label {
+          display: block;
+          margin-bottom: $spacing-sm;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+          width: 100%;
+          max-width: 400px;
+        }
+      }
+    }
+  }
+
+  // Dimension groups
+  .dimension-group {
+    margin-bottom: $spacing-xl;
+
+    h4 {
+      color: var(--title-color);
+      margin-bottom: $spacing-md;
+      padding-bottom: $spacing-sm;
+      border-bottom: 1px solid var(--border-color);
+    }
+  }
+
+  // Responsive adjustments
+  @include mobile {
+    .structured-editor {
+      .section-content {
+        padding: $spacing-sm;
+
+        .form-group {
+          input[type="text"],
+          input[type="number"] {
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.editor-container {
+  width: 100%;
+  max-width: $max-width;
+  margin: 0 auto;
+  display: grid;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  
+  @include mobile {
+    padding: $spacing-sm;
+    gap: $spacing-md;
+  }
+}
+
+.editor-section {
+  display: grid;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+}
+
+.save-section {
+  display: grid;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+
+  .save-textarea {
+    min-height: 120px;
+    
+    @include mobile {
+      min-height: 100px;
+    }
+  }
+}
+
+.structured-editor {
+  display: grid;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+
+  .dimension-group {
+    display: grid;
+    gap: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-md;
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+.json-editor-container {
+  height: 600px;
+  
+  @include mobile {
+    height: 400px;
+  }
+
+  @include tablet {
+    height: 500px;
+  }
+}
+
+.editor-layout {
+  display: flex;
+  min-height: 500px;
+  
+  @include mobile {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .editor-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
+    
+    @include mobile {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+  }
+
+  .editor-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.section-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  
+  @include mobile {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: $spacing-xs;
+    -webkit-overflow-scrolling: touch;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,69 @@
+// Dimensions
+$header-height: 60px;
+$footer-height: 60px;
+$sidebar-width: 300px;
+$mobile-sidebar-width: 250px;
+
+// Espacements
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1440px;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-full: 9999px;
+
+// Transitions
+$transition-speed: 0.3s;
+$transition-timing: ease;
+
+// Z-index
+$z-index-header: 100;
+$z-index-modal: 1000;
+$z-index-notification: 1100;
+
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-mono: monospace;
+$font-size-base: 16px;
+$font-size-sm: 0.875rem;
+$font-size-lg: 1.125rem;
+$font-size-md: 1rem;
+$font-size-xxs: 0.625rem;
+$font-size-xs: 0.75rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+
+// Line heights
+$line-height-tight: 1.25;
+$line-height-base: 1.5;
+$line-height-relaxed: 1.75;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Layout
+$max-width: 1200px;
+
+// Additional colors
+$header-bg: var(--card-bg);
+$footer-bg: var(--card-bg);
+
+// Z-indices
+$z-header: 100;
+$z-modal: 1000;

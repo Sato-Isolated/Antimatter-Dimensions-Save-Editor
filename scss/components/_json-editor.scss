@@ -1,0 +1,24 @@
+.json-editor {
+  height: 60vh;
+  width: 98%;
+  margin: 10px auto;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#json-editor {
+    height: calc(100vh - 200px);
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .tab-pane {
+        flex: 1;
+        display: flex;
+    }
+
+    #jsoneditor {
+        width: 100%;
+        height: 100%;
+    }
+}

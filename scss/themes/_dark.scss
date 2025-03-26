@@ -1,0 +1,82 @@
+/* Dark theme variables */
+.dark-theme {
+  // Couleurs de base
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --text-muted: #888888;
+  --border-color: #333333;
+
+  // Couleurs d'accentuation
+  --primary-color: #0078d4;
+  --primary-color-hover: #0086ef;
+  --primary-color-light: rgba(0, 120, 212, 0.1);
+  --secondary-color: #3a3a3a;
+  --secondary-color-hover: #454545;
+  --accent-color: #0078d4;
+
+  // Couleurs d'état
+  --error-color: #d83b01;
+  --error-color-rgb: 216, 59, 1;
+  --success-color: #107c10;
+  --success-color-rgb: 16, 124, 16;
+  --info-color: #0078d4;
+
+  // Arrière-plans
+  --card-bg: #242424;
+  --card-bg-alt: #2a2a2a;
+  --card-header-bg: #333333;
+  --card-footer-bg: #333333;
+
+  // Formulaires
+  --input-bg: #333333;
+  --input-text: #e0e0e0;
+  --input-border: #404040;
+  --input-focus-border: #0078d4;
+  --input-focus-shadow: rgba(0, 120, 212, 0.25);
+  --input-readonly-bg: #2a2a2a;
+  --input-group-bg: #2a2a2a;
+
+  // Textes et labels
+  --label-color: #cccccc;
+  --help-text-color: #888888;
+  --title-color: #ffffff;
+
+  // Boutons
+  --button-bg: #333333;
+  --button-text: #e0e0e0;
+  --button-hover-bg: #404040;
+  --button-ghost-hover: rgba(255, 255, 255, 0.1);
+
+  // Onglets
+  --tab-header-bg: #242424;
+  --tab-content-bg: #242424;
+  --tab-button-bg: #333333;
+  --tab-button-text: #e0e0e0;
+  --tab-button-hover-bg: #404040;
+  --tab-button-active-bg: #242424;
+  --tab-button-active-text: #ffffff;
+
+  // Boutons de section
+  --section-button-bg: #242424;
+  --section-button-text: #e0e0e0;
+  --section-button-hover-bg: #333333;
+  --section-button-active-bg: #333333;
+  --section-button-active-text: #ffffff;
+
+  // Éditeur JSON
+  --json-field-color: #9cdcfe;
+  --json-value-color: #ce9178;
+
+  // Liens
+  --link-color: #0078d4;
+  --link-hover-color: #0086ef;
+
+  // Autres
+  --dimension-name-color: #cccccc;
+  --github-icon-color: #cccccc;
+
+  // Scrollbar
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #404040;
+  --scrollbar-thumb-hover: #4a4a4a;
+}

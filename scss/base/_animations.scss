@@ -1,0 +1,138 @@
+// Animations de base
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+// Classes d'animation réutilisables
+.animate {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+
+  &-slow { animation-duration: 0.5s; }
+  &-fast { animation-duration: 0.15s; }
+
+  &-fade-in { animation-name: fadeIn; }
+  &-slide-up { animation-name: slideInUp; }
+  &-slide-down { animation-name: slideInDown; }
+  &-spin { animation-name: spin; }
+
+  &-infinite { animation-iteration-count: infinite; }
+  &-linear { animation-timing-function: linear; }
+}
+
+.animate-spin-hover {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: rotate(180deg);
+  }
+}
+
+// Transitions
+.transition {
+  &-all { transition: all $transition-speed $transition-timing; }
+  &-transform { transition: transform $transition-speed $transition-timing; }
+  &-opacity { transition: opacity $transition-speed $transition-timing; }
+  &-colors { 
+    transition: 
+      background-color $transition-speed $transition-timing,
+      border-color $transition-speed $transition-timing,
+      color $transition-speed $transition-timing;
+  }
+}
+
+// Animation des notifications
+.notification {
+  &-enter {
+    animation: slideInUp 0.3s ease forwards;
+  }
+
+  &-exit {
+    animation: slideInDown 0.3s ease forwards;
+  }
+}
+
+// Classes d'accessibilité
+.focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px;
+  z-index: 100;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+.blink {
+  animation: blink 2s ease-in-out infinite;
+  
+  &:hover {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+// Support des préférences de mouvement réduit
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Classes d'aide pour l'accessibilité
+.visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

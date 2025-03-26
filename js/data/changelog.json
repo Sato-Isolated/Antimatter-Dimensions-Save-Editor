@@ -1,0 +1,79 @@
+{
+  "versions": [
+    {
+      "version": "2.0.0-BETA-1",
+      "date": "2024-03-26",
+      "categories": {
+        "new": [
+          "Completely redesigned user interface with a sleek, modern design",
+          "New structured editor for more intuitive editing of backups",
+          "Improved theme system with smooth transition between light and dark modes",
+          "New tabbed navigation system for better organization"
+        ],
+        "improved": [
+          "Modernized, modular JavaScript architecture for improved performance",
+          "Improved error handling and user feedback",
+          "Responsive optimization for all devices",
+          "New modal system for changelog with fluid animations"
+        ],
+        "fixed": [
+          "Fixed display problems on small screens",
+          "Better handling of backup decryption errors",
+          "Corrected contrast problems for better readability"
+        ]
+      }
+    },
+    {
+      "version": "1.0.5",
+      "date": "2024-02-15",
+      "categories": {
+        "improved": [
+          "Major CSS redesign for enhanced responsiveness. The site now adapts more effectively to a range of screen sizes, including mobile devices.",
+          "Note: Some minor adjustments are still needed for smaller screens, which will be addressed in a future update when time permits.",
+          "As color selection isn't my strongest suit, feel free to open an issue or submit a pull request on GitHub if you have suggestions for improving the color scheme."
+        ]
+      }
+    },
+    {
+      "version": "1.0.4",
+      "date": "2024-02-01",
+      "categories": {
+        "improved": [
+          "Integrated GitHub for better collaboration",
+          "Improved meta tags for enhanced SEO"
+        ]
+      }
+    },
+    {
+      "version": "1.0.3",
+      "date": "2024-01-15",
+      "categories": {
+        "improved": [
+          "Added convenient copy and paste buttons for easier user interaction"
+        ]
+      }
+    },
+    {
+      "version": "1.0.2",
+      "date": "2024-01-01",
+      "categories": {
+        "new": ["Introduced dark theme functionality"]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "date": "2023-12-15",
+      "categories": {
+        "new": ["Implemented save editor feature for better user experience"]
+      }
+    },
+    {
+      "version": "1.0.0",
+      "date": "2023-12-01",
+      "categories": {
+        "new": ["Initial release of the save editor with foundational features"]
+      }
+    }
+  ],
+  "info": ["Android is not supported at the moment"]
+}

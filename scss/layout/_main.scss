@@ -1,0 +1,207 @@
+/* Main content layout styles */
+
+.editor-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0; // Fix for flexbox overflow
+  
+  .save-input-area,
+  .save-output-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    textarea {
+      min-height: 120px;
+      font-family: monospace;
+      font-size: 0.875rem;
+      resize: vertical;
+    }
+  }
+  
+  .editor-sections {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 100%;
+    min-height: 500px;
+    
+    .section-nav {
+      width: 200px;
+      border-right: 1px solid var(--border-color);
+      background-color: var(--card-bg-alt);
+      
+      @media (max-width: 768px) {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+    }
+    
+    .section-content {
+      padding: 1rem;
+      overflow-y: auto;
+      background-color: var(--card-bg);
+      
+      h3 {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--border-color);
+      }
+    }
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .editor-sections {
+      flex-direction: column;
+      
+      .section-content {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+.editor-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .main-content {
+    flex: 1;
+    padding: $spacing-xl;
+    background-color: var(--bg-color);
+    
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+
+  .content-wrapper {
+    max-width: $breakpoint-xl;
+    margin: 0 auto;
+    display: grid;
+    gap: $spacing-xl;
+    grid-template-columns: 1fr;
+  }
+
+  .editor-container {
+    display: grid;
+    gap: $spacing-xl;
+  }
+
+  .save-input-area,
+  .save-output-area {
+    @include card-base;
+    padding: $spacing-md;
+    
+    .card-header {
+      margin-bottom: $spacing-md;
+
+      h2 {
+        @include heading('h2');
+        margin: 0;
+      }
+    }
+  }
+
+  .editor-main {
+    @include card-base;
+    overflow: hidden;
+
+    .editor-tabs {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .editor-content {
+      min-height: 500px;
+    }
+  }
+}
+
+// Mise en page responsive
+.layout-grid {
+  display: grid;
+  gap: $spacing-lg;
+  
+  @include desktop {
+    grid-template-columns: 1fr $sidebar-width;
+  }
+
+  @include tablet {
+    grid-template-columns: 1fr $mobile-sidebar-width;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Style des sections
+.section-wrapper {
+  @include card-base;
+  
+  .section-header {
+    padding: $spacing-md;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-header-bg);
+
+    h2 {
+      @include heading('h2');
+      margin: 0;
+    }
+  }
+
+  .section-content {
+    padding: $spacing-md;
+  }
+}
+
+// Gestionnaire de dimensions
+.dimensions-manager {
+  display: grid;
+  gap: $spacing-lg;
+
+  .dimension-category {
+    @include card-base;
+
+    .category-header {
+      padding: $spacing-md;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--card-header-bg);
+
+      h3 {
+        @include heading('h3');
+        margin: 0;
+      }
+    }
+
+    .category-content {
+      padding: $spacing-md;
+    }
+  }
+}
+
+// Animations de transition
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity $transition-speed $transition-timing;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity $transition-speed $transition-timing;
+}

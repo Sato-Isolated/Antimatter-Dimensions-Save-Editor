@@ -1,0 +1,221 @@
+/* Form styles */
+
+.form-group {
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    margin-bottom: $spacing-sm;
+  }
+
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    color: var(--text-color);
+    font-weight: $font-weight-medium;
+
+    @include mobile {
+      font-size: $font-size-sm;
+    }
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    @include input-base;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: $spacing-sm;
+    border: 1px solid var(--border-color);
+    border-radius: $border-radius-sm;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: $font-size-base;
+    transition: all 0.3s ease;
+
+    @include mobile {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-sm;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px var(--primary-color-light);
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $spacing-sm center;
+    background-size: 1em;
+    padding-right: $spacing-xl;
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .help-text {
+    font-size: $font-size-sm;
+    color: var(--help-text-color);
+    margin-top: $spacing-xs;
+  }
+
+  .error-text {
+    font-size: $font-size-sm;
+    color: var(--error-color);
+    margin-top: $spacing-xs;
+  }
+}
+
+// Textarea spécifique pour les sauvegardes
+.save-textarea {
+  @include input-base;
+  font-family: $font-family-mono;
+  min-height: 150px;
+  padding: $spacing-md;
+  resize: vertical;
+
+  @include mobile {
+    min-height: 120px;
+  }
+
+  @include custom-scrollbar;
+
+  &:read-only {
+    background-color: var(--input-readonly-bg);
+    cursor: default;
+  }
+}
+
+// Disposition des formulaires
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 (-$spacing-sm);
+
+  .form-group {
+    flex: 1 0 0%;
+    padding: 0 $spacing-sm;
+    min-width: 200px;
+  }
+}
+
+// Formulaire en ligne
+.form-inline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+
+  .form-group {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-right: $spacing-sm;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Checkbox et radio
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    margin-right: $spacing-sm;
+  }
+
+  label {
+    margin-bottom: 0;
+    user-select: none;
+  }
+}
+
+// Groupe d'entrées
+.input-group {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: $spacing-md;
+  gap: $spacing-sm;
+
+  @include mobile {
+    flex-direction: column;
+  }
+
+  > * {
+    border-radius: 0;
+
+    &:first-child {
+      border-top-left-radius: $border-radius-sm;
+      border-bottom-left-radius: $border-radius-sm;
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius-sm;
+      border-bottom-right-radius: $border-radius-sm;
+    }
+  }
+
+  input, select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .input-group-text {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background-color: var(--input-group-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-muted);
+  }
+}
+
+// Validation des formulaires
+.is-invalid {
+  border-color: var(--error-color) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(var(--error-color-rgb), 0.25) !important;
+  }
+}
+
+.is-valid {
+  border-color: var(--success-color) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(var(--success-color-rgb), 0.25) !important;
+  }
+}
+
+// Groupe de boutons
+.button-group {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}

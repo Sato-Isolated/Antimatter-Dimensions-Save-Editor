@@ -1,0 +1,577 @@
+/* Tabs styles */
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--card-bg);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-sm 0;
+  background-color: var(--tab-header-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-color);
+  }
+
+  @include mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-xs;
+    gap: $spacing-xs;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.tab-button {
+  position: relative;
+  padding: $spacing-sm $spacing-md;
+  background-color: var(--tab-button-bg);
+  color: var(--text-color-secondary);
+  border: none;
+  border-radius: $border-radius-sm $border-radius-sm 0 0;
+  font-weight: $font-weight-medium;
+  transition: all $transition-speed $transition-timing;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  z-index: 1;
+  white-space: nowrap;
+
+  i {
+    font-size: $font-size-lg;
+    transition: transform $transition-speed $transition-timing;
+    margin-right: $spacing-xs;
+  }
+
+  &:hover:not(.active) {
+    background-color: var(--tab-button-hover-bg);
+    color: var(--text-color);
+
+    i {
+      transform: translateY(-1px);
+    }
+  }
+
+  &.active {
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: -2px;
+    z-index: 2;
+
+    i {
+      transform: scale(1.1);
+    }
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  @include mobile {
+    min-width: auto;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+
+    span {
+      display: none;
+    }
+
+    i {
+      margin: 0;
+      font-size: $font-size-xl;
+    }
+  }
+}
+
+.tab-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  padding: $spacing-md 0;
+
+  @include mobile {
+    padding: $spacing-sm 0;
+  }
+}
+
+.tab-pane {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+
+  &.active {
+    display: block;
+    visibility: visible;
+    position: relative;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+// Styles pour les sections
+.editor-sections {
+  display: flex;
+  height: 100%;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.section-nav {
+  width: 200px;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--card-bg-alt);
+  padding: $spacing-sm;
+
+  @include mobile {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+}
+
+.section-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  color: var(--text-color);
+  border: none;
+  background: none;
+  border-radius: $border-radius-sm;
+  text-align: left;
+  font-weight: $font-weight-medium;
+  transition: all $transition-speed $transition-timing;
+  cursor: pointer;
+
+  &:hover:not(.active) {
+    background-color: var(--button-ghost-hover);
+  }
+
+  &.active {
+    color: var(--primary-color);
+    background-color: var(--primary-color-light);
+  }
+
+  i {
+    margin-right: $spacing-sm;
+    font-size: $font-size-lg;
+  }
+
+  @include mobile {
+    width: auto;
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+}
+
+.section-content {
+  flex: 1;
+  padding: $spacing-md;
+  overflow-y: auto;
+  @include custom-scrollbar;
+
+  h3 {
+    @include heading('h3');
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid var(--border-color);
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dimensions section specific styling */
+.dimensions-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.dimension-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  
+  &:nth-child(odd) {
+    background-color: var(--card-bg-alt);
+  }
+  
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dimension-name {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: var(--dimension-name-color);
+}
+
+.dimension-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+// Navigation interne
+.section-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: $spacing-sm;
+  background-color: var(--card-bg-alt);
+  border-radius: $border-radius-sm;
+
+  @include mobile {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.section-tab {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  color: var(--text-color);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $border-radius-sm;
+  font-weight: $font-weight-medium;
+  transition: all $transition-speed $transition-timing;
+  cursor: pointer;
+
+  i {
+    width: 20px;
+    text-align: center;
+    transition: transform $transition-speed $transition-timing;
+  }
+
+  &:hover:not(.active) {
+    background-color: var(--button-ghost-hover);
+    border-color: var(--border-color);
+
+    i {
+      transform: translateX(2px);
+    }
+  }
+
+  &.active {
+    background-color: var(--primary-color-light);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+
+    i {
+      transform: scale(1.1);
+    }
+  }
+
+  @include mobile {
+    width: auto;
+    justify-content: center;
+    padding: $spacing-sm;
+    min-width: 100px;
+  }
+}
+
+// Conteneur de section
+.section-content {
+  padding: $spacing-md;
+  height: 100%;
+  overflow-y: auto;
+  @include custom-scrollbar;
+
+  // Animation des sections
+  .section-pane {
+    display: none;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+
+    &.active {
+      display: block;
+      visibility: visible;
+      height: auto;
+      opacity: 1;
+      pointer-events: auto;
+      animation: fadeIn 0.3s ease;
+    }
+  }
+}
+
+// Support des préférences de réduction de mouvement
+@media (prefers-reduced-motion: reduce) {
+  .tab-pane,
+  .section-tab i,
+  .tab-button i {
+    transition: none;
+    animation: none;
+    transform: none;
+  }
+}
+
+.editor-layout {
+  display: flex;
+  height: 100%;
+}
+
+.editor-nav {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: var(--card-bg-alt);
+  border-right: 1px solid var(--border-color);
+  padding: $spacing-md;
+
+  @include mobile {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .nav-group {
+      display: flex;
+      padding: $spacing-xs;
+      gap: $spacing-xs;
+    }
+  }
+
+  .nav-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    background: none;
+    color: var(--text-color-secondary);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @include mobile {
+      width: auto;
+      white-space: nowrap;
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-sm;
+    }
+
+    &:hover {
+      background: var(--button-ghost-hover);
+      color: var(--text-color);
+    }
+
+    &.active {
+      background: var(--primary-color);
+      color: var(--button-text);
+    }
+
+    i {
+      margin-right: $spacing-sm;
+      
+      @include mobile {
+        margin-right: $spacing-xs;
+      }
+    }
+  }
+}
+
+.editor-content {
+  flex: 1;
+  position: relative;
+  padding: $spacing-md;
+  overflow: hidden;
+}
+
+/* Masquage/affichage des panneaux */
+.tab-pane,
+.section-pane {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  &.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+/* Style des onglets */
+.tabs {
+  display: flex;
+  gap: $spacing-sm;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--card-bg-alt);
+
+  @include mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-xs;
+    gap: $spacing-xs;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.tab-button {
+  padding: $spacing-sm $spacing-md;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  i {
+    margin-right: $spacing-xs;
+  }
+
+  &:hover:not(.active) {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+  }
+
+  &.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  @include mobile {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+}
+
+/* Style des boutons de navigation */
+.nav-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  margin-bottom: $spacing-xs;
+  background: none;
+  border: none;
+  border-radius: $border-radius-sm;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  i {
+    margin-right: $spacing-sm;
+    width: 20px;
+    text-align: center;
+
+    @include mobile {
+      margin-right: $spacing-xs;
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+  }
+
+  &.active {
+    background-color: var(--primary-color-light);
+    color: var(--primary-color);
+  }
+}
+
+/* Animation de fondu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

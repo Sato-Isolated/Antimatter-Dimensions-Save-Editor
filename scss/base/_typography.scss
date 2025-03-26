@@ -1,0 +1,107 @@
+/* Typography styles */
+
+html, body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: var(--text-color);
+}
+
+// Styles des titres
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: $spacing-sm;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: var(--title-color);
+}
+
+h1 { font-size: $font-size-4xl; }
+h2 { font-size: $font-size-3xl; }
+h3 { font-size: $font-size-2xl; }
+h4 { font-size: $font-size-xl; }
+h5 { font-size: $font-size-lg; }
+h6 { font-size: $font-size-base; }
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: $spacing-md;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 0.5rem;
+  color: var(--title-color);
+}
+
+// Styles de texte utilitaires
+.text-primary { color: var(--primary-color); }
+.text-accent { color: var(--accent-color); }
+.text-muted { color: var(--text-muted); }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-sm { font-size: $font-size-sm; }
+.text-lg { font-size: $font-size-lg; }
+.text-xl { font-size: $font-size-xl; }
+
+// Poids de police
+.font-normal { font-weight: $font-weight-normal; }
+.font-medium { font-weight: $font-weight-medium; }
+.font-semibold { font-weight: $font-weight-semibold; }
+.font-bold { font-weight: $font-weight-bold; }
+
+// Styles des liens
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color $transition-speed $transition-timing;
+
+  &:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+  }
+}
+
+// Styles de code
+code, pre {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+}
+
+// Liste styles
+ul, ol {
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+// Espacement des titres avec du contenu
+* + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
+  margin-top: $spacing-xl;
+}
+
+.monospace {
+  font-family: monospace;
+}
