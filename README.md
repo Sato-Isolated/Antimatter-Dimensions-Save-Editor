@@ -2,18 +2,22 @@
 
 A powerful web-based tool for editing and managing save files from the Antimatter Dimensions game, including support for the latest Reality Update.
 
-![Version](https://img.shields.io/badge/version-2.0.0--BETA--1-blue)
+![Version](https://img.shields.io/badge/version-2.0.0--BETA--1.1-blue)
 [![GitHub Issues](https://img.shields.io/github/issues/Sato-Isolated/Antimatter-Dimensions-Save-Editor)](https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues)
 
 ## Features
 
-- **Structured Editor**: User-friendly interface for editing game values (WIP - not all values are editable yet)
+- **Structured Editor**: User-friendly interface for editing game values
   - General Settings
   - Antimatter Dimensions
-  - Infinity
-  - Eternity
+  - Replicanti System
+  - Infinity Dimensions
+  - Eternity & Time Dimensions
+  - Dilation & Black Holes
   - Reality
-  - Celestials
+  - Glyphs & Sacrifice Values
+  - Achievements
+  - Celestials (Teresa, Effarig, Nameless Ones, V, Ra, Lai'tela, Pelle)
 
 - **JSON Editor**: Direct JSON editing for advanced users
 
@@ -44,14 +48,18 @@ A powerful web-based tool for editing and managing save files from the Antimatte
 
 ### Structured Editor
 
-The structured editor provides an intuitive interface for editing common game values:
+The structured editor provides an intuitive interface for editing game values:
 
-- **General**: Modify basic values like antimatter, infinities, eternities, etc.
-- **Dimensions**: Edit antimatter dimensions and their properties
-- **Infinity**: Manage infinity points and related features
-- **Eternity**: Control eternity points and eternal resources
-- **Reality**: Edit reality machines and reality features
-- **Celestials**: Modify celestial-related content
+- **General**: Modify basic values like antimatter, infinities, eternities, records, and more
+- **Dimensions**: Edit antimatter, infinity, and time dimensions with their amounts and multipliers
+- **Replicanti**: Control replication chance, interval, galaxies, and toggle unlock status
+- **Infinity**: Manage infinity points, infinity power, and related values
+- **Eternity**: Control eternity points, time shards, theorems, and studies
+- **Dilation**: Adjust tachyon particles, dilated time, and black hole settings
+- **Reality**: Edit reality machines, imaginary machines, and perk points
+- **Glyphs**: Modify glyph level cap, sacrifice values, and cosmetic settings
+- **Achievements**: Unlock all achievements or secret achievements with a single click
+- **Celestials**: Fine-tune all celestial-related properties for each of the seven celestials
 
 ### JSON Editor
 
