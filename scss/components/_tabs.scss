@@ -16,7 +16,7 @@
   background-color: var(--tab-header-bg);
   border-bottom: 1px solid var(--border-color);
   position: relative;
-
+  padding: 0.7rem;
   &::after {
     content: '';
     position: absolute;

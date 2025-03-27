@@ -102,17 +102,6 @@ input, button, textarea, select {
   outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1474,6 +1463,7 @@ button.ghost:hover {
   background-color: var(--tab-header-bg);
   border-bottom: 1px solid var(--border-color);
   position: relative;
+  padding: 0.7rem;
 }
 .tabs::after {
   content: "";

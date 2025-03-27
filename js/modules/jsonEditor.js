@@ -13,16 +13,13 @@ export function initJsonEditor() {
   // Initialize JSON editor with options
   const options = {
     mode: 'tree',
-    modes: ['tree', 'code', 'form', 'text'],
+    modes: ['code', 'form', 'text', 'tree', 'view'],
     onChangeJSON: onJsonChange,
     onValidationError: onValidationError
   };
   
   // Create JSON editor
   jsonEditor = new JSONEditor(container, options);
-  
-  // Set empty object if no data available yet
-  jsonEditor.set({});
 }
 
 // Handle JSON data changes

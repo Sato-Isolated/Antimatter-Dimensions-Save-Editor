@@ -144,6 +144,10 @@
                                                     <i class="fas fa-cube"></i> Dimensions
                                                 </button>
                                                 <button class="nav-button" 
+                                                        data-section="replicanti-section">
+                                                    <i class="fas fa-clone"></i> Replicanti
+                                                </button>
+                                                <button class="nav-button" 
                                                         data-section="infinity">
                                                     <i class="fas fa-infinity"></i> Infinity
                                                 </button>
@@ -152,8 +156,20 @@
                                                     <i class="fas fa-hourglass"></i> Eternity
                                                 </button>
                                                 <button class="nav-button" 
+                                                        data-section="dilation">
+                                                    <i class="fas fa-expand-arrows-alt"></i> Dilation
+                                                </button>
+                                                <button class="nav-button" 
                                                         data-section="reality">
                                                     <i class="fas fa-door-open"></i> Reality
+                                                </button>
+                                                <button class="nav-button" 
+                                                        data-section="glyphs-section">
+                                                    <i class="fas fa-gem"></i> Glyphs
+                                                </button>
+                                                <button class="nav-button" 
+                                                        data-section="achievements-section">
+                                                    <i class="fas fa-trophy"></i> Achievements
                                                 </button>
                                                 <button class="nav-button" 
                                                         data-section="celestials">
@@ -227,7 +243,188 @@
                                             <!-- Section Celestials -->
                                             <div class="section-pane" id="celestials">
                                                 <h3>Celestials</h3>
-                                                <div id="celestials-editor"></div>
+                                                <div class="celestials-container">
+                                                    <!-- Teresa -->
+                                                    <div class="celestial-section">
+                                                        <h4>Teresa</h4>
+                                                        <div class="form-group">
+                                                            <label for="teresa-poured">Poured Amount</label>
+                                                            <input type="text" id="teresa-poured" data-path="celestials.teresa.pouredAmount">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="teresa-unlockBits">Unlock Bits</label>
+                                                            <input type="number" id="teresa-unlockBits" data-path="celestials.teresa.unlockBits">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Effarig -->
+                                                    <div class="celestial-section">
+                                                        <h4>Effarig</h4>
+                                                        <div class="form-group">
+                                                            <label for="relicShards">Relic Shards</label>
+                                                            <input type="text" id="relicShards" data-path="celestials.effarig.relicShards">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="effarig-unlockBits">Unlock Bits</label>
+                                                            <input type="number" id="effarig-unlockBits" data-path="celestials.effarig.unlockBits">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Enslaved -->
+                                                    <div class="celestial-section">
+                                                        <h4>The Nameless Ones</h4>
+                                                        <div class="form-group">
+                                                            <label for="enslaved-stored">Stored Time</label>
+                                                            <input type="text" id="enslaved-stored" data-path="celestials.enslaved.stored">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="enslaved-tesseracts">Tesseracts</label>
+                                                            <input type="number" id="enslaved-tesseracts" data-path="celestials.enslaved.tesseracts" min="0" max="25">
+                                                        </div>
+                                                        <div class="form-checkbox">
+                                                            <label>
+                                                                <input type="checkbox" id="enslaved-completed" data-path="celestials.enslaved.completed">
+                                                                Completed
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- V -->
+                                                    <div class="celestial-section">
+                                                        <h4>V</h4>
+                                                        <div class="form-group">
+                                                            <label for="v-unlockBits">Unlock Bits</label>
+                                                            <input type="number" id="v-unlockBits" data-path="celestials.v.unlockBits">
+                                                        </div>
+                                                        <div class="form-checkbox">
+                                                            <label>
+                                                                <input type="checkbox" id="v-wantsFlipped" data-path="celestials.v.wantsFlipped">
+                                                                Wants Flipped
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Ra -->
+                                                    <div class="celestial-section">
+                                                        <h4>Ra</h4>
+                                                        <div class="form-group">
+                                                            <label for="ra-momentumTime">Momentum Time</label>
+                                                            <input type="text" id="ra-momentumTime" data-path="celestials.ra.momentumTime">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ra-unlockBits">Unlock Bits</label>
+                                                            <input type="number" id="ra-unlockBits" data-path="celestials.ra.unlockBits">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ra-teresa-level">Pet Teresa Level</label>
+                                                            <input type="number" id="ra-teresa-level" data-path="celestials.ra.pets.teresa.level" min="0" max="25">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ra-effarig-level">Pet Effarig Level</label>
+                                                            <input type="number" id="ra-effarig-level" data-path="celestials.ra.pets.effarig.level" min="0" max="25">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ra-enslaved-level">Pet Nameless Level</label>
+                                                            <input type="number" id="ra-enslaved-level" data-path="celestials.ra.pets.enslaved.level" min="0" max="25">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ra-v-level">Pet V Level</label>
+                                                            <input type="number" id="ra-v-level" data-path="celestials.ra.pets.v.level" min="0" max="25">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Laitela -->
+                                                    <div class="celestial-section">
+                                                        <h4>Lai'tela</h4>
+                                                        <div class="form-group">
+                                                            <label for="darkMatter">Dark Matter</label>
+                                                            <input type="text" id="darkMatter" data-path="celestials.laitela.darkMatter">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="darkEnergy">Dark Energy</label>
+                                                            <input type="text" id="darkEnergy" data-path="celestials.laitela.darkEnergy">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="singularities">Singularities</label>
+                                                            <input type="text" id="singularities" data-path="celestials.laitela.singularities">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="laitela-difficultyTier">Difficulty Tier</label>
+                                                            <input type="number" id="laitela-difficultyTier" data-path="celestials.laitela.difficultyTier" min="0" max="12">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Pelle -->
+                                                    <div class="celestial-section">
+                                                        <h4>Pelle</h4>
+                                                        <div class="form-checkbox">
+                                                            <label>
+                                                                <input type="checkbox" id="pelle-doomed" data-path="celestials.pelle.doomed">
+                                                                Doomed
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="pelle-remnants">Remnants</label>
+                                                            <input type="number" id="pelle-remnants" data-path="celestials.pelle.remnants">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="pelle-realityShards">Reality Shards</label>
+                                                            <input type="text" id="pelle-realityShards" data-path="celestials.pelle.realityShards">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Section Replicanti -->
+                                            <div class="section-pane" id="replicanti-section">
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
+
+                                            <!-- Section Dilation -->
+                                            <div class="section-pane" id="dilation">
+                                                <h3>Dilation</h3>
+                                                <div class="form-group">
+                                                    <label for="tachyonParticles">Tachyon Particles</label>
+                                                    <input type="text" id="tachyonParticles" name="tachyonParticles">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="dilatedTime">Dilated Time</label>
+                                                    <input type="text" id="dilatedTime" name="dilatedTime">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole1Power">Black Hole 1 Power</label>
+                                                    <input type="number" id="blackHole1Power" name="blackHole1Power" min="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole1Interval">Black Hole 1 Interval</label>
+                                                    <input type="number" id="blackHole1Interval" name="blackHole1Interval" min="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole1Duration">Black Hole 1 Duration</label>
+                                                    <input type="number" id="blackHole1Duration" name="blackHole1Duration" min="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole2Power">Black Hole 2 Power</label>
+                                                    <input type="number" id="blackHole2Power" name="blackHole2Power" min="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole2Interval">Black Hole 2 Interval</label>
+                                                    <input type="number" id="blackHole2Interval" name="blackHole2Interval" min="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="blackHole2Duration">Black Hole 2 Duration</label>
+                                                    <input type="number" id="blackHole2Duration" name="blackHole2Duration" min="0">
+                                                </div>
+                                            </div>
+
+                                            <!-- Section Glyphs -->
+                                            <div class="section-pane" id="glyphs-section">
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
+
+                                            <!-- Section Achievements -->
+                                            <div class="section-pane" id="achievements-section">
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
                                             </div>
                                         </div>
                                     </div>
@@ -335,7 +532,7 @@
         <footer class="app-footer" role="contentinfo">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>Version <span class="version">2.0.0-BETA-1</span></p>
+                    <p>Version <span class="version">2.0.0-BETA-1.1</span></p>
                 </div>
                 <div class="footer-links">
                     <a href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues" 

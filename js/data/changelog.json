@@ -1,6 +1,28 @@
 {
   "versions": [
     {
+      "version": "2.0.0-BETA-1.1",
+      "date": "2025-03-27",
+      "categories": {
+        "new": [
+          "Added Replicanti editor with control over replication chance, interval, and galaxies",
+          "Added Glyphs editor with sacrifice values and level cap settings",
+          "Added Achievements editor with options to unlock all regular or secret achievements",
+          "Added detailed Celestials editor with control over all celestial properties",
+          "Added Black Hole configuration options",
+          "Added Dilation parameters editor"
+        ],
+        "improved": [
+          "Expanded field mappings to support many more game properties",
+          "Added better handling of complex data structures",
+          "Improved organization of editor sections for better usability"
+        ],
+        "fixed": [
+          "Fixed issues with section navigation"
+        ]
+      }
+    },
+    {
       "version": "2.0.0-BETA-1",
       "date": "2025-03-26",
       "categories": {
