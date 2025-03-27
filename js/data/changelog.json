@@ -47,7 +47,7 @@
     },
     {
       "version": "1.0.5",
-      "date": "2024-02-15",
+      "date": "Oct 17, 2024",
       "categories": {
         "improved": [
           "Major CSS redesign for enhanced responsiveness. The site now adapts more effectively to a range of screen sizes, including mobile devices.",
@@ -58,7 +58,7 @@
     },
     {
       "version": "1.0.4",
-      "date": "2024-02-01",
+      "date": "Aug 10, 2024",
       "categories": {
         "improved": [
           "Integrated GitHub for better collaboration",
@@ -68,7 +68,7 @@
     },
     {
       "version": "1.0.3",
-      "date": "2024-01-15",
+      "date": "Aug 9, 2024",
       "categories": {
         "improved": [
           "Added convenient copy and paste buttons for easier user interaction"
@@ -77,21 +77,21 @@
     },
     {
       "version": "1.0.2",
-      "date": "2024-01-01",
+      "date": "Aug 9, 2024",
       "categories": {
         "new": ["Introduced dark theme functionality"]
       }
     },
     {
       "version": "1.0.1",
-      "date": "2023-12-15",
+      "date": "Aug 9, 2024",
       "categories": {
         "new": ["Implemented save editor feature for better user experience"]
       }
     },
     {
       "version": "1.0.0",
-      "date": "2023-12-01",
+      "date": "Aug 8, 2024",
       "categories": {
         "new": ["Initial release of the save editor with foundational features"]
       }

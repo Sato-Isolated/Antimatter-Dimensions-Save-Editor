@@ -130,24 +130,58 @@ class ChangelogModal {
     if (!categories) return '';
 
     const categoryConfig = {
-      new: { icon: 'fa-star', title: 'New Features' },
-      improved: { icon: 'fa-arrow-up', title: 'Improvements' },
-      fixed: { icon: 'fa-bug', title: 'Bug Fixes' }
+      new: { 
+        icon: 'fa-star',
+        title: 'New Features',
+        order: 1,
+        color: 'var(--success-color)',
+        bgColor: 'rgba(var(--success-color-rgb), 0.1)'
+      },
+      improved: { 
+        icon: 'fa-arrow-up',
+        title: 'Improvements',
+        order: 2,
+        color: 'var(--primary-color)',
+        bgColor: 'rgba(var(--primary-color-rgb), 0.1)'
+      },
+      fixed: { 
+        icon: 'fa-bug',
+        title: 'Bug Fixes',
+        order: 3,
+        color: 'var(--warning-color)',
+        bgColor: 'rgba(var(--warning-color-rgb), 0.1)'
+      }
     };
+
+    const sortedCategories = Object.entries(categories)
+      .filter(([category]) => categories[category]?.length > 0)
+      .sort(([a], [b]) => categoryConfig[a].order - categoryConfig[b].order);
+
+    if (sortedCategories.length === 0) {
+      return '<p class="no-changes">No changes in this version</p>';
+    }
 
     return `
       <div class="changes-container">
-        ${Object.entries(categories).map(([category, changes]) => `
-          <section class="change-category ${category}">
-            <h4>
-              <i class="fas ${categoryConfig[category]?.icon || 'fa-circle'}" aria-hidden="true"></i>
-              <span>${categoryConfig[category]?.title || category}</span>
-            </h4>
-            <ul class="changelog-list">
-              ${changes.map(change => `<li>${change}</li>`).join('')}
-            </ul>
-          </section>
-        `).join('')}
+        ${sortedCategories.map(([category, changes]) => {
+          const config = categoryConfig[category];
+          return `
+            <section class="change-category ${category}" data-order="${config.order}">
+              <div class="category-header">
+                <i class="fas ${config.icon}" aria-hidden="true"></i>
+                <h4>${config.title}</h4>
+                <span class="change-count">${changes.length}</span>
+              </div>
+              <ul class="changelog-list" role="list">
+                ${changes.map((change, index) => `
+                  <li style="animation-delay: ${index * 0.05}s">
+                    ${change}
+                  </li>
+                `).join('')}
+              </ul>
+            </section>
+          `;
+        }).join('')}
       </div>
     `;
   }
@@ -212,35 +246,28 @@ class ChangelogModal {
   switchTab(version) {
     const tabs = this.modalContainer.querySelectorAll('.changelog-tab');
     const panes = this.modalContainer.querySelectorAll('.changelog-pane');
-    const content = this.modalContainer.querySelector('.changelog-content');
     
-    // Disable all panels and tabs
+    // Si on clique sur la même version, ne rien faire
+    if (this.activeTab === version) return;
+    
+    // Désactiver tous les onglets et marquer l'onglet actif
     tabs.forEach(tab => {
       const isActive = tab.dataset.version === version;
       tab.classList.toggle('active', isActive);
       tab.setAttribute('aria-selected', isActive);
     });
 
-    // Hide all panels before showing the new one
+    // Cacher tous les panneaux actuels
     panes.forEach(pane => {
       pane.classList.remove('active');
       pane.style.display = 'none';
     });
 
-    // Show active panel
+    // Afficher le panneau actif sans transition qui pourrait affecter la taille
     const activePane = this.modalContainer.querySelector(`#version-pane-${version.replace(/\./g, '-')}`);
     if (activePane) {
       activePane.style.display = 'block';
-      // Wait for next frame to apply transition
-      requestAnimationFrame(() => {
-        activePane.classList.add('active');
-      });
-    }
-
-    // Update container height if needed
-    if (content && activePane) {
-      const paneHeight = activePane.scrollHeight;
-      content.style.minHeight = `${paneHeight}px`;
+      activePane.classList.add('active');
     }
 
     this.activeTab = version;
