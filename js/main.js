@@ -7,10 +7,9 @@ import { initGithubStats } from './modules/githubStats.js';
 import { initJsonEditor } from './modules/jsonEditor.js';
 import { initSaveManager } from './modules/saveManager.js';
 import { initStructuredEditor } from './modules/structuredEditor.js';
-import { initTabManager } from './modules/tabManager.js';
+import { tabManager } from './modules/tabManager.js';
 import { initUI } from './modules/ui.js';
-import { initializeTabs } from './modules/tabs.js';
-import { changelogModal } from './modules/changelog.js'; // Mise à jour de l'import
+import { changelogModal } from './modules/changelog.js';
 import { settingsManager } from './modules/settings.js';
 
 // Wait for DOM to be loaded
@@ -21,11 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initJsonEditor();
   initSaveManager();
   initStructuredEditor();
-  initTabManager();
   initUI();
-
-  // Initialiser les onglets
-  initializeTabs();
 
   // Le modal changelog est auto-initialisé lors de l'importation
 
@@ -36,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Make settings manager available globally
   window.settingsManager = settingsManager;
+
+  // Initialize tab system globally
+  window.tabManager = tabManager;
 
   // Log initialization completion
   console.log('Application initialized successfully');

@@ -5,8 +5,9 @@ export function initializeTabs() {
         if (!pane.classList.contains('active')) {
             pane.style.display = 'none';
             pane.style.visibility = 'hidden';
-            pane.style.opacity = '0';
-            pane.style.pointerEvents = 'none';
+        } else {
+            pane.style.display = 'block';
+            pane.style.visibility = 'visible';
         }
     });
 
@@ -26,24 +27,24 @@ export function initializeTabs() {
             tab.classList.add('active');
             tab.setAttribute('aria-selected', 'true');
 
-            // Masquer tous les panneaux
+            // Masquer tous les panneaux avec une transition
             mainPanes.forEach(pane => {
-                pane.classList.remove('active');
-                pane.style.display = 'none';
-                pane.style.visibility = 'hidden';
-                pane.style.opacity = '0';
-                pane.style.pointerEvents = 'none';
+                if (pane.id === `${tab.dataset.tab}-editor`) {
+                    pane.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        pane.classList.add('active');
+                        pane.style.visibility = 'visible';
+                    });
+                } else {
+                    pane.classList.remove('active');
+                    pane.style.visibility = 'hidden';
+                    setTimeout(() => {
+                        if (!pane.classList.contains('active')) {
+                            pane.style.display = 'none';
+                        }
+                    }, 300); // Match transition duration
+                }
             });
-
-            // Afficher le panneau correspondant
-            const targetPane = document.getElementById(`${tab.dataset.tab}-editor`);
-            if (targetPane) {
-                targetPane.classList.add('active');
-                targetPane.style.display = 'block';
-                targetPane.style.visibility = 'visible';
-                targetPane.style.opacity = '1';
-                targetPane.style.pointerEvents = 'auto';
-            }
         });
     });
 
@@ -63,24 +64,75 @@ export function initializeTabs() {
             tab.classList.add('active');
             tab.setAttribute('aria-selected', 'true');
 
-            // Masquer tous les panneaux de section
+            // Gérer les panneaux de section avec une transition
             sectionPanes.forEach(pane => {
-                pane.classList.remove('active');
-                pane.style.display = 'none';
-                pane.style.visibility = 'hidden';
-                pane.style.opacity = '0';
-                pane.style.pointerEvents = 'none';
+                if (pane.id === tab.dataset.section) {
+                    pane.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        pane.classList.add('active');
+                        pane.style.visibility = 'visible';
+                    });
+                } else {
+                    pane.classList.remove('active');
+                    pane.style.visibility = 'hidden';
+                    setTimeout(() => {
+                        if (!pane.classList.contains('active')) {
+                            pane.style.display = 'none';
+                        }
+                    }, 300); // Match transition duration
+                }
             });
-
-            // Afficher le panneau de section correspondant
-            const targetPane = document.getElementById(tab.dataset.section);
-            if (targetPane) {
-                targetPane.classList.add('active');
-                targetPane.style.display = 'block';
-                targetPane.style.visibility = 'visible';
-                targetPane.style.opacity = '1';
-                targetPane.style.pointerEvents = 'auto';
-            }
         });
+    });
+
+    // Support clavier
+    setupKeyboardNavigation(mainTabs, sectionTabs);
+}
+
+function setupKeyboardNavigation(mainTabs, sectionTabs) {
+    const handleKeyPress = (e, tabs) => {
+        const currentTab = document.activeElement;
+        if (!tabs.includes(currentTab)) return;
+
+        const currentIndex = Array.from(tabs).indexOf(currentTab);
+        let targetIndex;
+
+        switch (e.key) {
+            case 'ArrowLeft':
+            case 'ArrowUp':
+                e.preventDefault();
+                targetIndex = Math.max(0, currentIndex - 1);
+                break;
+            case 'ArrowRight':
+            case 'ArrowDown':
+                e.preventDefault();
+                targetIndex = Math.min(tabs.length - 1, currentIndex + 1);
+                break;
+            case 'Home':
+                e.preventDefault();
+                targetIndex = 0;
+                break;
+            case 'End':
+                e.preventDefault();
+                targetIndex = tabs.length - 1;
+                break;
+            default:
+                return;
+        }
+
+        tabs[targetIndex]?.focus();
+        tabs[targetIndex]?.click();
+    };
+
+    // Event listeners for keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const activeMainTab = document.activeElement.closest('.tab-button[data-tab]');
+        const activeSectionTab = document.activeElement.closest('.nav-button[data-section]');
+
+        if (activeMainTab) {
+            handleKeyPress(e, Array.from(mainTabs));
+        } else if (activeSectionTab) {
+            handleKeyPress(e, Array.from(sectionTabs));
+        }
     });
 }

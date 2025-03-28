@@ -11,7 +11,6 @@ export class TabManager {
     }
 
     init() {
-        // Initialize based on user settings
         this.initMainTabs();
         this.initSectionTabs();
         this.initHistory();
@@ -33,14 +32,6 @@ export class TabManager {
                 const targetId = button.dataset.tab;
                 this.switchMainTab(targetId, button, tabButtons, tabPanes);
             });
-
-            // Ajouter le support des touches
-            button.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    button.click();
-                }
-            });
         });
     }
 
@@ -54,19 +45,10 @@ export class TabManager {
                 const targetId = button.dataset.section;
                 this.switchSectionTab(targetId, button, sectionButtons, sectionPanes);
             });
-
-            // Ajouter le support des touches
-            button.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    button.click();
-                }
-            });
         });
     }
 
     initHistory() {
-        // Gérer la navigation avec l'historique du navigateur
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.tab) {
                 const { tab, section } = e.state;
@@ -87,6 +69,9 @@ export class TabManager {
         // Update panes with transition
         allPanes.forEach(pane => {
             if (pane.id === `${targetId}-editor`) {
+                // Show the panel
+                pane.style.display = 'block';
+                pane.style.visibility = 'visible';
                 pane.classList.add('active');
                 pane.removeAttribute('hidden');
 
@@ -95,7 +80,10 @@ export class TabManager {
                     settingsManager.updateUI();
                 }
             } else {
+                // Hide the panel
                 pane.classList.remove('active');
+                pane.style.visibility = 'hidden';
+                pane.style.display = 'none';
                 pane.setAttribute('hidden', '');
             }
         });
@@ -106,7 +94,7 @@ export class TabManager {
     }
 
     switchSectionTab(targetId, clickedButton, allButtons, allPanes) {
-        // Mettre à jour les classes actives
+        // Update button states
         allButtons.forEach(btn => {
             btn.classList.remove('active');
             btn.setAttribute('aria-selected', 'false');
@@ -114,26 +102,22 @@ export class TabManager {
         clickedButton.classList.add('active');
         clickedButton.setAttribute('aria-selected', 'true');
 
-        // Mettre à jour les panneaux avec animation
+        // Update panes with transition
         allPanes.forEach(pane => {
             if (pane.id === targetId) {
-                // Appliquer l'animation d'entrée
+                // Show the panel
                 pane.style.display = 'block';
-                requestAnimationFrame(() => {
-                    pane.classList.add('active');
-                });
+                pane.style.visibility = 'visible';
+                pane.classList.add('active');
             } else {
-                // Appliquer l'animation de sortie
+                // Hide the panel
                 pane.classList.remove('active');
-                pane.addEventListener('transitionend', () => {
-                    if (!pane.classList.contains('active')) {
-                        pane.style.display = 'none';
-                    }
-                }, { once: true });
+                pane.style.visibility = 'hidden';
+                pane.style.display = 'none';
             }
         });
 
-        // Mettre à jour l'historique
+        // Update history
         const state = { 
             tab: document.querySelector('.tab-button.active').dataset.tab,
             section: targetId 
@@ -142,93 +126,24 @@ export class TabManager {
     }
 
     switchToTab(tab, section = null) {
-        // Trouver et activer l'onglet principal
+        // Switch main tab
         const tabButton = document.querySelector(`.tab-button[data-tab="${tab}"]`);
         if (tabButton) {
-            tabButton.click();
+            const tabButtons = document.querySelectorAll('.tab-button[data-tab]');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            this.switchMainTab(tab, tabButton, tabButtons, tabPanes);
         }
 
-        // Si une section est spécifiée, l'activer
+        // Switch section if specified
         if (section) {
             const sectionButton = document.querySelector(`.nav-button[data-section="${section}"]`);
             if (sectionButton) {
-                sectionButton.click();
+                const sectionButtons = document.querySelectorAll('.nav-button[data-section]');
+                const sectionPanes = document.querySelectorAll('.section-pane');
+                this.switchSectionTab(section, sectionButton, sectionButtons, sectionPanes);
             }
         }
     }
-
-    // Méthode pour restaurer l'état des onglets depuis l'URL
-    restoreFromUrl() {
-        const hash = window.location.hash.slice(1);
-        if (hash) {
-            const [tab, section] = hash.split('/');
-            this.switchToTab(tab, section);
-        }
-    }
 }
 
-// Singleton instance
-let tabManagerInstance = null;
-
-// Initialization function
-export function initTabManager() {
-    const tabsContainer = document.querySelector('.tabs[role="tablist"]');
-    
-    if (!tabsContainer) return;
-
-    // If no tab is active, set the default tab based on settings
-    const activeTab = tabsContainer.querySelector('.tab-button.active');
-    if (!activeTab) {
-        const defaultTab = tabsContainer.querySelector(`#${settingsManager.getDefaultEditor()}-tab`);
-        if (defaultTab) {
-            activateTab(defaultTab);
-        }
-    }
-
-    tabsContainer.addEventListener('click', handleTabClick);
-}
-
-function handleTabClick(event) {
-    const tabButton = event.target.closest('.tab-button');
-    if (!tabButton) return;
-    
-    activateTab(tabButton);
-}
-
-function activateTab(selectedTab) {
-    const container = selectedTab.closest('.tabs');
-    const tabGroup = container.getAttribute('aria-label');
-    
-    // Deactivate all tabs
-    container.querySelectorAll('.tab-button').forEach(tab => {
-        tab.classList.remove('active');
-        tab.setAttribute('aria-selected', 'false');
-    });
-    
-    // Hide all tab panels
-    const allPanes = document.querySelectorAll('.tab-pane');
-    allPanes.forEach(pane => pane.classList.remove('active'));
-    
-    // Activate selected tab
-    selectedTab.classList.add('active');
-    selectedTab.setAttribute('aria-selected', 'true');
-    
-    // Show selected panel
-    const panelId = selectedTab.getAttribute('aria-controls');
-    const selectedPane = document.getElementById(panelId);
-    if (selectedPane) {
-        selectedPane.classList.add('active');
-    }
-
-    // If switching to settings tab, update the UI
-    if (selectedTab.id === 'settings-tab') {
-        settingsManager.updateUI();
-    }
-}
-
-export function switchToTab(tabId) {
-    const tab = document.getElementById(tabId);
-    if (tab) {
-        activateTab(tab);
-    }
-}
+export const tabManager = new TabManager();

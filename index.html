@@ -175,6 +175,22 @@
                                                         data-section="celestials">
                                                     <i class="fas fa-star"></i> Celestials
                                                 </button>
+                                                <button class="nav-button" 
+                                                        data-section="automator-section">
+                                                    <i class="fas fa-robot"></i> Automator
+                                                </button>
+                                                <button class="nav-button" 
+                                                        data-section="blackhole-section">
+                                                    <i class="fas fa-circle"></i> Black Hole
+                                                </button>
+                                                <button class="nav-button" 
+                                                        data-section="challenges-section">
+                                                    <i class="fas fa-tasks"></i> Challenges
+                                                </button>
+                                                <button class="nav-button" 
+                                                        data-section="records-section">
+                                                    <i class="fas fa-medal"></i> Records
+                                                </button>
                                             </div>
                                         </nav>
 
@@ -426,6 +442,30 @@
                                             <div class="section-pane" id="achievements-section">
                                                 <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
                                             </div>
+
+                                            <!-- Section Automator -->
+                                            <div class="section-pane" id="automator-section">
+                                                <h3>Automator</h3>
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
+
+                                            <!-- Section Black Hole -->
+                                            <div class="section-pane" id="blackhole-section">
+                                                <h3>Black Hole</h3>
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
+
+                                            <!-- Section Challenges -->
+                                            <div class="section-pane" id="challenges-section">
+                                                <h3>Challenges</h3>
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
+
+                                            <!-- Section Records -->
+                                            <div class="section-pane" id="records-section">
+                                                <h3>Records</h3>
+                                                <!-- Ce contenu sera généré dynamiquement par structuredEditor.js -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -455,39 +495,21 @@
                                         </div>
 
                                         <div class="settings-group">
-                                            <h4>Editor Behavior</h4>
+                                            <h4>Display Settings</h4>
                                             <div class="form-group">
-                                                <label>
-                                                    <input type="checkbox" name="autoSave" checked>
-                                                    Auto-save changes
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="confirmDiscardChanges" checked>
-                                                    Confirm before discarding changes
+                                                <label>Theme:
+                                                    <select name="theme">
+                                                        <option value="system">System</option>
+                                                        <option value="light">Light</option>
+                                                        <option value="dark">Dark</option>
+                                                    </select>
                                                 </label>
                                             </div>
                                         </div>
 
                                         <div class="settings-group">
-                                            <h4>Display Settings</h4>
-                                            <div class="form-group">
-                                                <label>
-                                                    <input type="checkbox" name="compactMode">
-                                                    Compact display mode
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="showAdvancedOptions">
-                                                    Show advanced options
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="button-group">
-                                            <button id="saveSettings" class="btn primary">
-                                                <i class="fas fa-save"></i> Save Settings
-                                            </button>
-                                            <button id="resetSettings" class="btn secondary">
-                                                <i class="fas fa-undo"></i> Reset to Defaults
+                                            <button id="resetSettings" class="btn danger">
+                                                Reset to Default Settings
                                             </button>
                                         </div>
                                     </div>

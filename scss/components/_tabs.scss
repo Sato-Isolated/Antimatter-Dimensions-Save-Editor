@@ -130,20 +130,13 @@
 .tab-pane {
   display: none;
   visibility: hidden;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
   opacity: 0;
-  pointer-events: none;
-
+  transition: opacity 0.3s ease;
+  
   &.active {
     display: block;
     visibility: visible;
-    position: relative;
     opacity: 1;
-    pointer-events: auto;
   }
 }
 
@@ -342,17 +335,13 @@
   .section-pane {
     display: none;
     visibility: hidden;
-    height: 0;
-    overflow: hidden;
     opacity: 0;
-    pointer-events: none;
+    transition: opacity 0.3s ease;
 
     &.active {
       display: block;
       visibility: visible;
-      height: auto;
       opacity: 1;
-      pointer-events: auto;
       animation: fadeIn 0.3s ease;
     }
   }
@@ -371,47 +360,37 @@
 
 .editor-layout {
   display: flex;
+  min-height: 500px;
   height: 100%;
 }
 
 .editor-nav {
-  width: 200px;
+  width: 250px;
   flex-shrink: 0;
   background-color: var(--card-bg-alt);
   border-right: 1px solid var(--border-color);
-  padding: $spacing-md;
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
 
-  @include mobile {
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-
-    .nav-group {
-      display: flex;
-      padding: $spacing-xs;
-      gap: $spacing-xs;
-    }
+  .nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .nav-button {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: $spacing-sm $spacing-md;
+    padding: 0.75rem 1rem;
     border: none;
     background: none;
     color: var(--text-color-secondary);
     text-align: left;
     cursor: pointer;
     transition: all 0.3s ease;
-
-    @include mobile {
-      width: auto;
-      white-space: nowrap;
-      padding: $spacing-xs $spacing-sm;
-      font-size: $font-size-sm;
-    }
+    border-radius: 4px;
 
     &:hover {
       background: var(--button-ghost-hover);
@@ -419,25 +398,24 @@
     }
 
     &.active {
-      background: var(--primary-color);
-      color: var(--button-text);
+      background: var(--primary-color-light);
+      color: var(--primary-color);
+      font-weight: 500;
     }
 
     i {
-      margin-right: $spacing-sm;
-      
-      @include mobile {
-        margin-right: $spacing-xs;
-      }
+      margin-right: 0.75rem;
+      font-size: 1.125rem;
     }
   }
 }
 
 .editor-content {
   flex: 1;
-  position: relative;
-  padding: $spacing-md;
-  overflow: hidden;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: var(--card-bg);
+  min-width: 0;
 }
 
 /* Masquage/affichage des panneaux */
@@ -573,5 +551,87 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// Les sections
+.section-pane {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+
+  &.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--input-bg);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 2px var(--primary-color-light);
+      }
+    }
+  }
+}
+
+// Media queries pour le responsive
+@media (max-width: 768px) {
+  .editor-layout {
+    flex-direction: column;
+  }
+
+  .editor-nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem;
+
+    .nav-group {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .nav-button {
+      width: auto;
+      flex: 1;
+      min-width: 120px;
+      justify-content: center;
+      padding: 0.5rem 0.75rem;
+
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .editor-content {
+    padding: 1rem;
   }
 }

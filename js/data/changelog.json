@@ -1,6 +1,27 @@
 {
   "versions": [
     {
+      "version": "2.0.0-BETA-2",
+      "date": "2025-03-28",
+      "categories": {
+        "new": [
+          "Added advanced field validation for all editor sections",
+          "Implemented auto-save feature with configurable intervals",
+          "Added keyboard shortcuts for common actions"
+        ],
+        "improved": [
+          "Enhanced vertical navigation layout for better usability",
+          "Optimized SCSS structure for better maintainability",
+          "Improved tab system with smooth transitions"
+        ],
+        "fixed": [
+          "Fixed issues with tab navigation and content visibility",
+          "Resolved styling conflicts in mobile view",
+          "Fixed vertical layout display problems"
+        ]
+      }
+    },
+    {
       "version": "2.0.0-BETA-1.1",
       "date": "2025-03-27",
       "categories": {

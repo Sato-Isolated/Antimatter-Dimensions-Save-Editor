@@ -2,7 +2,7 @@
 
 A powerful web-based tool for editing and managing save files from the Antimatter Dimensions game, including support for the latest Reality Update.
 
-![Version](https://img.shields.io/badge/version-2.0.0--BETA--1.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.0--BETA--2-blue)
 [![GitHub Issues](https://img.shields.io/github/issues/Sato-Isolated/Antimatter-Dimensions-Save-Editor)](https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor/issues)
 
 ## Features

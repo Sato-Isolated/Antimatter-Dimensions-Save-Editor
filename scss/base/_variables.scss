@@ -1,12 +1,12 @@
 // Dimensions
 $header-height: 60px;
 $footer-height: 60px;
-$sidebar-width: 300px;
+$sidebar-width: 250px;
 $mobile-sidebar-width: 250px;
 
 // Espacements
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
+$spacing-xs: 0.5rem;
+$spacing-sm: 0.75rem;
 $spacing-md: 1rem;
 $spacing-lg: 1.5rem;
 $spacing-xl: 2rem;
@@ -15,7 +15,7 @@ $spacing-xl: 2rem;
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
-$breakpoint-xl: 1440px;
+$breakpoint-xl: 1200px;
 
 // Border radius
 $border-radius-sm: 4px;
@@ -29,13 +29,18 @@ $transition-timing: ease;
 
 // Z-index
 $z-index-header: 100;
-$z-index-modal: 1000;
+$z-index-modal: 1040;
 $z-index-notification: 1100;
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-popover: 1050;
+$z-index-tooltip: 1060;
 
 // Typography
 $font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 $font-family-mono: monospace;
-$font-size-base: 16px;
+$font-size-base: 1rem;
 $font-size-sm: 0.875rem;
 $font-size-lg: 1.125rem;
 $font-size-md: 1rem;
@@ -59,6 +64,7 @@ $font-weight-bold: 700;
 
 // Layout
 $max-width: 1200px;
+$content-max-width: 1200px;
 
 // Additional colors
 $header-bg: var(--card-bg);
@@ -66,7 +72,7 @@ $footer-bg: var(--card-bg);
 
 // Z-indices
 $z-header: 100;
-$z-modal: 1000;
+$z-modal: 1040;
 
 /* Changelog Variables */
 $changelog-card-min-width: 280px;
@@ -104,3 +110,71 @@ $line-height-relaxed: 1.5;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
 $font-weight-bold: 700;
+
+// Colors
+$primary-color: var(--primary-color);
+$primary-color-light: var(--primary-color-light);
+$text-color: var(--text-color);
+$text-color-secondary: var(--text-color-secondary);
+$border-color: var(--border-color);
+
+// Mixins
+@mixin mobile {
+  @media (max-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-sm + 1px}) and (max-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-lg + 1px}) {
+    @content;
+  }
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+}
+
+// Headings
+@mixin heading($level) {
+  font-weight: $font-weight-semibold;
+  line-height: 1.25;
+  color: var(--title-color);
+
+  @if $level == 'h1' {
+    font-size: 2.25rem;
+  } @else if $level == 'h2' {
+    font-size: 1.875rem;
+  } @else if $level == 'h3' {
+    font-size: 1.5rem;
+  } @else if $level == 'h4' {
+    font-size: 1.25rem;
+  } @else if $level == 'h5' {
+    font-size: 1.125rem;
+  } @else if $level == 'h6' {
+    font-size: 1rem;
+  }
+}
