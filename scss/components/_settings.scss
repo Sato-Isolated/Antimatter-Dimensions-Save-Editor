@@ -10,6 +10,100 @@
     font-size: 1.5rem;
     color: var(--title-color);
   }
+
+  .theme-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .theme-option {
+      position: relative;
+
+      input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + label {
+          border-color: var(--primary-color);
+          background: var(--primary-color-light);
+
+          .theme-preview {
+            transform: scale(1.05);
+          }
+        }
+
+        &:focus + label {
+          box-shadow: 0 0 0 2px var(--primary-color-light);
+        }
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: var(--primary-color);
+          background: var(--hover-bg);
+
+          .theme-preview {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .theme-preview {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-name {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      // Theme preview colors
+      .light-preview {
+        background: linear-gradient(45deg, #ffffff 0%, #f0f0f0 100%);
+        border: 1px solid #e0e0e0;
+      }
+
+      .dark-preview {
+        background: linear-gradient(45deg, #1a1a1a 0%, #242424 100%);
+        border: 1px solid #333333;
+      }
+
+      .antimatter-preview {
+        background: linear-gradient(45deg, #0a0b1a 0%, #12132e 100%);
+        border: 1px solid #1f1b4d;
+      }
+
+      .infinity-preview {
+        background: linear-gradient(45deg, #000c2a 0%, #001845 100%);
+        border: 1px solid #1a3b7c;
+      }
+
+      .eternity-preview {
+        background: linear-gradient(45deg, #001a12 0%, #002a1f 100%);
+        border: 1px solid #0a4d3c;
+      }
+
+      .reality-preview {
+        background: linear-gradient(45deg, #1a0022 0%, #2a0033 100%);
+        border: 1px solid #4d0a66;
+      }
+    }
+  }
 }
 
 .settings-group {
@@ -199,6 +293,50 @@ input[type="radio"] {
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--danger-color-light);
+  }
+}
+
+// Animation de transition de thème
+@keyframes theme-transition {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Style du sélecteur de thème dans le header
+.theme-select {
+  appearance: none;
+  background: var(--button-ghost);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
+
+  &:hover {
+    background-color: var(--button-ghost-hover);
+    border-color: var(--primary-color);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+  }
+
+  option {
+    background: var(--card-bg);
+    color: var(--text-color);
   }
 }
 

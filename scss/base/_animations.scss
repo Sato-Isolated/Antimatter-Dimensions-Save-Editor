@@ -6,7 +6,7 @@
 
 @keyframes slideInUp {
   from {
-    transform: translateY(100%);
+    transform: translateY(20px);
     opacity: 0;
   }
   to {
@@ -36,6 +36,11 @@
   50% { opacity: 0.3; }
 }
 
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
 // Classes d'animation réutilisables
 .animate {
   animation-duration: 0.3s;
@@ -48,6 +53,7 @@
   &-slide-up { animation-name: slideInUp; }
   &-slide-down { animation-name: slideInDown; }
   &-spin { animation-name: spin; }
+  &-bounce { animation-name: bounce; }
 
   &-infinite { animation-iteration-count: infinite; }
   &-linear { animation-timing-function: linear; }
@@ -63,15 +69,19 @@
 
 // Transitions
 .transition {
-  &-all { transition: all $transition-speed $transition-timing; }
-  &-transform { transition: transform $transition-speed $transition-timing; }
-  &-opacity { transition: opacity $transition-speed $transition-timing; }
+  &-all { transition: all 0.3s ease; }
+  &-transform { transition: transform 0.3s ease; }
+  &-opacity { transition: opacity 0.3s ease; }
   &-colors { 
     transition: 
-      background-color $transition-speed $transition-timing,
-      border-color $transition-speed $transition-timing,
-      color $transition-speed $transition-timing;
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
   }
+  &-color { transition: color 0.3s ease; }
+  &-bg { transition: background-color 0.3s ease; }
+  &-border { transition: border-color 0.3s ease; }
+  &-shadow { transition: box-shadow 0.3s ease; }
 }
 
 // Animation des notifications
@@ -135,4 +145,16 @@
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+// Animation de transition de thème
+@keyframes theme-transition {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

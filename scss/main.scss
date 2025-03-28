@@ -1,21 +1,28 @@
 /* Main SCSS file */
 
-// Configuration et utilitaires
+// Base
 @import 'base/reset';
 @import 'base/variables';
 @import 'base/mixins';
-
-@import 'base/base';
-@import 'base/typography';
 @import 'base/animations';
+@import 'base/typography';
+@import 'base/base';
 
-// Composants
+// Themes
+@import 'themes/light';
+@import 'themes/dark';
+@import 'themes/antimatter';
+@import 'themes/infinity';
+@import 'themes/eternity';
+@import 'themes/reality';
+
+// Components
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/forms';
 @import 'components/tabs';
-@import 'components/changelog';
 @import 'components/settings';
+@import 'components/changelog';
 
 // Layout
 @import 'layout/header';
@@ -23,9 +30,5 @@
 @import 'layout/main';
 @import 'layout/sidebar';
 
-// Pages spécifiques
+// Pages
 @import 'pages/editor';
-
-// Thèmes
-@import 'themes/dark';
-@import 'themes/light';

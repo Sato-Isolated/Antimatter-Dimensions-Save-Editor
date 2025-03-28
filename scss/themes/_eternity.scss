@@ -1,0 +1,81 @@
+.eternity-theme {
+    // Couleurs de base
+    --bg-color: #001a12;
+    --text-color: #c8ffe4;
+    --text-muted: #65bb96;
+    --border-color: #0a4d3c;
+
+    // Couleurs d'accentuation
+    --primary-color: #00ffa6;
+    --primary-color-hover: #33ffb8;
+    --primary-color-light: rgba(0, 255, 166, 0.15);
+    --secondary-color: #004d3d;
+    --secondary-color-hover: #006d56;
+    --accent-color: #00e4ff;
+
+    // Couleurs d'état
+    --error-color: #ff5f7a;
+    --error-color-rgb: 255, 95, 122;
+    --success-color: #00ffc3;
+    --success-color-rgb: 0, 255, 195;
+    --info-color: #47d5ff;
+
+    // Arrière-plans
+    --card-bg: #002a1f;
+    --card-bg-alt: #003528;
+    --card-header-bg: #004d3d;
+    --card-footer-bg: #004d3d;
+
+    // Formulaires
+    --input-bg: #004d3d;
+    --input-text: #c8ffe4;
+    --input-border: #006d56;
+    --input-focus-border: #00ffa6;
+    --input-focus-shadow: rgba(0, 255, 166, 0.25);
+    --input-readonly-bg: #003528;
+    --input-group-bg: #003528;
+
+    // Textes et labels
+    --label-color: #a0ffe0;
+    --help-text-color: #65bb96;
+    --title-color: #ffffff;
+
+    // Boutons
+    --button-bg: #004d3d;
+    --button-text: #c8ffe4;
+    --button-hover-bg: #006d56;
+    --button-ghost-hover: rgba(0, 255, 166, 0.1);
+
+    // Onglets
+    --tab-header-bg: #002a1f;
+    --tab-content-bg: #002a1f;
+    --tab-button-bg: #004d3d;
+    --tab-button-text: #c8ffe4;
+    --tab-button-hover-bg: #006d56;
+    --tab-button-active-bg: #002a1f;
+    --tab-button-active-text: #00ffa6;
+
+    // Boutons de section
+    --section-button-bg: #002a1f;
+    --section-button-text: #c8ffe4;
+    --section-button-hover-bg: #004d3d;
+    --section-button-active-bg: #004d3d;
+    --section-button-active-text: #00ffa6;
+
+    // Éditeur JSON
+    --json-field-color: #7affdb;
+    --json-value-color: #ffcc66;
+
+    // Liens
+    --link-color: #00ffa6;
+    --link-hover-color: #33ffb8;
+
+    // Autres
+    --dimension-name-color: #a0ffe0;
+    --github-icon-color: #a0ffe0;
+
+    // Scrollbar
+    --scrollbar-track: #001a12;
+    --scrollbar-thumb: #004d3d;
+    --scrollbar-thumb-hover: #006d56;
+}

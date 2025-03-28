@@ -1,9 +1,19 @@
 class SettingsManager {
     constructor() {
         this.defaultSettings = {
-            // Default editor view
             defaultEditor: 'structured',
             theme: 'system',
+            autoSave: true
+        };
+
+        this.themes = {
+            system: 'System',
+            light: 'Light',
+            dark: 'Dark',
+            antimatter: 'Antimatter',
+            infinity: 'Infinity',
+            eternity: 'Eternity',
+            reality: 'Reality'
         };
 
         // Initialize with default settings
@@ -51,6 +61,17 @@ class SettingsManager {
         // Update theme selection
         const themeSelect = document.querySelector('select[name="theme"]');
         if (themeSelect) {
+            // Clear existing options
+            themeSelect.innerHTML = '';
+            
+            // Add theme options
+            Object.entries(this.themes).forEach(([value, label]) => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = label;
+                themeSelect.appendChild(option);
+            });
+            
             themeSelect.value = this.settings.theme;
             themeSelect.addEventListener('change', (e) => {
                 this.settings.theme = e.target.value;
@@ -61,21 +82,37 @@ class SettingsManager {
     }
 
     applySettings() {
+        // Determine theme
+        let theme = this.settings.theme;
+        if (theme === 'system') {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        
         // Apply theme
-        const theme = this.settings.theme === 'system'
-            ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-            : this.settings.theme;
-            
         document.documentElement.setAttribute('data-theme', theme);
+        document.body.className = `${theme}-theme`;
 
         // Apply default editor view
-        const editorId = this.settings.defaultEditor === 'json' ? 'json-editor' : 'structured-editor';
+        const defaultEditor = this.settings.defaultEditor;
+        const editorId = defaultEditor === 'json' ? 'json-editor' : 'structured-editor';
+        
+        // Update panes and buttons
         document.querySelectorAll('.tab-pane').forEach(pane => {
-            pane.classList.toggle('active', pane.id === editorId);
+            if (pane.id === editorId) {
+                pane.style.display = 'block';
+                pane.style.visibility = 'visible';
+                pane.classList.add('active');
+            } else {
+                pane.classList.remove('active');
+                pane.style.visibility = 'hidden';
+                pane.style.display = 'none';
+            }
         });
         
         document.querySelectorAll('.tab-button').forEach(button => {
-            button.classList.toggle('active', button.getAttribute('data-tab') === this.settings.defaultEditor);
+            const isActive = button.getAttribute('data-tab') === defaultEditor;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-selected', isActive.toString());
         });
 
         // Dispatch settings change event

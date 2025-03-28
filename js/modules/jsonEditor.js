@@ -25,13 +25,16 @@ export function initJsonEditor() {
   document.addEventListener('settingsChanged', (e) => {
     const settings = e.detail;
     if (jsonEditor) {
-      jsonEditor.setOption('lineNumbers', settings.showLineNumbers);
-      jsonEditor.setOption('lineWrapping', settings.wrapLines);
-      jsonEditor.setOption('indentUnit', settings.indentSize);
-      jsonEditor.setOption('indentWithTabs', !settings.useSpaces);
-      if (settings.autoFormat) {
-        jsonEditor.setValue(jsonEditor.getValue());
+      // Apply settings that affect the editor's appearance
+      if (settings.mode && jsonEditor.mode !== settings.mode) {
+        jsonEditor.setMode(settings.mode);
       }
+      
+      if (settings.autoFormat) {
+        const currentValue = jsonEditor.get();
+        jsonEditor.set(currentValue);
+      }
+      
       jsonEditor.refresh();
     }
   });

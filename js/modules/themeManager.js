@@ -5,6 +5,14 @@
 
 export class ThemeManager {
     constructor() {
+        this.themes = {
+            light: 'Light',
+            dark: 'Dark',
+            antimatter: 'Antimatter',
+            infinity: 'Infinity',
+            eternity: 'Eternity',
+            reality: 'Reality'
+        };
         this.currentTheme = localStorage.getItem('theme') || 'dark';
         this.init();
     }
@@ -12,35 +20,90 @@ export class ThemeManager {
     init() {
         this.initTheme();
         this.initThemeToggle();
-        this.updateTabStyles();
+        this.setupThemeMenu();
     }
 
     initTheme() {
-        document.body.classList.remove('light-theme', 'dark-theme');
+        // Retirer toutes les classes de thème
+        Object.keys(this.themes).forEach(theme => {
+            document.body.classList.remove(`${theme}-theme`);
+        });
+        
+        // Appliquer le thème actuel
         document.body.classList.add(`${this.currentTheme}-theme`);
+        
+        // Mettre à jour les attributs data pour CSS
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+        
+        // Déclencher une animation de transition
+        document.body.style.animation = 'theme-transition 0.3s ease';
+        setTimeout(() => {
+            document.body.style.animation = '';
+        }, 300);
     }
 
     initThemeToggle() {
-        const toggleButton = document.getElementById('toggleTheme');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', () => this.toggleTheme());
+        const themeSelect = document.createElement('select');
+        themeSelect.id = 'themeSelect';
+        themeSelect.className = 'theme-select';
+        
+        Object.entries(this.themes).forEach(([value, label]) => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = label;
+            themeSelect.appendChild(option);
+        });
+        
+        themeSelect.value = this.currentTheme;
+        
+        themeSelect.addEventListener('change', (e) => {
+            this.setTheme(e.target.value);
+        });
+        
+        const themeToggle = document.getElementById('toggleTheme');
+        if (themeToggle) {
+            themeToggle.parentNode.replaceChild(themeSelect, themeToggle);
         }
     }
 
-    toggleTheme() {
-        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', this.currentTheme);
-        this.initTheme();
-        this.updateTabStyles();
-        this.updateThemeIcon();
+    setTheme(theme) {
+        if (this.themes[theme]) {
+            this.currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            this.initTheme();
+            document.dispatchEvent(new CustomEvent('themeChanged', { 
+                detail: { theme: theme }
+            }));
+        }
     }
 
-    updateThemeIcon() {
-        const icon = document.querySelector('#toggleTheme i');
-        if (icon) {
-            icon.className = this.currentTheme === 'dark' 
-                ? 'fas fa-sun'
-                : 'fas fa-moon';
+    setupThemeMenu() {
+        // Créer un menu de thème plus élaboré dans les paramètres
+        const settingsThemeGroup = document.querySelector('.settings-group[data-settings="theme"]');
+        if (settingsThemeGroup) {
+            const themeOptions = settingsThemeGroup.querySelector('.theme-options');
+            if (themeOptions) {
+                themeOptions.innerHTML = '';
+                Object.entries(this.themes).forEach(([value, label]) => {
+                    const themeOption = document.createElement('div');
+                    themeOption.className = 'theme-option';
+                    themeOption.innerHTML = `
+                        <input type="radio" name="theme" id="theme-${value}" value="${value}"
+                            ${this.currentTheme === value ? 'checked' : ''}>
+                        <label for="theme-${value}">
+                            <span class="theme-preview ${value}-preview"></span>
+                            <span class="theme-name">${label}</span>
+                        </label>
+                    `;
+                    themeOptions.appendChild(themeOption);
+                });
+
+                themeOptions.addEventListener('change', (e) => {
+                    if (e.target.type === 'radio') {
+                        this.setTheme(e.target.value);
+                    }
+                });
+            }
         }
     }
 
@@ -67,12 +130,13 @@ export class ThemeManager {
 
     // Utilitaire pour obtenir les couleurs du thème actuel
     getThemeColors() {
-        const style = getComputedStyle(document.body);
+        const style = getComputedStyle(document.documentElement);
         return {
-            primary: style.getPropertyValue('--primary-color'),
-            cardBg: style.getPropertyValue('--card-bg'),
-            textColor: style.getPropertyValue('--text-color'),
-            borderColor: style.getPropertyValue('--border-color')
+            primary: style.getPropertyValue('--primary-color').trim(),
+            background: style.getPropertyValue('--bg-color').trim(),
+            text: style.getPropertyValue('--text-color').trim(),
+            border: style.getPropertyValue('--border-color').trim(),
+            accent: style.getPropertyValue('--accent-color').trim()
         };
     }
 }
