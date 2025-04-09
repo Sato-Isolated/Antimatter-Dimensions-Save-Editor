@@ -14,6 +14,9 @@ const SettingsSection: React.FC<SectionProps> = ({
     setActiveSubtab(subtabId);
   };
 
+  // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in type definitions
+  const typedSaveData = saveData as any;
+
   return (
     <div className="section-pane active" id="settings-section">
       <div className="section-content">
@@ -56,7 +59,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-theme">Game Theme</label>
                 <select
                   id="settings-theme"
-                  value={saveData.options?.themeClassic || "Normal"}
+                  value={typedSaveData.options?.themeClassic || "Normal"}
                   onChange={(e) => handleValueChange('options.themeClassic', e.target.value)}
                 >
                   <option value="Normal">Normal</option>
@@ -76,7 +79,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-notation">Notation</label>
                 <select
                   id="settings-notation"
-                  value={saveData.options?.notation || "Scientific"}
+                  value={typedSaveData.options?.notation || "Scientific"}
                   onChange={(e) => handleValueChange('options.notation', e.target.value)}
                 >
                   <option value="Scientific">Scientific</option>
@@ -97,7 +100,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-newsHidden">Hide News</label>
                 <select
                   id="settings-newsHidden"
-                  value={saveData.options?.news?.enabled === false ? 'true' : 'false'}
+                  value={typedSaveData.options?.news?.enabled === false ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.news.enabled', e.target.value === 'true' ? false : true)}
                 >
                   <option value="true">Yes</option>
@@ -110,7 +113,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-hideProductionTab">Hide Production Tab</label>
                 <select
                   id="settings-hideProductionTab"
-                  value={saveData.options?.hiddenTabBits ? 'true' : 'false'}
+                  value={typedSaveData.options?.hiddenTabBits ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.hiddenTabBits', e.target.value === 'true' ? 1 : 0)}
                 >
                   <option value="true">Yes</option>
@@ -132,7 +135,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="settings-updateRate"
-                  value={saveData.options?.updateRate || 50}
+                  value={typedSaveData.options?.updateRate || 50}
                   onChange={(e) => handleValueChange('options.updateRate', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('options.updateRate')}
@@ -142,7 +145,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-offlineProgress">Offline Progress</label>
                 <select
                   id="settings-offlineProgress"
-                  value={saveData.options?.offlineProgress ? 'true' : 'false'}
+                  value={typedSaveData.options?.offlineProgress ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.offlineProgress', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -156,7 +159,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="settings-autosaveInterval"
-                  value={saveData.options?.autosaveInterval || 30}
+                  value={typedSaveData.options?.autosaveInterval || 30}
                   onChange={(e) => handleValueChange('options.autosaveInterval', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('options.autosaveInterval')}
@@ -174,7 +177,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-sacrifice">Dimension Sacrifice</label>
                 <select
                   id="settings-confirmations-sacrifice"
-                  value={saveData.options?.confirmations?.sacrifice ? 'true' : 'false'}
+                  value={typedSaveData.options?.confirmations?.sacrifice ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.confirmations.sacrifice', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -187,7 +190,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-challenges">Challenges</label>
                 <select
                   id="settings-confirmations-challenges"
-                  value={saveData.options?.confirmations?.challenges ? 'true' : 'false'}
+                  value={typedSaveData.options?.confirmations?.challenges ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.confirmations.challenges', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -200,7 +203,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-eternity">Eternity</label>
                 <select
                   id="settings-confirmations-eternity"
-                  value={saveData.options?.confirmations?.eternity ? 'true' : 'false'}
+                  value={typedSaveData.options?.confirmations?.eternity ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.confirmations.eternity', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -213,7 +216,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-reality">Reality</label>
                 <select
                   id="settings-confirmations-reality"
-                  value={saveData.options?.confirmations?.reality ? 'true' : 'false'}
+                  value={typedSaveData.options?.confirmations?.reality ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.confirmations.reality', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -226,7 +229,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-dilation">Dilation</label>
                 <select
                   id="settings-confirmations-dilation"
-                  value={saveData.options?.confirmations?.dilation ? 'true' : 'false'}
+                  value={typedSaveData.options?.confirmations?.dilation ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.confirmations.dilation', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -247,7 +250,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-animations-bigCrunch">Big Crunch</label>
                 <select
                   id="settings-animations-bigCrunch"
-                  value={saveData.options?.animations?.bigCrunch ? 'true' : 'false'}
+                  value={typedSaveData.options?.animations?.bigCrunch ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.animations.bigCrunch', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -260,7 +263,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-animations-eternity">Eternity</label>
                 <select
                   id="settings-animations-eternity"
-                  value={saveData.options?.animations?.eternity ? 'true' : 'false'}
+                  value={typedSaveData.options?.animations?.eternity ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.animations.eternity', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -273,7 +276,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-animations-reality">Reality</label>
                 <select
                   id="settings-animations-reality"
-                  value={saveData.options?.animations?.reality ? 'true' : 'false'}
+                  value={typedSaveData.options?.animations?.reality ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('options.animations.reality', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>

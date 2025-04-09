@@ -1,5 +1,5 @@
 import { SaveService } from '../services/SaveService';
-import { AntimatterDimensionsStruct } from '../Struct/AntimatterDimensionsStruct';
+import { AntimatterDimensionsStruct } from '../Struct';
 
 /**
  * Function that tests if the decrypted save matches the expected one

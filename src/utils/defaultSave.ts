@@ -1,4 +1,4 @@
-import { AntimatterDimensionsStruct } from '../Struct/AntimatterDimensionsStruct';
+import { AntimatterDimensionsStruct } from '../Struct';
 
 /**
  * Default empty save data structure

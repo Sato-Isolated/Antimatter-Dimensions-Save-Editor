@@ -248,3 +248,41 @@
   resize: vertical;
   @include mix.custom-scrollbar;
 }
+
+// BigNumberInput component
+.big-number-input {
+  margin-bottom: 1rem;
+  
+  .input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .input-field {
+    width: 100%;
+  }
+
+  &.android-format {
+    .android-number-inputs {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .mantissa-input {
+      width: 120px;
+      margin-right: 0.25rem;
+    }
+
+    .multiply-symbol {
+      margin: 0 0.25rem;
+      white-space: nowrap;
+    }
+
+    .exponent-input {
+      width: 80px;
+      margin-left: 0.25rem;
+    }
+  }
+}

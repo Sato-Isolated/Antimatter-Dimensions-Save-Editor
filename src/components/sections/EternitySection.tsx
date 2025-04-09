@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
-import { FaCircle, FaClock, FaTrophy } from 'react-icons/fa';
+import { FaHourglassHalf, FaArrowUp, FaTrophy, FaGem } from 'react-icons/fa';
+import BigNumberInput from '../BigNumberInput';
 
 const EternitySection: React.FC<SectionProps> = ({
   saveData,
   handleValueChange,
-  renderValidationIndicator
+  renderValidationIndicator,
+  saveType
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('general');
 
@@ -25,13 +27,13 @@ const EternitySection: React.FC<SectionProps> = ({
             className={`subtab-button ${activeSubtab === 'general' ? 'active' : ''}`}
             onClick={() => handleSubtabClick('general')}
           >
-            <FaCircle className="subtab-icon" /> General
+            <FaHourglassHalf className="subtab-icon" /> General
           </button>
           <button 
-            className={`subtab-button ${activeSubtab === 'timeStudies' ? 'active' : ''}`}
-            onClick={() => handleSubtabClick('timeStudies')}
+            className={`subtab-button ${activeSubtab === 'studies' ? 'active' : ''}`}
+            onClick={() => handleSubtabClick('studies')}
           >
-            <FaClock className="subtab-icon" /> Time Studies
+            <FaGem className="subtab-icon" /> Time Studies
           </button>
           <button 
             className={`subtab-button ${activeSubtab === 'challenges' ? 'active' : ''}`}
@@ -48,35 +50,53 @@ const EternitySection: React.FC<SectionProps> = ({
             <div className="eternity-grid">
               <div className="form-group">
                 <label htmlFor="eternityPoints">Eternity Points</label>
-                <input
-                  type="text"
-                  id="eternityPoints"
-                  value={saveData.eternityPoints?.toString() || '0'}
-                  onChange={(e) => handleValueChange('eternityPoints', e.target.value)}
+                <BigNumberInput
+                  value={saveData.eternityPoints || '0'}
+                  onChange={(value) => handleValueChange('eternityPoints', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('eternityPoints')}
               </div>
               
               <div className="form-group">
                 <label htmlFor="eternities">Eternities</label>
-                <input
-                  type="text"
-                  id="eternities"
-                  value={saveData.eternities?.toString() || '0'}
-                  onChange={(e) => handleValueChange('eternities', e.target.value)}
+                <BigNumberInput
+                  value={saveData.eternities || '0'}
+                  onChange={(value) => handleValueChange('eternities', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('eternities')}
               </div>
               
               <div className="form-group">
-                <label htmlFor="eternitied">Total Eternities</label>
-                <input
-                  type="text"
-                  id="eternitied"
-                  value={saveData.eternities?.toString() || '0'}
-                  onChange={(e) => handleValueChange('eternities', e.target.value)}
+                <label htmlFor="timeShards">Time Shards</label>
+                <BigNumberInput
+                  value={saveData.timeShards || '0'}
+                  onChange={(value) => handleValueChange('timeShards', value)}
+                  saveType={saveType}
                 />
-                {renderValidationIndicator('eternities')}
+                {renderValidationIndicator('timeShards')}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="tickspeed">Tickspeed</label>
+                <BigNumberInput
+                  value={saveData.tickspeed || '1e+3000'}
+                  onChange={(value) => handleValueChange('tickspeed', value)}
+                  saveType={saveType}
+                />
+                {renderValidationIndicator('tickspeed')}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="totalTickGained">Total Ticks Gained</label>
+                <input
+                  type="number"
+                  id="totalTickGained"
+                  value={saveData.totalTickGained || 0}
+                  onChange={(e) => handleValueChange('totalTickGained', parseInt(e.target.value))}
+                />
+                {renderValidationIndicator('totalTickGained')}
               </div>
             </div>
           </div>
@@ -115,46 +135,53 @@ const EternitySection: React.FC<SectionProps> = ({
         </div>
         
         {/* Time Studies Subtab */}
-        <div className={`subtab-content ${activeSubtab === 'timeStudies' ? 'active' : ''}`}>
+        <div className={`subtab-content ${activeSubtab === 'studies' ? 'active' : ''}`}>
           <div className="resource-group">
-            <h4>Time Studies Management</h4>
+            <h4>Time Studies</h4>
             <div className="eternity-grid">
               <div className="form-group">
-                <label htmlFor="eternity-timeTheorems">Time Theorems</label>
+                <label htmlFor="timestudies-studies">Purchased Studies (comma separated)</label>
                 <input
                   type="text"
-                  id="eternity-timeTheorems"
-                  value={saveData.timestudy?.theorem?.toString() || '0'}
-                  onChange={(e) => handleValueChange('timestudy.theorem', e.target.value)}
-                />
-                {renderValidationIndicator('timestudy.theorem')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="eternity-timeStudies">Time Studies</label>
-                <input
-                  type="text"
-                  id="eternity-timeStudies"
-                  value={saveData.timestudy?.studies || ''}
-                  onChange={(e) => handleValueChange('timestudy.studies', e.target.value)}
-                />
-                {renderValidationIndicator('timestudy.studies')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="eternity-rebuyables">Rebuyable Time Studies</label>
-                <input
-                  type="text"
-                  id="eternity-rebuyables"
-                  value={JSON.stringify(saveData.eternityChalls || {})}
+                  id="timestudies-studies"
+                  value={saveData.timestudies?.studies?.join(',') || ''}
                   onChange={(e) => {
-                    try {
-                      handleValueChange('eternityChalls', JSON.parse(e.target.value));
-                    } catch (error) {
-                      console.error("Invalid JSON:", error);
-                    }
+                    const value = e.target.value;
+                    const studies = value.split(',')
+                      .map(s => parseInt(s.trim()))
+                      .filter(n => !isNaN(n));
+                    handleValueChange('timestudies.studies', studies);
                   }}
                 />
+                {renderValidationIndicator('timestudies.studies')}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="timestudies-theorem">Time Theorems</label>
+                <input
+                  type="number"
+                  id="timestudies-theorem"
+                  value={saveData.timestudies?.theorem || 0}
+                  onChange={(e) => handleValueChange('timestudies.theorem', parseInt(e.target.value))}
+                />
+                {renderValidationIndicator('timestudies.theorem')}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="timestudies-eternityChalls">Unlocked Eternity Challenges</label>
+                <input
+                  type="text"
+                  id="timestudies-eternityChalls"
+                  value={saveData.timestudies?.eternityChalls?.join(',') || ''}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const challs = value.split(',')
+                      .map(s => parseInt(s.trim()))
+                      .filter(n => !isNaN(n));
+                    handleValueChange('timestudies.eternityChalls', challs);
+                  }}
+                />
+                {renderValidationIndicator('timestudies.eternityChalls')}
               </div>
             </div>
           </div>
@@ -163,7 +190,7 @@ const EternitySection: React.FC<SectionProps> = ({
         {/* Challenges Subtab */}
         <div className={`subtab-content ${activeSubtab === 'challenges' ? 'active' : ''}`}>
           <div className="resource-group">
-            <h4>Eternity Challenge Management</h4>
+            <h4>Eternity Challenge Status</h4>
             <div className="eternity-grid">
               <div className="form-group">
                 <label htmlFor="ec-current">Current Challenge</label>
@@ -173,32 +200,42 @@ const EternitySection: React.FC<SectionProps> = ({
                   onChange={(e) => handleValueChange('challenge.eternity.current', parseInt(e.target.value))}
                 >
                   <option value="0">None</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i+1} value={i+1}>EC{i+1}</option>
-                  ))}
+                  <option value="1">EC1</option>
+                  <option value="2">EC2</option>
+                  <option value="3">EC3</option>
+                  <option value="4">EC4</option>
+                  <option value="5">EC5</option>
+                  <option value="6">EC6</option>
+                  <option value="7">EC7</option>
+                  <option value="8">EC8</option>
+                  <option value="9">EC9</option>
+                  <option value="10">EC10</option>
+                  <option value="11">EC11</option>
+                  <option value="12">EC12</option>
                 </select>
                 {renderValidationIndicator('challenge.eternity.current')}
               </div>
-            </div>
-          </div>
-          
-          <div className="resource-group">
-            <h4>Challenge Completions</h4>
-            <div className="eternity-grid">
-              {Array.from({ length: 12 }, (_, i) => (
-                <div className="form-group" key={`ec-${i+1}`}>
-                  <label htmlFor={`ec-${i+1}-comp`}>EC{i+1} Completions</label>
-                  <input
-                    type="number"
-                    id={`ec-${i+1}-comp`}
-                    value={saveData.challenge?.eternity?.unlocked || 0}
-                    onChange={(e) => handleValueChange(`challenge.eternity.unlocked.${i}`, parseInt(e.target.value))}
-                    min="0"
-                    max="5"
-                  />
-                  {renderValidationIndicator(`challenge.eternity.unlocked.${i}`)}
-                </div>
-              ))}
+              
+              <div className="form-group">
+                <label htmlFor="ec-completed">Eternity Challenges Completion</label>
+                <textarea
+                  id="ec-completed"
+                  placeholder="Format: [1, 0, 0, ...] (12 values)"
+                  value={JSON.stringify(saveData.challenge?.eternity?.completions || [])}
+                  onChange={(e) => {
+                    try {
+                      const completions = JSON.parse(e.target.value);
+                      if (Array.isArray(completions)) {
+                        handleValueChange('challenge.eternity.completions', completions);
+                      }
+                    } catch (err) {
+                      // Do nothing for invalid JSON
+                    }
+                  }}
+                  rows={3}
+                />
+                {renderValidationIndicator('challenge.eternity.completions')}
+              </div>
             </div>
           </div>
         </div>

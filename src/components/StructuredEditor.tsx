@@ -2,6 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { useSave } from '../contexts/SaveContext';
 import 'font-awesome/css/font-awesome.min.css';
 import { 
+  FaCubes, 
+  FaInfinity, 
+  FaHourglassEnd, 
+  FaSun, 
+  FaCog, 
+  FaCode, 
+  FaChartLine,
+  FaQuestion,
+  FaTrophy,
+  FaClone,
+  FaExpand,
+  FaRobot,
+  FaStar,
+  FaSlidersH,
+  FaHome
+} from 'react-icons/fa';
+import { 
+  GiTimeSynchronization, 
+  GiAtomCore, 
+  GiTargetDummy, 
+  GiBlackHoleBolas,
+  GiStoneBlock
+} from 'react-icons/gi';
+import { AntimatterDimensionsStruct } from '../Struct';
+import { SaveType } from '../services/SaveService';
+import { defaultSaveData } from '../utils/defaultSave';
+import { 
   GeneralSection, 
   DimensionsSection,
   ReplicantiSection,
@@ -17,28 +44,6 @@ import {
   RecordsSection, 
   SettingsSection 
 } from './sections';
-import { 
-  FaHome, 
-  FaCubes, 
-  FaClone, 
-  FaInfinity, 
-  FaHourglassHalf, 
-  FaExpand, 
-  FaRobot, 
-  FaTrophy, 
-  FaChartLine, 
-  FaCogs,
-  FaStar, 
-  FaSlidersH, 
-  FaCog 
-} from 'react-icons/fa';
-import { 
-  GiSunRadiations, 
-  GiRuneStone, 
-  GiBlackHoleBolas 
-} from 'react-icons/gi';
-import { AntimatterDimensionsStruct } from '../Struct/AntimatterDimensionsStruct';
-import { defaultSaveData } from '../utils/defaultSave';
 
 interface StructuredEditorProps {
   isActive: boolean;
@@ -56,7 +61,7 @@ interface ValidationStatus {
  * Structured editor allowing editing specific parts of save data
  */
 const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
-  const { modifiedSaveData, updateSaveData, isLoaded } = useSave();
+  const { modifiedSaveData, updateSaveData, isLoaded, saveType } = useSave();
   // State to store validation statuses
   const [validationStatuses, setValidationStatuses] = useState<ValidationStatus[]>([]);
   // State to track the active section (declared only once)
@@ -85,9 +90,18 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
     const pathParts = path.split('.');
     const lastPart = pathParts[pathParts.length - 1];
 
-    // Validate according to expected type
-    if (
-      lastPart === 'amount' || 
+    // For Android format, validate number objects format
+    if (saveType === SaveType.Android && typeof value === 'object' && value !== null && 'mantissa' in value && 'exponent' in value) {
+      const { mantissa, exponent } = value;
+      return (
+        typeof mantissa === 'number' && !isNaN(mantissa) &&
+        typeof exponent === 'number' && !isNaN(exponent) && Number.isInteger(exponent)
+      );
+    }
+
+    // For PC format, validate string number format
+    if (saveType === SaveType.PC && 
+      (lastPart === 'amount' || 
       path === 'antimatter' || 
       path === 'infinityPoints' || 
       path === 'eternityPoints' ||
@@ -95,7 +109,7 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
       path.includes('replicanti.amount') ||
       path.includes('dilatedTime') ||
       path.includes('tachyonParticles') ||
-      path.includes('realityMachines')
+      path.includes('realityMachines'))
     ) {
       // Scientific numbers (can contain e, E, ., +, -)
       return /^-?\d+(\.\d+)?(e[+-]?\d+)?$/i.test(value.toString()) || value === "Infinity";
@@ -177,32 +191,29 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
   // Organizing tabs in a logical order based on game progression and related features
   const tabs = [
     // Core game mechanics
-    { id: 'general', label: 'Main Resources', icon: <FaHome />, render: () => <GeneralSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'dimensions', label: 'Dimensions', icon: <FaCubes />, render: () => <DimensionsSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
+    { id: 'general', label: 'Main Resources', icon: <FaHome />, render: () => <GeneralSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'dimensions', label: 'Dimensions', icon: <FaCubes />, render: () => <DimensionsSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
     
     // Prestige mechanics (in order of progression)
-    { id: 'infinity', label: 'Infinity', icon: <FaInfinity />, render: () => <InfinitySection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'replicanti', label: 'Replicanti', icon: <FaClone />, render: () => <ReplicantiSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'eternity', label: 'Eternity', icon: <FaHourglassHalf />, render: () => <EternitySection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'dilation', label: 'Dilation', icon: <FaExpand />, render: () => <DilationSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'reality', label: 'Reality', icon: <GiSunRadiations />, render: () => <RealitySection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'glyphs', label: 'Glyphs', icon: <GiRuneStone />, render: () => <GlyphsSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
+    { id: 'infinity', label: 'Infinity', icon: <FaInfinity />, render: () => <InfinitySection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'replicanti', label: 'Replicanti', icon: <FaClone />, render: () => <ReplicantiSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'eternity', label: 'Eternity', icon: <FaHourglassEnd />, render: () => <EternitySection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'dilation', label: 'Dilation', icon: <FaExpand />, render: () => <DilationSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'reality', label: 'Reality', icon: <FaSun />, render: () => <RealitySection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'glyphs', label: 'Glyphs', icon: <GiStoneBlock />, render: () => <GlyphsSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
     
     // Advanced game mechanics
-    { id: 'celestials', label: 'Celestials', icon: <FaStar />, render: () => <CelestialsSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'black-holes', label: 'Black Holes', icon: <GiBlackHoleBolas />, render: () => <BlackHolesSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'challenges', label: 'Challenges', icon: <FaTrophy />, render: () => <ChallengesSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
+    { id: 'celestials', label: 'Celestials', icon: <FaStar />, render: () => <CelestialsSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'black-holes', label: 'Black Holes', icon: <GiBlackHoleBolas />, render: () => <BlackHolesSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'challenges', label: 'Challenges', icon: <FaTrophy />, render: () => <ChallengesSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
     
     // Automation and records
-    { id: 'autobuyers', label: 'Auto Buyers', icon: <FaRobot />, render: () => <AutoBuyersSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
-    { id: 'records', label: 'Records & Stats', icon: <FaChartLine />, render: () => <RecordsSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> },
+    { id: 'autobuyers', label: 'Auto Buyers', icon: <FaRobot />, render: () => <AutoBuyersSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
+    { id: 'records', label: 'Records & Stats', icon: <FaChartLine />, render: () => <RecordsSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> },
     
     // Settings
-    { id: 'settings', label: 'Settings', icon: <FaSlidersH />, render: () => <SettingsSection saveData={saveData} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} /> }
+    { id: 'settings', label: 'Settings', icon: <FaSlidersH />, render: () => <SettingsSection saveData={modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct} handleValueChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} saveType={saveType} /> }
   ];
-
-  // Create empty saveData if none exists, using AntimatterDimensionsStruct
-  const saveData = modifiedSaveData || defaultSaveData as AntimatterDimensionsStruct;
 
   // Tab click handling
   const handleTabClick = (tabId: string) => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStopwatch, faChartLine, faHistory, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { BankedInfinitiesClass } from '../../Struct';
 
 /**
  * Records section component
@@ -14,6 +15,9 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
   const handleSubtabClick = (subtabId: string) => {
     setActiveSubtab(subtabId);
   };
+
+  // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in type definitions
+  const typedSaveData = saveData as any;
 
   return (
     <div className="section-content">
@@ -57,7 +61,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-total-antimatter"
-              value={saveData.records?.totalAntimatter || "0"}
+              value={typedSaveData.records?.totalAntimatter || "0"}
               onChange={(e) => handleValueChange('records.totalAntimatter', e.target.value)}
             />
             {renderValidationIndicator('records.totalAntimatter')}
@@ -68,7 +72,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-totalTimePlayed"
-              value={saveData.records?.totalTimePlayed || 0}
+              value={typedSaveData.records?.totalTimePlayed || 0}
               onChange={(e) => handleValueChange('records.totalTimePlayed', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.totalTimePlayed')}
@@ -79,7 +83,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-realTimePlayed"
-              value={saveData.records?.realTimePlayed || 0}
+              value={typedSaveData.records?.realTimePlayed || 0}
               onChange={(e) => handleValueChange('records.realTimePlayed', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.realTimePlayed')}
@@ -90,7 +94,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-gameCreatedTime"
-              value={saveData.records?.gameCreatedTime || Date.now()}
+              value={typedSaveData.records?.gameCreatedTime || Date.now()}
               onChange={(e) => handleValueChange('records.gameCreatedTime', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.gameCreatedTime')}
@@ -101,7 +105,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-fullGameCompletions"
-              value={saveData.records?.fullGameCompletions || 0}
+              value={typedSaveData.records?.fullGameCompletions || 0}
               onChange={(e) => handleValueChange('records.fullGameCompletions', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.fullGameCompletions')}
@@ -119,7 +123,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-thisInfinity-time"
-              value={saveData.records?.thisInfinity?.time || 0}
+              value={typedSaveData.records?.thisInfinity?.time || 0}
               onChange={(e) => handleValueChange('records.thisInfinity.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.thisInfinity.time')}
@@ -130,7 +134,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisInfinity-maxAM"
-              value={saveData.records?.thisInfinity?.maxAM || '0'}
+              value={typedSaveData.records?.thisInfinity?.maxAM || '0'}
               onChange={(e) => handleValueChange('records.thisInfinity.maxAM', e.target.value)}
             />
             {renderValidationIndicator('records.thisInfinity.maxAM')}
@@ -141,7 +145,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisInfinity-bestIPmin"
-              value={saveData.records?.thisInfinity?.bestIPmin || '0'}
+              value={typedSaveData.records?.thisInfinity?.bestIPmin || '0'}
               onChange={(e) => handleValueChange('records.thisInfinity.bestIPmin', e.target.value)}
             />
             {renderValidationIndicator('records.thisInfinity.bestIPmin')}
@@ -153,7 +157,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-thisEternity-time"
-              value={saveData.records?.thisEternity?.time || 0}
+              value={typedSaveData.records?.thisEternity?.time || 0}
               onChange={(e) => handleValueChange('records.thisEternity.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.thisEternity.time')}
@@ -164,7 +168,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisEternity-maxAM"
-              value={saveData.records?.thisEternity?.maxAM || '0'}
+              value={typedSaveData.records?.thisEternity?.maxAM || '0'}
               onChange={(e) => handleValueChange('records.thisEternity.maxAM', e.target.value)}
             />
             {renderValidationIndicator('records.thisEternity.maxAM')}
@@ -175,7 +179,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisEternity-maxIP"
-              value={saveData.records?.thisEternity?.maxIP || '0'}
+              value={typedSaveData.records?.thisEternity?.maxIP || '0'}
               onChange={(e) => handleValueChange('records.thisEternity.maxIP', e.target.value)}
             />
             {renderValidationIndicator('records.thisEternity.maxIP')}
@@ -186,7 +190,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisEternity-bestEPmin"
-              value={saveData.records?.thisEternity?.bestEPmin || '0'}
+              value={typedSaveData.records?.thisEternity?.bestEPmin || '0'}
               onChange={(e) => handleValueChange('records.thisEternity.bestEPmin', e.target.value)}
             />
             {renderValidationIndicator('records.thisEternity.bestEPmin')}
@@ -198,7 +202,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-thisReality-time"
-              value={saveData.records?.thisReality?.time || 0}
+              value={typedSaveData.records?.thisReality?.time || 0}
               onChange={(e) => handleValueChange('records.thisReality.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.thisReality.time')}
@@ -209,7 +213,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisReality-maxAM"
-              value={saveData.records?.thisReality?.maxAM || '0'}
+              value={typedSaveData.records?.thisReality?.maxAM || '0'}
               onChange={(e) => handleValueChange('records.thisReality.maxAM', e.target.value)}
             />
             {renderValidationIndicator('records.thisReality.maxAM')}
@@ -220,7 +224,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisReality-maxIP"
-              value={saveData.records?.thisReality?.maxIP || '0'}
+              value={typedSaveData.records?.thisReality?.maxIP || '0'}
               onChange={(e) => handleValueChange('records.thisReality.maxIP', e.target.value)}
             />
             {renderValidationIndicator('records.thisReality.maxIP')}
@@ -231,7 +235,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisReality-maxEP"
-              value={saveData.records?.thisReality?.maxEP || '0'}
+              value={typedSaveData.records?.thisReality?.maxEP || '0'}
               onChange={(e) => handleValueChange('records.thisReality.maxEP', e.target.value)}
             />
             {renderValidationIndicator('records.thisReality.maxEP')}
@@ -242,7 +246,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisReality-maxReplicanti"
-              value={saveData.records?.thisReality?.maxReplicanti || '0'}
+              value={typedSaveData.records?.thisReality?.maxReplicanti || '0'}
               onChange={(e) => handleValueChange('records.thisReality.maxReplicanti', e.target.value)}
             />
             {renderValidationIndicator('records.thisReality.maxReplicanti')}
@@ -253,7 +257,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-thisReality-maxDT"
-              value={saveData.records?.thisReality?.maxDT || '0'}
+              value={typedSaveData.records?.thisReality?.maxDT || '0'}
               onChange={(e) => handleValueChange('records.thisReality.maxDT', e.target.value)}
             />
             {renderValidationIndicator('records.thisReality.maxDT')}
@@ -271,7 +275,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-bestInfinity-time"
-              value={saveData.records?.bestInfinity?.time || 0}
+              value={typedSaveData.records?.bestInfinity?.time || 0}
               onChange={(e) => handleValueChange('records.bestInfinity.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.bestInfinity.time')}
@@ -282,7 +286,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-bestInfinity-bestIPminEternity"
-              value={saveData.records?.bestInfinity?.bestIPminEternity || '0'}
+              value={typedSaveData.records?.bestInfinity?.bestIPminEternity || '0'}
               onChange={(e) => handleValueChange('records.bestInfinity.bestIPminEternity', e.target.value)}
             />
             {renderValidationIndicator('records.bestInfinity.bestIPminEternity')}
@@ -293,7 +297,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-bestInfinity-bestIPminReality"
-              value={saveData.records?.bestInfinity?.bestIPminReality || '0'}
+              value={typedSaveData.records?.bestInfinity?.bestIPminReality || '0'}
               onChange={(e) => handleValueChange('records.bestInfinity.bestIPminReality', e.target.value)}
             />
             {renderValidationIndicator('records.bestInfinity.bestIPminReality')}
@@ -305,7 +309,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-bestEternity-time"
-              value={saveData.records?.bestEternity?.time || 0}
+              value={typedSaveData.records?.bestEternity?.time || 0}
               onChange={(e) => handleValueChange('records.bestEternity.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.bestEternity.time')}
@@ -316,7 +320,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-bestEternity-bestEPminReality"
-              value={saveData.records?.bestEternity?.bestEPminReality || '0'}
+              value={typedSaveData.records?.bestEternity?.bestEPminReality || '0'}
               onChange={(e) => handleValueChange('records.bestEternity.bestEPminReality', e.target.value)}
             />
             {renderValidationIndicator('records.bestEternity.bestEPminReality')}
@@ -328,7 +332,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-bestReality-time"
-              value={saveData.records?.bestReality?.time || 0}
+              value={typedSaveData.records?.bestReality?.time || 0}
               onChange={(e) => handleValueChange('records.bestReality.time', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.time')}
@@ -339,7 +343,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-bestReality-RM"
-              value={saveData.records?.bestReality?.RM || '0'}
+              value={typedSaveData.records?.bestReality?.RM || '0'}
               onChange={(e) => handleValueChange('records.bestReality.RM', e.target.value)}
             />
             {renderValidationIndicator('records.bestReality.RM')}
@@ -350,7 +354,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="text"
               id="records-bestReality-RMmin"
-              value={saveData.records?.bestReality?.RMmin || '0'}
+              value={typedSaveData.records?.bestReality?.RMmin || '0'}
               onChange={(e) => handleValueChange('records.bestReality.RMmin', e.target.value)}
             />
             {renderValidationIndicator('records.bestReality.RMmin')}
@@ -361,7 +365,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-bestReality-glyphLevel"
-              value={saveData.records?.bestReality?.glyphLevel || 0}
+              value={typedSaveData.records?.bestReality?.glyphLevel || 0}
               onChange={(e) => handleValueChange('records.bestReality.glyphLevel', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.glyphLevel')}
@@ -372,7 +376,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
             <input
               type="number"
               id="records-bestReality-glyphStrength"
-              value={saveData.records?.bestReality?.glyphStrength || 0}
+              value={typedSaveData.records?.bestReality?.glyphStrength || 0}
               onChange={(e) => handleValueChange('records.bestReality.glyphStrength', parseInt(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.glyphStrength')}

@@ -1,17 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { SaveService } from '../services/SaveService';
-import { AntimatterDimensionsStruct } from '../Struct/AntimatterDimensionsStruct';
+import { SaveService, SaveType } from '../services/SaveService';
+import { AntimatterDimensionsStruct } from '../Struct';
 import { testSaveData, checkRealitySection } from '../utils/testSave';
 import fs from 'fs';
 
 // Interface for save context
 export interface SaveContextType {
-  originalSaveData: AntimatterDimensionsStruct | null;
-  modifiedSaveData: AntimatterDimensionsStruct | null;
+  originalSaveData: any;
+  modifiedSaveData: any;
   encryptedSave: string;
   rawSaveData: string;
   encodedOutputData: string;
   isLoaded: boolean;
+  saveType: SaveType;
   testResults: { success: boolean; errors: string[] } | null;
   errorMessage: string | null;
   decryptSave: () => void;
@@ -29,6 +30,7 @@ const SaveContext = createContext<SaveContextType>({
   rawSaveData: '',
   encodedOutputData: '',
   isLoaded: false,
+  saveType: SaveType.PC,
   testResults: null,
   errorMessage: null,
   decryptSave: () => {},
@@ -49,12 +51,13 @@ interface SaveProviderProps {
 // Save context provider
 export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
   // State to store save data
-  const [originalSaveData, setOriginalSaveData] = useState<AntimatterDimensionsStruct | null>(null);
-  const [modifiedSaveData, setModifiedSaveData] = useState<AntimatterDimensionsStruct | null>(null);
+  const [originalSaveData, setOriginalSaveData] = useState<any>(null);
+  const [modifiedSaveData, setModifiedSaveData] = useState<any>(null);
   const [encryptedSave, setEncryptedSave] = useState<string>('');
   const [rawSaveData, setRawSaveData] = useState<string>('');
   const [encodedOutputData, setEncodedOutputData] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [saveType, setSaveType] = useState<SaveType>(SaveType.PC);
   const [testResults, setTestResults] = useState<{ success: boolean; errors: string[] } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -67,10 +70,14 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
       // Reset errors
       setErrorMessage(null);
       
-      // Decrypt the save
-      const decrypted = SaveService.decrypt(encryptedSaveData) as AntimatterDimensionsStruct;
+      // Detect save type first
+      const detectedSaveType = SaveService.detectSaveType(encryptedSaveData);
+      setSaveType(detectedSaveType);
       
-      if (!decrypted || !SaveService.validateSave(decrypted)) {
+      // Decrypt the save
+      const decryptResult = SaveService.decrypt(encryptedSaveData);
+      
+      if (!decryptResult.data || !SaveService.validateSave(decryptResult.data)) {
         console.error('Save data is invalid or corrupted');
         setErrorMessage('Save data is invalid or corrupted');
         setIsLoaded(false);
@@ -78,12 +85,12 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
       }
       
       // Update states
-      setOriginalSaveData(decrypted);
-      setModifiedSaveData(decrypted);
+      setOriginalSaveData(decryptResult.data);
+      setModifiedSaveData(decryptResult.data);
       setEncryptedSave(encryptedSaveData);
       setIsLoaded(true);
       
-      console.log('Save decrypted successfully:', decrypted);
+      console.log(`Save decrypted successfully (${decryptResult.saveType}):`, decryptResult.data);
     } catch (error) {
       console.error('Error decrypting save:', error);
       setErrorMessage(`Error decrypting save: ${error}`);
@@ -103,8 +110,8 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
         return '';
       }
       
-      // Encrypt the modified save
-      const encrypted = SaveService.encrypt(modifiedSaveData);
+      // Encrypt the modified save using the detected save type
+      const encrypted = SaveService.encrypt(modifiedSaveData, saveType);
       if (!encrypted) {
         console.error('Encryption failed');
         setErrorMessage('Encryption failed');
@@ -114,7 +121,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
       setEncryptedSave(encrypted);
       setEncodedOutputData(encrypted);
       
-      console.log('Save encrypted successfully');
+      console.log(`Save encrypted successfully as ${saveType} format`);
       return encrypted;
     } catch (error) {
       console.error('Error encrypting save:', error);
@@ -287,6 +294,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
         rawSaveData,
         encodedOutputData,
         isLoaded,
+        saveType,
         testResults,
         errorMessage,
         decryptSave,

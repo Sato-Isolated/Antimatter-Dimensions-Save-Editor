@@ -1,0 +1,42 @@
+import { AntimatterDimensionsStructAchievements } from "./AchievementsStruct";
+import { AntimatterStruct } from "./AntimatterStruct";
+import { Auto } from "./AutoStruct";
+import { AutomatorStruct } from "./AutomatorStruct";
+import { Celestials } from "./CelestialsStruct";
+import { AntimatterDimensionsStructDilation } from "./DilationStruct";
+import { EternityStruct } from "./EternityStruct";
+import { GlyphStruct } from "./GlyphStruct";
+import { InfinityStruct } from "./InfinityStruct";
+import { PerkStruct, RealityUpgradeStruct } from "./PerkStruct";
+import { AntimatterDimensionsStructReality } from "./RealityStruct";
+import { AntimatterDimensionsStructRecords } from "./RecordsStruct";
+import { Replicanti } from "./ReplicantiStruct";
+import { TimeStudiesStruct } from "./TimeStudiesStruct";
+
+export interface AntimatterDimensionsStructAndroid {
+  achievements: AntimatterDimensionsStructAchievements;
+  antimatter: AntimatterStruct;
+  auto: Auto;
+  automator: AutomatorStruct;
+  brake: boolean;
+  celestials: Celestials;
+  dilation: AntimatterDimensionsStructDilation;
+  eternity: EternityStruct;
+  glyphs: GlyphStruct;
+  infinity: InfinityStruct;
+  perks: PerkStruct;
+  reality: AntimatterDimensionsStructReality;
+  realityUpgrades: RealityUpgradeStruct;
+  records: AntimatterDimensionsStructRecords;
+  replicanti: Replicanti;
+  timestudies: TimeStudiesStruct;
+  galaxies: number;
+  version: number;
+  androidVersion: string;
+  timeDimension: number[];
+  money: number[];
+  notationName: string;
+  news: boolean;
+  options: Record<string, boolean | number | string>;
+  theme: string;
+} 

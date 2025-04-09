@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaGlobe, FaArrowCircleRight, FaCube, FaChartLine } from 'react-icons/fa';
+import { SaveType } from '../../services/SaveService';
+import { 
+  AntimatterDimensionsStruct,
+  PCStruct,
+  AndroidStruct
+} from '../../Struct';
+import BigNumberInput from '../BigNumberInput';
 
 const AutoBuyersSection: React.FC<SectionProps> = ({ 
   saveData, 
   handleValueChange, 
-  renderValidationIndicator 
+  renderValidationIndicator,
+  saveType 
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('global');
 
@@ -13,6 +21,15 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
   const handleSubtabClick = (subtabId: string) => {
     setActiveSubtab(subtabId);
   };
+  
+  // Helper for safely accessing PC-specific properties
+  const isPCFormat = (): boolean => {
+    return saveType === SaveType.PC;
+  };
+
+  // Cast saveData to specific type when needed
+  const pcSaveData = isPCFormat() ? saveData as PCStruct : null;
+  const androidSaveData = !isPCFormat() ? saveData as AndroidStruct : null;
 
   return (
     <div className="section-pane active" id="autobuyers-section">
@@ -56,13 +73,16 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <label htmlFor="auto-autobuyersOn">Enable All Autobuyers</label>
                 <select
                   id="auto-autobuyersOn"
-                  value={saveData.auto?.autobuyersOn ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('auto.autobuyersOn', e.target.value === 'true')}
+                  value={isPCFormat() ? 
+                    (pcSaveData?.auto?.autobuyersOn ?? false ? 'true' : 'false') : 
+                    (androidSaveData?.auto?.achievements ?? false ? 'true' : 'false')}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 
+                    'auto.autobuyersOn' : 'auto.achievements', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('auto.autobuyersOn')}
+                {renderValidationIndicator(isPCFormat() ? 'auto.autobuyersOn' : 'auto.achievements')}
               </div>
               
               <div className="form-group">
@@ -101,12 +121,20 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="auto-infinity-amount">Infinity Amount</label>
-                <input
-                  type="text"
-                  id="auto-infinity-amount"
-                  value={saveData.auto?.bigCrunch?.amount?.toString() || '0'}
-                  onChange={(e) => handleValueChange('auto.bigCrunch.amount', e.target.value)}
-                />
+                {isPCFormat() ? (
+                  <input
+                    type="text"
+                    id="auto-infinity-amount"
+                    value={saveData.auto?.bigCrunch?.amount?.toString() || '0'}
+                    onChange={(e) => handleValueChange('auto.bigCrunch.amount', e.target.value)}
+                  />
+                ) : (
+                  <BigNumberInput
+                    value={androidSaveData?.auto?.bigCrunch?.amount || {mantissa: 0, exponent: 0}}
+                    onChange={(value) => handleValueChange('auto.bigCrunch.amount', value)}
+                    saveType={saveType}
+                  />
+                )}
                 {renderValidationIndicator('auto.bigCrunch.amount')}
               </div>
               
@@ -198,10 +226,10 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="galaxy-bulkAmount"
-                  value={saveData.auto?.galaxy?.buyMax ? 1 : 0}
-                  onChange={(e) => handleValueChange('auto.galaxy.buyMax', Boolean(parseInt(e.target.value)))}
+                  value={saveData.auto?.galaxy?.buyMaxInterval ? 1 : 0}
+                  onChange={(e) => handleValueChange('auto.galaxy.buyMaxInterval', Boolean(parseInt(e.target.value)))}
                 />
-                {renderValidationIndicator('auto.galaxy.buyMax')}
+                {renderValidationIndicator('auto.galaxy.buyMaxInterval')}
               </div>
             </div>
           </div>
@@ -216,13 +244,16 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <label htmlFor="antimatterDims">Antimatter Dimensions</label>
                 <select
                   id="antimatterDims"
-                  value={saveData.auto?.antimatterDims?.isActive ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('auto.antimatterDims.isActive', e.target.value === 'true')}
+                  value={isPCFormat() ? 
+                    (pcSaveData?.auto?.antimatterDims?.isActive ?? false ? 'true' : 'false') : 
+                    (androidSaveData?.auto?.dimensions?.[0]?.isActive ?? false ? 'true' : 'false')}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 
+                    'auto.antimatterDims.isActive' : 'auto.dimensions.0.isActive', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('auto.antimatterDims.isActive')}
+                {renderValidationIndicator(isPCFormat() ? 'auto.antimatterDims.isActive' : 'auto.dimensions.0.isActive')}
               </div>
               
               <div className="form-group">
@@ -255,26 +286,32 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <label htmlFor="infinityDims">Infinity Dimensions</label>
                 <select
                   id="infinityDims"
-                  value={saveData.auto?.infinityDims?.isActive ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('auto.infinityDims.isActive', e.target.value === 'true')}
+                  value={isPCFormat() ? 
+                    (pcSaveData?.auto?.infinityDims?.isActive ?? false ? 'true' : 'false') : 
+                    (androidSaveData?.auto?.infinityDims?.[0]?.isActive ?? false ? 'true' : 'false')}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 
+                    'auto.infinityDims.isActive' : 'auto.infinityDims.0.isActive', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('auto.infinityDims.isActive')}
+                {renderValidationIndicator(isPCFormat() ? 'auto.infinityDims.isActive' : 'auto.infinityDims.0.isActive')}
               </div>
               
               <div className="form-group">
                 <label htmlFor="timeDims">Time Dimensions</label>
                 <select
                   id="timeDims"
-                  value={saveData.auto?.timeDims?.isActive ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('auto.timeDims.isActive', e.target.value === 'true')}
+                  value={isPCFormat() ? 
+                    (pcSaveData?.auto?.timeDims?.isActive ?? false ? 'true' : 'false') : 
+                    (androidSaveData?.auto?.timeDims?.[0]?.isActive ?? false ? 'true' : 'false')}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 
+                    'auto.timeDims.isActive' : 'auto.timeDims.0.isActive', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('auto.timeDims.isActive')}
+                {renderValidationIndicator(isPCFormat() ? 'auto.timeDims.isActive' : 'auto.timeDims.0.isActive')}
               </div>
             </div>
           </div>

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaCircle, FaGlobe, FaDigitalTachograph } from 'react-icons/fa';
+import BigNumberInput from '../BigNumberInput';
 
 const ReplicantiSection: React.FC<SectionProps> = ({ 
   saveData, 
   handleValueChange, 
-  renderValidationIndicator 
+  renderValidationIndicator,
+  saveType 
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('settings');
 
@@ -13,6 +15,9 @@ const ReplicantiSection: React.FC<SectionProps> = ({
   const handleSubtabClick = (subtabId: string) => {
     setActiveSubtab(subtabId);
   };
+
+  // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in type definitions
+  const typedSaveData = saveData as any;
 
   return (
     <div className="section-pane active" id="replicanti-section">
@@ -50,7 +55,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                 <label htmlFor="replicanti-unl">Unlocked</label>
                 <select
                   id="replicanti-unl"
-                  value={saveData.replicanti?.unl ? 'true' : 'false'}
+                  value={typedSaveData.replicanti?.unl ? 'true' : 'false'}
                   onChange={(e) => handleValueChange('replicanti.unl', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
@@ -61,11 +66,10 @@ const ReplicantiSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="replicanti-amount">Amount</label>
-                <input
-                  type="text"
-                  id="replicanti-amount"
-                  value={saveData.replicanti?.amount?.toString() || '0'}
-                  onChange={(e) => handleValueChange('replicanti.amount', e.target.value)}
+                <BigNumberInput
+                  value={typedSaveData.replicanti?.amount || '0'}
+                  onChange={(value) => handleValueChange('replicanti.amount', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('replicanti.amount')}
               </div>
@@ -76,7 +80,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   type="number"
                   id="replicanti-timer"
                   min="0"
-                  value={saveData.replicanti?.timer || 0}
+                  value={typedSaveData.replicanti?.timer || 0}
                   onChange={(e) => handleValueChange('replicanti.timer', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('replicanti.timer')}
@@ -98,7 +102,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   min="0.01"
                   max="1"
                   step="0.01"
-                  value={saveData.replicanti?.chance || 0.01}
+                  value={typedSaveData.replicanti?.chance || 0.01}
                   onChange={(e) => handleValueChange('replicanti.chance', parseFloat(e.target.value))}
                 />
                 {renderValidationIndicator('replicanti.chance')}
@@ -106,11 +110,10 @@ const ReplicantiSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="replicanti-chanceCost">Chance Upgrade Cost</label>
-                <input
-                  type="text"
-                  id="replicanti-chanceCost"
-                  value={saveData.replicanti?.chanceCost?.toString() || '1e+150'}
-                  onChange={(e) => handleValueChange('replicanti.chanceCost', e.target.value)}
+                <BigNumberInput
+                  value={typedSaveData.replicanti?.chanceCost || '1e+150'}
+                  onChange={(value) => handleValueChange('replicanti.chanceCost', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('replicanti.chanceCost')}
               </div>
@@ -126,7 +129,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   type="number"
                   id="replicanti-interval"
                   min="1"
-                  value={saveData.replicanti?.interval || 1000}
+                  value={typedSaveData.replicanti?.interval || 1000}
                   onChange={(e) => handleValueChange('replicanti.interval', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('replicanti.interval')}
@@ -134,11 +137,10 @@ const ReplicantiSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="replicanti-intervalCost">Interval Upgrade Cost</label>
-                <input
-                  type="text"
-                  id="replicanti-intervalCost"
-                  value={saveData.replicanti?.intervalCost?.toString() || '1e+140'}
-                  onChange={(e) => handleValueChange('replicanti.intervalCost', e.target.value)}
+                <BigNumberInput
+                  value={typedSaveData.replicanti?.intervalCost || '1e+140'}
+                  onChange={(value) => handleValueChange('replicanti.intervalCost', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('replicanti.intervalCost')}
               </div>
@@ -157,7 +159,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   type="number"
                   id="replicanti-galaxies"
                   min="0"
-                  value={saveData.replicanti?.galaxies || 0}
+                  value={typedSaveData.replicanti?.galaxies || 0}
                   onChange={(e) => handleValueChange('replicanti.galaxies', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('replicanti.galaxies')}
@@ -169,7 +171,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   type="number"
                   id="replicanti-gal-cap"
                   min="0"
-                  value={saveData.replicanti?.boughtGalaxyCap || 0}
+                  value={typedSaveData.replicanti?.boughtGalaxyCap || 0}
                   onChange={(e) => handleValueChange('replicanti.boughtGalaxyCap', parseInt(e.target.value))}
                 />
                 {renderValidationIndicator('replicanti.boughtGalaxyCap')}
@@ -177,11 +179,10 @@ const ReplicantiSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="replicanti-galCost">Galaxy Cost</label>
-                <input
-                  type="text"
-                  id="replicanti-galCost"
-                  value={saveData.replicanti?.galCost?.toString() || '1e+170'}
-                  onChange={(e) => handleValueChange('replicanti.galCost', e.target.value)}
+                <BigNumberInput
+                  value={typedSaveData.replicanti?.galCost || '1e+170'}
+                  onChange={(value) => handleValueChange('replicanti.galCost', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('replicanti.galCost')}
               </div>

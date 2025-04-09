@@ -3111,6 +3111,35 @@ button.ghost:hover {
   background: var(--scrollbar-thumb-hover);
 }
 
+.big-number-input {
+  margin-bottom: 1rem;
+}
+.big-number-input .input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.big-number-input .input-field {
+  width: 100%;
+}
+.big-number-input.android-format .android-number-inputs {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.big-number-input.android-format .mantissa-input {
+  width: 120px;
+  margin-right: 0.25rem;
+}
+.big-number-input.android-format .multiply-symbol {
+  margin: 0 0.25rem;
+  white-space: nowrap;
+}
+.big-number-input.android-format .exponent-input {
+  width: 80px;
+  margin-left: 0.25rem;
+}
+
 /* Tabs styles */
 .tab-container {
   display: flex;
@@ -5912,6 +5941,159 @@ body.modal-open {
   font-style: italic;
 }
 
+.save-import-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.save-import-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.import-method-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.method-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background-color: var(--button-secondary-bg);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 500;
+}
+.method-button:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.method-button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.method-button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.paste-container {
+  margin-bottom: 1.5rem;
+}
+
+.save-text-input {
+  width: 100%;
+  height: 200px;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: monospace;
+  resize: vertical;
+  font-size: 0.875rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.file-drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: 4px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 1.5rem;
+  background-color: var(--input-bg);
+}
+.file-drop-zone:hover {
+  border-color: var(--primary-color);
+  background-color: var(--card-hover-bg);
+}
+.file-drop-zone.dragging {
+  border-color: var(--primary-color);
+  background-color: var(--card-hover-bg);
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.drop-zone-content i {
+  font-size: 48px;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.file-format-note {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.75rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.decrypt-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+.decrypt-button:hover {
+  background-color: var(--success-color-dark);
+}
+.decrypt-button:disabled {
+  background-color: var(--text-color-secondary);
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: var(--danger-color-light);
+  color: var(--danger-color-dark);
+  border-radius: 4px;
+  border-left: 4px solid var(--danger-color);
+}
+
+.success-message {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: var(--success-color-light);
+  color: var(--success-color-dark);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.success-message i {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.save-type-indicator {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 /* Header styles */
 .main-header {
   padding: 1rem;
@@ -6356,6 +6538,23 @@ body.modal-open {
   background-color: rgba(220, 53, 69, 0.1);
   border: 1px solid rgba(220, 53, 69, 0.3);
   color: #dc3545;
+}
+.alert.alert-info {
+  background-color: rgba(var(--info-color-rgb), 0.1);
+  border: 1px solid rgba(var(--info-color-rgb), 0.3);
+  color: var(--info-color);
+}
+.alert.alert-info i {
+  margin-right: 0.5rem;
+}
+.alert.alert-info a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+.alert.alert-info a:hover {
+  color: var(--primary-color-hover);
 }
 
 .editor-sections {

@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaSun, FaArrowUp, FaRobot, FaSlidersH } from 'react-icons/fa';
+import BigNumberInput from '../BigNumberInput';
+import { SaveType } from '../../services/SaveService';
+import { 
+  AntimatterDimensionsStruct,
+  AndroidStruct as AntimatterDimensionsStructAndroid
+} from '../../Struct';
 
 const RealitySection: React.FC<SectionProps> = ({
   saveData,
   handleValueChange,
-  renderValidationIndicator
+  renderValidationIndicator,
+  saveType
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('general');
 
@@ -13,6 +20,17 @@ const RealitySection: React.FC<SectionProps> = ({
   const handleSubtabClick = (subtabId: string) => {
     setActiveSubtab(subtabId);
   };
+  
+  // Helper for safely accessing PC-specific properties
+  const isPCFormat = (): boolean => {
+    return saveType === SaveType.PC;
+  };
+
+  // Cast saveData to specific type when needed
+  const pcSaveData = isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
+  const androidSaveData = !isPCFormat() ? saveData as AntimatterDimensionsStructAndroid : null;
+  // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in the type definitions
+  const typedSaveData = saveData as any;
 
   return (
     <div className="section-pane active" id="reality">
@@ -54,12 +72,20 @@ const RealitySection: React.FC<SectionProps> = ({
             <div className="reality-grid">
               <div className="form-group">
                 <label htmlFor="realities">Realities</label>
-                <input
-                  type="number"
-                  id="realities"
-                  value={saveData.realities || 0}
-                  onChange={(e) => handleValueChange('realities', parseInt(e.target.value))}
-                />
+                {isPCFormat() ? (
+                  <input
+                    type="number"
+                    id="realities"
+                    value={saveData.realities || 0}
+                    onChange={(e) => handleValueChange('realities', parseInt(e.target.value))}
+                  />
+                ) : (
+                  <BigNumberInput 
+                    value={androidSaveData?.realities || {mantissa: 0, exponent: 0}} 
+                    onChange={(value) => handleValueChange('realities', value)}
+                    saveType={saveType}
+                  />
+                )}
                 {renderValidationIndicator('realities')}
               </div>
 
@@ -68,7 +94,7 @@ const RealitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="partSimulatedReality"
-                  value={saveData.partSimulatedReality || 0}
+                  value={typedSaveData.partSimulatedReality || 0}
                   step="0.01"
                   onChange={(e) => handleValueChange('partSimulatedReality', parseFloat(e.target.value))}
                 />
@@ -77,11 +103,10 @@ const RealitySection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="reality-realityMachines">Reality Machines</label>
-                <input
-                  type="text"
-                  id="reality-realityMachines"
-                  value={saveData.reality?.realityMachines?.toString() || '0'}
-                  onChange={(e) => handleValueChange('reality.realityMachines', e.target.value)}
+                <BigNumberInput
+                  value={saveData.reality?.realityMachines || (isPCFormat() ? '0' : {mantissa: 0, exponent: 0})}
+                  onChange={(value) => handleValueChange('reality.realityMachines', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('reality.realityMachines')}
               </div>
@@ -166,11 +191,10 @@ const RealitySection: React.FC<SectionProps> = ({
             <div className="reality-grid">
               <div className="form-group">
                 <label htmlFor="reality-partEternitied">Partial Eternitied</label>
-                <input
-                  type="text"
-                  id="reality-partEternitied"
-                  value={saveData.reality?.partEternitied?.toString() || '0'}
-                  onChange={(e) => handleValueChange('reality.partEternitied', e.target.value)}
+                <BigNumberInput
+                  value={saveData.reality?.partEternitied || (isPCFormat() ? '0' : {mantissa: 0, exponent: 0})}
+                  onChange={(value) => handleValueChange('reality.partEternitied', value)}
+                  saveType={saveType}
                 />
                 {renderValidationIndicator('reality.partEternitied')}
               </div>
@@ -199,117 +223,26 @@ const RealitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="reality-upgReqs"
-                  value={saveData.reality?.upgReqs || 0}
-                  onChange={(e) => handleValueChange('reality.upgReqs', parseInt(e.target.value))}
+                  value={typedSaveData.reality?.reqLockBits || 0}
+                  onChange={(e) => handleValueChange('reality.reqLockBits', parseInt(e.target.value))}
                 />
-                {renderValidationIndicator('reality.upgReqs')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-rebuyables">Rebuyable Upgrades</label>
-                <textarea
-                  id="reality-rebuyables"
-                  rows={3}
-                  value={JSON.stringify(saveData.reality?.rebuyables || {})}
-                  onChange={(e) => {
-                    try {
-                      handleValueChange('reality.rebuyables', JSON.parse(e.target.value));
-                    } catch (error) {
-                      console.error("Invalid JSON:", error);
-                    }
-                  }}
-                />
-                {renderValidationIndicator('reality.rebuyables')}
+                {renderValidationIndicator('reality.reqLockBits')}
               </div>
             </div>
           </div>
           
           <div className="resource-group">
-            <h4>Imaginary Upgrades</h4>
+            <h4>Black Hole Upgrades</h4>
             <div className="reality-grid">
               <div className="form-group">
-                <label htmlFor="reality-imaginaryUpgradeBits">Imaginary Upgrade Bits</label>
+                <label htmlFor="reality-blackHoleBits">Black Hole Upgrades</label>
                 <input
                   type="number"
-                  id="reality-imaginaryUpgradeBits"
-                  value={saveData.reality?.imaginaryUpgradeBits || 0}
-                  onChange={(e) => handleValueChange('reality.imaginaryUpgradeBits', parseInt(e.target.value))}
+                  id="reality-blackHoleBits"
+                  value={typedSaveData.reality?.blackHoleBits || 0}
+                  onChange={(e) => handleValueChange('reality.blackHoleBits', parseInt(e.target.value))}
                 />
-                {renderValidationIndicator('reality.imaginaryUpgradeBits')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-imaginaryUpgReqs">Imaginary Upgrade Requirements</label>
-                <input
-                  type="number"
-                  id="reality-imaginaryUpgReqs"
-                  value={saveData.reality?.imaginaryUpgReqs || 0}
-                  onChange={(e) => handleValueChange('reality.imaginaryUpgReqs', parseInt(e.target.value))}
-                />
-                {renderValidationIndicator('reality.imaginaryUpgReqs')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-imaginaryRebuyables">Imaginary Rebuyables</label>
-                <textarea
-                  id="reality-imaginaryRebuyables"
-                  rows={3}
-                  value={JSON.stringify(saveData.reality?.imaginaryRebuyables || {})}
-                  onChange={(e) => {
-                    try {
-                      handleValueChange('reality.imaginaryRebuyables', JSON.parse(e.target.value));
-                    } catch (error) {
-                      console.error("Invalid JSON:", error);
-                    }
-                  }}
-                />
-                {renderValidationIndicator('reality.imaginaryRebuyables')}
-              </div>
-            </div>
-          </div>
-          
-          <div className="resource-group">
-            <h4>Perks</h4>
-            <div className="reality-grid">
-              <div className="form-group">
-                <label htmlFor="reality-perks">Perks</label>
-                <textarea
-                  id="reality-perks"
-                  rows={3}
-                  value={JSON.stringify(saveData.reality?.perks || [])}
-                  onChange={(e) => {
-                    try {
-                      handleValueChange('reality.perks', JSON.parse(e.target.value));
-                    } catch (error) {
-                      console.error("Invalid JSON:", error);
-                    }
-                  }}
-                />
-                {renderValidationIndicator('reality.perks')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-perkPoints">Perk Points</label>
-                <input
-                  type="number"
-                  id="reality-perkPoints"
-                  value={saveData.reality?.perkPoints || 0}
-                  onChange={(e) => handleValueChange('reality.perkPoints', parseInt(e.target.value))}
-                />
-                {renderValidationIndicator('reality.perkPoints')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-respec">Respec</label>
-                <select
-                  id="reality-respec"
-                  value={saveData.reality?.respec ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.respec', e.target.value === 'true')}
-                >
-                  <option value="true">Yes</option>
-                  <option value="false">No</option>
-                </select>
-                {renderValidationIndicator('reality.respec')}
+                {renderValidationIndicator('reality.blackHoleBits')}
               </div>
             </div>
           </div>
@@ -321,85 +254,58 @@ const RealitySection: React.FC<SectionProps> = ({
             <h4>Automator Settings</h4>
             <div className="reality-grid">
               <div className="form-group">
-                <label htmlFor="reality-autoEC">Auto EC</label>
+                <label htmlFor="reality-autoActive">Automator Active</label>
                 <select
-                  id="reality-autoEC"
-                  value={saveData.reality?.autoEC ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.autoEC', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.autoEC')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-lastAutoEC">Last Auto EC</label>
-                <input
-                  type="number"
-                  id="reality-lastAutoEC"
-                  value={saveData.reality?.lastAutoEC || 0}
-                  onChange={(e) => handleValueChange('reality.lastAutoEC', parseInt(e.target.value))}
-                />
-                {renderValidationIndicator('reality.lastAutoEC')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-autoAchieve">Auto Achievements</label>
-                <select
-                  id="reality-autoAchieve"
-                  value={saveData.reality?.autoAchieve ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.autoAchieve', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.autoAchieve')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-gainedAutoAchievements">Gained Auto Achievements</label>
-                <select
-                  id="reality-gainedAutoAchievements"
-                  value={saveData.reality?.gainedAutoAchievements ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.gainedAutoAchievements', e.target.value === 'true')}
+                  id="reality-autoActive"
+                  value={typedSaveData.reality?.automator?.active ? 'true' : 'false'}
+                  onChange={(e) => handleValueChange('reality.automator.active', e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('reality.gainedAutoAchievements')}
+                {renderValidationIndicator('reality.automator.active')}
               </div>
               
               <div className="form-group">
-                <label htmlFor="reality-achTimer">Achievement Timer</label>
+                <label htmlFor="reality-autoMode">Automator Mode</label>
+                <select
+                  id="reality-autoMode"
+                  value={typedSaveData.reality?.automator?.mode || 0}
+                  onChange={(e) => handleValueChange('reality.automator.mode', parseInt(e.target.value))}
+                >
+                  <option value="0">Start Manually</option>
+                  <option value="1">Start on Reality</option>
+                  <option value="2">Always Running</option>
+                </select>
+                {renderValidationIndicator('reality.automator.mode')}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="reality-autoTime">Time between ticks (ms)</label>
                 <input
                   type="number"
-                  id="reality-achTimer"
-                  value={saveData.reality?.achTimer || 0}
-                  onChange={(e) => handleValueChange('reality.achTimer', parseInt(e.target.value))}
+                  id="reality-autoTime"
+                  value={typedSaveData.reality?.automator?.time || 1000}
+                  onChange={(e) => handleValueChange('reality.automator.time', parseInt(e.target.value))}
                 />
-                {renderValidationIndicator('reality.achTimer')}
+                {renderValidationIndicator('reality.automator.time')}
               </div>
             </div>
           </div>
           
           <div className="resource-group">
-            <h4>Automator Scripts</h4>
-            <div className="form-group">
-              <label htmlFor="reality-automator">Automator (Advanced)</label>
-              <textarea
-                id="reality-automator"
-                rows={5}
-                value={JSON.stringify(saveData.reality?.automator || {}, null, 2)}
-                onChange={(e) => {
-                  try {
-                    handleValueChange('reality.automator', JSON.parse(e.target.value));
-                  } catch (error) {
-                    console.error("Invalid JSON:", error);
-                  }
-                }}
-              />
-              {renderValidationIndicator('reality.automator')}
+            <h4>Automator Commands</h4>
+            <div className="reality-grid">
+              <div className="form-group">
+                <label htmlFor="reality-autoUnlocks">Unlocked Commands</label>
+                <input
+                  type="number"
+                  id="reality-autoUnlocks"
+                  value={typedSaveData.reality?.automator?.unlocks || 0}
+                  onChange={(e) => handleValueChange('reality.automator.unlocks', parseInt(e.target.value))}
+                />
+                {renderValidationIndicator('reality.automator.unlocks')}
+              </div>
             </div>
           </div>
         </div>
@@ -407,93 +313,28 @@ const RealitySection: React.FC<SectionProps> = ({
         {/* Settings Subtab */}
         <div className={`subtab-content ${activeSubtab === 'settings' ? 'active' : ''}`}>
           <div className="resource-group">
-            <h4>Glyph Settings</h4>
+            <h4>Reality Settings</h4>
             <div className="reality-grid">
               <div className="form-group">
-                <label htmlFor="reality-showGlyphSacrifice">Show Glyph Sacrifice</label>
-                <select
-                  id="reality-showGlyphSacrifice"
-                  value={saveData.reality?.showGlyphSacrifice ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.showGlyphSacrifice', e.target.value === 'true')}
-                >
-                  <option value="true">Show</option>
-                  <option value="false">Hide</option>
-                </select>
-                {renderValidationIndicator('reality.showGlyphSacrifice')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-showSidebarPanel">Show Sidebar Panel</label>
+                <label htmlFor="reality-perks">Perk Points</label>
                 <input
                   type="number"
-                  id="reality-showSidebarPanel"
-                  value={saveData.reality?.showSidebarPanel || 0}
-                  onChange={(e) => handleValueChange('reality.showSidebarPanel', parseInt(e.target.value))}
+                  id="reality-perks"
+                  value={typedSaveData.reality?.pp || 0}
+                  onChange={(e) => handleValueChange('reality.pp', parseInt(e.target.value))}
                 />
-                {renderValidationIndicator('reality.showSidebarPanel')}
+                {renderValidationIndicator('reality.pp')}
               </div>
               
               <div className="form-group">
-                <label htmlFor="reality-autoSort">Auto Sort</label>
+                <label htmlFor="reality-perkUnlocks">Perk Unlocks</label>
                 <input
                   type="number"
-                  id="reality-autoSort"
-                  value={saveData.reality?.autoSort || 0}
-                  onChange={(e) => handleValueChange('reality.autoSort', parseInt(e.target.value))}
+                  id="reality-perkUnlocks"
+                  value={typedSaveData.reality?.perkUnlocks || 0}
+                  onChange={(e) => handleValueChange('reality.perkUnlocks', parseInt(e.target.value))}
                 />
-                {renderValidationIndicator('reality.autoSort')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-autoCollapse">Auto Collapse</label>
-                <select
-                  id="reality-autoCollapse"
-                  value={saveData.reality?.autoCollapse ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.autoCollapse', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.autoCollapse')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-autoAutoClean">Auto Auto Clean</label>
-                <select
-                  id="reality-autoAutoClean"
-                  value={saveData.reality?.autoAutoClean ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.autoAutoClean', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.autoAutoClean')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-applyFilterToPurge">Apply Filter To Purge</label>
-                <select
-                  id="reality-applyFilterToPurge"
-                  value={saveData.reality?.applyFilterToPurge ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.applyFilterToPurge', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.applyFilterToPurge')}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="reality-moveGlyphsOnProtection">Move Glyphs On Protection</label>
-                <select
-                  id="reality-moveGlyphsOnProtection"
-                  value={saveData.reality?.moveGlyphsOnProtection ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('reality.moveGlyphsOnProtection', e.target.value === 'true')}
-                >
-                  <option value="true">Enabled</option>
-                  <option value="false">Disabled</option>
-                </select>
-                {renderValidationIndicator('reality.moveGlyphsOnProtection')}
+                {renderValidationIndicator('reality.perkUnlocks')}
               </div>
             </div>
           </div>
