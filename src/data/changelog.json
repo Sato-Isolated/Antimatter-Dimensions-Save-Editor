@@ -1,6 +1,27 @@
 {
   "versions": [
     {
+      "version": "2.0.0-BETA-4",
+      "date": "2025-04-09",
+      "categories": {
+        "new": [
+          "Added support for Android save files",
+          "Implemented type-safe handling of different save formats",
+          "Added automatic save format detection"
+        ],
+        "improved": [
+          "Enhanced cross-platform compatibility between PC and Android formats",
+          "Improved type definitions for better code reliability",
+          "Optimized save data handling with format-specific validations"
+        ],
+        "fixed": [
+          "Resolved type errors across multiple component sections",
+          "Fixed property access issues for Android-specific data structures",
+          "Addressed import issues with struct definitions"
+        ]
+      }
+    },
+    {
       "version": "2.0.0-BETA-3",
       "date": "2025-04-8",
       "categories": {
@@ -145,5 +166,5 @@
       }
     }
   ],
-  "info": ["Android is not supported at the moment"]
+  "info": ["Both PC and Android save formats are now supported", "Please make a backup of your save files before editing to prevent data loss"]
 }
