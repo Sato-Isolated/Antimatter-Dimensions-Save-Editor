@@ -1,3 +1,6 @@
+@use 'variables' as var;
+@use 'mixins' as mix;
+
 /* Base styles applied to the entire application */
 
 html {
@@ -5,7 +8,7 @@ html {
   background-color: var(--bg-color);
   font-size: 16px;
   
-  @include mobile {
+  @include mix.mobile {
     font-size: 14px;
   }
 }
@@ -17,8 +20,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
-  font-family: $font-family-base;
-  line-height: $line-height-base;
+  font-family: var.$font-family-base;
+  line-height: var.$line-height-base;
   color: var(--text-color);
   background-color: var(--bg-color);
   -webkit-font-smoothing: antialiased;
@@ -31,21 +34,13 @@ body {
 }
 
 .container {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  padding: 1rem;
-  gap: 1.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
   width: 100%;
-  width: 100%;
-  max-width: $max-width;
+  max-width: var.$max-width;
   margin: 0 auto;
-  padding: 0 $spacing-md;
+  padding: 0 var.$spacing-md;
   
-  @include mobile {
-    padding: 0 $spacing-sm;
+  @include mix.mobile {
+    padding: 0 var.$spacing-sm;
   }
 }
 
@@ -139,19 +134,19 @@ input[type="number"] {
 
 .grid {
   display: grid;
-  gap: $spacing-md;
+  gap: var.$spacing-md;
   
-  @include desktop {
+  @include mix.desktop {
     grid-template-columns: repeat(12, 1fr);
   }
   
-  @include tablet {
+  @include mix.tablet {
     grid-template-columns: repeat(8, 1fr);
   }
   
-  @include mobile {
+  @include mix.mobile {
     grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-sm;
+    gap: var.$spacing-sm;
   }
 }
 
@@ -165,11 +160,11 @@ input[type="number"] {
 
 .p {
   &-0 { padding: 0; }
-  &-1 { padding: $spacing-xs; }
-  &-2 { padding: $spacing-sm; }
-  &-3 { padding: $spacing-md; }
-  &-4 { padding: $spacing-lg; }
-  &-5 { padding: $spacing-xl; }
+  &-1 { padding: var.$spacing-xs; }
+  &-2 { padding: var.$spacing-sm; }
+  &-3 { padding: var.$spacing-md; }
+  &-4 { padding: var.$spacing-lg; }
+  &-5 { padding: var.$spacing-xl; }
 }
 
 // Visibilité
@@ -213,15 +208,15 @@ input[type="number"] {
 
 // Arrondis
 .rounded {
-  &-sm { border-radius: $border-radius-sm; }
-  &-md { border-radius: $border-radius-md; }
-  &-lg { border-radius: $border-radius-lg; }
-  &-full { border-radius: $border-radius-full; }
+  &-sm { border-radius: var.$border-radius-sm; }
+  &-md { border-radius: var.$border-radius-md; }
+  &-lg { border-radius: var.$border-radius-lg; }
+  &-full { border-radius: var.$border-radius-full; }
 }
 
 // Transitions
 .transition {
-  transition: all $transition-speed $transition-timing;
+  transition: all var.$transition-speed var.$transition-timing;
 }
 
 // Gestion du débordement
@@ -260,9 +255,9 @@ img {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: $spacing-md 0;
+  margin: var.$spacing-md 0;
   
-  @include mobile {
+  @include mix.mobile {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -273,7 +268,7 @@ table {
     
     &::-webkit-scrollbar-thumb {
       background-color: var(--scrollbar-thumb);
-      border-radius: $border-radius-full;
+      border-radius: var.$border-radius-full;
     }
   }
 }
@@ -297,7 +292,7 @@ table {
 }
 
 /* Touch target sizes for mobile */
-@include mobile {
+@include mix.mobile {
   button,
   input,
   select,
@@ -306,3 +301,5 @@ table {
     min-width: 44px;
   }
 }
+
+// Other utilities

@@ -1,82 +1,206 @@
+@use '../utilities/color-utils' as colors;
+
 /* Dark theme variables */
 .dark-theme {
-  // Couleurs de base
-  --bg-color: #1a1a1a;
-  --text-color: #e0e0e0;
-  --text-muted: #888888;
-  --border-color: #333333;
+  @include colors.create-color-scheme(210, 80%, 40%);
+  
+  // Base HSL color variables
+  // Background colors
+  --bg-h: 0;
+  --bg-s: 0%;
+  --bg-l: 12%;
+  
+  // Text colors
+  --text-h: 0;
+  --text-s: 0%;
+  --text-l: 88%;
+  
+  // State colors
+  --error-h: 4;
+  --error-s: 90%;
+  --error-l: 58%;
+  
+  --success-h: 122;
+  --success-s: 39%;
+  --success-l: 49%;
+  
+  --warning-h: 36;
+  --warning-s: 100%;
+  --warning-l: 50%;
+  
+  // Base colors
+  --bg-color: hsl(var(--bg-h), var(--bg-s), 12%);
+  --bg-color-alt: hsl(var(--bg-h), var(--bg-s), 15%);
+  --bg-color-secondary: hsl(var(--bg-h), var(--bg-s), 17%);
+  --text-color: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --text-muted: hsl(var(--text-h), var(--text-s), 63%);
+  --border-color: hsl(var(--bg-h), var(--bg-s), 25%);
+  --border-color-rgb: 64, 64, 64;
+  
+  // Accent colors
+  --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-color-rgb: 0, 120, 212;
+  --primary-color-light: hsl(var(--primary-h), var(--primary-s), 50%);
+  --primary-color-dark: hsl(var(--primary-h), var(--primary-s), 35%);
+  --primary-color-hover: hsl(var(--primary-h), var(--primary-s), 35%);
+  --primary-text: hsl(0, 0%, 100%);
+  
+  --secondary-color: hsl(0, 0%, 31%);
+  --secondary-color-rgb: 80, 80, 80;
+  --secondary-color-light: hsl(0, 0%, 38%);
+  --secondary-color-dark: hsl(0, 0%, 25%);
+  --secondary-color-hover: hsl(0, 0%, 25%);
+  --secondary-text: hsl(0, 0%, 100%);
+  --accent-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  
+  // State colors
+  --error-color: hsl(var(--error-h), var(--error-s), var(--error-l));
+  --error-color-rgb: 244, 67, 54;
+  --success-color: hsl(var(--success-h), var(--success-s), var(--success-l));
+  --success-color-rgb: 76, 175, 80;
+  --warning-color: hsl(var(--warning-h), var(--warning-s), var(--warning-l));
+  --warning-color-rgb: 255, 152, 0;
+  --info-color: hsl(var(--primary-h), calc(var(--primary-s) - 20%), 54%);
+  --info-color-rgb: 33, 150, 243;
+  --danger-color: hsl(var(--error-h), var(--error-s), var(--error-l));
+  --danger-color-rgb: 244, 67, 54;
+  --danger-color-dark: hsl(var(--error-h), var(--error-s), 50%);
+  --danger-color-hover: hsl(var(--error-h), var(--error-s), 50%);
+  --danger-color-light: hsla(var(--error-h), var(--error-s), var(--error-l), 0.25);
+  --success-color-dark: hsl(var(--success-h), var(--success-s), 39%);
+  
+  // Backgrounds
+  --card-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --card-bg-alt: hsl(var(--bg-h), var(--bg-s), 20%);
+  --card-header-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --card-footer-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --title-color: hsl(0, 0%, 100%);
+  
+  // Forms
+  --input-bg: hsl(220, 13%, 23%);
+  --input-text: hsl(210, 40%, 96%);
+  --input-border: hsl(220, 16%, 36%);
+  --input-focus-border: hsl(var(--primary-h), 81%, 66%);
+  --input-focus-shadow: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.25);
+  --input-readonly-bg: hsl(220, 13%, 21%);
+  --input-group-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --input-placeholder: hsl(214, 10%, 65%);
+  
+  // Text and labels
+  --text-color-secondary: hsl(var(--text-h), var(--text-s), 63%);
+  --text-color-tertiary: hsl(var(--text-h), var(--text-s), 50%);
+  --text-color-light: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --text-color-dark: hsl(0, 0%, 0%);
+  --text-color-highlight: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --code-color: hsl(var(--error-h), var(--error-s), var(--error-l));
+  --code-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --kbd-color: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --kbd-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --kbd-border: hsl(var(--bg-h), var(--bg-s), 31%);
+  --mark-color: hsl(var(--bg-h), var(--bg-s), 20%);
+  --mark-bg: hsl(var(--error-h), var(--error-s), var(--error-l));
+  --blockquote-color: hsl(var(--text-h), var(--text-s), 63%);
+  --blockquote-border: hsl(var(--bg-h), var(--bg-s), 31%);
+  --hr-border: hsl(var(--bg-h), var(--bg-s), 25%);
+  --table-border: hsl(var(--bg-h), var(--bg-s), 25%);
+  --table-head-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --table-row-odd-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --table-row-hover-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --list-marker-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --focus-ring-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --text-selection-bg: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
+  --text-selection-color: hsl(0, 0%, 100%);
+  --text-code: hsl(var(--error-h), var(--error-s), var(--error-l));
+  --text-pre-color: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --text-pre-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --cursor-color: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --active-item-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --active-item-text: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --hover-item-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --hover-item-text: hsl(var(--text-h), var(--text-s), var(--text-l));
+  
+  // Buttons
+  --button-bg: hsl(var(--bg-h), var(--bg-s), 23%);
+  --button-text: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --button-hover-bg: hsl(var(--bg-h), var(--bg-s), 29%);
+  --button-active-bg: hsl(var(--bg-h), var(--bg-s), 31%);
+  --button-ghost-hover: hsla(0, 0%, 100%, 0.05);
+  
+  // Section Buttons
+  --section-button-bg: hsl(var(--bg-h), var(--bg-s), 23%);
+  --section-button-text: hsl(var(--text-h), var(--text-s), var(--text-l));
+  --section-button-hover-bg: hsl(var(--bg-h), var(--bg-s), 29%);
+  --section-button-active-bg: hsl(var(--bg-h), var(--bg-s), 31%);
+  --section-button-active-text: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  
+  // Tabs
+  --tab-header-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --tab-content-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --tab-button-bg: hsl(var(--bg-h), var(--bg-s), 20%);
+  --tab-button-text: hsl(var(--text-h), var(--text-s), 63%);
+  --tab-button-hover-bg: hsl(var(--bg-h), var(--bg-s), 25%);
+  --tab-button-active-bg: hsl(var(--bg-h), var(--bg-s), 17%);
+  --tab-button-active-text: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  
+  // JSON Editor
+  --json-field-color: hsl(210, 90%, 80%);
+  --json-value-color: hsl(10, 50%, 70%);
+  --json-string-color: hsl(10, 50%, 70%);
+  --json-number-color: hsl(120, 20%, 70%);
+  --json-boolean-color: hsl(210, 60%, 60%);
+  --json-null-color: hsl(210, 60%, 60%);
+  --json-key-color: hsl(210, 90%, 80%);
+  --json-editor-height: calc(100vh - 300px);
+  --json-editor-font-size: 14px;
+  --json-editor-line-height: 1.5;
+  --json-editor-tab-size: 2;
+  --error-bg: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
+  --error-border: hsla(var(--error-h), var(--error-s), var(--error-l), 0.3);
+  --success-bg: hsla(var(--success-h), var(--success-s), var(--success-l), 0.1);
+  --warning-bg: hsla(var(--warning-h), var(--warning-s), var(--warning-l), 0.1);
+  
+  // Links
+  --link-color: hsl(var(--primary-h), 81%, 66%);
+  --link-hover-color: hsl(var(--primary-h), 70%, 76%);
+  
+  // Others
+  --dimension-name-color: hsl(0, 0%, 80%);
+  --github-icon-color: hsl(0, 0%, 80%);
+  --focus-color: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
 
-  // Couleurs d'accentuation
-  --primary-color: #0078d4;
-  --primary-color-hover: #0086ef;
-  --primary-color-light: rgba(0, 120, 212, 0.1);
-  --secondary-color: #3a3a3a;
-  --secondary-color-hover: #454545;
-  --accent-color: #0078d4;
-
-  // Couleurs d'état
-  --error-color: #d83b01;
-  --error-color-rgb: 216, 59, 1;
-  --success-color: #107c10;
-  --success-color-rgb: 16, 124, 16;
-  --info-color: #0078d4;
-
-  // Arrière-plans
-  --card-bg: #242424;
-  --card-bg-alt: #2a2a2a;
-  --card-header-bg: #333333;
-  --card-footer-bg: #333333;
-
-  // Formulaires
-  --input-bg: #333333;
-  --input-text: #e0e0e0;
-  --input-border: #404040;
-  --input-focus-border: #0078d4;
-  --input-focus-shadow: rgba(0, 120, 212, 0.25);
-  --input-readonly-bg: #2a2a2a;
-  --input-group-bg: #2a2a2a;
-
-  // Textes et labels
-  --label-color: #cccccc;
-  --help-text-color: #888888;
-  --title-color: #ffffff;
-
-  // Boutons
-  --button-bg: #333333;
-  --button-text: #e0e0e0;
-  --button-hover-bg: #404040;
-  --button-ghost-hover: rgba(255, 255, 255, 0.1);
-
-  // Onglets
-  --tab-header-bg: #242424;
-  --tab-content-bg: #242424;
-  --tab-button-bg: #333333;
-  --tab-button-text: #e0e0e0;
-  --tab-button-hover-bg: #404040;
-  --tab-button-active-bg: #242424;
-  --tab-button-active-text: #ffffff;
-
-  // Boutons de section
-  --section-button-bg: #242424;
-  --section-button-text: #e0e0e0;
-  --section-button-hover-bg: #333333;
-  --section-button-active-bg: #333333;
-  --section-button-active-text: #ffffff;
-
-  // Éditeur JSON
-  --json-field-color: #9cdcfe;
-  --json-value-color: #ce9178;
-
-  // Liens
-  --link-color: #0078d4;
-  --link-hover-color: #0086ef;
-
-  // Autres
-  --dimension-name-color: #cccccc;
-  --github-icon-color: #cccccc;
-
+  // Notifications
+  --notification-bg: hsl(220, 13%, 23%);
+  --notification-border: hsl(220, 16%, 36%);
+  --notification-text: hsl(210, 40%, 96%);
+  
+  // Shadows
+  --box-shadow-color: hsla(0, 0%, 0%, 0.5);
+  --box-shadow-card: 0 4px 6px hsla(0, 0%, 0%, 0.3);
+  
+  // Interactive Elements
+  --hover-bg: hsla(220, 17%, 35%, 0.3);
+  --active-bg: hsla(220, 17%, 35%, 0.5);
+  --focus-outline: hsl(210, 70%, 60%);
+  
+  // Progress Bars
+  --progress-bg: hsl(220, 13%, 23%);
+  --progress-fill: hsl(210, 70%, 60%);
+  
   // Scrollbar
-  --scrollbar-track: #1a1a1a;
-  --scrollbar-thumb: #404040;
-  --scrollbar-thumb-hover: #4a4a4a;
+  --scrollbar-track: hsl(var(--bg-h), var(--bg-s), 20%);
+  --scrollbar-thumb: hsl(var(--bg-h), var(--bg-s), 31%);
+  --scrollbar-thumb-hover: hsl(var(--bg-h), var(--bg-s), 38%);
+  --scrollbar-track-color: hsl(var(--bg-h), var(--bg-s), 20%);
+  --scrollbar-thumb-color: hsl(var(--bg-h), var(--bg-s), 31%);
+  --scrollbar-thumb-hover-color: hsl(var(--bg-h), var(--bg-s), 38%);
+  
+  // Gradient variables
+  --primary-gradient-start: hsl(var(--primary-h), var(--primary-s), 37%);
+  --primary-gradient-end: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  
+  // Changelog variables
+  --changelog-badge-bg: hsla(0, 0%, 100%, 0.1);
+  --changelog-date-bg: hsla(0, 0%, 0%, 0.3);
+  --changelog-shadow-color: hsla(0, 0%, 0%, 0.3);
+  --changelog-index-bg: hsla(0, 0%, 0%, 0.3);
 }

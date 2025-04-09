@@ -1,26 +1,45 @@
+@use 'variables' as var;
+
 /* Typography styles */
 
-html, body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
+body {
+  font-family: var.$font-family-base;
+  font-size: var.$font-size-base;
+  line-height: var.$line-height-base;
   color: var(--text-color);
 }
 
-// Styles des titres
+// Heading Styles
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: $spacing-sm;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
+  margin-bottom: 0.5em;
+  font-weight: var.$font-weight-bold;
+  line-height: var.$line-height-tight;
   color: var(--title-color);
 }
 
-h1 { font-size: $font-size-4xl; }
-h2 { font-size: $font-size-3xl; }
-h3 { font-size: $font-size-2xl; }
-h4 { font-size: $font-size-xl; }
-h5 { font-size: $font-size-lg; }
-h6 { font-size: $font-size-base; }
+h1 {
+  font-size: var.$font-size-3xl;
+}
+
+h2 {
+  font-size: var.$font-size-2xl;
+}
+
+h3 {
+  font-size: var.$font-size-xl;
+}
+
+h4 {
+  font-size: var.$font-size-lg;
+}
+
+h5 {
+  font-size: var.$font-size-base;
+}
+
+h6 {
+  font-size: var.$font-size-sm;
+}
 
 h1 {
   font-size: 2.25rem;
@@ -43,7 +62,7 @@ h4 {
 }
 
 p {
-  margin-bottom: $spacing-md;
+  margin-bottom: var.$spacing-md;
 
   &:last-child {
     margin-bottom: 0;
@@ -57,27 +76,27 @@ p {
   color: var(--title-color);
 }
 
-// Styles de texte utilitaires
+// Utility Text Styles
 .text-primary { color: var(--primary-color); }
 .text-accent { color: var(--accent-color); }
 .text-muted { color: var(--text-muted); }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
-.text-sm { font-size: $font-size-sm; }
-.text-lg { font-size: $font-size-lg; }
-.text-xl { font-size: $font-size-xl; }
+.text-sm { font-size: var.$font-size-sm; }
+.text-lg { font-size: var.$font-size-lg; }
+.text-xl { font-size: var.$font-size-xl; }
 
-// Poids de police
-.font-normal { font-weight: $font-weight-normal; }
-.font-medium { font-weight: $font-weight-medium; }
-.font-semibold { font-weight: $font-weight-semibold; }
-.font-bold { font-weight: $font-weight-bold; }
+// Font Weights
+.font-normal { font-weight: var.$font-weight-normal; }
+.font-medium { font-weight: var.$font-weight-medium; }
+.font-semibold { font-weight: var.$font-weight-semibold; }
+.font-bold { font-weight: var.$font-weight-bold; }
 
-// Styles des liens
+// Link Styles
 a {
   color: var(--link-color);
   text-decoration: none;
-  transition: color $transition-speed $transition-timing;
+  transition: color var.$transition-speed var.$transition-timing;
 
   &:hover {
     color: var(--link-hover-color);
@@ -85,21 +104,21 @@ a {
   }
 }
 
-// Styles de code
+// Code Styles
 code, pre {
-  font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  font-family: var.$font-family-mono;
+  font-size: var.$font-size-sm;
 }
 
-// Liste styles
+// List Styles
 ul, ol {
-  margin-bottom: $spacing-md;
-  padding-left: $spacing-lg;
+  margin-bottom: var.$spacing-md;
+  padding-left: var.$spacing-lg;
 }
 
 // Espacement des titres avec du contenu
 * + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
-  margin-top: $spacing-xl;
+  margin-top: var.$spacing-xl;
 }
 
 .monospace {

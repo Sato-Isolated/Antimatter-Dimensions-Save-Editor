@@ -1,34 +1,40 @@
 /* Main SCSS file */
 
 // Base
-@import 'base/reset';
-@import 'base/variables';
-@import 'base/mixins';
-@import 'base/animations';
-@import 'base/typography';
-@import 'base/base';
+@use 'base/reset';
+@use 'base/variables';
+@use 'base/functions';
+@use 'base/mixins';
+@use 'base/animations';
+@use 'base/typography';
+@use 'base/base';
 
 // Themes
-@import 'themes/light';
-@import 'themes/dark';
-@import 'themes/antimatter';
-@import 'themes/infinity';
-@import 'themes/eternity';
-@import 'themes/reality';
+@use 'themes/light';
+@use 'themes/dark';
+@use 'themes/antimatter';
+@use 'themes/infinity';
+@use 'themes/eternity';
+@use 'themes/reality';
 
 // Components
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/forms';
-@import 'components/tabs';
-@import 'components/settings';
-@import 'components/changelog';
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+@use 'components/tabs';
+@use 'components/settings';
+@use 'components/changelog';
+@use 'components/json-editor';
 
 // Layout
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/main';
-@import 'layout/sidebar';
+@use 'layout/header';
+@use 'layout/footer';
+@use 'layout/main';
+@use 'layout/sidebar';
 
 // Pages
-@import 'pages/editor';
+@use 'pages/editor';
+
+// Utilities
+@use 'utilities/color-utils';
+@use 'utilities/spacing';

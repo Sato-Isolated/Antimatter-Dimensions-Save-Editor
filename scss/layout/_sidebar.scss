@@ -1,15 +1,18 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Sidebar layout styles */
 
 .info-panel {
-  width: $sidebar-width;
+  width: var.$sidebar-width;
   flex-shrink: 0;
 
-  @include tablet {
-    width: $mobile-sidebar-width;
+  @include mix.tablet {
+    width: var.$mobile-sidebar-width;
   }
 
-  @include mobile {
-    width: 100%;
+  @include mix.mobile {
+    display: none;
   }
 
   // Cards de la barre latérale
@@ -19,11 +22,11 @@
     overflow: hidden;
 
     h2 {
-      @include flex-center;
-      gap: $spacing-sm;
+      @include mix.flex-center;
+      gap: var.$spacing-sm;
       margin: 0;
-      padding: $spacing-md;
-      font-size: $font-size-xl;
+      padding: var.$spacing-md;
+      font-size: var.$font-size-xl;
       background-color: var(--card-header-bg);
       border-bottom: 1px solid var(--border-color);
       color: var(--title-color);
@@ -35,7 +38,7 @@
 
     ul {
       list-style: none;
-      padding: $spacing-md;
+      padding: var.$spacing-md;
       margin: 0;
     }
   }
@@ -44,38 +47,38 @@
   .github-badges {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $spacing-md;
-    padding: $spacing-md;
+    gap: var.$spacing-md;
+    padding: var.$spacing-md;
     text-align: center;
 
     .github-badge {
       span {
         display: block;
-        font-size: $font-size-2xl;
-        font-weight: $font-weight-semibold;
+        font-size: var.$font-size-2xl;
+        font-weight: var.$font-weight-semibold;
         color: var(--text-color);
-        margin-bottom: $spacing-xs;
+        margin-bottom: var.$spacing-xs;
       }
 
       i {
         color: var(--github-icon-color);
-        font-size: $font-size-xl;
+        font-size: var.$font-size-xl;
       }
     }
   }
 
   // Lien GitHub
   .github-link {
-    padding: $spacing-md;
+    padding: var.$spacing-md;
     text-align: center;
     border-top: 1px solid var(--border-color);
 
     a {
-      @include flex-center;
-      gap: $spacing-sm;
+      @include mix.flex-center;
+      gap: var.$spacing-sm;
       color: var(--link-color);
       text-decoration: none;
-      font-weight: $font-weight-medium;
+      font-weight: var.$font-weight-medium;
 
       &:hover {
         color: var(--link-hover-color);

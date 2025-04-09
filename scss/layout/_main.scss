@@ -1,200 +1,344 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Main content layout styles */
 
-.editor-section {
+.editor-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  flex: 1;
-  min-width: 0; // Fix for flexbox overflow
+  min-height: calc(100vh - 140px); // Soustraire la hauteur du header et footer
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.5rem;
   
-  .save-input-area,
-  .save-output-area {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    
-    textarea {
-      min-height: 120px;
-      font-family: monospace;
-      font-size: 0.875rem;
-      resize: vertical;
-    }
-  }
-  
-  .editor-sections {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    overflow: hidden;
-    height: 100%;
-    min-height: 500px;
-    
-    .section-nav {
-      width: 200px;
-      border-right: 1px solid var(--border-color);
-      background-color: var(--card-bg-alt);
-      
-      @media (max-width: 768px) {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-      }
-    }
-    
-    .section-content {
-      padding: 1rem;
-      overflow-y: auto;
-      background-color: var(--card-bg);
-      
-      h3 {
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--border-color);
-      }
-    }
-  }
-  
-  // Responsive adjustments
-  @media (max-width: 768px) {
-    .editor-sections {
-      flex-direction: column;
-      
-      .section-content {
-        padding: 1rem;
-      }
-    }
+  @include mix.mobile {
+    padding: 1rem;
+    gap: 1rem;
   }
 }
 
-.editor-page {
-  min-height: 100vh;
+.main-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+}
 
-  .main-content {
-    flex: 1;
-    padding: $spacing-xl;
-    background-color: var(--bg-color);
+.card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-header-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     
-    @include mobile {
-      padding: $spacing-md;
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    &.with-tabs {
+      padding: 0;
+      border-bottom: none;
     }
   }
-
-  .content-wrapper {
-    max-width: $breakpoint-xl;
-    margin: 0 auto;
-    display: grid;
-    gap: $spacing-xl;
-    grid-template-columns: 1fr;
-  }
-
-  .editor-container {
-    display: grid;
-    gap: $spacing-xl;
-  }
-
-  .save-input-area,
-  .save-output-area {
-    @include card-base;
-    padding: $spacing-md;
+  
+  .card-body {
+    padding: 1.5rem;
     
-    .card-header {
-      margin-bottom: $spacing-md;
+    @include mix.mobile {
+      padding: 1rem;
+    }
+  }
+}
 
-      h2 {
-        @include heading('h2');
-        margin: 0;
+.save-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+  }
+  
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  
+  @include mix.mobile {
+    flex-direction: column;
+  }
+  
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    
+    @include mix.mobile {
+      width: 100%;
+    }
+  }
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  
+  &.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #dc3545;
+  }
+}
+
+.editor-sections {
+  display: flex;
+  height: 600px;
+  max-height: calc(100vh - 320px);
+  
+  @include mix.mobile {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .section-nav {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    border-right: 1px solid var(--border-color);
+    background-color: var(--card-bg-alt);
+    overflow-y: auto;
+    
+    @include mix.mobile {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow-x: auto;
+      height: auto;
+    }
+  }
+  
+  .section-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    
+    svg {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    
+    &:hover {
+      background-color: rgba(var(--primary-color-rgb), 0.08);
+      
+      svg {
+        color: var(--primary-color);
+      }
+    }
+    
+    &.active {
+      background-color: rgba(var(--primary-color-rgb), 0.12);
+      border-left-color: var(--primary-color);
+      color: var(--primary-color);
+      
+      svg {
+        color: var(--primary-color);
+      }
+    }
+    
+    @include mix.mobile {
+      padding: 0.75rem 1rem;
+      border-left: none;
+      border-bottom: 3px solid transparent;
+      
+      &.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--primary-color);
       }
     }
   }
-
-  .editor-main {
-    @include card-base;
-    overflow: hidden;
-
-    .editor-tabs {
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .editor-content {
-      min-height: 500px;
+  
+  .section-content {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    
+    @include mix.mobile {
+      padding: 1rem;
     }
   }
 }
 
-// Mise en page responsive
+// Adding Global Smooth Scrolling
+html {
+  scroll-behavior: smooth;
+}
+
+// Improved Form Style
+.input-group {
+  position: relative;
+  margin-bottom: 1rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
+    }
+  }
+  
+  small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+}
+
+// Adding Visual Validation
+.validation-indicator {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  &.valid i {
+    color: #28a745;
+  }
+  
+  &.invalid i {
+    color: #dc3545;
+  }
+}
+
+// Responsive Layout
 .layout-grid {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
   
-  @include desktop {
-    grid-template-columns: 1fr $sidebar-width;
+  @include mix.desktop {
+    grid-template-columns: 1fr var.$sidebar-width;
   }
 
-  @include tablet {
-    grid-template-columns: 1fr $mobile-sidebar-width;
+  @include mix.tablet {
+    grid-template-columns: 1fr var.$mobile-sidebar-width;
   }
 
-  @include mobile {
+  @include mix.mobile {
     grid-template-columns: 1fr;
   }
 }
 
-// Style des sections
+// Section Style
 .section-wrapper {
-  @include card-base;
+  @include mix.card-base;
   
   .section-header {
-    padding: $spacing-md;
+    padding: var.$spacing-md;
     border-bottom: 1px solid var(--border-color);
     background-color: var(--card-header-bg);
 
     h2 {
-      @include heading('h2');
+      @include mix.heading('h2');
       margin: 0;
     }
   }
 
   .section-content {
-    padding: $spacing-md;
+    padding: var.$spacing-md;
   }
 }
 
-// Gestionnaire de dimensions
+// Dimensions Manager
 .dimensions-manager {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
 
   .dimension-category {
-    @include card-base;
+    @include mix.card-base;
 
     .category-header {
-      padding: $spacing-md;
+      padding: var.$spacing-md;
       border-bottom: 1px solid var(--border-color);
       background-color: var(--card-header-bg);
 
       h3 {
-        @include heading('h3');
+        @include mix.heading('h3');
         margin: 0;
       }
     }
 
     .category-content {
-      padding: $spacing-md;
+      padding: var.$spacing-md;
     }
   }
 }
 
-// Animations de transition
+// Transition Animations
 .fade-enter {
   opacity: 0;
 }
 
 .fade-enter-active {
   opacity: 1;
-  transition: opacity $transition-speed $transition-timing;
+  transition: opacity var.$transition-speed var.$transition-timing;
 }
 
 .fade-exit {
@@ -203,5 +347,5 @@
 
 .fade-exit-active {
   opacity: 0;
-  transition: opacity $transition-speed $transition-timing;
+  transition: opacity var.$transition-speed var.$transition-timing;
 }

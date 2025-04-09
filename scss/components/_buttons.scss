@@ -1,3 +1,6 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Button styles */
 
 .group-button {
@@ -6,39 +9,201 @@
   margin: 0.5rem 0;
 }
 
-button {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: none;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  line-height: 1.5;
+  font-family: var(--font-family);
+  position: relative;
+  overflow: hidden;
   
-  &:hover {
-    background-color: var(--button-hover-bg);
+  // Ripple effect for buttons
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
   }
   
-  &:active, &.button-active {
-    transform: translateY(1px);
+  &:active::after {
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+    transition: width 0s, height 0s, opacity 0.3s ease;
+  }
+  
+  i, svg {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover i, &:hover svg {
+    transform: translateY(-1px);
   }
   
   &:focus {
-    outline: 2px solid var(--focus-color);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.25);
   }
   
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.7;
     cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+    }
   }
   
-  i {
-    margin-right: 0.5rem;
+  // Variants de base
+  &.primary {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    
+    &:hover {
+      background-color: var(--primary-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.secondary {
+    background-color: var(--secondary-color);
+    color: var(--secondary-text);
+    
+    &:hover {
+      background-color: var(--secondary-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.tertiary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    
+    &:hover {
+      background-color: rgba(var(--border-color-rgb), 0.1);
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.ghost {
+    background-color: transparent;
+    color: var(--text-color);
+    
+    &:hover {
+      background-color: rgba(var(--border-color-rgb), 0.1);
+    }
+  }
+  
+  &.danger {
+    background-color: var(--danger-color);
+    color: white;
+    
+    &:hover {
+      background-color: var(--danger-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.success {
+    background-color: var(--success-color);
+    color: white;
+    
+    &:hover {
+      background-color: var(--success-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  // Sizes
+  &.sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    
+    i, svg {
+      font-size: 0.9rem;
+    }
+  }
+  
+  &.lg {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.05rem;
+    
+    i, svg {
+      font-size: 1.2rem;
+    }
+  }
+  
+  // Circular Button
+  &.circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+    
+    &.sm {
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    &.lg {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+  
+  // Block Button
+  &.block {
+    display: flex;
+    width: 100%;
+  }
+  
+  // Adaptations mobiles
+  @include mix.mobile {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -113,52 +278,15 @@ button.ghost {
   }
 }
 
-.btn {
-  @include button-base;
-
-  &.primary {
-    background-color: var(--primary-color);
-    color: white;
-
-    &:hover:not(:disabled) {
-      background-color: var(--primary-color-hover);
-      transform: translateY(-1px);
-    }
-
-    &:active:not(:disabled) {
-      transform: translateY(0);
-    }
-  }
-
-  &.secondary {
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-
-    &:hover:not(:disabled) {
-      background-color: var(--secondary-color-hover);
-    }
-  }
-
-  &.ghost {
-    background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-
-    &:hover:not(:disabled) {
-      background-color: var(--button-ghost-hover);
-    }
-  }
-}
-
 .icon-button {
-  @include flex-center;
+  @include mix.flex-center;
   width: 40px;
   height: 40px;
-  border-radius: $border-radius-full;
+  border-radius: var.$border-radius-full;
   background: transparent;
   color: var(--text-color);
   border: 1px solid var(--border-color);
-  @include transition;
+  @include mix.transition;
 
   &:hover:not(:disabled) {
     background-color: var(--button-ghost-hover);
@@ -166,7 +294,7 @@ button.ghost {
   }
 
   i {
-    font-size: $font-size-lg;
+    font-size: var.$font-size-lg;
   }
 
   &.changelog-link {
@@ -187,25 +315,37 @@ button.ghost {
 
 .button-group {
   display: flex;
-  gap: $spacing-sm;
+  gap: 0.5rem;
   
-  @include mobile {
+  &.vertical {
     flex-direction: column;
-    width: 100%;
-
+  }
+  
+  &.attached {
+    gap: 0;
+    
     .btn {
-      width: 100%;
-      justify-content: center;
+      border-radius: 0;
+      
+      &:first-child {
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+      }
+      
+      &:last-child {
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+      }
     }
   }
 }
 
 .action-buttons {
-  @include flex-between;
-  margin-top: $spacing-md;
+  @include mix.flex-between;
+  margin-top: var.$spacing-md;
   
-  @include mobile {
+  @include mix.mobile {
     flex-direction: column;
-    gap: $spacing-sm;
+    gap: var.$spacing-sm;
   }
 }

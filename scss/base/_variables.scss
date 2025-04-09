@@ -1,48 +1,30 @@
 // Base colors
 $colors: (
-  light: (
-    primary: #0078d4,
-    accent: #0078d4,
-    success: #107c10,
-    warning: #f2c811,
-    error: #d83b01
-  ),
-  dark: (
-    primary: #0078d4,
-    accent: #0078d4,
-    success: #107c10,
-    warning: #f2c811,
-    error: #d83b01
-  ),
-  antimatter: (
-    primary: #6d38ff,
-    accent: #c455ff,
-    success: #42ffb8,
-    warning: #ffb847,
-    error: #ff4d6b
-  ),
-  infinity: (
-    primary: #ffd700,
-    accent: #00a8ff,
-    success: #51ffd2,
-    warning: #ffb847,
-    error: #ff6b6b
-  ),
-  eternity: (
-    primary: #00ffa6,
-    accent: #00e4ff,
-    success: #00ffc3,
-    warning: #ffcc66,
-    error: #ff5f7a
-  ),
-  reality: (
-    primary: #ff00ff,
-    accent: #aa00ff,
-    success: #ff00aa,
-    warning: #ffb366,
-    error: #ff4d4d
-  )
+  primary: #6366f1,
+  primary-light: #818cf8,
+  primary-dark: #4f46e5,
+  secondary: #64748b,
+  secondary-light: #94a3b8,
+  secondary-dark: #475569,
+  success: #10b981,
+  danger: #ef4444,
+  warning: #f59e0b,
+  info: #3b82f6,
+  light: #f9fafb,
+  dark: #111827,
+  gray-100: #f3f4f6,
+  gray-200: #e5e7eb,
+  gray-300: #d1d5db,
+  gray-400: #9ca3af,
+  gray-500: #6b7280,
+  gray-600: #4b5563,
+  gray-700: #374151,
+  gray-800: #1f2937,
+  gray-900: #111827
 );
+
+// Layout
+$max-width: 1600px;
 
 // Transitions
 $transition-speed: 0.3s;
@@ -229,7 +211,7 @@ $changelog-card-gap: 1.5rem;
 $changelog-animation-duration: 0.3s;
 $changelog-icon-size: 32px;
 
-// Spacings spécifiques pour le changelog
+// Specific spacings for the changelog
 $spacing-xxs: 0.25rem;
 $spacing-xs: 0.5rem;
 $spacing-sm: 0.75rem;
@@ -325,5 +307,186 @@ $border-color: var(--border-color);
     font-size: 1.125rem;
   } @else if $level == 'h6' {
     font-size: 1rem;
+  }
+}
+
+// Typographie
+$font-family: 'Inter', system-ui, -apple-system, sans-serif;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.25rem;   // 20px
+$font-size-2xl: 1.5rem;   // 24px
+$font-size-3xl: 1.875rem; // 30px
+$font-size-4xl: 2.25rem;  // 36px
+
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-loose: 1.75;
+
+// Espacement
+$spacing-xxs: 0.25rem;  // 4px
+$spacing-xs: 0.5rem;    // 8px
+$spacing-sm: 0.75rem;   // 12px
+$spacing-md: 1rem;      // 16px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;      // 32px
+$spacing-2xl: 3rem;     // 48px
+$spacing-3xl: 4rem;     // 64px
+$spacing-4xl: 6rem;     // 96px
+
+// Bordures
+$border-radius-xs: 2px;
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+$border-radius-xl: 12px;
+$border-radius-full: 9999px;
+
+// Breakpoints
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+// Z-index
+$z-index-negative: -1;
+$z-index-base: 0;
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+// Transitions
+$transition-speed: 0.2s;
+$transition-speed-fast: 0.15s;
+$transition-speed-slow: 0.3s;
+$transition-timing: ease-in-out;
+
+// Layout Sizes
+$sidebar-width: 280px;
+$mobile-sidebar-width: 240px;
+$header-height: 64px;
+$footer-height: 64px;
+$container-width: 1200px;
+
+// Alpha Values
+$alpha-hover: 0.08;
+$alpha-focus: 0.12;
+$alpha-press: 0.16;
+$alpha-drag: 0.24;
+
+// CSS Variables (defined in _base.scss)
+:root {
+  // These variables will be defined dynamically in CSS
+  --primary-color: #6366f1;
+  --primary-color-rgb: 99, 102, 241;
+  --primary-color-light: #818cf8;
+  --primary-color-dark: #4f46e5;
+  
+  --secondary-color: #64748b;
+  --secondary-color-rgb: 100, 116, 139;
+  --secondary-color-light: #94a3b8;
+  --secondary-color-dark: #475569;
+  
+  --success-color: #10b981;
+  --success-color-rgb: 16, 185, 129;
+  --success-color-dark: #059669;
+  
+  --danger-color: #ef4444;
+  --danger-color-rgb: 239, 68, 68;
+  --danger-color-dark: #dc2626;
+  
+  --warning-color: #f59e0b;
+  --warning-color-rgb: 245, 158, 11;
+  
+  --info-color: #3b82f6;
+  --info-color-rgb: 59, 130, 246;
+  
+  --primary-text: #fff;
+  --secondary-text: #fff;
+  
+  --text-color: #374151;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  
+  --bg-color: #f9fafb;
+  --bg-color-alt: #f3f4f6;
+  
+  --card-bg: #fff;
+  --card-bg-alt: #f9fafb;
+  --card-header-bg: #f9fafb;
+  
+  --border-color: #e5e7eb;
+  --border-color-rgb: 229, 231, 235;
+  
+  --input-bg: #fff;
+  --focus-color: rgba(99, 102, 241, 0.5);
+  
+  --tab-header-bg: #f9fafb;
+  
+  --scrollbar-thumb: #d1d5db;
+  --scrollbar-thumb-hover: #9ca3af;
+  --scrollbar-track: #f3f4f6;
+  --scrollbar-thumb-color: #d1d5db;
+  --scrollbar-thumb-hover-color: #9ca3af;
+  --scrollbar-track-color: #f3f4f6;
+  
+  --font-family: #{$font-family};
+
+  // Variables for gradients
+  --primary-gradient-start: #3a6eff;
+  --primary-gradient-end: #5e9fff;
+  
+  // Variables for the changelog
+  --changelog-badge-bg: rgba(255, 255, 255, 0.15);
+  --changelog-date-bg: rgba(0, 0, 0, 0.15);
+  --changelog-shadow-color: rgba(0, 0, 0, 0.08);
+  --changelog-index-bg: rgba(0, 0, 0, 0.05);
+  
+  // Theme-specific gradient overrides (to adapt according to your themes)
+  .theme-dark {
+    --primary-gradient-start: #2a4fbb;
+    --primary-gradient-end: #4169e1;
+  }
+  
+  .theme-antimatter {
+    --primary-gradient-start: #7b00ff;
+    --primary-gradient-end: #9d00ff;
+  }
+  
+  .theme-infinity {
+    --primary-gradient-start: #0066cc;
+    --primary-gradient-end: #0088ff;
+  }
+  
+  .theme-eternity {
+    --primary-gradient-start: #802a00;
+    --primary-gradient-end: #cc4400;
+  }
+  
+  .theme-reality {
+    --primary-gradient-start: #2d882d;
+    --primary-gradient-end: #38b638;
   }
 }

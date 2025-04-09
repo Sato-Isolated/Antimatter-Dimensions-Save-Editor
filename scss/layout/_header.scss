@@ -1,19 +1,23 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Header styles */
 
 // Header principal
 .main-header {
-  padding: $spacing-md;
+  padding: var.$spacing-md;
   background-color: var(--card-header-bg);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  @include flex-between;
+  @include mix.flex-between;
 
   h1 {
     margin: 0;
-    font-size: $font-size-3xl;
+    font-size: var.$font-size-3xl;
     color: var(--title-color);
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: var.$spacing-sm;
+    font-weight: var.$font-weight-bold;
 
     .fa-atom {
       color: var(--primary-color);
@@ -22,15 +26,15 @@
 
   .theme-toggle {
     button {
-      @include flex-center;
+      @include mix.flex-center;
       width: 40px;
       height: 40px;
-      border-radius: $border-radius-full;
+      border-radius: var.$border-radius-full;
       padding: 0;
       background-color: transparent;
       color: var(--text-color);
       border: 1px solid var(--border-color);
-      @include transition;
+      @include mix.transition;
 
       &:hover {
         background-color: var(--button-ghost-hover);
@@ -38,18 +42,18 @@
       }
 
       i {
-        font-size: $font-size-xl;
+        font-size: var.$font-size-xl;
       }
     }
   }
 
-  @include mobile {
+  @include mix.mobile {
     flex-direction: column;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
     text-align: center;
 
     h1 {
-      font-size: $font-size-2xl;
+      font-size: var.$font-size-2xl;
     }
   }
 }
@@ -75,28 +79,29 @@
   background-color: var(--header-bg);
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: $spacing-md $spacing-lg;
+  padding: var.$spacing-md var.$spacing-lg;
   transition: all 0.3s ease;
 
   .header-content {
-    max-width: $max-width;
+    width: 100%;
+    max-width: var.$max-width;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: $spacing-lg;
+    gap: var.$spacing-lg;
 
-    @include mobile {
-      padding: $spacing-sm;
+    @include mix.mobile {
+      padding: var.$spacing-sm;
       flex-direction: column;
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
       text-align: center;
 
       h1 {
-        font-size: $font-size-xl;
+        font-size: var.$font-size-xl;
         
         .spin {
-          margin-right: $spacing-xs;
+          margin-right: var.$spacing-xs;
         }
       }
 
@@ -106,11 +111,11 @@
       }
     }
 
-    @include tablet {
-      padding: $spacing-md;
+    @include mix.tablet {
+      padding: var.$spacing-md;
 
       h1 {
-        font-size: $font-size-2xl;
+        font-size: var.$font-size-2xl;
       }
     }
   }
@@ -118,9 +123,9 @@
   h1 {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
+    gap: var.$spacing-md;
+    font-size: var.$font-size-xl;
+    font-weight: var.$font-weight-bold;
     color: var(--primary-color);
 
     i {
@@ -136,15 +141,15 @@
       }
     }
 
-    @include mobile {
-      font-size: $font-size-lg;
+    @include mix.mobile {
+      font-size: var.$font-size-lg;
     }
   }
 
   .header-controls {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
   }
 
   .icon-button {
@@ -173,12 +178,12 @@
   .github-button {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
-    padding: $spacing-sm $spacing-md;
-    border-radius: $border-radius-lg;
+    gap: var.$spacing-sm;
+    padding: var.$spacing-sm var.$spacing-md;
+    border-radius: var.$border-radius-lg;
     background: var(--button-ghost);
     color: var(--text-color);
-    font-weight: $font-weight-medium;
+    font-weight: var.$font-weight-medium;
     transition: all 0.3s ease;
 
     &:hover {
@@ -191,15 +196,15 @@
     }
 
     i {
-      font-size: $font-size-lg;
+      font-size: var.$font-size-lg;
     }
 
-    @include mobile {
+    @include mix.mobile {
       span {
         display: none;
       }
       
-      padding: $spacing-sm;
+      padding: var.$spacing-sm;
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -207,11 +212,11 @@
     }
   }
 
-  @include mobile {
-    padding: $spacing-sm;
+  @include mix.mobile {
+    padding: var.$spacing-sm;
     
     .header-content {
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
     }
   }
 }

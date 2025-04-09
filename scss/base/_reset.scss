@@ -1,3 +1,86 @@
+/* Reset CSS */
+
+/* Normalize box model for all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Document setup */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Remove default margins and paddings */
+body,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd, ol, ul,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography reset */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+}
+
+/* List reset */
+ol, ul {
+  list-style: none;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+}
+
+/* Media elements */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form elements */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Remove animations and transitions for people who prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Reset & Normalization */
 *,
 *::before,
@@ -62,17 +145,8 @@ textarea {
   resize: vertical;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 a:not([class]) {
   text-decoration-skip-ink: auto;
-}
-
-ul, ol {
-  list-style: none;
 }
 
 ul[role='list'], ol[role='list'] {
@@ -83,11 +157,6 @@ img, svg {
   vertical-align: middle;
   max-width: 100%;
   height: auto;
-}
-
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
 }
 
 input, button, textarea, select {

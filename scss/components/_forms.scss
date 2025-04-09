@@ -1,20 +1,23 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Form styles */
 
 .form-group {
-  margin-bottom: $spacing-md;
+  margin-bottom: var.$spacing-md;
 
-  @include mobile {
-    margin-bottom: $spacing-sm;
+  @include mix.mobile {
+    margin-bottom: var.$spacing-sm;
   }
 
   label {
     display: block;
-    margin-bottom: $spacing-xs;
-    color: var(--text-color);
-    font-weight: $font-weight-medium;
+    margin-bottom: var.$spacing-xs;
+    font-weight: var.$font-weight-medium;
+    color: var(--label-color);
 
-    @include mobile {
-      font-size: $font-size-sm;
+    @include mix.mobile {
+      font-size: var.$font-size-sm;
     }
   }
 
@@ -22,26 +25,27 @@
   input[type="number"],
   input[type="email"],
   input[type="password"],
+  input[type="search"],
   select,
   textarea {
-    @include input-base;
+    @include mix.input-base;
   }
 
   input[type="text"],
   input[type="number"],
   textarea {
     width: 100%;
-    padding: $spacing-sm;
+    padding: var.$spacing-sm;
     border: 1px solid var(--border-color);
-    border-radius: $border-radius-sm;
+    border-radius: var.$border-radius-sm;
     background: var(--input-bg);
     color: var(--text-color);
-    font-size: $font-size-base;
+    font-size: var.$font-size-base;
     transition: all 0.3s ease;
 
-    @include mobile {
-      padding: $spacing-xs $spacing-sm;
-      font-size: $font-size-sm;
+    @include mix.mobile {
+      padding: var.$spacing-xs var.$spacing-sm;
+      font-size: var.$font-size-sm;
     }
 
     &:focus {
@@ -55,9 +59,9 @@
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right $spacing-sm center;
+    background-position: right var.$spacing-sm center;
     background-size: 1em;
-    padding-right: $spacing-xl;
+    padding-right: var.$spacing-xl;
   }
 
   textarea {
@@ -66,31 +70,46 @@
   }
 
   .help-text {
-    font-size: $font-size-sm;
+    margin-top: var.$spacing-xs;
+    font-size: var.$font-size-sm;
     color: var(--help-text-color);
-    margin-top: $spacing-xs;
   }
 
   .error-text {
-    font-size: $font-size-sm;
+    font-size: var.$font-size-sm;
     color: var(--error-color);
-    margin-top: $spacing-xs;
+    margin-top: var.$spacing-xs;
+  }
+
+  .input-with-label {
+    display: flex;
+    align-items: center;
+    
+    input {
+      flex: 1;
+    }
+    
+    .input-label {
+      padding: 0 var.$spacing-xs;
+      color: var(--text-muted);
+      font-size: var.$font-size-sm;
+    }
   }
 }
 
-// Textarea spécifique pour les sauvegardes
+// Specific Textarea for Saves
 .save-textarea {
-  @include input-base;
-  font-family: $font-family-mono;
+  @include mix.input-base;
+  font-family: var.$font-family-mono;
   min-height: 150px;
-  padding: $spacing-md;
+  padding: var.$spacing-md;
   resize: vertical;
 
-  @include mobile {
+  @include mix.mobile {
     min-height: 120px;
   }
 
-  @include custom-scrollbar;
+  @include mix.custom-scrollbar;
 
   &:read-only {
     background-color: var(--input-readonly-bg);
@@ -98,25 +117,25 @@
   }
 }
 
-// Disposition des formulaires
+// Form Layout
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 (-$spacing-sm);
+  margin: 0 calc(var.$spacing-sm * -1);
 
   .form-group {
     flex: 1 0 0%;
-    padding: 0 $spacing-sm;
+    padding: 0 var.$spacing-sm;
     min-width: 200px;
   }
 }
 
-// Formulaire en ligne
+// Inline Form
 .form-inline {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: $spacing-sm;
+  gap: var.$spacing-sm;
 
   .form-group {
     margin-bottom: 0;
@@ -124,21 +143,21 @@
     align-items: center;
 
     label {
-      margin-right: $spacing-sm;
+      margin-right: var.$spacing-sm;
       margin-bottom: 0;
     }
   }
 }
 
-// Checkbox et radio
+// Checkbox and radio
 .form-check {
   display: flex;
   align-items: center;
-  margin-bottom: $spacing-sm;
+  margin-bottom: var.$spacing-sm;
 
   input[type="checkbox"],
   input[type="radio"] {
-    margin-right: $spacing-sm;
+    margin-right: var.$spacing-sm;
   }
 
   label {
@@ -147,14 +166,14 @@
   }
 }
 
-// Groupe d'entrées
+// Input Group
 .input-group {
   display: flex;
   align-items: stretch;
-  margin-bottom: $spacing-md;
-  gap: $spacing-sm;
+  margin-bottom: var.$spacing-md;
+  gap: var.$spacing-sm;
 
-  @include mobile {
+  @include mix.mobile {
     flex-direction: column;
   }
 
@@ -162,13 +181,13 @@
     border-radius: 0;
 
     &:first-child {
-      border-top-left-radius: $border-radius-sm;
-      border-bottom-left-radius: $border-radius-sm;
+      border-top-left-radius: var.$border-radius-sm;
+      border-bottom-left-radius: var.$border-radius-sm;
     }
 
     &:last-child {
-      border-top-right-radius: $border-radius-sm;
-      border-bottom-right-radius: $border-radius-sm;
+      border-top-right-radius: var.$border-radius-sm;
+      border-bottom-right-radius: var.$border-radius-sm;
     }
   }
 
@@ -180,14 +199,14 @@
   .input-group-text {
     display: flex;
     align-items: center;
-    padding: $spacing-sm $spacing-md;
+    padding: var.$spacing-sm var.$spacing-md;
     background-color: var(--input-group-bg);
     border: 1px solid var(--input-border);
     color: var(--text-muted);
   }
 }
 
-// Validation des formulaires
+// Validation of forms
 .is-invalid {
   border-color: var(--error-color) !important;
 
@@ -204,13 +223,13 @@
   }
 }
 
-// Groupe de boutons
+// Button Group
 .button-group {
   display: flex;
-  gap: $spacing-sm;
-  margin-top: $spacing-md;
+  gap: var.$spacing-sm;
+  margin-top: var.$spacing-md;
 
-  @include mobile {
+  @include mix.mobile {
     flex-direction: column;
     width: 100%;
 
@@ -218,4 +237,14 @@
       width: 100%;
     }
   }
+}
+
+// Code editor
+.code-editor {
+  @include mix.input-base;
+  font-family: var.$font-family-mono;
+  min-height: 300px;
+  padding: var.$spacing-md;
+  resize: vertical;
+  @include mix.custom-scrollbar;
 }

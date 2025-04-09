@@ -1,14 +1,23 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+@use '../base/functions' as fn;
+
 .settings-layout {
   padding: 1rem;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 
   h3 {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
     font-size: 1.5rem;
-    color: var(--title-color);
+  }
+
+  h4 {
+    margin: 1.5rem 0 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
   }
 
   .theme-options {
@@ -111,7 +120,7 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -124,58 +133,39 @@
     font-weight: 600;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
+  .input-group {
+    margin-bottom: 1rem;
+    
     label {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      margin-bottom: 0.5rem;
       cursor: pointer;
-      user-select: none;
-
-      &:hover {
-        color: var(--primary-color);
+      
+      input[type="radio"],
+      input[type="checkbox"] {
+        margin-right: 0.5rem;
+      }
+      
+      .radio-label,
+      .checkbox-label {
+        margin-left: 0.5rem;
       }
     }
-
+    
     select {
-      margin-left: auto;
-      min-width: 120px;
+      width: 100%;
       padding: 0.5rem;
       border: 1px solid var(--border-color);
       border-radius: 4px;
-      background: var(--input-bg);
+      background-color: var(--input-bg);
       color: var(--text-color);
       
       &:focus {
-        border-color: var(--primary-color);
         outline: none;
-        box-shadow: 0 0 0 2px var(--primary-color-light);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
       }
-    }
-
-    input[type="radio"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--primary-color);
-      cursor: pointer;
-    }
-  }
-
-  .sub-option {
-    margin-left: 1.5rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--border-color);
-
-    label {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-      font-size: $font-size-sm;
     }
   }
 }
@@ -187,7 +177,7 @@
 
   label {
     padding: 0.5rem;
-    border-radius: $border-radius-sm;
+    border-radius: var.$border-radius-sm;
     transition: all 0.2s ease;
 
     &:hover {
@@ -308,35 +298,196 @@ input[type="radio"] {
   }
 }
 
-// Style du sélecteur de thème dans le header
-.theme-select {
-  appearance: none;
-  background: var(--button-ghost);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  padding: 0.5rem 2rem 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1em;
-
-  &:hover {
-    background-color: var(--button-ghost-hover);
-    border-color: var(--primary-color);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px var(--primary-color-light);
-  }
-
-  option {
-    background: var(--card-bg);
+// Sélecteur de thème amélioré
+.theme-selector {
+  margin-bottom: 1.5rem;
+  
+  .theme-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
     color: var(--text-color);
+    font-size: 1rem;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
+    }
+  }
+  
+  .theme-description {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    line-height: 1.5;
+  }
+}
+
+// Visualiseur de thèmes
+.theme-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+.theme-preview-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color-light);
+    
+    .theme-name {
+      color: var(--primary-color);
+    }
+  }
+  
+  &.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.3);
+    
+    .theme-check {
+      opacity: 1;
+    }
+  }
+  
+  .theme-color-preview {
+    height: 120px;
+    padding: 0.75rem;
+    
+    .color-bar {
+      height: 100%;
+      display: flex;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      
+      div {
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        
+        &:not(:last-child) {
+          border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        &:hover {
+          transform: scaleY(1.03);
+          z-index: 1;
+          box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+  }
+  
+  .theme-name {
+    display: block;
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 500;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .theme-check {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 5px;
+      height: 10px;
+      border-right: 2px solid white;
+      border-bottom: 2px solid white;
+    }
+  }
+}
+
+// Styles for each theme in the previews
+.light-theme {
+  .theme-color-preview {
+    background-color: #f9fafb;
+  }
+}
+
+.dark-theme {
+  .theme-color-preview {
+    background-color: #1e1e1e;
+  }
+}
+
+.antimatter-theme {
+  .theme-color-preview {
+    background-color: #130826;
+  }
+}
+
+.infinity-theme {
+  .theme-color-preview {
+    background-color: #0a1f38;
+  }
+}
+
+.eternity-theme {
+  .theme-color-preview {
+    background-color: #301b10;
+  }
+}
+
+.reality-theme {
+  .theme-color-preview {
+    background-color: #1a2e1a;
+  }
+}
+
+// Séparateur de section avec titre
+.settings-section-divider {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0;
+  border-bottom: 1px solid var(--border-color);
+  height: 0;
+  
+  .divider-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--card-bg);
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 }
 
@@ -376,4 +527,11 @@ input[type="radio"] {
       align-items: flex-start;
     }
   }
+}
+
+.input-container {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  border-radius: var.$border-radius-sm;
 }

@@ -1,4 +1,4 @@
-// Animations de base
+// Base Animations
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -41,7 +41,7 @@
   50% { transform: translateY(-5px); }
 }
 
-// Classes d'animation réutilisables
+// Reusable Animation Classes
 .animate {
   animation-duration: 0.3s;
   animation-fill-mode: both;
@@ -84,7 +84,7 @@
   &-shadow { transition: box-shadow 0.3s ease; }
 }
 
-// Animation des notifications
+// Notification Animation
 .notification {
   &-enter {
     animation: slideInUp 0.3s ease forwards;
@@ -95,7 +95,7 @@
   }
 }
 
-// Classes d'accessibilité
+// Accessibility helper classes
 .focus-visible {
   &:focus-visible {
     outline: 2px solid var(--primary-color);
@@ -136,7 +136,7 @@
   }
 }
 
-// Classes d'aide pour l'accessibilité
+// Accessibility helper classes
 .visually-hidden:not(:focus):not(:active) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);

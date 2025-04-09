@@ -1,0 +1,99 @@
+@use '../base/functions' as fn;
+
+// Text colors
+.text-color { color: var(--text-color); }
+.text-muted { color: var(--text-muted); }
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-accent { color: var(--accent-color); }
+.text-success { color: var(--success-color); }
+.text-error { color: var(--error-color); }
+.text-info { color: var(--info-color); }
+.text-title { color: var(--title-color); }
+.text-label { color: var(--label-color); }
+.text-help { color: var(--help-text-color); }
+.text-link { color: var(--link-color); }
+
+// Background colors
+.bg-color { background-color: var(--bg-color); }
+.bg-card { background-color: var(--card-bg); }
+.bg-card-alt { background-color: var(--card-bg-alt); }
+.bg-card-header { background-color: var(--card-header-bg); }
+.bg-card-footer { background-color: var(--card-footer-bg); }
+.bg-primary { background-color: var(--primary-color); }
+.bg-primary-light { background-color: var(--primary-color-light); }
+.bg-secondary { background-color: var(--secondary-color); }
+.bg-input { background-color: var(--input-bg); }
+.bg-input-readonly { background-color: var(--input-readonly-bg); }
+.bg-tab-header { background-color: var(--tab-header-bg); }
+.bg-tab-content { background-color: var(--tab-content-bg); }
+
+// Borders
+.border-color { border-color: var(--border-color); }
+.border-primary { border-color: var(--primary-color); }
+.border-error { border-color: var(--error-color); }
+.border-success { border-color: var(--success-color); }
+.border-input { border-color: var(--input-border); }
+.border-focus { border-color: var(--input-focus-border); }
+
+// Opacity
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+// Theme colors
+// These classes take the color of the current theme
+.theme-color {
+  color: var(--primary-color);
+  
+  &-bg {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  &-border {
+    border-color: var(--primary-color);
+  }
+}
+
+// Semantic colors
+.success-color {
+  color: var(--success-color);
+  
+  &-bg {
+    background-color: var(--success-color);
+    color: white;
+  }
+  
+  &-border {
+    border-color: var(--success-color);
+  }
+}
+
+.error-color {
+  color: var(--error-color);
+  
+  &-bg {
+    background-color: var(--error-color);
+    color: white;
+  }
+  
+  &-border {
+    border-color: var(--error-color);
+  }
+}
+
+.info-color {
+  color: var(--info-color);
+  
+  &-bg {
+    background-color: var(--info-color);
+    color: white;
+  }
+  
+  &-border {
+    border-color: var(--info-color);
+  }
+} 

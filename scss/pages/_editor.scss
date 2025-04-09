@@ -1,3 +1,6 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Editor page specific styles */
 
 .editor-page {
@@ -8,19 +11,19 @@
   // Save file input/output areas
   .save-input-area,
   .save-output-area {
-    @include card-base;
-    padding: $spacing-md;
+    @include mix.card-base;
+    padding: var.$spacing-md;
   }
 
   // Structured editor form layout
   .structured-editor {
     .section-content {
       .form-group {
-        margin-bottom: $spacing-lg;
+        margin-bottom: var.$spacing-lg;
 
         label {
           display: block;
-          margin-bottom: $spacing-sm;
+          margin-bottom: var.$spacing-sm;
         }
 
         input[type="text"],
@@ -34,21 +37,21 @@
 
   // Dimension groups
   .dimension-group {
-    margin-bottom: $spacing-xl;
+    margin-bottom: var.$spacing-xl;
 
     h4 {
       color: var(--title-color);
-      margin-bottom: $spacing-md;
-      padding-bottom: $spacing-sm;
+      margin-bottom: var.$spacing-md;
+      padding-bottom: var.$spacing-sm;
       border-bottom: 1px solid var(--border-color);
     }
   }
 
   // Responsive adjustments
-  @include mobile {
+  @include mix.mobile {
     .structured-editor {
       .section-content {
-        padding: $spacing-sm;
+        padding: var.$spacing-sm;
 
         .form-group {
           input[type="text"],
@@ -63,39 +66,50 @@
 
 .editor-container {
   width: 100%;
-  max-width: $max-width;
+  max-width: var.$max-width;
   margin: 0 auto;
   display: grid;
-  gap: $spacing-lg;
-  padding: $spacing-lg;
+  gap: var.$spacing-lg;
+  padding: var.$spacing-lg;
   
-  @include mobile {
-    padding: $spacing-sm;
-    gap: $spacing-md;
+  @include mix.mobile {
+    padding: var.$spacing-sm;
+    gap: var.$spacing-md;
+  }
+}
+
+// Added margins between main sections
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: var.$spacing-xl; // Increased spacing between main sections (import, editor, export)
+  
+  @include mix.mobile {
+    gap: var.$spacing-lg; // Slightly reduced on mobile but still substantial
   }
 }
 
 .editor-section {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
 
-  @include mobile {
-    gap: $spacing-md;
+  @include mix.mobile {
+    gap: var.$spacing-md;
   }
 }
 
 .save-section {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
 
-  @include mobile {
-    gap: $spacing-md;
+  @include mix.mobile {
+    gap: var.$spacing-md;
   }
 
   .save-textarea {
     min-height: 120px;
     
-    @include mobile {
+    @include mix.mobile {
       min-height: 100px;
     }
   }
@@ -103,29 +117,29 @@
 
 .structured-editor {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
 
-  @include mobile {
-    gap: $spacing-md;
+  @include mix.mobile {
+    gap: var.$spacing-md;
   }
 
   .dimension-group {
     display: grid;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
     
-    @include mobile {
-      gap: $spacing-sm;
+    @include mix.mobile {
+      gap: var.$spacing-sm;
     }
   }
 
   .input-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: $spacing-md;
+    gap: var.$spacing-md;
     
-    @include mobile {
+    @include mix.mobile {
       grid-template-columns: 1fr;
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
     }
   }
 }
@@ -133,11 +147,11 @@
 .json-editor-container {
   height: 600px;
   
-  @include mobile {
+  @include mix.mobile {
     height: 400px;
   }
 
-  @include tablet {
+  @include mix.tablet {
     height: 500px;
   }
 }
@@ -146,7 +160,7 @@
   display: flex;
   min-height: 500px;
   
-  @include mobile {
+  @include mix.mobile {
     flex-direction: column;
     min-height: auto;
   }
@@ -156,7 +170,7 @@
     flex-shrink: 0;
     border-right: 1px solid var(--border-color);
     
-    @include mobile {
+    @include mix.mobile {
       width: 100%;
       border-right: none;
       border-bottom: 1px solid var(--border-color);
@@ -174,12 +188,12 @@
 .section-navigation {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xs;
+  gap: var.$spacing-xs;
   
-  @include mobile {
+  @include mix.mobile {
     flex-direction: row;
     overflow-x: auto;
-    padding: $spacing-xs;
+    padding: var.$spacing-xs;
     -webkit-overflow-scrolling: touch;
     
     &::-webkit-scrollbar {

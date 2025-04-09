@@ -1,19 +1,22 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Card styles */
 
 .card {
-  @include card-base;
+  @include mix.card-base;
   overflow: hidden;
   
   .card-header {
-    padding: $spacing-md $spacing-lg;
+    padding: var.$spacing-md var.$spacing-lg;
     border-bottom: 1px solid var(--border-color);
     background-color: var(--card-header-bg);
-    @include flex-between;
+    @include mix.flex-between;
 
-    @include mobile {
-      padding: $spacing-sm;
+    @include mix.mobile {
+      padding: var.$spacing-sm;
       flex-direction: column;
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
 
       &.with-tabs {
         flex-direction: column;
@@ -36,24 +39,24 @@
     }
 
     h2 {
-      font-size: $font-size-xl;
+      font-size: var.$font-size-xl;
       
-      @include mobile {
-        font-size: $font-size-lg;
+      @include mix.mobile {
+        font-size: var.$font-size-lg;
       }
     }
   }
 
   .card-body {
-    padding: $spacing-lg;
+    padding: var.$spacing-lg;
     
-    @include mobile {
-      padding: $spacing-md;
+    @include mix.mobile {
+      padding: var.$spacing-md;
     }
   }
 
   .card-footer {
-    padding: $spacing-md;
+    padding: var.$spacing-md;
     border-top: 1px solid var(--border-color);
     background-color: var(--card-footer-bg);
   }
@@ -62,15 +65,15 @@
 // Cards spéciaux
 .info-card {
   @extend .card;
-  margin-bottom: $spacing-lg;
+  margin-bottom: var.$spacing-lg;
 
   .card-header {
-    @include flex-between;
+    @include mix.flex-between;
     background-color: var(--card-header-bg);
   }
 
   .info-content {
-    padding: $spacing-md;
+    padding: var.$spacing-md;
   }
 }
 
@@ -80,9 +83,9 @@
   
   .card-header {
     h2 {
-      @include flex-center;
-      gap: $spacing-sm;
-      font-size: $font-size-xl;
+      @include mix.flex-center;
+      gap: var.$spacing-sm;
+      font-size: var.$font-size-xl;
       
       i {
         color: var(--github-icon-color);
@@ -92,11 +95,11 @@
 
   ul {
     list-style: none;
-    padding: $spacing-md;
+    padding: var.$spacing-md;
     margin: 0;
 
     li {
-      padding: $spacing-sm 0;
+      padding: var.$spacing-sm 0;
       border-bottom: 1px solid var(--border-color);
       
       &:last-child {
@@ -124,43 +127,43 @@
 .github-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: $spacing-md;
-  padding: $spacing-md;
+  gap: var.$spacing-md;
+  padding: var.$spacing-md;
   text-align: center;
 
   .stat-item {
     .stat-value {
-      font-size: $font-size-2xl;
-      font-weight: $font-weight-bold;
+      font-size: var.$font-size-2xl;
+      font-weight: var.$font-weight-bold;
       color: var(--text-color);
-      margin-bottom: $spacing-xs;
+      margin-bottom: var.$spacing-xs;
     }
 
     .stat-label {
       color: var(--text-muted);
-      font-size: $font-size-sm;
+      font-size: var.$font-size-sm;
     }
 
     i {
       color: var(--github-icon-color);
-      font-size: $font-size-xl;
-      margin-bottom: $spacing-xs;
+      font-size: var.$font-size-xl;
+      margin-bottom: var.$spacing-xs;
     }
   }
 }
 
 // Lien GitHub
 .github-link {
-  padding: $spacing-md;
+  padding: var.$spacing-md;
   text-align: center;
   border-top: 1px solid var(--border-color);
 
   a {
-    @include flex-center;
-    gap: $spacing-sm;
+    @include mix.flex-center;
+    gap: var.$spacing-sm;
     color: var(--link-color);
     text-decoration: none;
-    font-weight: $font-weight-medium;
+    font-weight: var.$font-weight-medium;
     display: inline-flex;
 
     &:hover {
@@ -173,18 +176,18 @@
 // Grille de cartes responsive
 .card-grid {
   display: grid;
-  gap: $spacing-lg;
+  gap: var.$spacing-lg;
   
-  @include desktop {
+  @include mix.desktop {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
   
-  @include tablet {
+  @include mix.tablet {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
   
-  @include mobile {
+  @include mix.mobile {
     grid-template-columns: 1fr;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
   }
 }

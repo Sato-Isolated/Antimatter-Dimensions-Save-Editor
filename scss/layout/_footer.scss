@@ -1,27 +1,30 @@
+@use '../base/variables' as var;
+@use '../base/mixins' as mix;
+
 /* Footer styles */
 
 .app-footer {
   margin-top: auto;
   background-color: var(--footer-bg);
   border-top: 1px solid var(--border-color);
-  padding: $spacing-md;
+  padding: var.$spacing-md;
 
   .footer-content {
-    max-width: $max-width;
+    max-width: var.$max-width;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: $spacing-lg;
+    gap: var.$spacing-lg;
 
-    @include mobile {
+    @include mix.mobile {
       flex-direction: column;
       text-align: center;
-      gap: $spacing-md;
+      gap: var.$spacing-md;
 
       .footer-links {
         flex-direction: column;
-        gap: $spacing-sm;
+        gap: var.$spacing-sm;
 
         .separator {
           display: none;
@@ -29,21 +32,21 @@
       }
     }
 
-    @include tablet {
-      padding: $spacing-md;
-      gap: $spacing-lg;
+    @include mix.tablet {
+      padding: var.$spacing-md;
+      gap: var.$spacing-lg;
     }
   }
 
   .footer-info {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
     color: var(--text-color-secondary);
 
     p {
       color: var(--text-color-secondary);
-      font-size: $font-size-sm;
+      font-size: var.$font-size-sm;
     }
 
     a {
@@ -79,48 +82,48 @@
   .footer-links {
     display: flex;
     align-items: center;
-    gap: $spacing-md;
+    gap: var.$spacing-md;
 
-    @include mobile {
+    @include mix.mobile {
       flex-direction: column;
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
     }
 
     a {
       color: var(--text-color);
       text-decoration: none;
       transition: all 0.3s ease;
-      font-size: $font-size-sm;
+      font-size: var.$font-size-sm;
       display: flex;
       align-items: center;
-      gap: $spacing-sm;
+      gap: var.$spacing-sm;
 
       &:hover {
         color: var(--primary-color);
       }
 
       i {
-        font-size: $font-size-lg;
+        font-size: var.$font-size-lg;
       }
     }
 
     .separator {
       color: var(--text-color-secondary);
-      margin: 0 $spacing-sm;
+      margin: 0 var.$spacing-sm;
 
-      @include mobile {
+      @include mix.mobile {
         display: none;
       }
     }
 
     p {
       color: var(--text-color-secondary);
-      font-size: $font-size-sm;
+      font-size: var.$font-size-sm;
     }
   }
 }
 
-// Animation pour le changelog
+// Animation for the changelog
 .changelog-link {
   position: relative;
   
