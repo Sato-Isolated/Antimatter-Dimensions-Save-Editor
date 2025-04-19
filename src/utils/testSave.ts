@@ -42,7 +42,7 @@ export const testSaveData = (
     }
     
     // Keep the decrypted data for reference
-    result.decryptedData = decryptedData as AntimatterDimensionsStruct;
+    result.decryptedData = decryptedData.data as AntimatterDimensionsStruct;
     
     // Compare the main properties
     const checkProperties = (

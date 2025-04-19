@@ -6,6 +6,7 @@ import { resolve } from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/Antimatter-Dimensions-Save-Editor/',
   resolve: {
     alias: {
       '@': resolve(__dirname, './src')

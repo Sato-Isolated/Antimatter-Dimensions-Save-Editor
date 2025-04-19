@@ -59,6 +59,15 @@ declare global {
     chall3Pow?: any;
     chall8TotalSacrifice?: any;
     chall9TickspeedCostBumps?: any;
+    tickspeed?: string | { mantissa: number; exponent: number };
+    eternityUpgrades?: any[];
+    epmultUpgrades?: number;
+    timestudies?: {
+      studies?: number[];
+      theorem?: string;
+      eternityChalls?: number[];
+    };
+    partSimulatedReality?: number;
   }
 }
 

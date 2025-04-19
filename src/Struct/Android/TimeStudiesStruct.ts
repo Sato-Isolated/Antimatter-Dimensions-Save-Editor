@@ -10,6 +10,8 @@ export interface TimeStudiesStruct {
   thisMastery: number;
   totalMastery: number;
   unlocked: boolean;
+  theorem?: string;
+  eternityChalls?: number[];
 }
 
 export interface TimeStudyTree {
