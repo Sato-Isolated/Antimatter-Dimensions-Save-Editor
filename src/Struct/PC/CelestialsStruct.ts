@@ -1,4 +1,4 @@
-import { Type, BestAmSet } from './RecordsStruct';
+import { BestAmSet } from './RecordsStruct';
 import { EternityChalls } from './EternityStruct';
 import { HighestRefinementValue } from './RealityStruct';
 

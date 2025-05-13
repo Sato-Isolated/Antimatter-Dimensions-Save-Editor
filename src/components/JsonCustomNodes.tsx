@@ -1,4 +1,3 @@
-import React from 'react';
 
 // Time formatter
 const formatTime = (timeInMs: number) => {

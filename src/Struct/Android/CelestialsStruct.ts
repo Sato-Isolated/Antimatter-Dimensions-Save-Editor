@@ -1,4 +1,4 @@
-import { BankedInfinitiesClass, AchievementTimes, Type } from './CommonStruct';
+import { BankedInfinitiesClass, Type } from './CommonStruct';
 
 export interface Celestials {
     effarig:  CelestialsEffarig;

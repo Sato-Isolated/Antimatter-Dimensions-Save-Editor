@@ -1,23 +1,3 @@
-// Import interfaces directly
-import { Achievements } from './AchievementsStruct';
-import { Auto } from './AutoStruct';
-import { BlackHole } from './BlackHoleStruct';
-import { Celestials } from './CelestialsStruct';
-import { Challenge } from './ChallengeStruct';
-import { AntimatterDimensionsStructDilation } from './DilationStruct';
-import { Dimensions } from './DimensionsStruct';
-import { Iap } from './IAPStruct';
-import { 
-  AntimatterDimensionsStructNews,
-  Speedrun,
-  RequirementChecks,
-  SecretUnlocks,
-  ShownRuns
-} from './MiscStruct';
-import { Options } from './OptionsStruct';
-import { AntimatterDimensionsStructReality } from './RealityStruct';
-import { AntimatterDimensionsStructRecords } from './RecordsStruct';
-import { Replicanti } from './ReplicantiStruct';
 import { AntimatterDimensionsStructAndroid } from './AndroidStruct';
 
 // Export main Android structure

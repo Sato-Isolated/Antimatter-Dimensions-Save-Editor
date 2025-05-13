@@ -6,10 +6,7 @@ import {
   FaInfinity, 
   FaHourglassEnd, 
   FaSun, 
-  FaCog, 
-  FaCode, 
   FaChartLine,
-  FaQuestion,
   FaTrophy,
   FaClone,
   FaExpand,
@@ -19,9 +16,6 @@ import {
   FaHome
 } from 'react-icons/fa';
 import { 
-  GiTimeSynchronization, 
-  GiAtomCore, 
-  GiTargetDummy, 
   GiBlackHoleBolas,
   GiStoneBlock
 } from 'react-icons/gi';

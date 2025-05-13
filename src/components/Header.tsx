@@ -3,30 +3,13 @@ import { useSave } from '../contexts/SaveContext';
 import 'font-awesome/css/font-awesome.min.css';
 
 const Header: React.FC = () => {
-  const { isLoaded, testResults, testSave, encryptSave } = useSave();
+  const { isLoaded, testResults, testSave } = useSave();
 
   const handleTest = () => {
     if (isLoaded) {
       testSave();
     } else {
       alert('Please decrypt a save first');
-    }
-  };
-
-  const handleExport = () => {
-    if (!isLoaded) {
-      alert('Please decrypt a save first');
-      return;
-    }
-    
-    const encoded = encryptSave();
-    if (encoded) {
-      const blob = new Blob([encoded], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.download = 'save.txt';
-      a.href = URL.createObjectURL(blob);
-      a.click();
-      URL.revokeObjectURL(a.href);
     }
   };
 

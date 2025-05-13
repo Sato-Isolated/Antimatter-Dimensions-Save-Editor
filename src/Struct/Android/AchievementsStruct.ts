@@ -1,5 +1,3 @@
-import { AchievementTimes } from './CommonStruct';
-
 export interface Achievements {
     achievementBits: number[];
     secretUnlocks:   SecretUnlocks;
