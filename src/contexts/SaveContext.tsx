@@ -158,7 +158,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
 
       // In a web environment, use fetch
       try {
-        const response = await fetch("/pc.json");
+        const response = await fetch("./pc.json");
         if (response.ok) {
           saveJsonContent = await response.text();
         } else {
