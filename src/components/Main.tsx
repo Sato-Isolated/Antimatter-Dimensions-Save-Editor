@@ -185,7 +185,8 @@ const Main: React.FC = () => {
         
         {/* Android Save Support Alert */}
         <div className="alert alert-info">
-          <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save Support:</strong> Both PC and Android save files are now supported! Please make a backup of your save files before editing to prevent data loss. If you encounter missing values or other issues, please <a href="https://github.com/ismyshadow/Antimatter-Dimensions-Save-Editor/issues/new" target="_blank" rel="noopener noreferrer">create an issue</a> on GitHub with your original save and details about the problem.
+          <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save Support:</strong> Both PC and Android save files are now supported! Please make a backup of your save files before editing to prevent data loss. If you encounter missing values or other issues, please <a href="https://github.com/ismyshadow/Antimatter-Dimensions-Save-Editor/issues/new" target="_blank" rel="noopener noreferrer">create an issue</a> on GitHub with your original save and details about the problem. <br /> <br />
+          <strong>Warning:</strong> The structured editor is a bit messed up right now with the android support, so please use the JSON editor for now. The structured editor will be fixed in a future update when I have time to work on it.
         </div>
         
         {/* Import Save Section */}
