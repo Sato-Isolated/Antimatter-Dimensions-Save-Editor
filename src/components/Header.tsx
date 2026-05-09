@@ -6,10 +6,10 @@ const Header: React.FC = () => {
   const { isLoaded, testResults, testSave } = useSave();
 
   const structureStatus = !testResults
-    ? 'Run a structure test after decrypting a save to confirm the editor state.'
+    ? 'Run a save check after decrypting a save to confirm structure and registered field values.'
     : testResults.success
-      ? 'Latest structure test passed.'
-      : `Latest structure test found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`;
+      ? 'Latest save check passed.'
+      : `Latest save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`;
 
   const handleTest = () => {
     if (!isLoaded) {
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
 
         <div className="header-meta">
           <div className="header-status" aria-live="polite">
-            <p className="header-status-label">Structure status</p>
+            <p className="header-status-label">Save check status</p>
             <p className={`header-status-copy ${testResults ? (testResults.success ? 'success' : 'danger') : 'neutral'}`}>
               {structureStatus}
             </p>
@@ -43,7 +43,7 @@ const Header: React.FC = () => {
               className="btn test-button" 
               onClick={handleTest}
               disabled={!isLoaded}
-              title="Test the save structure"
+              title="Test the save structure and registered values"
             >
               <i className="fa fa-check-circle" aria-hidden="true"></i> Test
             </button>

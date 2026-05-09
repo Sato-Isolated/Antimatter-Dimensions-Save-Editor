@@ -4,6 +4,7 @@ import { FaExpand, FaTachometerAlt, FaArrowUp } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { SaveType } from '../../services/SaveService';
+import { parseNumericInput } from './fieldHelpers';
 import { 
   AntimatterDimensionsStruct,
   AndroidStruct as AntimatterDimensionsStructAndroid
@@ -83,16 +84,14 @@ const DilationSection: React.FC<SectionProps> = ({
               </div>
               
               <div className="form-group">
-                <label htmlFor="dilation-unlocked">Unlocked</label>
-                <select
-                  id="dilation-unlocked"
-                  value={(saveData.dilation as any)?.unlocked ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('dilation.unlocked', e.target.value === 'true')}
-                >
-                  <option value="true">Yes</option>
-                  <option value="false">No</option>
-                </select>
-                {renderValidationIndicator('dilation.unlocked')}
+                <label htmlFor="dilation-baseTachyonGalaxies">Base Tachyon Galaxies</label>
+                <input
+                  type="number"
+                  id="dilation-baseTachyonGalaxies"
+                  value={saveData.dilation?.baseTachyonGalaxies || 0}
+                  onChange={(e) => handleValueChange('dilation.baseTachyonGalaxies', parseNumericInput(e.target.value))}
+                />
+                {renderValidationIndicator('dilation.baseTachyonGalaxies')}
               </div>
               
               <div className="form-group">
@@ -106,23 +105,24 @@ const DilationSection: React.FC<SectionProps> = ({
               </div>
               
               <div className="form-group">
-                <BigNumberInput
-                  label="Base Dilation"
-                  value={isPCFormat() ? ((saveData.dilation as any)?.baseDilation || '0') : ((saveData.dilation as any)?.baseDilation || {mantissa: 0, exponent: 0})}
-                  onChange={(value) => handleValueChange('dilation.baseDilation', value)}
-                  saveType={saveType}
+                <label htmlFor="dilation-totalTachyonGalaxies">Total Tachyon Galaxies</label>
+                <input
+                  type="number"
+                  id="dilation-totalTachyonGalaxies"
+                  value={saveData.dilation?.totalTachyonGalaxies || 0}
+                  onChange={(e) => handleValueChange('dilation.totalTachyonGalaxies', parseNumericInput(e.target.value))}
                 />
-                {renderValidationIndicator('dilation.baseDilation')}
+                {renderValidationIndicator('dilation.totalTachyonGalaxies')}
               </div>
               
               <div className="form-group">
                 <BigNumberInput
-                  label="Total TP"
-                  value={isPCFormat() ? ((saveData.dilation as any)?.totalTachyonParticles || '0') : ((saveData.dilation as any)?.totalTachyonParticles || {mantissa: 0, exponent: 0})}
-                  onChange={(value) => handleValueChange('dilation.totalTachyonParticles', value)}
+                  label="Last EP"
+                  value={isPCFormat() ? (saveData.dilation?.lastEP || '0') : (saveData.dilation?.lastEP || {mantissa: 0, exponent: 0})}
+                  onChange={(value) => handleValueChange('dilation.lastEP', value)}
                   saveType={saveType}
                 />
-                {renderValidationIndicator('dilation.totalTachyonParticles')}
+                {renderValidationIndicator('dilation.lastEP')}
               </div>
             </div>
           </div>

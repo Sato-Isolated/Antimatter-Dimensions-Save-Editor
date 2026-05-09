@@ -1,4 +1,0 @@
-- Purpose: React/Vite web editor for Antimatter Dimensions save files with import/decrypt, structured editing, JSON editing, validation, and export/encrypt.
-- Stack: TypeScript, React 19, Vite 6, SCSS, Vitest, ESLint.
-- Structure: src/components for shell/editor UI, src/components/sections for structured save sections, src/contexts for theme/save state, src/core for document/save logic, scss for styling.
-- Windows environment.

@@ -1,4 +1,0 @@
-- Browser validation URL: http://localhost:3000/Antimatter-Dimensions-Save-Editor/
-- For Playwright validation with android.txt, system clipboard paste may not populate the import textarea reliably.
-- Reliable fallback: load android.txt from workspace and inject/type it into the encrypted save textarea before clicking Decrypt.
-- A recurring console error during app boot can just be missing favicon.ico on localhost, separate from editor runtime issues.

@@ -4,6 +4,7 @@ import SectionShell, { SectionShellTab } from './SectionShell';
 import { FaSuperscript, FaInfinity, FaHourglassHalf, FaSun } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import { SaveType } from '../../services/SaveService';
+import { parseNumericInput } from './fieldHelpers';
 import { 
   AntimatterDimensionsStruct,
   AndroidStruct as AntimatterDimensionsStructAndroid
@@ -349,7 +350,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                       id="realities" 
                       name="realities"
                       value={typeof saveData.realities === 'number' ? saveData.realities : 0}
-                      onChange={(e) => handleValueChange('realities', parseInt(e.target.value))}
+                      onChange={(e) => handleValueChange('realities', parseNumericInput(e.target.value))}
                     />
                   </>
                 ) : (
@@ -396,7 +397,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="reality.imaginaryMachines" 
                   name="reality.imaginaryMachines"
                   value={saveData.reality?.imaginaryMachines || 0}
-                  onChange={(e) => handleValueChange('reality.imaginaryMachines', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.imaginaryMachines', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('reality.imaginaryMachines')}
               </div>
@@ -408,7 +409,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="reality.iMCap" 
                   name="reality.iMCap"
                   value={saveData.reality?.iMCap || 0}
-                  onChange={(e) => handleValueChange('reality.iMCap', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.iMCap', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('reality.iMCap')}
               </div>
@@ -422,7 +423,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                       id="reality.perkPoints" 
                       name="reality.perkPoints"
                       value={typeof saveData.reality?.perkPoints === 'number' ? saveData.reality?.perkPoints : 0}
-                      onChange={(e) => handleValueChange('reality.perkPoints', parseInt(e.target.value))}
+                      onChange={(e) => handleValueChange('reality.perkPoints', parseNumericInput(e.target.value))}
                     />
                   </>
                 ) : (

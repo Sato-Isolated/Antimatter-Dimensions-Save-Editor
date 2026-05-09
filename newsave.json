@@ -1,0 +1,3213 @@
+{
+  "antimatter": "7.183181932162805e+369377954",
+  "dimensions": {
+    "antimatter": [
+      {
+        "bought": 496320,
+        "costBumps": 0,
+        "amount": "8.421994168158324e+323065648"
+      },
+      {
+        "bought": 496020,
+        "costBumps": 0,
+        "amount": "9.508301597528291e+276927346"
+      },
+      {
+        "bought": 495830,
+        "costBumps": 0,
+        "amount": "1.3595688066140519e+230789049"
+      },
+      {
+        "bought": 495700,
+        "costBumps": 0,
+        "amount": "1.6486776525778628e+184650755"
+      },
+      {
+        "bought": 495500,
+        "costBumps": 0,
+        "amount": "2.7293331074002007e+138512465"
+      },
+      {
+        "bought": 495360,
+        "costBumps": 0,
+        "amount": "4.09681224748326e+92374179"
+      },
+      {
+        "bought": 495240,
+        "costBumps": 0,
+        "amount": "4.878061760563876e+46235897"
+      },
+      {
+        "bought": 495080,
+        "costBumps": 0,
+        "amount": "495080"
+      }
+    ],
+    "infinity": [
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "2.88075766188978e+59102",
+        "cost": "1.2022644344515827e+1363374",
+        "baseAmount": 4733910
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "9.85909217811855e+42905",
+        "cost": "1.5848931922771374e+1363372",
+        "baseAmount": 2366950
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "7.74057529337473e+32808",
+        "cost": "9.120108391844504e+1363378",
+        "baseAmount": 1775220
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "4.20818878381121e+24594",
+        "cost": "3.9810717051674707e+1363373",
+        "baseAmount": 1420160
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "3.82281831526131e+19041",
+        "cost": "3.9810717041588397e+1363373",
+        "baseAmount": 946690
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "2.06770001602823e+14241",
+        "cost": "6.309573443800787e+1363380",
+        "baseAmount": 709990
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "1.45468683831255e+9908",
+        "cost": "9.999999999978835e+1363377",
+        "baseAmount": 567970
+      },
+      {
+        "isUnlocked": true,
+        "bought": 0,
+        "amount": "9.58910117382259e+5893",
+        "cost": "9.999999996628082e+1363383",
+        "baseAmount": 473300
+      }
+    ],
+    "time": [
+      {
+        "cost": "3.069788204391384e+4012",
+        "amount": "1.60894911689002e+4501",
+        "bought": 4896
+      },
+      {
+        "cost": "3.8112608480446952e+4012",
+        "amount": "7.85246092870529e+3709",
+        "bought": 3094
+      },
+      {
+        "cost": "3.397442400077587e+4012",
+        "amount": "1.78785793570559e+2776",
+        "bought": 2261
+      },
+      {
+        "cost": "1.3107530197461488e+4014",
+        "amount": "6.43133568602724e+2132",
+        "bought": 1782
+      },
+      {
+        "cost": "6.0377408671856605e+4016",
+        "amount": "3.52341683244061e+1572",
+        "bought": 1077
+      },
+      {
+        "cost": "6.452766729600366e+4014",
+        "amount": "3.47724467784411e+1032",
+        "bought": 909
+      },
+      {
+        "cost": "1.3083345634927557e+4022",
+        "amount": "1.88550093247619e+510",
+        "bought": 763
+      },
+      {
+        "cost": "8.206207672418286e+4016",
+        "amount": "640",
+        "bought": 640
+      }
+    ]
+  },
+  "buyUntil10": true,
+  "sacrificed": "1.7886924002328897e+323065558",
+  "achievementBits": [
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    127
+  ],
+  "secretAchievementBits": [
+    255,
+    255,
+    255,
+    219
+  ],
+  "infinityUpgrades": [
+    "timeMult",
+    "dimMult",
+    "timeMult2",
+    "skipReset1",
+    "skipReset2",
+    "unspentBonus",
+    "27Mult",
+    "18Mult",
+    "36Mult",
+    "resetBoost",
+    "45Mult",
+    "galaxyBoost",
+    "skipReset3",
+    "resetMult",
+    "skipResetGalaxy",
+    "ipOffline",
+    "totalMult",
+    "currentMult",
+    "infinitiedMult",
+    "achievementMult",
+    "challengeMult",
+    "autobuyMaxDimboosts",
+    "postGalaxy",
+    "autoBuyerUpgrade"
+  ],
+  "infinityRebuyables": [
+    8,
+    7,
+    10
+  ],
+  "challenge": {
+    "normal": {
+      "current": 0,
+      "bestTimes": [
+        46,
+        41,
+        46,
+        44,
+        91,
+        45,
+        45,
+        45,
+        45,
+        47,
+        47
+      ],
+      "completedBits": 8190
+    },
+    "infinity": {
+      "current": 0,
+      "bestTimes": [
+        0.033,
+        47,
+        48,
+        46,
+        45,
+        47,
+        47,
+        47
+      ],
+      "completedBits": 510
+    },
+    "eternity": {
+      "current": 0,
+      "unlocked": 0,
+      "requirementBits": 0
+    }
+  },
+  "infinity": {
+    "upgradeBits": 0
+  },
+  "auto": {
+    "autobuyersOn": true,
+    "disableContinuum": false,
+    "reality": {
+      "mode": 1,
+      "rm": "0",
+      "glyph": 0,
+      "time": 0,
+      "shard": 0,
+      "isActive": false
+    },
+    "eternity": {
+      "mode": 2,
+      "amount": "4.5e+68",
+      "increaseWithMult": true,
+      "time": 0,
+      "xHighest": "1e+50",
+      "isActive": false
+    },
+    "bigCrunch": {
+      "cost": 32768,
+      "interval": 100,
+      "mode": 2,
+      "amount": "5e+28",
+      "increaseWithMult": true,
+      "time": 0,
+      "xHighest": "1e+50",
+      "isActive": false,
+      "lastTick": 0
+    },
+    "galaxy": {
+      "cost": 2048,
+      "interval": 100,
+      "limitGalaxies": false,
+      "maxGalaxies": 19,
+      "buyMax": false,
+      "buyMaxInterval": 0,
+      "isActive": true,
+      "lastTick": 106650944012.14297
+    },
+    "dimBoost": {
+      "cost": 256,
+      "interval": 100,
+      "limitDimBoosts": true,
+      "maxDimBoosts": 4,
+      "limitUntilGalaxies": false,
+      "galaxies": 80,
+      "buyMaxInterval": 0,
+      "isActive": true,
+      "lastTick": 106651017167.14297
+    },
+    "tickspeed": {
+      "isUnlocked": false,
+      "cost": 16,
+      "interval": 100,
+      "mode": 100,
+      "isActive": true,
+      "lastTick": 106651018724.14297,
+      "isBought": false
+    },
+    "sacrifice": {
+      "multiplier": "2",
+      "isActive": true
+    },
+    "antimatterDims": {
+      "all": [
+        {
+          "isUnlocked": false,
+          "cost": 16,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 106651017902.14297,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 16,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 0,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 16,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 0,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 32,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 106651017699.14297,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 32,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 0,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 32,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 106651019127.14297,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 32,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 106651017444.14297,
+          "isBought": false
+        },
+        {
+          "isUnlocked": false,
+          "cost": 32,
+          "interval": 100,
+          "bulk": 1,
+          "mode": 10,
+          "isActive": true,
+          "lastTick": 0,
+          "isBought": false
+        }
+      ],
+      "isActive": true
+    },
+    "infinityDims": {
+      "all": [
+        {
+          "isActive": true,
+          "lastTick": 106651019381.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651018820.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651019433.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651018667.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651018259.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651018514.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651017648.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651017800.14297
+        }
+      ],
+      "isActive": true
+    },
+    "timeDims": {
+      "all": [
+        {
+          "isActive": true,
+          "lastTick": 106651015077.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651008651.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651001765.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651017952.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106650979070.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106650963339.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651011761.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106650965351.14297
+        }
+      ],
+      "isActive": true
+    },
+    "replicantiGalaxies": {
+      "isActive": true
+    },
+    "replicantiUpgrades": {
+      "all": [
+        {
+          "isActive": true,
+          "lastTick": 106651019433.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651019433.14297
+        },
+        {
+          "isActive": true,
+          "lastTick": 106651019433.14297
+        }
+      ],
+      "isActive": true
+    },
+    "timeTheorems": {
+      "isActive": true
+    },
+    "dilationUpgrades": {
+      "all": [
+        {
+          "isActive": true,
+          "lastTick": 0
+        },
+        {
+          "isActive": true,
+          "lastTick": 0
+        },
+        {
+          "isActive": true,
+          "lastTick": 0
+        }
+      ],
+      "isActive": true
+    },
+    "blackHolePower": {
+      "all": [
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        }
+      ],
+      "isActive": true
+    },
+    "realityUpgrades": {
+      "all": [
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        }
+      ],
+      "isActive": true
+    },
+    "imaginaryUpgrades": {
+      "all": [
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        },
+        {
+          "isActive": true
+        }
+      ],
+      "isActive": true
+    },
+    "darkMatterDims": {
+      "isActive": true,
+      "lastTick": 5289622538.293606
+    },
+    "ascension": {
+      "isActive": true,
+      "lastTick": 5289622538.293606
+    },
+    "annihilation": {
+      "isActive": false,
+      "multiplier": 10000
+    },
+    "singularity": {
+      "isActive": true
+    },
+    "ipMultBuyer": {
+      "isActive": true
+    },
+    "epMultBuyer": {
+      "isActive": true
+    }
+  },
+  "infinityPoints": "4.68136266297611e+1363373",
+  "infinities": "0",
+  "infinitiesBanked": "0",
+  "dimensionBoosts": 61888,
+  "galaxies": 826,
+  "news": {
+    "seen": {
+      "a": [
+        2147483646,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        2147483647,
+        524287
+      ],
+      "p": [
+        2
+      ],
+      "l": [
+        2147483614,
+        2143121279,
+        134217727
+      ]
+    },
+    "specialTickerData": {
+      "uselessNewsClicks": 93,
+      "paperclips": 20,
+      "newsQueuePosition": 945,
+      "eiffelTowerChapter": 4
+    },
+    "totalSeen": 22096
+  },
+  "lastUpdate": 1778312417036,
+  "backupTimer": 100300607280.00174,
+  "chall2Pow": 1,
+  "chall3Pow": "0.01",
+  "matter": "0",
+  "chall9TickspeedCostBumps": 0,
+  "chall8TotalSacrifice": "6.841226311158586e+82",
+  "ic2Count": 401,
+  "partInfinityPoint": 0,
+  "partInfinitied": 0,
+  "break": true,
+  "secretUnlocks": {
+    "themes": [
+      "S11Blob",
+      "S1Christmas",
+      "S10Stellar",
+      "S4Design",
+      "S3Confused",
+      "S8Bliss",
+      "S7Work",
+      "S5Nicolas",
+      "S2Finnish",
+      "S6Galactic",
+      "S9Blind"
+    ],
+    "viewSecretTS": true,
+    "cancerAchievements": false
+  },
+  "shownRuns": {
+    "Reality": false,
+    "Eternity": true,
+    "Infinity": false
+  },
+  "requirementChecks": {
+    "infinity": {
+      "maxAll": false,
+      "noSacrifice": false,
+      "noAD8": false
+    },
+    "eternity": {
+      "onlyAD1": false,
+      "onlyAD8": false,
+      "noAD1": false,
+      "noRG": false
+    },
+    "reality": {
+      "noAM": false,
+      "noTriads": true,
+      "noPurchasedTT": true,
+      "noInfinities": true,
+      "noEternities": true,
+      "noContinuum": false,
+      "maxID1": "2.88075766188978e+59102",
+      "maxStudies": 0,
+      "maxGlyphs": 1,
+      "slowestBH": 1
+    },
+    "permanent": {
+      "emojiGalaxies": 148649,
+      "singleTickspeed": 102499,
+      "perkTreeDragging": 6001
+    }
+  },
+  "records": {
+    "gameCreatedTime": 1671292874567,
+    "totalTimePlayed": 8.790842659264444e+248,
+    "timePlayedAtBHUnlock": 3886234310.2614365,
+    "realTimePlayed": 106651019483.14297,
+    "realTimeDoomed": 101361396890.02374,
+    "fullGameCompletions": 0,
+    "previousRunRealTime": 0,
+    "totalAntimatter": "1.0611338393110181e+451546774583606",
+    "recentInfinities": [
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        ""
+      ]
+    ],
+    "recentEternities": [
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ],
+      [
+        1.7976931348623157e+308,
+        1.7976931348623157e+308,
+        "1",
+        "1",
+        "",
+        "0"
+      ]
+    ],
+    "recentRealities": [
+      [
+        2.984579525028594e+247,
+        551630,
+        "1e+1500",
+        37,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        8.616835700543044e+112,
+        583236,
+        "1335330436433",
+        35,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        1.312686265329896e+247,
+        9954,
+        "1e+1500",
+        35,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        4.613157370572313e+246,
+        4388,
+        "1e+1500",
+        36,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        4.984418967642575e+246,
+        5751,
+        "1e+1500",
+        35,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        2.5923291556654424e+246,
+        2981,
+        "1e+1500",
+        35,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        1.8070102615581478e+246,
+        2042,
+        "1e+1500",
+        39,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        1.94421664149325e+246,
+        2022,
+        "1e+1500",
+        37,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        2.2382735355553767e+246,
+        2344,
+        "1e+1500",
+        37,
+        "",
+        0,
+        0,
+        0
+      ],
+      [
+        2.5815277680173546e+246,
+        2403,
+        "1e+1500",
+        33,
+        "",
+        0,
+        0,
+        0
+      ]
+    ],
+    "thisInfinity": {
+      "time": 645145152.6433233,
+      "realTime": 79652,
+      "lastBuyTime": 642261713.7548959,
+      "maxAM": "7.183181932162805e+369377954",
+      "bestIPmin": "2.001930641850662e+1363373",
+      "bestIPminVal": "2.6576296580781493e+1363373"
+    },
+    "bestInfinity": {
+      "time": 999999999999,
+      "realTime": 999999999999,
+      "bestIPminEternity": "0",
+      "bestIPminReality": "0"
+    },
+    "thisEternity": {
+      "time": 645145152.6433233,
+      "realTime": 79652,
+      "maxAM": "7.183181932162805e+369377954",
+      "maxIP": "4.68136266297611e+1363373",
+      "bestIPMsWithoutMaxAll": "0",
+      "bestEPmin": "2.4041912351008152e+4012",
+      "bestEPminVal": "3.191644004304169e+4012",
+      "bestInfinitiesPerMs": "0"
+    },
+    "bestEternity": {
+      "time": 999999999999,
+      "realTime": 999999999999,
+      "bestEPminReality": "0"
+    },
+    "thisReality": {
+      "time": 645145152.6433233,
+      "realTime": 79652,
+      "maxAM": "1.0611338393110181e+451546774583606",
+      "maxIP": "1.9465879667382553e+1679170579203",
+      "maxEP": "7.48347486774401e+4011",
+      "bestEternitiesPerMs": "0",
+      "maxReplicanti": "1.6978480646342244e+3559",
+      "maxDT": "5.8806163492734e+102",
+      "bestRSmin": 0,
+      "bestRSminVal": 0
+    },
+    "bestReality": {
+      "time": 1551,
+      "realTime": 53,
+      "glyphStrength": 3.5,
+      "RM": "1e+1500",
+      "RMSet": [
+        {
+          "type": "effarig",
+          "level": 38278,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "infinity",
+          "level": 38278,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "dilation",
+          "level": 38278,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 38278,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "RMmin": "4.823151125401929e+1501",
+      "RMminSet": [
+        {
+          "type": "effarig",
+          "level": 39595,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "replication",
+          "level": 39595,
+          "strength": 3.5,
+          "effects": 3842
+        },
+        {
+          "type": "replication",
+          "level": 39595,
+          "strength": 3.5,
+          "effects": 3842
+        },
+        {
+          "type": "dilation",
+          "level": 39595,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "glyphLevel": 42240,
+      "glyphLevelSet": [
+        {
+          "type": "effarig",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "replication",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 3842
+        },
+        {
+          "type": "replication",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 3842
+        },
+        {
+          "type": "dilation",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "bestEP": "7.948110804607069e+3837204090",
+      "bestEPSet": [
+        {
+          "type": "effarig",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "speedSet": [
+        {
+          "type": "effarig",
+          "level": 10824,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "replication",
+          "level": 10915,
+          "strength": 3.5,
+          "effects": 3840
+        },
+        {
+          "type": "replication",
+          "level": 10824,
+          "strength": 3.5,
+          "effects": 3840
+        },
+        {
+          "type": "replication",
+          "level": 10824,
+          "strength": 3.5,
+          "effects": 3840
+        },
+        {
+          "type": "dilation",
+          "level": 10995,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "iMCapSet": [
+        {
+          "type": "effarig",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "infinity",
+          "level": 42240,
+          "strength": 3.5,
+          "effects": 61442
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "laitelaSet": [
+        {
+          "type": "dilation",
+          "level": 39766,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 39766,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 39766,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 39766,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ]
+    }
+  },
+  "speedrun": {
+    "isUnlocked": false,
+    "isActive": false,
+    "isSegmented": true,
+    "usedSTD": false,
+    "hasStarted": true,
+    "hideInfo": false,
+    "displayAllMilestones": false,
+    "startDate": 1671293406234,
+    "name": "",
+    "offlineTimeUsed": 105011427700,
+    "records": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "achievementTimes": {},
+    "seedSelection": 0,
+    "initialSeed": 0,
+    "previousRuns": {}
+  },
+  "IPMultPurchases": 0,
+  "version": 25,
+  "infinityPower": "2.8224842331683e+89204",
+  "postC4Tier": 6,
+  "eternityPoints": "4.75310067085872e+4011",
+  "eternities": "25139",
+  "eternityUpgrades": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "epmultUpgrades": 0,
+  "timeShards": "9.58910117382259e+5893",
+  "totalTickGained": 60820,
+  "totalTickBought": 58584,
+  "replicanti": {
+    "unl": true,
+    "amount": "1.69526427731257e+3559",
+    "timer": 0,
+    "chance": 1,
+    "chanceCost": "1e+1635",
+    "interval": 1,
+    "intervalCost": "1e+800",
+    "boughtGalaxyCap": 308,
+    "galaxies": 503,
+    "galCost": "1e+1372660"
+  },
+  "timestudy": {
+    "theorem": "35836765135632000",
+    "maxTheorem": "35836765154087404",
+    "amBought": 4550,
+    "ipBought": 4466,
+    "epBought": 5907,
+    "studies": [
+      11,
+      21,
+      22,
+      31,
+      32,
+      33,
+      41,
+      42,
+      51,
+      61,
+      62,
+      73,
+      83,
+      93,
+      103,
+      72,
+      82,
+      92,
+      102,
+      71,
+      81,
+      91,
+      101,
+      111,
+      123,
+      133,
+      143,
+      151,
+      161,
+      162,
+      171,
+      181,
+      191,
+      192,
+      193,
+      201,
+      214,
+      228,
+      234,
+      212,
+      224,
+      213,
+      226,
+      211,
+      222,
+      232
+    ],
+    "shopMinimized": true,
+    "preferredPaths": [
+      [
+        3,
+        2
+      ],
+      6
+    ],
+    "presets": [
+      {
+        "name": "Main",
+        "studies": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,123,133,143,151,161,162,171,181,191,192,193,201,72,82,92,102,214,213,212,211,228,234,226,224,232,222,71,81,91,101|0"
+      },
+      {
+        "name": "",
+        "studies": ""
+      },
+      {
+        "name": "EC11",
+        "studies": "11,21,22,31,32,33,41,42,51,61,62,71,81,91,101,111,123,133,143,151,161,162,171,181,191,192,193,211,212,213,222,223,225,231,233|11"
+      },
+      {
+        "name": "EC12",
+        "studies": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,123,133,143,151,161,162,171,181,191,192,193,201,72,82,92,102,214,228,212,211,213,234,226,224,232,222|12"
+      },
+      {
+        "name": "Dil",
+        "studies": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,72,82,92,102,71,81,91,101,111,123,133,143,151,161,162,171,181,191,192,193,201,214,228,234,212,224,213,226,211,222,232|0"
+      },
+      {
+        "name": "Alt",
+        "studies": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,121,131,141,151,161,162,171,181,191,192,193,201,212,211,213,214,228,225,224,222,234,232,72,82,92,102,71,81,91,101|0"
+      }
+    ]
+  },
+  "eternityChalls": {
+    "eterc3": 5,
+    "eterc1": 5,
+    "eterc2": 5,
+    "eterc5": 5,
+    "eterc4": 5,
+    "eterc6": 5,
+    "eterc7": 5,
+    "eterc8": 5,
+    "eterc9": 5,
+    "eterc10": 5,
+    "eterc11": 5,
+    "eterc12": 5
+  },
+  "respec": false,
+  "eterc8ids": 50,
+  "eterc8repl": 40,
+  "dilation": {
+    "studies": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "active": true,
+    "tachyonParticles": "911036895.179636",
+    "dilatedTime": "5.8806163492734e+102",
+    "nextThreshold": "6.01069854583249e+102",
+    "baseTachyonGalaxies": 2364,
+    "totalTachyonGalaxies": 85920,
+    "upgrades": [
+      4,
+      6,
+      5,
+      8,
+      9,
+      10,
+      14,
+      15
+    ],
+    "rebuyables": {
+      "1": 98,
+      "2": 38,
+      "3": 0,
+      "11": 44,
+      "12": 29,
+      "13": 22
+    },
+    "lastEP": "-1"
+  },
+  "realities": 39437102.28012811,
+  "partSimulatedReality": 0.22049270347777394,
+  "reality": {
+    "realityMachines": "1e+1500",
+    "maxRM": "1e+1500",
+    "imaginaryMachines": 160913831939016.22,
+    "iMCap": 160913831939016.22,
+    "glyphs": {
+      "active": [
+        {
+          "id": 6599,
+          "idx": 0,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 242
+        }
+      ],
+      "inventory": [
+        {
+          "id": 6598,
+          "idx": 16,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 134217743
+        },
+        {
+          "id": 6600,
+          "idx": 20,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 242
+        },
+        {
+          "id": 6601,
+          "idx": 21,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 242
+        },
+        {
+          "id": 6604,
+          "idx": 3,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 983042
+        },
+        {
+          "id": 6606,
+          "idx": 17,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 134217743
+        },
+        {
+          "id": 6609,
+          "idx": 18,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 134217743
+        },
+        {
+          "id": 6611,
+          "idx": 19,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 134217743
+        },
+        {
+          "id": 6612,
+          "idx": 11,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 3842
+        },
+        {
+          "id": 6614,
+          "idx": 22,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 242
+        },
+        {
+          "id": 6619,
+          "idx": 23,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 242
+        },
+        {
+          "id": 6621,
+          "idx": 12,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42228,
+          "rawLevel": 16190643186,
+          "effects": 3842
+        },
+        {
+          "id": 2247,
+          "idx": 31,
+          "type": "cursed",
+          "strength": 3.5,
+          "level": 6666,
+          "rawLevel": 6666,
+          "effects": 15
+        },
+        {
+          "id": 2259,
+          "idx": 27,
+          "type": "cursed",
+          "strength": 3.5,
+          "level": 6666,
+          "rawLevel": 6666,
+          "effects": 15
+        },
+        {
+          "id": 2257,
+          "idx": 28,
+          "type": "cursed",
+          "strength": 3.5,
+          "level": 6666,
+          "rawLevel": 6666,
+          "effects": 15
+        },
+        {
+          "id": 2258,
+          "idx": 29,
+          "type": "cursed",
+          "strength": 3.5,
+          "level": 6666,
+          "rawLevel": 6666,
+          "effects": 15
+        },
+        {
+          "id": 2260,
+          "idx": 30,
+          "type": "cursed",
+          "strength": 3.5,
+          "level": 6666,
+          "rawLevel": 6666,
+          "effects": 15
+        },
+        {
+          "id": 3816,
+          "idx": 26,
+          "type": "reality",
+          "strength": 3.5,
+          "level": 25000,
+          "rawLevel": 25000,
+          "effects": 240
+        },
+        {
+          "id": 6617,
+          "idx": 7,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 61442
+        },
+        {
+          "id": 6616,
+          "idx": 8,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 61442
+        },
+        {
+          "id": 6613,
+          "idx": 9,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 61442
+        },
+        {
+          "id": 6596,
+          "idx": 25,
+          "type": "effarig",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 133169152
+        },
+        {
+          "id": 6622,
+          "idx": 50,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 42240,
+          "effects": 983042
+        },
+        {
+          "id": 6623,
+          "idx": 51,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 42240,
+          "effects": 61442
+        },
+        {
+          "id": 6624,
+          "idx": 52,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 42240,
+          "effects": 3842
+        },
+        {
+          "id": 6625,
+          "idx": 53,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 42240,
+          "effects": 134217743
+        },
+        {
+          "id": 6626,
+          "idx": 54,
+          "type": "dilation",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 42240,
+          "effects": 242
+        },
+        {
+          "id": 6605,
+          "idx": 10,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 3842
+        },
+        {
+          "id": 6595,
+          "idx": 2,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 983042
+        },
+        {
+          "id": 6603,
+          "idx": 1,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 983042
+        },
+        {
+          "id": 6618,
+          "idx": 6,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 61442
+        },
+        {
+          "id": 6575,
+          "idx": 13,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42000,
+          "rawLevel": 15776825313,
+          "effects": 3842
+        },
+        {
+          "id": 6602,
+          "idx": 0,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 983042
+        },
+        {
+          "id": 2,
+          "idx": 32,
+          "type": "companion",
+          "strength": 1.0001032727143753,
+          "level": 1,
+          "rawLevel": 1,
+          "effects": 768,
+          "cosmetic": "blob"
+        },
+        {
+          "id": 6608,
+          "idx": 4,
+          "type": "power",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 983042
+        },
+        {
+          "id": 6579,
+          "idx": 14,
+          "type": "replication",
+          "strength": 3.5,
+          "level": 42000,
+          "rawLevel": 15776825313,
+          "effects": 3842
+        },
+        {
+          "id": 6620,
+          "idx": 5,
+          "type": "infinity",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 61442
+        },
+        {
+          "id": 6597,
+          "idx": 15,
+          "type": "time",
+          "strength": 3.5,
+          "level": 42240,
+          "rawLevel": 16213772843,
+          "effects": 134217743
+        }
+      ],
+      "sac": {
+        "power": 1.0035148337370928e+100,
+        "infinity": 1.0033318620864701e+100,
+        "time": 1.0039311092933613e+100,
+        "replication": 1.001850084173908e+100,
+        "dilation": 1.0028425687041277e+100,
+        "effarig": 1.6567360810365622e+97,
+        "reality": 2362.94
+      },
+      "undo": [],
+      "sets": [
+        {
+          "name": "Effarig",
+          "glyphs": [
+            {
+              "id": 4385,
+              "idx": 15,
+              "type": "effarig",
+              "strength": 3.5,
+              "level": 18657,
+              "rawLevel": 248954747,
+              "effects": 133169152
+            },
+            {
+              "id": 3816,
+              "idx": 4,
+              "type": "reality",
+              "strength": 3.5,
+              "level": 25000,
+              "rawLevel": 25000,
+              "effects": 240
+            },
+            {
+              "id": 4361,
+              "idx": 21,
+              "type": "replication",
+              "strength": 3.5,
+              "level": 18657,
+              "rawLevel": 248954747,
+              "effects": 3842
+            },
+            {
+              "id": 4363,
+              "idx": 44,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 18657,
+              "rawLevel": 248954747,
+              "effects": 242
+            },
+            {
+              "id": 4358,
+              "idx": 34,
+              "type": "time",
+              "strength": 3.5,
+              "level": 18657,
+              "rawLevel": 248954747,
+              "effects": 134217743
+            }
+          ]
+        },
+        {
+          "name": "iM",
+          "glyphs": [
+            {
+              "id": 6238,
+              "idx": 15,
+              "type": "effarig",
+              "strength": 3.5,
+              "level": 38278,
+              "rawLevel": 10081557601,
+              "effects": 133169152
+            },
+            {
+              "id": 6225,
+              "idx": 12,
+              "type": "infinity",
+              "strength": 3.5,
+              "level": 38278,
+              "rawLevel": 10081557601,
+              "effects": 61442
+            },
+            {
+              "id": 6227,
+              "idx": 14,
+              "type": "infinity",
+              "strength": 3.5,
+              "level": 38278,
+              "rawLevel": 10081557601,
+              "effects": 61442
+            },
+            {
+              "id": 6239,
+              "idx": 11,
+              "type": "infinity",
+              "strength": 3.5,
+              "level": 38278,
+              "rawLevel": 10081557601,
+              "effects": 61442
+            },
+            {
+              "id": 3816,
+              "idx": 60,
+              "type": "reality",
+              "strength": 3.5,
+              "level": 25000,
+              "rawLevel": 25000,
+              "effects": 240
+            }
+          ]
+        },
+        {
+          "name": "Glyph/Alchemy",
+          "glyphs": [
+            {
+              "id": 6146,
+              "idx": 15,
+              "type": "effarig",
+              "strength": 3.5,
+              "level": 37602,
+              "rawLevel": 9262776801,
+              "effects": 133169152
+            },
+            {
+              "id": 6176,
+              "idx": 8,
+              "type": "replication",
+              "strength": 3.5,
+              "level": 37858,
+              "rawLevel": 9563363472,
+              "effects": 3842
+            },
+            {
+              "id": 6169,
+              "idx": 6,
+              "type": "replication",
+              "strength": 3.5,
+              "level": 37858,
+              "rawLevel": 9563363472,
+              "effects": 3842
+            },
+            {
+              "id": 6166,
+              "idx": 44,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 37858,
+              "rawLevel": 9563363472,
+              "effects": 242
+            },
+            {
+              "id": 3816,
+              "idx": 60,
+              "type": "reality",
+              "strength": 3.5,
+              "level": 25000,
+              "rawLevel": 25000,
+              "effects": 240
+            }
+          ]
+        },
+        {
+          "name": "Cel 6/Cel 1",
+          "glyphs": [
+            {
+              "id": 6446,
+              "idx": 0,
+              "type": "effarig",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 133169152
+            },
+            {
+              "id": 6443,
+              "idx": 1,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 6455,
+              "idx": 2,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 6457,
+              "idx": 4,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 3816,
+              "idx": 60,
+              "type": "reality",
+              "strength": 3.5,
+              "level": 25000,
+              "rawLevel": 25000,
+              "effects": 240
+            }
+          ]
+        },
+        {
+          "name": "DM",
+          "glyphs": [
+            {
+              "id": 6446,
+              "idx": 0,
+              "type": "effarig",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 133169152
+            },
+            {
+              "id": 6458,
+              "idx": 44,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 6439,
+              "idx": 3,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 6457,
+              "idx": 4,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            },
+            {
+              "id": 6443,
+              "idx": 1,
+              "type": "dilation",
+              "strength": 3.5,
+              "level": 40576,
+              "rawLevel": 13359560342,
+              "effects": 242
+            }
+          ]
+        },
+        {
+          "name": "",
+          "glyphs": []
+        },
+        {
+          "name": "",
+          "glyphs": []
+        }
+      ],
+      "protectedRows": 5,
+      "filter": {
+        "select": 0,
+        "trash": 2,
+        "simple": 0,
+        "types": {
+          "power": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 4,
+            "specifiedMask": 983040,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "infinity": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 4,
+            "specifiedMask": 61440,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "replication": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 4,
+            "specifiedMask": 256,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "time": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 4,
+            "specifiedMask": 1,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "dilation": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 4,
+            "specifiedMask": 240,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "effarig": {
+            "rarity": 100,
+            "score": 0,
+            "effectCount": 7,
+            "specifiedMask": 133169152,
+            "effectScores": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "createdRealityGlyph": true,
+      "cosmetics": {
+        "active": true,
+        "glowNotification": false,
+        "unlockedFromNG": [],
+        "symbolMap": {},
+        "colorMap": {}
+      }
+    },
+    "initialSeed": 321973822,
+    "seed": 321973822,
+    "secondGaussian": -0.17552060538932393,
+    "musicSeed": 2046308083,
+    "musicSecondGaussian": 1000000,
+    "rebuyables": {
+      "1": 182,
+      "2": 182,
+      "3": 179,
+      "4": 179,
+      "5": 163
+    },
+    "upgradeBits": 67108800,
+    "upgReqs": 67108800,
+    "imaginaryUpgradeBits": 67106816,
+    "imaginaryUpgReqs": 67106816,
+    "imaginaryRebuyables": {
+      "1": 9,
+      "2": 9,
+      "3": 10,
+      "4": 8,
+      "5": 11,
+      "6": 5,
+      "7": 4,
+      "8": 3,
+      "9": 3,
+      "10": 2
+    },
+    "reqLock": {
+      "reality": 0,
+      "imaginary": 0
+    },
+    "perks": [
+      0,
+      57,
+      31,
+      54,
+      72,
+      73,
+      40,
+      41,
+      10,
+      100,
+      53,
+      30,
+      14,
+      201,
+      70,
+      104,
+      202,
+      203,
+      204,
+      205,
+      105,
+      106,
+      42,
+      43,
+      44,
+      45,
+      46,
+      17,
+      80,
+      81,
+      82,
+      83,
+      52,
+      103,
+      12,
+      101,
+      15,
+      16,
+      13,
+      102,
+      51,
+      71,
+      55,
+      56,
+      60,
+      61,
+      62,
+      107
+    ],
+    "respec": false,
+    "showGlyphSacrifice": false,
+    "showSidebarPanel": 0,
+    "autoSort": 1,
+    "autoCollapse": false,
+    "autoAutoClean": true,
+    "applyFilterToPurge": false,
+    "moveGlyphsOnProtection": true,
+    "perkPoints": 35475150.00414753,
+    "unlockedEC": 0,
+    "autoEC": true,
+    "lastAutoEC": 0,
+    "partEternitied": "0",
+    "autoAchieve": true,
+    "gainedAutoAchievements": false,
+    "automator": {
+      "state": {
+        "mode": 1,
+        "topLevelScript": 1,
+        "editorScript": 1,
+        "repeat": false,
+        "forceRestart": false,
+        "followExecution": false,
+        "stack": []
+      },
+      "scripts": {
+        "1": {
+          "id": 1,
+          "name": "Armageddon",
+          "content": "\n// comment\n// comment 2"
+        },
+        "2": {
+          "id": 2,
+          "name": "Blank",
+          "content": "\n// Comment"
+        },
+        "7": {
+          "id": 7,
+          "name": "Main/RM",
+          "content": "studies purchase TS2PathFull\nunlock dilation\nstudies nowait purchase TSFull\nif tp <= 10 {\n  start dilation\n  pause 0.1s\n  eternity\n\n}\n\nstudies purchase TSFull\n"
+        },
+        "8": {
+          "id": 8,
+          "name": "Alchemy",
+          "content": "studies purchase TSTDActive\nreality"
+        },
+        "9": {
+          "id": 9,
+          "name": "Glyph",
+          "content": "infinity\neternity nowait respec\n\nif total tt < 417 {\n  studies purchase TSTDActive\n  studies purchase 181\n  wait total tt > 417\n  eternity respec\n}\n\nif ep < 1e900 {\n  auto infinity off\n  studies purchase TS2PathFull\n  wait ep >= 1e900\n  eternity respec\n}\n\nstudies purchase TS2PathFull\n\n// Unlock dilation - Gives 10 TP\nwait tt >= 5100\nunlock dilation\neternity respec\nstudies purchase TSFirstDil\nstart dilation\nwait ip >= 2e308\neternity respec\nstudies load name Main\n\n\nstudies purchase TSFull\n\nauto eternity off\n\n\nwait pending glyph level > 16260\nreality\n\n"
+        }
+      },
+      "constants": {
+        "TSEarlyGame": "11,22,32,42,51,61,71,81,91,101,111,122,132,142,151,162,161",
+        "TSADActive": "11,21,22,31,32,33,41,42,51,61,62,71,81,91,101,111,121,131,141,151,161,171,162",
+        "TSTDActive": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,121,131,141,151,161,162,171",
+        "TSFirstDil": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,122,132,142,151,161,162,171,181,191,192,193,201,211,212,213,214,222,223,232,225,228,233,72,82,92,102",
+        "TSIDActive": "11,21,22,31,32,33,41,42,51,61,62,72,82,92,102,111,121,131,141,151,161,162,171",
+        "TSTDPassive": "11,22,32,42,51,61,73,83,93,103,111,122,132,142,151,161,171,162,21,31,41,62,33",
+        "TSTDIdle": "11,22,32,42,51,61,73,83,93,103,111,123,133,143,151,161,171,162,21,31,41,62,33",
+        "TSEC11": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,121,131,141,151,161,162,171,181,191,192,193,211,212,213,222,223,225,231,233",
+        "TS2PathFull": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,121,131,141,151,161,162,171,181,191,192,193,201,72,82,92,102,211,212,214,224,232,228,234,222,213,226",
+        "TS2PathFullIdle": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,123,133,143,151,161,162,171,181,191,192,193,201,72,82,92,102,211,212,214,224,232,228,234,222,213,226",
+        "TSFull": "11,21,22,31,32,33,41,42,51,61,62,73,83,93,103,111,121,131,141,151,161,162,171,181,191,192,193,201,212,211,213,214,228,225,224,222,234,232,72,82,92,102,71,81,91,101,123,133,143,122,132,142,221,223,226,227,231,233,301,302,303,304"
+      },
+      "constantSortOrder": [
+        "TSEarlyGame",
+        "TSADActive",
+        "TSTDActive",
+        "TSFirstDil",
+        "TSIDActive",
+        "TSTDPassive",
+        "TSTDIdle",
+        "TSEC11",
+        "TS2PathFull",
+        "TS2PathFullIdle",
+        "TSFull"
+      ],
+      "execTimer": 124557726.36353838,
+      "type": 0,
+      "forceUnlock": false,
+      "currentInfoPane": 0
+    },
+    "achTimer": 0,
+    "hasCheckedFilter": false
+  },
+  "blackHole": [
+    {
+      "id": 0,
+      "intervalUpgrades": 32,
+      "powerUpgrades": 357,
+      "durationUpgrades": 30,
+      "phase": 1974.1351386618537,
+      "active": true,
+      "unlocked": true,
+      "activations": 162
+    },
+    {
+      "id": 1,
+      "intervalUpgrades": 28,
+      "powerUpgrades": 347,
+      "durationUpgrades": 26,
+      "phase": 3691.2294868907384,
+      "active": true,
+      "unlocked": true,
+      "activations": 539
+    }
+  ],
+  "blackHolePause": false,
+  "blackHoleAutoPauseMode": 0,
+  "blackHolePauseTime": 5236356297.29352,
+  "blackHoleNegative": 1,
+  "celestials": {
+    "teresa": {
+      "pouredAmount": 1e+24,
+      "quoteBits": 15,
+      "unlockBits": 63,
+      "run": false,
+      "bestRunAM": "2.6414160487294116e+193897900562109",
+      "bestAMSet": [
+        {
+          "type": "effarig",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 133169152
+        },
+        {
+          "type": "dilation",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "dilation",
+          "level": 42000,
+          "strength": 3.5,
+          "effects": 242
+        },
+        {
+          "type": "reality",
+          "level": 25000,
+          "strength": 3.5,
+          "effects": 240
+        }
+      ],
+      "perkShop": [
+        20,
+        20,
+        14,
+        6,
+        1408,
+        1322
+      ],
+      "lastRepeatedMachines": "1.7973622940828768e+10015"
+    },
+    "effarig": {
+      "relicShards": 7.966617569528e+142,
+      "unlockBits": 127,
+      "run": false,
+      "quoteBits": 255,
+      "glyphWeights": {
+        "ep": 16,
+        "repl": 10,
+        "dt": 59,
+        "eternities": 15
+      },
+      "autoAdjustGlyphWeights": true
+    },
+    "enslaved": {
+      "isStoring": true,
+      "stored": 2.038629560720433e+243,
+      "isStoringReal": false,
+      "storedReal": 1675.5828622607887,
+      "autoStoreReal": false,
+      "isAutoReleasing": true,
+      "quoteBits": 55,
+      "unlocks": [
+        0,
+        1
+      ],
+      "run": false,
+      "completed": true,
+      "tesseracts": 8,
+      "hasSecretStudy": false,
+      "feltEternity": false,
+      "progressBits": 254,
+      "hintBits": 0,
+      "hintUnlockProgress": 8974140.799999133,
+      "glyphHintsGiven": 0,
+      "zeroHintTime": 0,
+      "storedFraction": 1
+    },
+    "v": {
+      "unlockBits": 127,
+      "run": false,
+      "quoteBits": 2047,
+      "runUnlocks": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        5,
+        5,
+        5
+      ],
+      "goalReductionSteps": [
+        0,
+        0,
+        13,
+        3,
+        0,
+        0,
+        0,
+        0,
+        11
+      ],
+      "STSpent": 0,
+      "runGlyphs": [
+        [],
+        [
+          {
+            "type": "effarig",
+            "level": 18808,
+            "strength": 3.5,
+            "effects": 133169152
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "reality",
+            "level": 25000,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 5990,
+            "strength": 3.5,
+            "effects": 118489088
+          },
+          {
+            "type": "replication",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 3840
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 5990,
+            "strength": 3.5,
+            "effects": 118489088
+          },
+          {
+            "type": "time",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "time",
+            "level": 6132,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "time",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "time",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 15
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 18808,
+            "strength": 3.5,
+            "effects": 133169152
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "reality",
+            "level": 25000,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 5990,
+            "strength": 3.5,
+            "effects": 118489088
+          },
+          {
+            "type": "power",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 983040
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          },
+          {
+            "type": "dilation",
+            "level": 6130,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ],
+        [
+          {
+            "type": "cursed",
+            "level": 6666,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "cursed",
+            "level": 6666,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "cursed",
+            "level": 6666,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "cursed",
+            "level": 6666,
+            "strength": 3.5,
+            "effects": 15
+          },
+          {
+            "type": "cursed",
+            "level": 6666,
+            "strength": 3.5,
+            "effects": 15
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 18808,
+            "strength": 3.5,
+            "effects": 133169152
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "reality",
+            "level": 25000,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ],
+        [
+          {
+            "type": "effarig",
+            "level": 18808,
+            "strength": 3.5,
+            "effects": 133169152
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "replication",
+            "level": 18823,
+            "strength": 3.5,
+            "effects": 3842
+          },
+          {
+            "type": "reality",
+            "level": 25000,
+            "strength": 3.5,
+            "effects": 240
+          }
+        ]
+      ],
+      "runRecords": [
+        0,
+        27259,
+        1237252.8313601445,
+        878020453.6714112,
+        666157.1432846006,
+        56,
+        15,
+        300,
+        11628
+      ],
+      "wantsFlipped": false
+    },
+    "ra": {
+      "pets": {
+        "teresa": {
+          "level": 25,
+          "memories": 4.012620349093593e+26,
+          "memoryChunks": 81985024998231.45,
+          "memoryUpgrades": 20,
+          "chunkUpgrades": 10
+        },
+        "effarig": {
+          "level": 25,
+          "memories": 4.5119738990071334e+24,
+          "memoryChunks": 921184887205.777,
+          "memoryUpgrades": 20,
+          "chunkUpgrades": 10
+        },
+        "enslaved": {
+          "level": 25,
+          "memories": 1.1836982689737357e+23,
+          "memoryChunks": 14309220562.492617,
+          "memoryUpgrades": 22,
+          "chunkUpgrades": 10
+        },
+        "v": {
+          "level": 25,
+          "memories": 9.309782059536052e+22,
+          "memoryChunks": 11246831120.564474,
+          "memoryUpgrades": 22,
+          "chunkUpgrades": 10
+        }
+      },
+      "alchemy": [
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": false
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        },
+        {
+          "amount": 0,
+          "reaction": true
+        }
+      ],
+      "highestRefinementValue": {
+        "power": 37397.54016648,
+        "infinity": 37397.54016648,
+        "time": 37433.69168183,
+        "replication": 37433.69168183,
+        "dilation": 37433.69168183,
+        "effarig": 37440.92477952
+      },
+      "quoteBits": 16383,
+      "momentumTime": 1015721273016.6427,
+      "unlockBits": 268435455,
+      "run": false,
+      "charged": [],
+      "disCharge": false,
+      "peakGamespeed": 8099.547439402887,
+      "petWithRemembrance": "The Nameless Ones"
+    },
+    "laitela": {
+      "darkMatter": "1.7976931348623157e+308",
+      "maxDarkMatter": "1.7976931348623157e+308",
+      "run": false,
+      "quoteBits": 1023,
+      "dimensions": [
+        {
+          "amount": "3.89082771902655e+238",
+          "intervalUpgrades": 533,
+          "powerDMUpgrades": 317,
+          "powerDEUpgrades": 1456,
+          "timeSinceLastUpdate": 114236833.93074608,
+          "ascensionCount": 8
+        },
+        {
+          "amount": "5.2870263450696e+159",
+          "intervalUpgrades": 523,
+          "powerDMUpgrades": 311,
+          "powerDEUpgrades": 1521,
+          "timeSinceLastUpdate": 409651068.43198776,
+          "ascensionCount": 8
+        },
+        {
+          "amount": "3.02885615766473e+84",
+          "intervalUpgrades": 507,
+          "powerDMUpgrades": 302,
+          "powerDEUpgrades": 1583,
+          "timeSinceLastUpdate": 6894071.877285004,
+          "ascensionCount": 7
+        },
+        {
+          "amount": "102859451165733",
+          "intervalUpgrades": 466,
+          "powerDMUpgrades": 277,
+          "powerDEUpgrades": 1571,
+          "timeSinceLastUpdate": 415149975.738451,
+          "ascensionCount": 7
+        }
+      ],
+      "entropy": 0,
+      "thisCompletion": 3.161,
+      "fastestCompletion": 300,
+      "difficultyTier": 8,
+      "upgrades": {},
+      "darkMatterMult": 2187092334.8681045,
+      "darkEnergy": 1.4973242530505436e+38,
+      "singularitySorting": {
+        "displayResource": 1,
+        "sortResource": 0,
+        "showCompleted": 0,
+        "sortOrder": 0
+      },
+      "singularities": 6.904453283670405e+45,
+      "singularityCapIncreases": 36,
+      "lastCheckedMilestones": 6.904453283670405e+45,
+      "milestoneGlow": true
+    },
+    "pelle": {
+      "doomed": true,
+      "upgrades": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        8,
+        7,
+        6,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "remnants": 365165945,
+      "realityShards": "2.31630396204611e+60",
+      "records": {
+        "totalAntimatter": "1.73953638282608e+375910077",
+        "totalInfinityPoints": "4.00522425247168e+1386294",
+        "totalEternityPoints": "1.40629226628795e+4077"
+      },
+      "rebuyables": {
+        "antimatterDimensionMult": 44,
+        "timeSpeedMult": 33,
+        "glyphLevels": 26,
+        "infConversion": 21,
+        "galaxyPower": 9,
+        "galaxyGeneratorAdditive": 0,
+        "galaxyGeneratorMultiplicative": 0,
+        "galaxyGeneratorAntimatterMult": 0,
+        "galaxyGeneratorIPMult": 0,
+        "galaxyGeneratorEPMult": 0
+      },
+      "rifts": {
+        "vacuum": {
+          "fill": "1.8095540303856097e+203973",
+          "active": false,
+          "reducedTo": 1
+        },
+        "decay": {
+          "fill": "1.69543653337057e+20018",
+          "active": true,
+          "percentageSpent": 10.000005382013027,
+          "reducedTo": 1
+        },
+        "chaos": {
+          "fill": 10,
+          "active": false,
+          "reducedTo": 1
+        },
+        "recursion": {
+          "fill": "1e+4000",
+          "active": false,
+          "reducedTo": 1
+        },
+        "paradox": {
+          "fill": "1e+100",
+          "active": false,
+          "reducedTo": 1
+        }
+      },
+      "progressBits": 62,
+      "galaxyGenerator": {
+        "unlocked": false,
+        "spentGalaxies": 0,
+        "generatedGalaxies": 0,
+        "phase": 0,
+        "sacrificeActive": false
+      },
+      "quoteBits": 127,
+      "collapsed": {
+        "upgrades": false,
+        "rifts": false,
+        "galaxies": false
+      },
+      "showBought": false
+    }
+  },
+  "isGameEnd": false,
+  "tabNotifications": [],
+  "triggeredTabNotificationBits": 61427,
+  "tutorialState": 6,
+  "tutorialActive": true,
+  "options": {
+    "news": {
+      "enabled": true,
+      "repeatBuffer": 40,
+      "AIChance": 0,
+      "speed": 1,
+      "includeAnimated": true
+    },
+    "notation": "Scientific",
+    "notationDigits": {
+      "comma": 5,
+      "notation": 9
+    },
+    "sidebarResourceID": 0,
+    "retryChallenge": false,
+    "retryCelestial": false,
+    "showAllChallenges": true,
+    "cloudEnabled": false,
+    "hideGoogleName": false,
+    "showCloudModal": true,
+    "forceCloudOverwrite": false,
+    "syncSaveIntervals": true,
+    "hotkeys": true,
+    "themeClassic": "Normal",
+    "themeModern": "Normal",
+    "updateRate": 51,
+    "newUI": true,
+    "offlineProgress": true,
+    "loadBackupWithoutOffline": false,
+    "automaticTabSwitching": false,
+    "respecIntoProtected": false,
+    "offlineTicks": 1000000,
+    "hibernationCatchup": true,
+    "statTabResources": 1,
+    "multiplierTab": {
+      "currTab": 0,
+      "showAltGroup": false,
+      "replacePowers": false
+    },
+    "autosaveInterval": 60000,
+    "showTimeSinceSave": true,
+    "saveFileName": "",
+    "exportedFileCount": 20,
+    "hideCompletedAchievementRows": false,
+    "glyphTextColors": true,
+    "headerTextColored": true,
+    "showNewGlyphIcon": false,
+    "showUnequippedGlyphIcon": true,
+    "highContrastRarity": false,
+    "swapGlyphColors": false,
+    "hideAlterationEffects": true,
+    "ignoreGlyphEffects": true,
+    "ignoreGlyphLevel": true,
+    "ignoreGlyphRarity": true,
+    "glyphBG": 2,
+    "glyphBorders": true,
+    "showHintText": {
+      "showPercentage": true,
+      "achievements": true,
+      "achievementUnlockStates": true,
+      "challenges": true,
+      "studies": true,
+      "glyphEffectDots": true,
+      "realityUpgrades": true,
+      "perks": true,
+      "alchemy": true,
+      "glyphInfoType": 1,
+      "showGlyphInfoByDefault": true
+    },
+    "animations": {
+      "bigCrunch": false,
+      "eternity": false,
+      "dilation": false,
+      "tachyonParticles": false,
+      "reality": false,
+      "background": true,
+      "blobSnowflakes": 16,
+      "blobHole": false
+    },
+    "confirmations": {
+      "armageddon": false,
+      "sacrifice": false,
+      "challenges": false,
+      "exitChallenge": true,
+      "eternity": false,
+      "dilation": false,
+      "resetReality": true,
+      "glyphReplace": true,
+      "glyphSacrifice": true,
+      "autoClean": true,
+      "sacrificeAll": true,
+      "glyphSelection": true,
+      "glyphUndo": true,
+      "deleteGlyphSetSave": true,
+      "glyphRefine": true,
+      "bigCrunch": false,
+      "replicantiGalaxy": false,
+      "antimatterGalaxy": false,
+      "dimensionBoost": false,
+      "switchAutomatorMode": true,
+      "respecIAP": true
+    },
+    "awayProgress": {
+      "antimatter": true,
+      "dimensionBoosts": true,
+      "antimatterGalaxies": true,
+      "infinities": true,
+      "infinityPoints": true,
+      "replicanti": true,
+      "replicantiGalaxies": true,
+      "eternities": true,
+      "eternityPoints": true,
+      "tachyonParticles": true,
+      "dilatedTime": true,
+      "tachyonGalaxies": true,
+      "timeTheorems": true,
+      "achievementCount": true,
+      "realities": true,
+      "realityMachines": true,
+      "imaginaryMachines": true,
+      "relicShards": true,
+      "darkMatter": true,
+      "darkEnergy": true,
+      "singularities": true,
+      "celestialMemories": true,
+      "blackHole": true,
+      "realityShards": true
+    },
+    "hiddenTabBits": 0,
+    "hiddenSubtabBits": [
+      0,
+      0,
+      10,
+      0,
+      0,
+      7,
+      3,
+      6,
+      62,
+      0,
+      0
+    ],
+    "lastOpenTab": 1,
+    "lastOpenSubtab": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      2,
+      3,
+      0,
+      0,
+      0
+    ],
+    "perkLayout": 0,
+    "perkPhysicsEnabled": true,
+    "automatorEvents": {
+      "newestFirst": false,
+      "timestampType": 0,
+      "maxEntries": 200,
+      "clearOnReality": true,
+      "clearOnRestart": true
+    },
+    "invertTTgenDisplay": false,
+    "autoRealityForFilter": false,
+    "commas": true,
+    "repeatBuffer": 40,
+    "speed": 1
+  },
+  "IAP": {
+    "enabled": false,
+    "checkoutSession": {
+      "id": false
+    }
+  }
+}

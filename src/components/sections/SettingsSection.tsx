@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaDesktop, FaBolt, FaCheck, FaVideo } from 'react-icons/fa';
+import { parseNumericInput, resolveExistingPath } from './fieldHelpers';
 
 const SettingsSection: React.FC<SectionProps> = ({ 
   saveData, 
@@ -16,6 +17,7 @@ const SettingsSection: React.FC<SectionProps> = ({
 
   // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in type definitions
   const typedSaveData = saveData as any;
+  const realityConfirmationPath = resolveExistingPath(saveData, 'options.confirmations.resetReality', 'options.confirmations.reality');
 
   return (
     <div className="section-pane active" id="settings-section">
@@ -136,7 +138,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="settings-updateRate"
                   value={typedSaveData.options?.updateRate || 50}
-                  onChange={(e) => handleValueChange('options.updateRate', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('options.updateRate', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('options.updateRate')}
               </div>
@@ -160,7 +162,7 @@ const SettingsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="settings-autosaveInterval"
                   value={typedSaveData.options?.autosaveInterval || 30}
-                  onChange={(e) => handleValueChange('options.autosaveInterval', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('options.autosaveInterval', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('options.autosaveInterval')}
               </div>
@@ -216,13 +218,13 @@ const SettingsSection: React.FC<SectionProps> = ({
                 <label htmlFor="settings-confirmations-reality">Reality</label>
                 <select
                   id="settings-confirmations-reality"
-                  value={typedSaveData.options?.confirmations?.reality ? 'true' : 'false'}
-                  onChange={(e) => handleValueChange('options.confirmations.reality', e.target.value === 'true')}
+                  value={(typedSaveData.options?.confirmations?.resetReality ?? typedSaveData.options?.confirmations?.reality) ? 'true' : 'false'}
+                  onChange={(e) => handleValueChange(realityConfirmationPath, e.target.value === 'true')}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
                 </select>
-                {renderValidationIndicator('options.confirmations.reality')}
+                {renderValidationIndicator(realityConfirmationPath)}
               </div>
 
               <div className="form-group">

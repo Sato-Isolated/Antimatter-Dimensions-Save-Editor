@@ -4,6 +4,7 @@ import SectionShell, { SectionShellTab } from './SectionShell';
 import { FaHourglassHalf, FaArrowUp, FaTrophy, FaGem } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
+import { parseNumericInput } from './fieldHelpers';
 
 const EternitySection: React.FC<SectionProps> = ({
   saveData,
@@ -84,7 +85,7 @@ const EternitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="totalTickGained"
                   value={saveData.totalTickGained || 0}
-                  onChange={(e) => handleValueChange('totalTickGained', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('totalTickGained', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('totalTickGained')}
               </div>
@@ -100,7 +101,7 @@ const EternitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="eternity-upgrades"
                   value={saveData.eternityUpgrades?.length || 0}
-                  onChange={(e) => handleValueChange('eternityUpgrades', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('eternityUpgrades', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('eternityUpgrades')}
               </div>
@@ -116,7 +117,7 @@ const EternitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="eternity-milestones"
                   value={saveData.epmultUpgrades || 0}
-                  onChange={(e) => handleValueChange('epmultUpgrades', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('epmultUpgrades', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('epmultUpgrades')}
               </div>
@@ -134,16 +135,16 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="text"
                   id="timestudies-studies"
-                  value={saveData.timestudies?.studies?.join(',') || ''}
+                  value={saveData.timestudy?.studies?.join(',') || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     const studies = value.split(',')
                       .map(s => parseInt(s.trim()))
                       .filter(n => !isNaN(n));
-                    handleValueChange('timestudies.studies', studies);
+                    handleValueChange('timestudy.studies', studies);
                   }}
                 />
-                {renderValidationIndicator('timestudies.studies')}
+                {renderValidationIndicator('timestudy.studies')}
               </div>
               
               <div className="form-group">
@@ -151,27 +152,23 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="timestudies-theorem"
-                  value={saveData.timestudies?.theorem || 0}
-                  onChange={(e) => handleValueChange('timestudies.theorem', parseInt(e.target.value))}
+                  value={saveData.timestudy?.theorem || 0}
+                  onChange={(e) => handleValueChange('timestudy.theorem', parseNumericInput(e.target.value))}
                 />
-                {renderValidationIndicator('timestudies.theorem')}
+                {renderValidationIndicator('timestudy.theorem')}
               </div>
               
               <div className="form-group">
-                <label htmlFor="timestudies-eternityChalls">Unlocked Eternity Challenges</label>
-                <input
-                  type="text"
-                  id="timestudies-eternityChalls"
-                  value={saveData.timestudies?.eternityChalls?.join(',') || ''}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const challs = value.split(',')
-                      .map(s => parseInt(s.trim()))
-                      .filter(n => !isNaN(n));
-                    handleValueChange('timestudies.eternityChalls', challs);
-                  }}
+                <JsonTextareaField
+                  id="eternity-challs"
+                  label="Eternity Challenge Completions"
+                  value={saveData.eternityChalls || {}}
+                  onChange={(value) => handleValueChange('eternityChalls', value)}
+                  expectation="object"
+                  rows={4}
+                  fallbackValue={{}}
                 />
-                {renderValidationIndicator('timestudies.eternityChalls')}
+                {renderValidationIndicator('eternityChalls')}
               </div>
             </div>
           </div>
@@ -187,7 +184,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <select
                   id="ec-current"
                   value={saveData.challenge?.eternity?.current || 0}
-                  onChange={(e) => handleValueChange('challenge.eternity.current', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('challenge.eternity.current', parseNumericInput(e.target.value))}
                 >
                   <option value="0">None</option>
                   <option value="1">EC1</option>
@@ -210,14 +207,13 @@ const EternitySection: React.FC<SectionProps> = ({
                 <JsonTextareaField
                   id="ec-completed"
                   label="Eternity Challenges Completion"
-                  placeholder="Format: [1, 0, 0, ...] (12 values)"
-                  value={saveData.challenge?.eternity?.completions || []}
-                  onChange={(value) => handleValueChange('challenge.eternity.completions', value)}
-                  expectation="array"
+                  value={saveData.eternityChalls || {}}
+                  onChange={(value) => handleValueChange('eternityChalls', value)}
+                  expectation="object"
                   rows={3}
-                  fallbackValue={[]}
+                  fallbackValue={{}}
                 />
-                {renderValidationIndicator('challenge.eternity.completions')}
+                {renderValidationIndicator('eternityChalls')}
               </div>
             </div>
           </div>

@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import androidFixture from '../../android.json';
+import newsaveFixture from '../../newsave.json';
 import pcFixture from '../../pc.json';
 import { encodeSaveData } from '../core/save/serialization';
+import { readFieldValue, saveEditorFields } from '../core/save/fieldRegistry';
 import { SaveType } from '../core/save/types';
-import { checkRealitySection, testSaveData } from './testSave';
+import { checkRealitySection, compareRegisteredFieldValues, testSaveData } from './testSave';
 
 const cloneFixture = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -44,5 +46,38 @@ describe('testSaveData', () => {
     expect(result.issues).not.toContain('The "reality.partSimulated" property is missing');
     expect(result.issues).not.toContainEqual(expect.stringContaining('The "reality.partSimulated" property is of type'));
     expect(result.issues).not.toContainEqual(expect.stringContaining('The "reality.realityMachines" property is of type object instead of string'));
+  });
+
+  it('matches every registered PC field against newsave.json', () => {
+    const comparison = compareRegisteredFieldValues(
+      cloneFixture(newsaveFixture) as never,
+      cloneFixture(newsaveFixture) as never,
+      SaveType.PC
+    );
+
+    expect(comparison.success).toBe(true);
+    expect(comparison.errors).toHaveLength(0);
+  });
+
+  it('resolves every registered PC field from newsave.json', () => {
+    const missingFields = saveEditorFields
+      .filter((field) => readFieldValue(cloneFixture(newsaveFixture) as never, field, SaveType.PC) === undefined)
+      .map((field) => field.id);
+
+    expect(missingFields).toHaveLength(0);
+  });
+
+  it('reports mismatched registered PC fields against newsave.json', () => {
+    const modifiedSave = cloneFixture(newsaveFixture) as Record<string, unknown>;
+    modifiedSave.antimatter = '123';
+
+    const comparison = compareRegisteredFieldValues(
+      modifiedSave as never,
+      cloneFixture(newsaveFixture) as never,
+      SaveType.PC
+    );
+
+    expect(comparison.success).toBe(false);
+    expect(comparison.errors).toContainEqual(expect.stringContaining('Antimatter mismatch'));
   });
 });

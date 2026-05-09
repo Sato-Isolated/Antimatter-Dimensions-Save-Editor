@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStopwatch, faChartLine, faHistory, faTrophy } from '@fortawesome/free-solid-svg-icons';
-import { BankedInfinitiesClass } from '../../Struct';
+import { parseNumericInput, resolveRecentRecordsPath } from './fieldHelpers';
 
 /**
  * Records section component
@@ -10,6 +10,9 @@ import { BankedInfinitiesClass } from '../../Struct';
  */
 const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, renderValidationIndicator }) => {
   const [activeSubtab, setActiveSubtab] = useState('statistics');
+  const recentInfinitiesPath = resolveRecentRecordsPath(saveData, 'Infinities');
+  const recentEternitiesPath = resolveRecentRecordsPath(saveData, 'Eternities');
+  const recentRealitiesPath = resolveRecentRecordsPath(saveData, 'Realities');
   
   // Handle subtab changes
   const handleSubtabClick = (subtabId: string) => {
@@ -73,7 +76,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-totalTimePlayed"
               value={typedSaveData.records?.totalTimePlayed || 0}
-              onChange={(e) => handleValueChange('records.totalTimePlayed', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.totalTimePlayed', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.totalTimePlayed')}
           </div>
@@ -84,7 +87,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-realTimePlayed"
               value={typedSaveData.records?.realTimePlayed || 0}
-              onChange={(e) => handleValueChange('records.realTimePlayed', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.realTimePlayed', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.realTimePlayed')}
           </div>
@@ -95,7 +98,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-gameCreatedTime"
               value={typedSaveData.records?.gameCreatedTime || Date.now()}
-              onChange={(e) => handleValueChange('records.gameCreatedTime', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.gameCreatedTime', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.gameCreatedTime')}
           </div>
@@ -106,7 +109,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-fullGameCompletions"
               value={typedSaveData.records?.fullGameCompletions || 0}
-              onChange={(e) => handleValueChange('records.fullGameCompletions', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.fullGameCompletions', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.fullGameCompletions')}
           </div>
@@ -124,7 +127,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-thisInfinity-time"
               value={typedSaveData.records?.thisInfinity?.time || 0}
-              onChange={(e) => handleValueChange('records.thisInfinity.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.thisInfinity.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.thisInfinity.time')}
           </div>
@@ -158,7 +161,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-thisEternity-time"
               value={typedSaveData.records?.thisEternity?.time || 0}
-              onChange={(e) => handleValueChange('records.thisEternity.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.thisEternity.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.thisEternity.time')}
           </div>
@@ -203,7 +206,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-thisReality-time"
               value={typedSaveData.records?.thisReality?.time || 0}
-              onChange={(e) => handleValueChange('records.thisReality.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.thisReality.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.thisReality.time')}
           </div>
@@ -276,7 +279,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-bestInfinity-time"
               value={typedSaveData.records?.bestInfinity?.time || 0}
-              onChange={(e) => handleValueChange('records.bestInfinity.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.bestInfinity.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.bestInfinity.time')}
           </div>
@@ -310,7 +313,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-bestEternity-time"
               value={typedSaveData.records?.bestEternity?.time || 0}
-              onChange={(e) => handleValueChange('records.bestEternity.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.bestEternity.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.bestEternity.time')}
           </div>
@@ -333,7 +336,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-bestReality-time"
               value={typedSaveData.records?.bestReality?.time || 0}
-              onChange={(e) => handleValueChange('records.bestReality.time', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.bestReality.time', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.time')}
           </div>
@@ -366,7 +369,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-bestReality-glyphLevel"
               value={typedSaveData.records?.bestReality?.glyphLevel || 0}
-              onChange={(e) => handleValueChange('records.bestReality.glyphLevel', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.bestReality.glyphLevel', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.glyphLevel')}
           </div>
@@ -377,7 +380,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               type="number"
               id="records-bestReality-glyphStrength"
               value={typedSaveData.records?.bestReality?.glyphStrength || 0}
-              onChange={(e) => handleValueChange('records.bestReality.glyphStrength', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('records.bestReality.glyphStrength', parseNumericInput(e.target.value))}
             />
             {renderValidationIndicator('records.bestReality.glyphStrength')}
           </div>
@@ -394,10 +397,10 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               onClick={() => {
                 // Create a record for last 10 infinities
                 const lastInfinities = Array(10).fill([0, "1"]);
-                handleValueChange('records.lastTenInfinities', lastInfinities);
+                handleValueChange(recentInfinitiesPath, lastInfinities);
               }}
             >
-              Clear Last 10 Infinities
+              Clear Recent Infinities
             </button>
           </div>
           
@@ -407,10 +410,10 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               onClick={() => {
                 // Create a record for last 10 eternities
                 const lastEternities = Array(10).fill([0, "1"]);
-                handleValueChange('records.lastTenEternities', lastEternities);
+                handleValueChange(recentEternitiesPath, lastEternities);
               }}
             >
-              Clear Last 10 Eternities
+              Clear Recent Eternities
             </button>
           </div>
           
@@ -420,10 +423,10 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
               onClick={() => {
                 // Create a record for last 10 realities
                 const lastRealities = Array(10).fill([0, "1"]);
-                handleValueChange('records.lastTenRealities', lastRealities);
+                handleValueChange(recentRealitiesPath, lastRealities);
               }}
             >
-              Clear Last 10 Realities
+              Clear Recent Realities
             </button>
           </div>
         </div>

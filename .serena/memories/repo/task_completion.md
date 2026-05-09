@@ -1,2 +1,0 @@
-- After UI/code changes run: `pnpm lint`, `pnpm test`, `pnpm build`.
-- For UI refactors also manually verify keyboard navigation, live status/error announcements, mobile layout, theme readability, and PC/Android save flows.

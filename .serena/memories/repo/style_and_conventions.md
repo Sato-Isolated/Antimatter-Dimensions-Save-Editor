@@ -1,4 +1,0 @@
-- Existing code uses TypeScript React function components with explicit props interfaces/types.
-- Styling is SCSS-driven via `scss/main.scss` and partials in base/components/layout/themes.
-- UI state flows through `SaveContext` and `ThemeContext`; keep logic changes minimal during UI work.
-- Follow accessibility baseline: semantic landmarks, labeled controls, visible focus, `role=status/alert` for dynamic messages.

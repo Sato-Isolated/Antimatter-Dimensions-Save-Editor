@@ -98,7 +98,7 @@ const Main: React.FC = () => {
       }
 
       if (testResults && !testResults.success) {
-        setAlertAnnouncement(`Structure test found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`);
+        setAlertAnnouncement(`Save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`);
       } else {
         setAlertAnnouncement('');
       }
@@ -290,9 +290,9 @@ const Main: React.FC = () => {
 
             {testResults && (
               <div className="workflow-list-block">
-                <h3>Structure test</h3>
+                <h3>Save check</h3>
                 <p className={`structure-test-summary ${testResults.success ? 'success' : 'danger'}`}>
-                  {testResults.success ? 'External structure check passed.' : `External structure check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`}
+                  {testResults.success ? 'External save check passed.' : `External save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`}
                 </p>
                 {testResults.errors.length > 0 && (
                   <ul className="workflow-list">

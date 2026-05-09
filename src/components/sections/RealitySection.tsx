@@ -5,6 +5,7 @@ import { FaSun, FaArrowUp, FaRobot, FaSlidersH } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { SaveType } from '../../services/SaveService';
+import { parseNumericInput } from './fieldHelpers';
 import { 
   AntimatterDimensionsStruct,
   AndroidStruct as AntimatterDimensionsStructAndroid
@@ -63,7 +64,7 @@ const RealitySection: React.FC<SectionProps> = ({
                       type="number"
                       id="realities"
                       value={saveData.realities || 0}
-                      onChange={(e) => handleValueChange('realities', parseInt(e.target.value))}
+                      onChange={(e) => handleValueChange('realities', parseNumericInput(e.target.value))}
                     />
                   </>
                 ) : (
@@ -105,7 +106,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="reality-imaginaryMachines"
                   value={saveData.reality?.imaginaryMachines || 0}
-                  onChange={(e) => handleValueChange('reality.imaginaryMachines', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.imaginaryMachines', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('reality.imaginaryMachines')}
               </div>
@@ -116,7 +117,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="reality-iMCap"
                   value={saveData.reality?.iMCap || 0}
-                  onChange={(e) => handleValueChange('reality.iMCap', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.iMCap', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('reality.iMCap')}
               </div>

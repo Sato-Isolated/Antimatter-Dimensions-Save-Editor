@@ -10,16 +10,24 @@ import { SaveService, SaveType } from '../services/SaveService';
 import { createSaveEditorStore, SaveEditorStore } from '../core/document/store';
 import { SaveDataRecord, SaveEditorState, SaveTestResults } from '../core/save/types';
 import { getValueAtPath } from '../core/document/path';
-import { testSaveData, checkRealitySection } from "../utils/testSave";
+import { testSaveData, checkRealitySection, compareRegisteredFieldValues } from "../utils/testSave";
 
 const structureReferenceAssetBySaveType: Record<SaveType, string> = {
   [SaveType.PC]: 'pc.json',
   [SaveType.Android]: 'android.json',
 };
 
+const fieldComparisonReferenceAssetBySaveType: Partial<Record<SaveType, string>> = {
+  [SaveType.PC]: 'newsave.json',
+};
+
 const structureReferenceImportBySaveType: Record<SaveType, () => Promise<{ default: unknown }>> = {
   [SaveType.PC]: () => import('../../pc.json'),
   [SaveType.Android]: () => import('../../android.json'),
+};
+
+const fieldComparisonReferenceImportBySaveType: Partial<Record<SaveType, () => Promise<{ default: unknown }>>> = {
+  [SaveType.PC]: () => import('../../newsave.json'),
 };
 
 // Interface for save context
@@ -135,10 +143,34 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
   const actions = useMemo<SaveActions>(() => {
     const store = storeRef.current!;
 
+    const loadReferenceContent = async (
+      assetName: string,
+      importReference?: () => Promise<{ default: unknown }>
+    ): Promise<string> => {
+      try {
+        const response = await fetch(`./${assetName}`);
+        if (!response.ok) {
+          throw new Error(`Error retrieving ${assetName} file: ${response.status}`);
+        }
+
+        return response.text();
+      } catch (fetchError) {
+        console.error('Error with fetch, trying with import:', fetchError);
+
+        if (!importReference) {
+          throw fetchError;
+        }
+
+        const saveJsonModule = await importReference();
+        return JSON.stringify(saveJsonModule.default);
+      }
+    };
+
     const runTestSave = async (): Promise<void> => {
       const snapshot = store.getState();
       const modifiedSaveData = snapshot.document?.workingData ?? null;
       const referenceAsset = structureReferenceAssetBySaveType[snapshot.saveType];
+      const comparisonReferenceAsset = fieldComparisonReferenceAssetBySaveType[snapshot.saveType];
 
       if (!modifiedSaveData) {
         store.setTestResults({
@@ -152,25 +184,13 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
         let saveJsonContent = '';
 
         try {
-          const response = await fetch(`./${referenceAsset}`);
-          if (!response.ok) {
-            throw new Error(`Error retrieving ${referenceAsset} file: ${response.status}`);
-          }
-
-          saveJsonContent = await response.text();
-        } catch (fetchError) {
-          console.error('Error with fetch, trying with import:', fetchError);
-
-          try {
-            const saveJsonModule = await structureReferenceImportBySaveType[snapshot.saveType]();
-            saveJsonContent = JSON.stringify(saveJsonModule.default);
-          } catch (importError) {
-            store.setTestResults({
-              success: false,
-              errors: [`Unable to load ${referenceAsset} file: ${importError}`],
-            });
-            return;
-          }
+          saveJsonContent = await loadReferenceContent(referenceAsset, structureReferenceImportBySaveType[snapshot.saveType]);
+        } catch (referenceError) {
+          store.setTestResults({
+            success: false,
+            errors: [`Unable to load ${referenceAsset} file: ${referenceError}`],
+          });
+          return;
         }
 
         const encrypted = SaveService.encrypt(modifiedSaveData, snapshot.saveType);
@@ -184,10 +204,30 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
 
         const results = testSaveData(encrypted, saveJsonContent);
         const realityCheck = checkRealitySection(modifiedSaveData as any);
+        const comparisonErrors: string[] = [];
+
+        if (comparisonReferenceAsset && results.decryptedData) {
+          try {
+            const comparisonReferenceContent = await loadReferenceContent(
+              comparisonReferenceAsset,
+              fieldComparisonReferenceImportBySaveType[snapshot.saveType]
+            );
+            const comparisonReference = JSON.parse(comparisonReferenceContent);
+            const fieldComparison = compareRegisteredFieldValues(
+              results.decryptedData,
+              comparisonReference,
+              snapshot.saveType
+            );
+
+            comparisonErrors.push(...fieldComparison.errors);
+          } catch (comparisonError) {
+            comparisonErrors.push(`Unable to load ${comparisonReferenceAsset} file: ${comparisonError}`);
+          }
+        }
 
         store.setTestResults({
-          success: results.success && realityCheck.issues.length === 0,
-          errors: [...results.errors, ...realityCheck.issues],
+          success: results.success && realityCheck.issues.length === 0 && comparisonErrors.length === 0,
+          errors: [...results.errors, ...realityCheck.issues, ...comparisonErrors],
         });
       } catch (error) {
         store.setTestResults({

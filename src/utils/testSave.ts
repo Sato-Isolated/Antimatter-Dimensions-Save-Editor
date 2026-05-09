@@ -1,5 +1,6 @@
 import { SaveService, SaveType } from '../services/SaveService';
 import { AntimatterDimensionsStruct } from '../Struct';
+import { readFieldValue, resolveFieldPath, saveEditorFields } from '../core/save/fieldRegistry';
 
 // Define progression stages
 type ProgressionStage = 'early' | 'infinity' | 'eternity' | 'reality';
@@ -45,6 +46,77 @@ const hasProgressValue = (value: unknown): boolean => {
 
 const detectSchemaFromSaveData = (saveData: AntimatterDimensionsStruct): SaveType => {
   return 'brake' in (saveData as unknown as object) ? SaveType.Android : SaveType.PC;
+};
+
+const areValuesEqual = (left: unknown, right: unknown): boolean => {
+  if (left === right) {
+    return true;
+  }
+
+  if (typeof left === 'number' && typeof right === 'number') {
+    return Number.isNaN(left) && Number.isNaN(right);
+  }
+
+  if (typeof left !== 'object' || typeof right !== 'object' || left === null || right === null) {
+    return false;
+  }
+
+  if (Array.isArray(left) || Array.isArray(right)) {
+    if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) {
+      return false;
+    }
+
+    return left.every((entry, index) => areValuesEqual(entry, right[index]));
+  }
+
+  const leftKeys = Object.keys(left as Record<string, unknown>);
+  const rightKeys = Object.keys(right as Record<string, unknown>);
+
+  if (leftKeys.length !== rightKeys.length) {
+    return false;
+  }
+
+  return leftKeys.every((key) => areValuesEqual(
+    (left as Record<string, unknown>)[key],
+    (right as Record<string, unknown>)[key]
+  ));
+};
+
+const formatComparedValue = (value: unknown): string => {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  return JSON.stringify(value);
+};
+
+export const compareRegisteredFieldValues = (
+  saveData: AntimatterDimensionsStruct,
+  referenceData: AntimatterDimensionsStruct,
+  saveType: SaveType
+): {
+  success: boolean;
+  errors: string[];
+} => {
+  const errors: string[] = [];
+
+  for (const field of saveEditorFields) {
+    const actualPath = resolveFieldPath(saveData as never, field, saveType);
+    const expectedPath = resolveFieldPath(referenceData as never, field, saveType);
+    const actualValue = readFieldValue(saveData as never, field, saveType);
+    const expectedValue = readFieldValue(referenceData as never, field, saveType);
+
+    if (!areValuesEqual(actualValue, expectedValue)) {
+      errors.push(
+        `${field.label} mismatch at ${actualPath} (reference ${expectedPath}): expected ${formatComparedValue(expectedValue)}, got ${formatComparedValue(actualValue)}`
+      );
+    }
+  }
+
+  return {
+    success: errors.length === 0,
+    errors,
+  };
 };
 
 /**
