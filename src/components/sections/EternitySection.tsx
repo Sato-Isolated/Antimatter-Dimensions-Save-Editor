@@ -5,6 +5,7 @@ import { FaHourglassHalf, FaArrowUp, FaTrophy, FaGem } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { parseNumericInput } from './fieldHelpers';
+import { SaveDataRecord } from '../../core/save/types';
 
 const EternitySection: React.FC<SectionProps> = ({
   saveData,
@@ -13,6 +14,7 @@ const EternitySection: React.FC<SectionProps> = ({
   saveType
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('general');
+  const data = saveData as SaveDataRecord;
 
   // Handle subtab changes
   const handleSubtabClick = (subtabId: string) => {
@@ -42,7 +44,7 @@ const EternitySection: React.FC<SectionProps> = ({
               <div className="form-group">
                 <BigNumberInput
                   label="Eternity Points"
-                  value={saveData.eternityPoints || '0'}
+                  value={data.eternityPoints || '0'}
                   onChange={(value) => handleValueChange('eternityPoints', value)}
                   saveType={saveType}
                 />
@@ -52,7 +54,7 @@ const EternitySection: React.FC<SectionProps> = ({
               <div className="form-group">
                 <BigNumberInput
                   label="Eternities"
-                  value={saveData.eternities || '0'}
+                  value={data.eternities || '0'}
                   onChange={(value) => handleValueChange('eternities', value)}
                   saveType={saveType}
                 />
@@ -62,7 +64,7 @@ const EternitySection: React.FC<SectionProps> = ({
               <div className="form-group">
                 <BigNumberInput
                   label="Time Shards"
-                  value={saveData.timeShards || '0'}
+                  value={data.timeShards || '0'}
                   onChange={(value) => handleValueChange('timeShards', value)}
                   saveType={saveType}
                 />
@@ -72,7 +74,7 @@ const EternitySection: React.FC<SectionProps> = ({
               <div className="form-group">
                 <BigNumberInput
                   label="Tickspeed"
-                  value={saveData.tickspeed || '1e+3000'}
+                  value={data.tickspeed || '1e+3000'}
                   onChange={(value) => handleValueChange('tickspeed', value)}
                   saveType={saveType}
                 />
@@ -84,7 +86,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="totalTickGained"
-                  value={saveData.totalTickGained || 0}
+                  value={data.totalTickGained || 0}
                   onChange={(e) => handleValueChange('totalTickGained', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('totalTickGained')}
@@ -100,7 +102,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="eternity-upgrades"
-                  value={saveData.eternityUpgrades?.length || 0}
+                  value={data.eternityUpgrades?.length || 0}
                   onChange={(e) => handleValueChange('eternityUpgrades', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('eternityUpgrades')}
@@ -116,7 +118,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="eternity-milestones"
-                  value={saveData.epmultUpgrades || 0}
+                  value={data.epmultUpgrades || 0}
                   onChange={(e) => handleValueChange('epmultUpgrades', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('epmultUpgrades')}
@@ -135,7 +137,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="text"
                   id="timestudies-studies"
-                  value={saveData.timestudy?.studies?.join(',') || ''}
+                  value={data.timestudy?.studies?.join(',') || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     const studies = value.split(',')
@@ -152,7 +154,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="timestudies-theorem"
-                  value={saveData.timestudy?.theorem || 0}
+                  value={data.timestudy?.theorem || 0}
                   onChange={(e) => handleValueChange('timestudy.theorem', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('timestudy.theorem')}
@@ -162,7 +164,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <JsonTextareaField
                   id="eternity-challs"
                   label="Eternity Challenge Completions"
-                  value={saveData.eternityChalls || {}}
+                  value={data.eternityChalls || {}}
                   onChange={(value) => handleValueChange('eternityChalls', value)}
                   expectation="object"
                   rows={4}
@@ -183,7 +185,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <label htmlFor="ec-current">Current Challenge</label>
                 <select
                   id="ec-current"
-                  value={saveData.challenge?.eternity?.current || 0}
+                  value={data.challenge?.eternity?.current || 0}
                   onChange={(e) => handleValueChange('challenge.eternity.current', parseNumericInput(e.target.value))}
                 >
                   <option value="0">None</option>
@@ -207,7 +209,7 @@ const EternitySection: React.FC<SectionProps> = ({
                 <JsonTextareaField
                   id="ec-completed"
                   label="Eternity Challenges Completion"
-                  value={saveData.eternityChalls || {}}
+                  value={data.eternityChalls || {}}
                   onChange={(value) => handleValueChange('eternityChalls', value)}
                   expectation="object"
                   rows={3}
