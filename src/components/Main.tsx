@@ -10,6 +10,7 @@ import ValidationSummarySection from './workflow/ValidationSummarySection';
 import WorkflowStepCard from './workflow/WorkflowStepCard';
 import { WorkspaceView, workspaceViews } from './workflow/workspaceView';
 import { useShellAnnouncements } from './workflow/useShellAnnouncements';
+import { useShellKeyboardShortcuts } from './workflow/useShellKeyboardShortcuts';
 
 const formatChangeTime = (timestamp: number | null): string => {
   if (!timestamp) {
@@ -25,6 +26,11 @@ const Main: React.FC = () => {
   const structuredPanelRef = useRef<HTMLElement | null>(null);
   const jsonPanelRef = useRef<HTMLElement | null>(null);
   const settingsPanelRef = useRef<HTMLElement | null>(null);
+  const importInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const runStructureTestButtonRef = useRef<HTMLButtonElement | null>(null);
+  const encryptButtonRef = useRef<HTMLButtonElement | null>(null);
+  const copyButtonRef = useRef<HTMLButtonElement | null>(null);
+  const exportOutputRef = useRef<HTMLTextAreaElement | null>(null);
   const hasFocusedWorkspacePanel = useRef(false);
   const tabIdForView = (view: WorkspaceView): string => `workspace-tab-${view}`;
   const panelIdForView = (view: WorkspaceView): string => `workspace-panel-${view}`;
@@ -55,11 +61,11 @@ const Main: React.FC = () => {
     testResults,
     testSave,
   } = useSave();
-  const document = useSaveSelector((state) => state.document);
+  const saveDocument = useSaveSelector((state) => state.document);
   const lastChange = useSaveSelector((state) => state.lastChange);
   const isDirty = useSaveSelector((state) => state.isDirty);
 
-  const validationIssues = document?.validation.issues ?? [];
+  const validationIssues = saveDocument?.validation.issues ?? [];
   const validationErrors = validationIssues.filter((issue) => issue.severity === 'error');
   const validationWarnings = validationIssues.filter((issue) => issue.severity === 'warning');
   const reviewMessage = !isLoaded
@@ -131,6 +137,30 @@ const Main: React.FC = () => {
       announceAlert('Unable to copy the encrypted save to the clipboard.');
     }
   };
+
+  const focusCurrentWorkspaceTab = () => {
+    const tabElement = globalThis.document.getElementById(tabIdForView(workspaceView));
+    if (tabElement instanceof HTMLButtonElement) {
+      tabElement.focus();
+    }
+  };
+
+  useShellKeyboardShortcuts({
+    onPaste: handlePaste,
+    onDecrypt: handleDecrypt,
+    onRunStructureTest: handleRunStructureTest,
+    onEncrypt: handleEncrypt,
+    onCopy: handleCopy,
+    canRunStructureTest: isLoaded,
+    canEncrypt: isLoaded,
+    canCopy: Boolean(encodedOutputData),
+    importInputRef,
+    runStructureTestButtonRef,
+    encryptButtonRef,
+    copyButtonRef,
+    focusCurrentWorkspaceTab,
+    exportOutputRef,
+  });
   
   return (
     <main className="editor-container workflow-shell" id="save-editor">
@@ -145,6 +175,9 @@ const Main: React.FC = () => {
                 <h2>Import, validate, edit, then review the export</h2>
                 <p className="workflow-summary">
                   The shell now tracks format, validation, and dirty state directly from the centralized document store.
+                </p>
+                <p className="workflow-summary">
+                  Keyboard shortcuts: Alt+1 import input, Alt+2 validate, Alt+3 workspace tabs, Alt+4 export output, Ctrl/Cmd+Shift+V paste, Ctrl/Cmd+Shift+T test, Ctrl/Cmd+Shift+E encrypt, Ctrl/Cmd+Shift+C copy.
                 </p>
               </div>
               <div className="workflow-status-strip" aria-label="Save status overview">
@@ -179,6 +212,7 @@ const Main: React.FC = () => {
               <label htmlFor="save-import-input">Encrypted save</label>
               <textarea
                 id="save-import-input"
+                ref={importInputRef}
                 className="save-textarea"
                 placeholder="Paste your encrypted save data here..."
                 spellCheck="false"
@@ -200,14 +234,14 @@ const Main: React.FC = () => {
           step="Step 2"
           title="Validation summary"
           headerAside={(
-            <button className="btn secondary" onClick={handleRunStructureTest} disabled={!isLoaded}>
+            <button ref={runStructureTestButtonRef} className="btn secondary" onClick={handleRunStructureTest} disabled={!isLoaded}>
               <i className="fa fa-check-circle"></i> Run structure test
             </button>
           )}
         >
           <ValidationSummarySection
             isLoaded={isLoaded}
-            document={document}
+            document={saveDocument}
             validationIssues={validationIssues}
             validationErrorCount={validationErrors.length}
             validationWarningCount={validationWarnings.length}
@@ -275,6 +309,7 @@ const Main: React.FC = () => {
               <label htmlFor="save-export-output">Encoded export</label>
               <textarea
                 id="save-export-output"
+                ref={exportOutputRef}
                 className="save-textarea"
                 placeholder="Your encrypted save will appear here..."
                 spellCheck="false"
@@ -283,10 +318,10 @@ const Main: React.FC = () => {
               />
             </div>
             <WorkflowActionRow ariaLabel="Export actions">
-              <button id="encryptButton" className="btn primary" onClick={handleEncrypt} disabled={!isLoaded}>
+              <button ref={encryptButtonRef} id="encryptButton" className="btn primary" onClick={handleEncrypt} disabled={!isLoaded}>
                 <i className="fa fa-lock"></i> Encrypt
               </button>
-              <button id="copyButton" className="btn secondary" onClick={handleCopy} disabled={!encodedOutputData}>
+              <button ref={copyButtonRef} id="copyButton" className="btn secondary" onClick={handleCopy} disabled={!encodedOutputData}>
                 <i className="fa fa-copy"></i> Copy
               </button>
             </WorkflowActionRow>
