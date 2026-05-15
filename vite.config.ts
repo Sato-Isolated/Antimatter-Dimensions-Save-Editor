@@ -14,7 +14,39 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 700,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return;
+          }
+
+          if (id.includes('@codemirror') || id.includes('@uiw/react-codemirror')) {
+            return 'vendor-codemirror';
+          }
+
+          if (
+            id.includes('@fortawesome')
+            || id.includes('font-awesome')
+            || id.includes('react-icons')
+          ) {
+            return 'vendor-icons';
+          }
+
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'vendor-react';
+          }
+
+          if (id.includes('pako')) {
+            return 'vendor-pako';
+          }
+
+          return 'vendor';
+        },
+      },
+    },
   },
   server: {
     port: 3000,
