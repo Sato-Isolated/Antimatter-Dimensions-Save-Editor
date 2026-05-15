@@ -23,10 +23,6 @@ export default defineConfig({
             return;
           }
 
-          if (id.includes('@codemirror') || id.includes('@uiw/react-codemirror')) {
-            return 'vendor-codemirror';
-          }
-
           if (
             id.includes('@fortawesome')
             || id.includes('font-awesome')
