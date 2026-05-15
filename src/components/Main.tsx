@@ -1,21 +1,14 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
-import StructuredEditor from './StructuredEditor';
 import 'font-awesome/css/font-awesome.min.css';
-import ThemeSelector from './ThemeSelector';
-const JsonEditor = lazy(() => import('./JsonEditor'));
-
-type WorkspaceView = 'structured' | 'json' | 'settings';
-
-const workspaceViews: Array<{
-  id: WorkspaceView;
-  label: string;
-  iconClassName: string;
-}> = [
-  { id: 'structured', label: 'Structured', iconClassName: 'fa fa-th-large' },
-  { id: 'json', label: 'JSON', iconClassName: 'fa fa-code' },
-  { id: 'settings', label: 'Preferences', iconClassName: 'fa fa-cog' },
-];
+import WorkspaceViewTabs from './workflow/WorkspaceViewTabs';
+import WorkspacePanels from './workflow/WorkspacePanels';
+import WorkflowActionRow from './workflow/WorkflowActionRow';
+import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';
+import StatusChip from './workflow/StatusChip';
+import WorkflowStepCard from './workflow/WorkflowStepCard';
+import { WorkspaceView, workspaceViews } from './workflow/workspaceView';
+import { useShellAnnouncements } from './workflow/useShellAnnouncements';
 
 const formatChangeTime = (timestamp: number | null): string => {
   if (!timestamp) {
@@ -28,27 +21,12 @@ const formatChangeTime = (timestamp: number | null): string => {
 const Main: React.FC = () => {
   const [workspaceView, setWorkspaceView] = useState<WorkspaceView>('structured');
   const [hasMountedJsonEditor, setHasMountedJsonEditor] = useState(false);
-  const [statusAnnouncement, setStatusAnnouncement] = useState('Awaiting encrypted save import.');
-  const [alertAnnouncement, setAlertAnnouncement] = useState('');
   const structuredPanelRef = useRef<HTMLElement | null>(null);
   const jsonPanelRef = useRef<HTMLElement | null>(null);
   const settingsPanelRef = useRef<HTMLElement | null>(null);
   const hasFocusedWorkspacePanel = useRef(false);
-  const structuredTabId = 'workspace-tab-structured';
-  const jsonTabId = 'workspace-tab-json';
-  const settingsTabId = 'workspace-tab-settings';
-  const structuredPanelId = 'workspace-panel-structured';
-  const jsonPanelId = 'workspace-panel-json';
-  const settingsPanelId = 'workspace-panel-settings';
-
-  const handleWorkspaceViewChange = (nextView: WorkspaceView) => {
-    setWorkspaceView(nextView);
-    if (nextView === 'json') {
-      setHasMountedJsonEditor(true);
-    }
-
-    setStatusAnnouncement(`Opened the ${workspaceViews.find((view) => view.id === nextView)?.label ?? nextView} workspace.`);
-  };
+  const tabIdForView = (view: WorkspaceView): string => `workspace-tab-${view}`;
+  const panelIdForView = (view: WorkspaceView): string => `workspace-panel-${view}`;
 
   useEffect(() => {
     if (!hasFocusedWorkspacePanel.current) {
@@ -91,86 +69,71 @@ const Main: React.FC = () => {
         ? 'Changes are pending encryption.'
         : 'No encoded export has been generated yet.';
 
-    useEffect(() => {
-      if (errorMessage) {
-        setAlertAnnouncement(`Save error: ${errorMessage}`);
-        return;
-      }
+  const {
+    statusAnnouncement,
+    alertAnnouncement,
+    announceStatus,
+    announceAlert,
+    clearAlert,
+  } = useShellAnnouncements({
+    errorMessage,
+    isLoaded,
+    isDirty,
+    encodedOutputData,
+    testResults,
+  });
 
-      if (testResults && !testResults.success) {
-        setAlertAnnouncement(`Save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`);
-      } else {
-        setAlertAnnouncement('');
-      }
+  const handleWorkspaceViewChange = (nextView: WorkspaceView) => {
+    setWorkspaceView(nextView);
+    if (nextView === 'json') {
+      setHasMountedJsonEditor(true);
+    }
 
-      if (!isLoaded) {
-        setStatusAnnouncement('Awaiting encrypted save import.');
-        return;
-      }
-
-      if (testResults?.success) {
-        setStatusAnnouncement('Structure test passed for the current document.');
-        return;
-      }
-
-      if (encodedOutputData) {
-        setStatusAnnouncement('Encrypted export is ready to copy.');
-        return;
-      }
-
-      if (isDirty) {
-        setStatusAnnouncement('Edits are stored in memory and ready for export review.');
-        return;
-      }
-
-      setStatusAnnouncement('Save loaded and ready for editing.');
-    }, [encodedOutputData, errorMessage, isDirty, isLoaded, testResults]);
+    announceStatus(`Opened the ${workspaceViews.find((view) => view.id === nextView)?.label ?? nextView} workspace.`);
+  };
   
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText();
       setRawSaveData(text);
-        setStatusAnnouncement('Encrypted save pasted into the import field.');
-        setAlertAnnouncement('');
+      announceStatus('Encrypted save pasted into the import field.');
+      clearAlert();
     } catch (error) {
       console.error('Failed to read clipboard contents:', error);
-        setAlertAnnouncement('Unable to read the clipboard. Paste the save manually instead.');
+      announceAlert('Unable to read the clipboard. Paste the save manually instead.');
     }
   };
   
   const handleDecrypt = () => {
     decryptSave();
-      setStatusAnnouncement('Decrypting the imported save.');
+    announceStatus('Decrypting the imported save.');
   };
 
-    const handleRunStructureTest = () => {
-      testSave();
-      setStatusAnnouncement('Running the structure test.');
-    };
+  const handleRunStructureTest = () => {
+    testSave();
+    announceStatus('Running the structure test.');
+  };
   
   const handleEncrypt = () => {
     encryptSave();
-      setStatusAnnouncement('Generating the encrypted export string.');
+    announceStatus('Generating the encrypted export string.');
   };
   
   const handleCopy = async () => {
     try {
       if (encodedOutputData) {
         await navigator.clipboard.writeText(encodedOutputData);
-          setStatusAnnouncement('Encrypted save copied to the clipboard.');
+        announceStatus('Encrypted save copied to the clipboard.');
       }
     } catch (error) {
       console.error('Failed to copy to clipboard:', error);
-        setAlertAnnouncement('Unable to copy the encrypted save to the clipboard.');
+      announceAlert('Unable to copy the encrypted save to the clipboard.');
     }
   };
   
   return (
     <main className="editor-container workflow-shell" id="save-editor">
-        <div className="sr-only workflow-announcements" aria-live="off">
-          <div role="status" aria-live="polite" aria-atomic="true">{statusAnnouncement}</div>
-          <div role="alert" aria-atomic="true">{alertAnnouncement}</div>
-        </div>
+      <WorkflowAnnouncements statusMessage={statusAnnouncement} alertMessage={alertAnnouncement} />
 
       <div className="main-content">
         <section className="card workflow-hero">
@@ -184,12 +147,12 @@ const Main: React.FC = () => {
                 </p>
               </div>
               <div className="workflow-status-strip" aria-label="Save status overview">
-                <span className={`status-chip ${isLoaded ? 'success' : 'neutral'}`}>{isLoaded ? 'Save loaded' : 'Awaiting import'}</span>
-                <span className={`status-chip ${isDirty ? 'warning' : 'success'}`}>{isDirty ? 'Dirty edits' : 'Clean workspace'}</span>
-                <span className="status-chip neutral">Format: {isLoaded ? saveType.toUpperCase() : 'Unknown'}</span>
-                <span className={`status-chip ${validationErrors.length > 0 ? 'danger' : validationWarnings.length > 0 ? 'warning' : 'success'}`}>
+                <StatusChip variant={isLoaded ? 'success' : 'neutral'}>{isLoaded ? 'Save loaded' : 'Awaiting import'}</StatusChip>
+                <StatusChip variant={isDirty ? 'warning' : 'success'}>{isDirty ? 'Dirty edits' : 'Clean workspace'}</StatusChip>
+                <StatusChip variant="neutral">Format: {isLoaded ? saveType.toUpperCase() : 'Unknown'}</StatusChip>
+                <StatusChip variant={validationErrors.length > 0 ? 'danger' : validationWarnings.length > 0 ? 'warning' : 'success'}>
                   {validationIssues.length > 0 ? `${validationIssues.length} validation issue${validationIssues.length === 1 ? '' : 's'}` : 'Validation clear'}
-                </span>
+                </StatusChip>
               </div>
             </div>
           </div>
@@ -205,15 +168,11 @@ const Main: React.FC = () => {
           <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save support:</strong> PC and Android saves share the same workflow now. Import a save, verify the summary, then choose the structured workspace or JSON editor for deeper edits.
         </div>
         
-        <section className="card workflow-step-card">
-          <div className="card-header">
-            <div>
-              <p className="step-label">Step 1</p>
-              <h2>Import save</h2>
-            </div>
-            <span className="status-chip neutral">Raw input</span>
-          </div>
-          <div className="card-body">
+        <WorkflowStepCard
+          step="Step 1"
+          title="Import save"
+          headerAside={<StatusChip variant="neutral">Raw input</StatusChip>}
+        >
             <p className="section-summary">Paste encrypted save data, then decode it into the shared document store.</p>
             <div className="input-group">
               <label htmlFor="save-import-input">Encrypted save</label>
@@ -226,28 +185,25 @@ const Main: React.FC = () => {
                 onChange={(e) => setRawSaveData(e.target.value)}
               />
             </div>
-            <div className="button-group">
+            <WorkflowActionRow ariaLabel="Import actions">
               <button id="pasteButton" className="btn primary" onClick={handlePaste}>
                 <i className="fa fa-paste"></i> Paste
               </button>
               <button id="decryptButton" className="btn secondary" onClick={handleDecrypt}>
                 <i className="fa fa-unlock"></i> Decrypt
               </button>
-            </div>
-          </div>
-        </section>
+            </WorkflowActionRow>
+        </WorkflowStepCard>
         
-        <section className="card workflow-step-card">
-          <div className="card-header">
-            <div>
-              <p className="step-label">Step 2</p>
-              <h2>Validation summary</h2>
-            </div>
+        <WorkflowStepCard
+          step="Step 2"
+          title="Validation summary"
+          headerAside={(
             <button className="btn secondary" onClick={handleRunStructureTest} disabled={!isLoaded}>
               <i className="fa fa-check-circle"></i> Run structure test
             </button>
-          </div>
-          <div className="card-body">
+          )}
+        >
             {!isLoaded || !document ? (
               <div className="editor-empty-state compact">
                 <h3>No decoded save yet</h3>
@@ -303,123 +259,44 @@ const Main: React.FC = () => {
                 )}
               </div>
             )}
-          </div>
-        </section>
+        </WorkflowStepCard>
 
-        <section className="card workflow-step-card">
-          <div className="card-header">
-            <div>
-              <p className="step-label">Step 3</p>
-              <h2>Edit workspace</h2>
-              <p className="section-summary">Use the structured editor for safe field-level changes, switch to JSON for expert edits, or open preferences to adjust the shell.</p>
-            </div>
-            <nav className="workspace-view-switcher" aria-label="Workspace views">
-              {workspaceViews.map((view) => (
-                <button
-                  key={view.id}
-                  id={view.id === 'structured' ? structuredTabId : view.id === 'json' ? jsonTabId : settingsTabId}
-                  type="button"
-                  className={`tab-button ${workspaceView === view.id ? 'active' : ''}`}
-                  onClick={() => handleWorkspaceViewChange(view.id)}
-                  disabled={view.id === 'json' && !isLoaded}
-                  aria-pressed={workspaceView === view.id}
-                >
-                  <i className={view.iconClassName} aria-hidden="true"></i>
-                  <span>{view.label}</span>
-                </button>
-              ))}
-            </nav>
-          </div>
-          <div className="card-body">
-            <div className="workspace-meta-bar">
-              <span className={`status-chip ${isDirty ? 'warning' : 'success'}`}>{isDirty ? 'Unsaved edits in memory' : 'No staged edits'}</span>
-              <span className={`status-chip ${errorMessage ? 'danger' : 'neutral'}`}>{errorMessage ? 'Store error present' : 'Store healthy'}</span>
-              <span className="status-chip neutral">Format: {isLoaded ? saveType.toUpperCase() : 'Unknown'}</span>
-              <span className="status-chip neutral">Last source: {lastChange?.source ?? 'none'}</span>
-            </div>
-
-            <div className="workspace-panel">
-              <section
-                id={structuredPanelId}
-                ref={structuredPanelRef}
-                role="region"
-                aria-labelledby={structuredTabId}
-                hidden={workspaceView !== 'structured'}
-                tabIndex={-1}
-              >
-                {workspaceView === 'structured' && <StructuredEditor isActive={workspaceView === 'structured'} />}
-              </section>
-
-              {(workspaceView === 'json' || hasMountedJsonEditor) && (
-                <section
-                  id={jsonPanelId}
-                  ref={jsonPanelRef}
-                  className="json-workspace-shell"
-                  role="region"
-                  aria-labelledby={jsonTabId}
-                  hidden={workspaceView !== 'json'}
-                  tabIndex={-1}
-                >
-                  {!hasMountedJsonEditor ? (
-                    <div className="editor-empty-state compact">
-                      <h3>JSON editor will mount on demand</h3>
-                      <p>Open the JSON workspace once to load the heavy editor only when you need it.</p>
-                    </div>
-                  ) : (
-                    <Suspense
-                      fallback={
-                        <div className="editor-empty-state compact">
-                          <h3>Loading JSON workspace</h3>
-                          <p>Preparing the tree and text editor for the current save snapshot.</p>
-                        </div>
-                      }
-                    >
-                      <JsonEditor isActive={workspaceView === 'json'} />
-                    </Suspense>
-                  )}
-                </section>
-              )}
-
-              <section
-                id={settingsPanelId}
-                ref={settingsPanelRef}
-                role="region"
-                aria-labelledby={settingsTabId}
-                hidden={workspaceView !== 'settings'}
-                tabIndex={-1}
-              >
-                {workspaceView === 'settings' && (
-                <div className="workspace-settings-panel">
-                  <div className="settings-block">
-                    <h3>Theme</h3>
-                    <p>Theme preferences stay compatible with the existing selector and local storage behavior.</p>
-                    <ThemeSelector />
-                  </div>
-
-                  <div className="settings-block">
-                    <h3>Workflow notes</h3>
-                    <ul className="workflow-list">
-                      <li>The structured workspace is generated from the registry in core save metadata.</li>
-                      <li>The JSON editor mounts lazily to avoid paying its cost until you open it.</li>
-                      <li>Dirty, error, and format state are surfaced in the shell instead of being hidden inside tabs.</li>
-                    </ul>
-                  </div>
-                </div>
-                )}
-              </section>
-            </div>
-          </div>
-        </section>
+        <WorkflowStepCard
+          step="Step 3"
+          title="Edit workspace"
+          summary="Use the structured editor for safe field-level changes, switch to JSON for expert edits, or open preferences to adjust the shell."
+          headerAside={(
+            <WorkspaceViewTabs
+              views={workspaceViews}
+              activeView={workspaceView}
+              onViewChange={handleWorkspaceViewChange}
+              isJsonDisabled={!isLoaded}
+              tabIdForView={tabIdForView}
+              panelIdForView={panelIdForView}
+            />
+          )}
+        >
+            <WorkspacePanels
+              workspaceView={workspaceView}
+              hasMountedJsonEditor={hasMountedJsonEditor}
+              isDirty={isDirty}
+              isLoaded={isLoaded}
+              saveType={saveType}
+              lastChangeSource={lastChange?.source ?? 'none'}
+              errorMessage={errorMessage}
+              structuredPanelRef={structuredPanelRef}
+              jsonPanelRef={jsonPanelRef}
+              settingsPanelRef={settingsPanelRef}
+              tabIdForView={tabIdForView}
+              panelIdForView={panelIdForView}
+            />
+        </WorkflowStepCard>
         
-        <section className="card workflow-step-card">
-          <div className="card-header">
-            <div>
-              <p className="step-label">Step 4</p>
-              <h2>Export review</h2>
-            </div>
-            <span className={`status-chip ${encodedOutputData ? 'success' : 'neutral'}`}>{encodedOutputData ? 'Ready to copy' : 'Not generated'}</span>
-          </div>
-          <div className="card-body">
+        <WorkflowStepCard
+          step="Step 4"
+          title="Export review"
+          headerAside={<StatusChip variant={encodedOutputData ? 'success' : 'neutral'}>{encodedOutputData ? 'Ready to copy' : 'Not generated'}</StatusChip>}
+        >
             <div className="export-review-grid">
               <div className="export-review-card">
                 <span className="summary-label">Format</span>
@@ -450,16 +327,15 @@ const Main: React.FC = () => {
                 value={encodedOutputData}
               />
             </div>
-            <div className="button-group">
+            <WorkflowActionRow ariaLabel="Export actions">
               <button id="encryptButton" className="btn primary" onClick={handleEncrypt} disabled={!isLoaded}>
                 <i className="fa fa-lock"></i> Encrypt
               </button>
               <button id="copyButton" className="btn secondary" onClick={handleCopy} disabled={!encodedOutputData}>
                 <i className="fa fa-copy"></i> Copy
               </button>
-            </div>
-          </div>
-        </section>
+            </WorkflowActionRow>
+        </WorkflowStepCard>
       </div>
     </main>
   );
