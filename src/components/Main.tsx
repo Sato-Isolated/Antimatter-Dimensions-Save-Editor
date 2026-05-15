@@ -6,6 +6,7 @@ import WorkspacePanels from './workflow/WorkspacePanels';
 import WorkflowActionRow from './workflow/WorkflowActionRow';
 import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';
 import StatusChip from './workflow/StatusChip';
+import ValidationSummarySection from './workflow/ValidationSummarySection';
 import WorkflowStepCard from './workflow/WorkflowStepCard';
 import { WorkspaceView, workspaceViews } from './workflow/workspaceView';
 import { useShellAnnouncements } from './workflow/useShellAnnouncements';
@@ -204,61 +205,15 @@ const Main: React.FC = () => {
             </button>
           )}
         >
-            {!isLoaded || !document ? (
-              <div className="editor-empty-state compact">
-                <h3>No decoded save yet</h3>
-                <p>Decrypt a save to populate stage detection, registry validation, and review status.</p>
-              </div>
-            ) : (
-              <div className="validation-summary-grid">
-                <div className="validation-summary-card">
-                  <span className="summary-label">Progress stage</span>
-                  <strong>{document.validation.stage}</strong>
-                </div>
-                <div className="validation-summary-card">
-                  <span className="summary-label">Errors</span>
-                  <strong>{validationErrors.length}</strong>
-                </div>
-                <div className="validation-summary-card">
-                  <span className="summary-label">Warnings</span>
-                  <strong>{validationWarnings.length}</strong>
-                </div>
-                <div className="validation-summary-card">
-                  <span className="summary-label">Last change</span>
-                  <strong>{formatChangeTime(lastChange?.timestamp ?? null)}</strong>
-                </div>
-              </div>
-            )}
-
-            {validationIssues.length > 0 && (
-              <div className="workflow-list-block">
-                <h3>Registry validation findings</h3>
-                <ul className="workflow-list">
-                  {validationIssues.slice(0, 8).map((issue) => (
-                    <li key={`${issue.code}-${issue.path ?? issue.message}`}>
-                      <strong>{issue.severity.toUpperCase()}</strong> {issue.message}
-                      {issue.path && <span className="issue-path">{issue.path}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {testResults && (
-              <div className="workflow-list-block">
-                <h3>Save check</h3>
-                <p className={`structure-test-summary ${testResults.success ? 'success' : 'danger'}`}>
-                  {testResults.success ? 'External save check passed.' : `External save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`}
-                </p>
-                {testResults.errors.length > 0 && (
-                  <ul className="workflow-list">
-                    {testResults.errors.slice(0, 8).map((error, index) => (
-                      <li key={`${index}-${error}`}>{error}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
+          <ValidationSummarySection
+            isLoaded={isLoaded}
+            document={document}
+            validationIssues={validationIssues}
+            validationErrorCount={validationErrors.length}
+            validationWarningCount={validationWarnings.length}
+            testResults={testResults}
+            formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
+          />
         </WorkflowStepCard>
 
         <WorkflowStepCard
