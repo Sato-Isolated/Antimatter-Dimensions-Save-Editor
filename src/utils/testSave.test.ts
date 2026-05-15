@@ -5,7 +5,7 @@ import pcFixture from '../../pc.json';
 import { encodeSaveData } from '../core/save/serialization';
 import { readFieldValue, saveEditorFields } from '../core/save/fieldRegistry';
 import { SaveType } from '../core/save/types';
-import { checkRealitySection, compareRegisteredFieldValues, testSaveData } from './testSave';
+import { checkRealitySection, compareRegisteredFieldNodes, testSaveData } from './testSave';
 
 const cloneFixture = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -48,8 +48,8 @@ describe('testSaveData', () => {
     expect(result.issues).not.toContainEqual(expect.stringContaining('The "reality.realityMachines" property is of type object instead of string'));
   });
 
-  it('matches every registered PC field against newsave.json', () => {
-    const comparison = compareRegisteredFieldValues(
+  it('matches every registered PC field nodes against newsave.json', () => {
+    const comparison = compareRegisteredFieldNodes(
       cloneFixture(newsaveFixture) as never,
       cloneFixture(newsaveFixture) as never,
       SaveType.PC
@@ -67,17 +67,45 @@ describe('testSaveData', () => {
     expect(missingFields).toHaveLength(0);
   });
 
-  it('reports mismatched registered PC fields against newsave.json', () => {
+  it('does not fail when registered PC field values differ but nodes remain valid', () => {
     const modifiedSave = cloneFixture(newsaveFixture) as Record<string, unknown>;
     modifiedSave.antimatter = '123';
 
-    const comparison = compareRegisteredFieldValues(
+    const comparison = compareRegisteredFieldNodes(
+      modifiedSave as never,
+      cloneFixture(newsaveFixture) as never,
+      SaveType.PC
+    );
+
+    expect(comparison.success).toBe(true);
+    expect(comparison.errors).toHaveLength(0);
+  });
+
+  it('reports missing registered PC nodes against newsave.json', () => {
+    const modifiedSave = cloneFixture(newsaveFixture) as Record<string, unknown>;
+    delete modifiedSave.antimatter;
+
+    const comparison = compareRegisteredFieldNodes(
       modifiedSave as never,
       cloneFixture(newsaveFixture) as never,
       SaveType.PC
     );
 
     expect(comparison.success).toBe(false);
-    expect(comparison.errors).toContainEqual(expect.stringContaining('Antimatter mismatch'));
+    expect(comparison.errors).toContainEqual(expect.stringContaining('Antimatter node missing'));
+  });
+
+  it('reports invalid registered PC node types against newsave.json', () => {
+    const modifiedSave = cloneFixture(newsaveFixture) as Record<string, unknown>;
+    modifiedSave.antimatter = false;
+
+    const comparison = compareRegisteredFieldNodes(
+      modifiedSave as never,
+      cloneFixture(newsaveFixture) as never,
+      SaveType.PC
+    );
+
+    expect(comparison.success).toBe(false);
+    expect(comparison.errors).toContainEqual(expect.stringContaining('Antimatter node type mismatch'));
   });
 });

@@ -1,6 +1,12 @@
 import { SaveService, SaveType } from '../services/SaveService';
 import { AntimatterDimensionsStruct } from '../Struct';
-import { readFieldValue, resolveFieldPath, saveEditorFields } from '../core/save/fieldRegistry';
+import {
+  SaveFieldDefinition,
+  SaveFieldKind,
+  readFieldValue,
+  resolveFieldPath,
+  saveEditorFields,
+} from '../core/save/fieldRegistry';
 
 // Define progression stages
 type ProgressionStage = 'early' | 'infinity' | 'eternity' | 'reality';
@@ -48,49 +54,51 @@ const detectSchemaFromSaveData = (saveData: AntimatterDimensionsStruct): SaveTyp
   return 'brake' in (saveData as unknown as object) ? SaveType.Android : SaveType.PC;
 };
 
-const areValuesEqual = (left: unknown, right: unknown): boolean => {
-  if (left === right) {
-    return true;
-  }
+const bigNumberPattern = /^-?\d+(\.\d+)?(e[+-]?\d+)?$/i;
 
-  if (typeof left === 'number' && typeof right === 'number') {
-    return Number.isNaN(left) && Number.isNaN(right);
-  }
-
-  if (typeof left !== 'object' || typeof right !== 'object' || left === null || right === null) {
-    return false;
-  }
-
-  if (Array.isArray(left) || Array.isArray(right)) {
-    if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) {
-      return false;
-    }
-
-    return left.every((entry, index) => areValuesEqual(entry, right[index]));
-  }
-
-  const leftKeys = Object.keys(left as Record<string, unknown>);
-  const rightKeys = Object.keys(right as Record<string, unknown>);
-
-  if (leftKeys.length !== rightKeys.length) {
-    return false;
-  }
-
-  return leftKeys.every((key) => areValuesEqual(
-    (left as Record<string, unknown>)[key],
-    (right as Record<string, unknown>)[key]
-  ));
+const getExpectedFieldKind = (field: SaveFieldDefinition, saveType: SaveType): SaveFieldKind => {
+  return field.platformKinds?.[saveType] ?? field.kind;
 };
 
-const formatComparedValue = (value: unknown): string => {
+const isBigNumberNode = (value: unknown): boolean => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value);
+  }
+
   if (typeof value === 'string') {
-    return value;
+    return value === 'Infinity' || bigNumberPattern.test(value.trim());
   }
 
-  return JSON.stringify(value);
+  return isDecimalObject(value)
+    && Number.isFinite(value.mantissa)
+    && Number.isInteger(value.exponent);
 };
 
-export const compareRegisteredFieldValues = (
+const isFieldNodeTypeCompatible = (value: unknown, kind: SaveFieldKind): boolean => {
+  if (kind === 'boolean') {
+    return typeof value === 'boolean';
+  }
+
+  if (kind === 'number' || kind === 'integer') {
+    return typeof value === 'number';
+  }
+
+  return isBigNumberNode(value);
+};
+
+const describeNodeType = (value: unknown): string => {
+  if (Array.isArray(value)) {
+    return 'array';
+  }
+
+  if (value === null) {
+    return 'null';
+  }
+
+  return typeof value;
+};
+
+export const compareRegisteredFieldNodes = (
   saveData: AntimatterDimensionsStruct,
   referenceData: AntimatterDimensionsStruct,
   saveType: SaveType
@@ -102,13 +110,28 @@ export const compareRegisteredFieldValues = (
 
   for (const field of saveEditorFields) {
     const actualPath = resolveFieldPath(saveData as never, field, saveType);
-    const expectedPath = resolveFieldPath(referenceData as never, field, saveType);
+    const referencePath = resolveFieldPath(referenceData as never, field, saveType);
     const actualValue = readFieldValue(saveData as never, field, saveType);
-    const expectedValue = readFieldValue(referenceData as never, field, saveType);
+    const referenceValue = readFieldValue(referenceData as never, field, saveType);
+    const expectedKind = getExpectedFieldKind(field, saveType);
 
-    if (!areValuesEqual(actualValue, expectedValue)) {
+    if (referenceValue === undefined) {
       errors.push(
-        `${field.label} mismatch at ${actualPath} (reference ${expectedPath}): expected ${formatComparedValue(expectedValue)}, got ${formatComparedValue(actualValue)}`
+        `${field.label} reference node missing at ${referencePath}`
+      );
+      continue;
+    }
+
+    if (actualValue === undefined) {
+      errors.push(
+        `${field.label} node missing at ${actualPath} (reference ${referencePath})`
+      );
+      continue;
+    }
+
+    if (!isFieldNodeTypeCompatible(actualValue, expectedKind)) {
+      errors.push(
+        `${field.label} node type mismatch at ${actualPath} (reference ${referencePath}): expected ${expectedKind}, got ${describeNodeType(actualValue)}`
       );
     }
   }

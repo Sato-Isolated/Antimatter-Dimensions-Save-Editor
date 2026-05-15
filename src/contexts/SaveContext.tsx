@@ -10,7 +10,7 @@ import { SaveService, SaveType } from '../services/SaveService';
 import { createSaveEditorStore, SaveEditorStore } from '../core/document/store';
 import { SaveDataRecord, SaveEditorState, SaveTestResults } from '../core/save/types';
 import { getValueAtPath } from '../core/document/path';
-import { testSaveData, checkRealitySection, compareRegisteredFieldValues } from "../utils/testSave";
+import { testSaveData, checkRealitySection, compareRegisteredFieldNodes } from "../utils/testSave";
 
 const structureReferenceAssetBySaveType: Record<SaveType, string> = {
   [SaveType.PC]: 'pc.json',
@@ -213,7 +213,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
               fieldComparisonReferenceImportBySaveType[snapshot.saveType]
             );
             const comparisonReference = JSON.parse(comparisonReferenceContent);
-            const fieldComparison = compareRegisteredFieldValues(
+            const fieldComparison = compareRegisteredFieldNodes(
               results.decryptedData,
               comparisonReference,
               snapshot.saveType
