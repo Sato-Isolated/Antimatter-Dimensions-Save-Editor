@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
 import 'font-awesome/css/font-awesome.min.css';
-import WorkspaceViewTabs from './workflow/WorkspaceViewTabs';
-import WorkspacePanels from './workflow/WorkspacePanels';
 import ExportReviewStepSection from './workflow/ExportReviewStepSection';
 import ImportStepSection from './workflow/ImportStepSection';
 import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';
-import StatusChip from './workflow/StatusChip';
-import ValidationSummarySection from './workflow/ValidationSummarySection';
-import WorkflowStepCard from './workflow/WorkflowStepCard';
-import { WorkspaceView, workspaceViews } from './workflow/workspaceView';
+import WorkflowHeroSection from './workflow/WorkflowHeroSection';
+import WorkflowStatusBanners from './workflow/WorkflowStatusBanners';
+import WorkflowWorkspaceStepSection from './workflow/WorkflowWorkspaceStepSection';
+import ValidationStepSection from './workflow/ValidationStepSection';
+import { WorkspaceView } from './workflow/workspaceView';
 import { useShellAnnouncements } from './workflow/useShellAnnouncements';
 import { useShellKeyboardShortcuts } from './workflow/useShellKeyboardShortcuts';
 
@@ -97,7 +96,12 @@ const Main: React.FC = () => {
       setHasMountedJsonEditor(true);
     }
 
-    announceStatus(`Opened the ${workspaceViews.find((view) => view.id === nextView)?.label ?? nextView} workspace.`);
+    const workspaceLabelByView: Record<WorkspaceView, string> = {
+      structured: 'Structured',
+      json: 'JSON',
+      settings: 'Preferences',
+    };
+    announceStatus(`Opened the ${workspaceLabelByView[nextView]} workspace.`);
   };
   
   const handlePaste = async () => {
@@ -168,40 +172,16 @@ const Main: React.FC = () => {
       <WorkflowAnnouncements statusMessage={statusAnnouncement} alertMessage={alertAnnouncement} />
 
       <div className="main-content">
-        <section className="card workflow-hero">
-          <div className="card-body">
-            <div className="workflow-hero-header">
-              <div>
-                <p className="workflow-kicker">Phase 3 workflow</p>
-                <h2>Import, validate, edit, then review the export</h2>
-                <p className="workflow-summary">
-                  The shell now tracks format, validation, and dirty state directly from the centralized document store.
-                </p>
-                <p className="workflow-summary">
-                  Keyboard shortcuts: Alt+1 import input, Alt+2 validate, Alt+3 workspace tabs, Alt+4 export output, Ctrl/Cmd+Shift+V paste, Ctrl/Cmd+Shift+T test, Ctrl/Cmd+Shift+E encrypt, Ctrl/Cmd+Shift+C copy.
-                </p>
-              </div>
-              <div className="workflow-status-strip" aria-label="Save status overview">
-                <StatusChip variant={isLoaded ? 'success' : 'neutral'}>{isLoaded ? 'Save loaded' : 'Awaiting import'}</StatusChip>
-                <StatusChip variant={isDirty ? 'warning' : 'success'}>{isDirty ? 'Dirty edits' : 'Clean workspace'}</StatusChip>
-                <StatusChip variant="neutral">Format: {isLoaded ? saveType.toUpperCase() : 'Unknown'}</StatusChip>
-                <StatusChip variant={validationErrors.length > 0 ? 'danger' : validationWarnings.length > 0 ? 'warning' : 'success'}>
-                  {validationIssues.length > 0 ? `${validationIssues.length} validation issue${validationIssues.length === 1 ? '' : 's'}` : 'Validation clear'}
-                </StatusChip>
-              </div>
-            </div>
-          </div>
-        </section>
+        <WorkflowHeroSection
+          isLoaded={isLoaded}
+          isDirty={isDirty}
+          saveTypeLabel={saveType.toUpperCase()}
+          validationIssueCount={validationIssues.length}
+          validationErrorCount={validationErrors.length}
+          validationWarningCount={validationWarnings.length}
+        />
 
-        {errorMessage && (
-          <div className="alert alert-danger" role="alert">
-            <strong>Error:</strong> {errorMessage}
-          </div>
-        )}
-        
-        <div className="alert alert-info">
-          <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save support:</strong> PC and Android saves share the same workflow now. Import a save, verify the summary, then choose the structured workspace or JSON editor for deeper edits.
-        </div>
+        <WorkflowStatusBanners errorMessage={errorMessage} />
         
         <ImportStepSection
           rawSaveData={rawSaveData}
@@ -211,56 +191,33 @@ const Main: React.FC = () => {
           importInputRef={importInputRef}
         />
         
-        <WorkflowStepCard
-          step="Step 2"
-          title="Validation summary"
-          headerAside={(
-            <button ref={runStructureTestButtonRef} className="btn secondary" onClick={handleRunStructureTest} disabled={!isLoaded}>
-              <i className="fa fa-check-circle"></i> Run structure test
-            </button>
-          )}
-        >
-          <ValidationSummarySection
-            isLoaded={isLoaded}
-            document={saveDocument}
-            validationIssues={validationIssues}
-            validationErrorCount={validationErrors.length}
-            validationWarningCount={validationWarnings.length}
-            testResults={testResults}
-            formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
-          />
-        </WorkflowStepCard>
+        <ValidationStepSection
+          isLoaded={isLoaded}
+          document={saveDocument}
+          validationIssues={validationIssues}
+          validationErrorCount={validationErrors.length}
+          validationWarningCount={validationWarnings.length}
+          testResults={testResults}
+          formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
+          onRunStructureTest={handleRunStructureTest}
+          runStructureTestButtonRef={runStructureTestButtonRef}
+        />
 
-        <WorkflowStepCard
-          step="Step 3"
-          title="Edit workspace"
-          summary="Use the structured editor for safe field-level changes, switch to JSON for expert edits, or open preferences to adjust the shell."
-          headerAside={(
-            <WorkspaceViewTabs
-              views={workspaceViews}
-              activeView={workspaceView}
-              onViewChange={handleWorkspaceViewChange}
-              isJsonDisabled={!isLoaded}
-              tabIdForView={tabIdForView}
-              panelIdForView={panelIdForView}
-            />
-          )}
-        >
-            <WorkspacePanels
-              workspaceView={workspaceView}
-              hasMountedJsonEditor={hasMountedJsonEditor}
-              isDirty={isDirty}
-              isLoaded={isLoaded}
-              saveType={saveType}
-              lastChangeSource={lastChange?.source ?? 'none'}
-              errorMessage={errorMessage}
-              structuredPanelRef={structuredPanelRef}
-              jsonPanelRef={jsonPanelRef}
-              settingsPanelRef={settingsPanelRef}
-              tabIdForView={tabIdForView}
-              panelIdForView={panelIdForView}
-            />
-        </WorkflowStepCard>
+        <WorkflowWorkspaceStepSection
+          workspaceView={workspaceView}
+          onWorkspaceViewChange={handleWorkspaceViewChange}
+          hasMountedJsonEditor={hasMountedJsonEditor}
+          isDirty={isDirty}
+          isLoaded={isLoaded}
+          saveType={saveType}
+          errorMessage={errorMessage}
+          lastChangeSource={lastChange?.source ?? 'none'}
+          structuredPanelRef={structuredPanelRef}
+          jsonPanelRef={jsonPanelRef}
+          settingsPanelRef={settingsPanelRef}
+          tabIdForView={tabIdForView}
+          panelIdForView={panelIdForView}
+        />
         
         <ExportReviewStepSection
           isLoaded={isLoaded}
