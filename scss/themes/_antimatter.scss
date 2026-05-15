@@ -1,31 +1,26 @@
-@use '../utilities/color-utils' as colors;
+@use 'engine';
 
 .antimatter-theme {
-    @include colors.create-color-scheme(275, 81%, 53%);
-    
-    // Base HSL color variables
-    // Background colors
-    --bg-h: 265;
-    --bg-s: 64%;
-    --bg-l: 12%;
-    
-    // Text colors
-    --text-h: 240;
-    --text-s: 100%;
-    --text-l: 94%;
-    
-    // State colors
-    --error-h: 345;
-    --error-s: 100%;
-    --error-l: 60%;
-    
-    --success-h: 150;
-    --success-s: 100%;
-    --success-l: 45%;
-    
-    --warning-h: 36;
-    --warning-s: 100%;
-    --warning-l: 65%;
+        @include engine.theme-core(
+            275,
+            81%,
+            53%,
+            265,
+            64%,
+            12%,
+            240,
+            100%,
+            94%,
+            345,
+            100%,
+            60%,
+            150,
+            100%,
+            45%,
+            36,
+            100%,
+            65%
+        );
     
     // Base colors
     --bg-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
@@ -152,21 +147,18 @@
     --box-shadow-color: hsla(0, 0%, 0%, 0.5);
     --box-shadow-card: 0 4px 6px hsla(0, 0%, 0%, 0.3);
 
-    // Scrollbar
-    --scrollbar-track: hsl(var(--bg-h), var(--bg-s), 14%);
-    --scrollbar-thumb: hsl(var(--primary-h), 60%, 27%);
-    --scrollbar-thumb-hover: hsl(var(--primary-h), 60%, 34%);
-    --scrollbar-track-color: hsl(var(--bg-h), var(--bg-s), 14%);
-    --scrollbar-thumb-color: hsl(var(--primary-h), 60%, 27%);
-    --scrollbar-thumb-hover-color: hsl(var(--primary-h), 60%, 34%);
-    
-    // Gradient variables
-    --primary-gradient-start: hsl(270, 100%, 50%);
-    --primary-gradient-end: hsl(285, 100%, 50%);
-    
-    // Changelog variables
-    --changelog-badge-bg: hsla(0, 0%, 100%, 0.15);
-    --changelog-date-bg: hsla(0, 0%, 0%, 0.3);
-    --changelog-shadow-color: hsla(0, 0%, 0%, 0.2);
-    --changelog-index-bg: hsla(0, 0%, 0%, 0.3);
+        @include engine.theme-scrollbar(
+            hsl(var(--bg-h), var(--bg-s), 14%),
+            hsl(var(--primary-h), 60%, 27%),
+            hsl(var(--primary-h), 60%, 34%)
+        );
+
+        @include engine.theme-branding(
+            hsl(270, 100%, 50%),
+            hsl(285, 100%, 50%),
+            hsla(0, 0%, 100%, 0.15),
+            hsla(0, 0%, 0%, 0.3),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(0, 0%, 0%, 0.3)
+        );
 }

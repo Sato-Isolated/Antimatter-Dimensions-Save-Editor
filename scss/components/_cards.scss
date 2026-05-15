@@ -3,13 +3,17 @@
 
 /* Card styles */
 
-.card {
+@mixin card-shell {
   @include mix.card-base;
   overflow: hidden;
 
   &:hover {
     transform: none;
   }
+}
+
+.card {
+  @include card-shell;
 
   &.workflow-step-card {
     border-radius: 18px;
@@ -101,7 +105,7 @@
 
 // Cards spéciaux
 .info-card {
-  @extend .card;
+  @include card-shell;
   margin-bottom: var.$spacing-lg;
 
   .card-header {
@@ -116,7 +120,7 @@
 
 .changelog-card,
 .github-card {
-  @extend .card;
+  @include card-shell;
   
   .card-header {
     h2 {

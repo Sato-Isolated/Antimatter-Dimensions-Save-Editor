@@ -98,26 +98,6 @@
   }
 }
 
-// Specific Textarea for Saves
-.save-textarea {
-  @include mix.input-base;
-  font-family: var.$font-family-mono;
-  min-height: 150px;
-  padding: var.$spacing-md;
-  resize: vertical;
-
-  @include mix.mobile {
-    min-height: 120px;
-  }
-
-  @include mix.custom-scrollbar;
-
-  &:read-only {
-    background-color: var(--input-readonly-bg);
-    cursor: default;
-  }
-}
-
 // Form Layout
 .form-row {
   display: flex;
@@ -221,22 +201,6 @@
 
   &:focus {
     box-shadow: 0 0 0 2px rgba(var(--success-color-rgb), 0.25) !important;
-  }
-}
-
-// Button Group
-.button-group {
-  display: flex;
-  gap: var.$spacing-sm;
-  margin-top: var.$spacing-md;
-
-  @include mix.mobile {
-    flex-direction: column;
-    width: 100%;
-
-    .btn {
-      width: 100%;
-    }
   }
 }
 

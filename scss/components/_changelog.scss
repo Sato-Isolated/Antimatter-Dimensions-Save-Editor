@@ -3,6 +3,65 @@
 
 /* Changelog styles */
 
+@mixin changelog-scrollbar($axis, $size, $track, $thumb, $thumb-radius: 4px, $thumb-hover: null) {
+  &::-webkit-scrollbar {
+    #{$axis}: $size;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb;
+    border-radius: $thumb-radius;
+  }
+
+  @if $thumb-hover != null {
+    &::-webkit-scrollbar-thumb:hover {
+      background: $thumb-hover;
+    }
+  }
+}
+
+@mixin category-header-base($h4-size: 1.125rem, $h4-letter-spacing: null) {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+
+  h4 {
+    margin: 0;
+    font-size: $h4-size;
+    font-weight: 600;
+    flex: 1;
+
+    @if $h4-letter-spacing != null {
+      letter-spacing: $h4-letter-spacing;
+    }
+  }
+
+  i {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1em;
+  }
+
+  .change-count {
+    background: var(--card-bg-alt);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-color-secondary);
+  }
+}
+
 /* Style for the trigger button */
 #showChangelog {
   position: relative;
@@ -169,25 +228,13 @@
   border-bottom: 1px solid var(--border-color);
   overflow-x: auto;
   flex-shrink: 0;
-  
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 4px;
-  }
+
+  @include changelog-scrollbar(height, 4px, var(--scrollbar-track), var(--scrollbar-thumb));
 }
 
 /* Version tabs */
 .changelog-tab {
   appearance: none;
-  background: none;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -296,38 +343,8 @@
   flex-direction: column;
   
   .category-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    @include category-header-base;
     margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-color);
-    
-    i {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-size: 1em;
-    }
-    
-    h4 {
-      margin: 0;
-      font-size: 1.125rem;
-      font-weight: 600;
-      flex: 1;
-    }
-    
-    .change-count {
-      background: var(--card-bg-alt);
-      padding: 0.25rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text-color-secondary);
-    }
   }
   
   &.new .category-header i {
@@ -493,39 +510,8 @@ body.modal-open {
   }
 }
 
-.category-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-color);
-
-  h4 {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    flex: 1;
-  }
-
-  i {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1em;
-  }
-
-  .change-count {
-    background: var(--card-bg-alt);
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-color-secondary);
-  }
+.changelog-container .category-header {
+  @include category-header-base(1.125rem, -0.5px);
 }
 
 /* Optimizations for large screens */
@@ -535,7 +521,7 @@ body.modal-open {
     gap: 2rem;
   }
 
-  .category-header {
+  .changelog-container .category-header {
     i {
       width: 36px;
       height: 36px;
@@ -569,7 +555,7 @@ body.modal-open {
     gap: 1.25rem;
   }
 
-  .category-header {
+  .changelog-container .category-header {
     i {
       width: 28px;
       height: 28px;
@@ -592,23 +578,15 @@ body.modal-open {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   padding: 1.5rem;
-  
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color);
-    border-radius: 8px;
-  }
-  
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color);
-  }
+
+  @include changelog-scrollbar(
+    width,
+    6px,
+    transparent,
+    var(--scrollbar-thumb-color),
+    8px,
+    var(--scrollbar-thumb-hover-color)
+  );
 }
 
 /* Bannière d'information */

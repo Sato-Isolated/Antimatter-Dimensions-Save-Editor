@@ -1,4 +1,6 @@
-@use '../base/variables' as var;
+@use 'sass:map';
+@use '../settings/tokens';
+@use '../tools/mixins' as tool;
 
 // Display
 .d-none { display: none; }
@@ -62,17 +64,15 @@
 
 // Bordures
 .rounded-none { border-radius: 0; }
-.rounded-sm { border-radius: var.$border-radius-sm; }
-.rounded-md { border-radius: var.$border-radius-md; }
-.rounded-lg { border-radius: var.$border-radius-lg; }
-.rounded-full { border-radius: var.$border-radius-full; }
+@each $name, $radius in tokens.$radius-tokens {
+  .rounded-#{$name} { border-radius: $radius; }
+}
 
 // Ombres
 .shadow-none { box-shadow: none; }
-.shadow-sm { box-shadow: var.$shadow-sm; }
-.shadow-md { box-shadow: var.$shadow-md; }
-.shadow-lg { box-shadow: var.$shadow-lg; }
-.shadow-xl { box-shadow: var.$shadow-xl; }
+@each $name, $shadow in tokens.$shadow-tokens {
+  .shadow-#{$name} { box-shadow: $shadow; }
+}
 
 // Grille
 .grid { display: grid; }
@@ -82,37 +82,33 @@
 .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 .gap-0 { gap: 0; }
-.gap-xxs { gap: var.$spacing-xxs; }
-.gap-xs { gap: var.$spacing-xs; }
-.gap-sm { gap: var.$spacing-sm; }
-.gap-md { gap: var.$spacing-md; }
-.gap-lg { gap: var.$spacing-lg; }
-.gap-xl { gap: var.$spacing-xl; }
-.gap-xxl { gap: var.$spacing-xxl; }
+@each $name, $space in tokens.$spacing-tokens {
+  .gap-#{$name} { gap: $space; }
+}
 
 // Responsive display utilities
-@include var.responsive(sm) {
+@include tool.mq(sm) {
   .d-sm-none { display: none; }
   .d-sm-block { display: block; }
   .d-sm-flex { display: flex; }
   .d-sm-grid { display: grid; }
 }
 
-@include var.responsive(md) {
+@include tool.mq(md) {
   .d-md-none { display: none; }
   .d-md-block { display: block; }
   .d-md-flex { display: flex; }
   .d-md-grid { display: grid; }
 }
 
-@include var.responsive(lg) {
+@include tool.mq(lg) {
   .d-lg-none { display: none; }
   .d-lg-block { display: block; }
   .d-lg-flex { display: flex; }
   .d-lg-grid { display: grid; }
 }
 
-@include var.responsive(xl) {
+@include tool.mq(xl) {
   .d-xl-none { display: none; }
   .d-xl-block { display: block; }
   .d-xl-flex { display: flex; }

@@ -32,6 +32,9 @@
 // HSL Color conversion and manipulation utilities
 
 // Import the functions
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
 @use '../base/functions' as f;
 
 /**
@@ -49,11 +52,11 @@
 @mixin generate-hsl-theme($colors-map) {
   // Base HSL color variables
   @each $key, $color in $colors-map {
-    @if type-of($color) == color {
+    @if meta.type-of($color) == 'color' {
       $hsl: f.hex-to-hsl-values($color);
-      $hue: map-get($hsl, h);
-      $saturation: map-get($hsl, s);
-      $lightness: map-get($hsl, l);
+      $hue: map.get($hsl, h);
+      $saturation: map.get($hsl, s);
+      $lightness: map.get($hsl, l);
       
       // Generate CSS variables for the base HSL components
       --#{$key}-h: #{$hue};
@@ -64,8 +67,8 @@
       --#{$key}-color: hsl(var(--#{$key}-h), var(--#{$key}-s), var(--#{$key}-l));
       
       // Generate light/dark variants if needed
-      --#{$key}-light: hsl(var(--#{$key}-h), var(--#{$key}-s), #{min($lightness + 10%, 95%)});
-      --#{$key}-dark: hsl(var(--#{$key}-h), var(--#{$key}-s), #{max($lightness - 10%, 5%)});
+      --#{$key}-light: hsl(var(--#{$key}-h), var(--#{$key}-s), #{math.min($lightness + 10%, 95%)});
+      --#{$key}-dark: hsl(var(--#{$key}-h), var(--#{$key}-s), #{math.max($lightness - 10%, 5%)});
     }
   }
 }

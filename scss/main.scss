@@ -1,35 +1,8 @@
-@use 'base/reset';
-@use 'base/variables';
-@use 'base/functions';
-@use 'base/mixins';
-@use 'base/animations';
-@use 'base/typography';
-@use 'base/base';
-
-@use 'themes/light';
-@use 'themes/dark';
-@use 'themes/antimatter';
-@use 'themes/infinity';
-@use 'themes/eternity';
-@use 'themes/reality';
-
-@use 'components/buttons';
-@use 'components/cards';
-@use 'components/forms';
-@use 'components/tabs';
-@use 'components/settings';
-@use 'components/changelog';
-@use 'components/json-editor';
-@use 'components/save-import';
-
-@use 'layout/header';
-@use 'layout/footer';
-@use 'layout/main';
-@use 'layout/sidebar';
-
-@use 'pages/editor';
-
-@use 'utilities/color-utils';
-@use 'utilities/spacing';
-
-/* Main SCSS file */
+@use 'settings';
+@use 'tools';
+@use 'generic';
+@use 'elements';
+@use 'themes';
+@use 'objects';
+@use 'components';
+@use 'utilities';

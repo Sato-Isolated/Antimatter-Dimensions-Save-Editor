@@ -1,31 +1,27 @@
-@use '../base/variables' as var;
-@use '../utilities/color-utils' as colors;
+@use 'engine';
 
 /* Light theme variables */
 .light-theme {
-  @include colors.create-color-scheme(210, 70%, 50%);
-  
-  // Base colors
-  --bg-h: 210;
-  --bg-s: 20%;
-  --bg-l: 98%;
-  
-  --text-h: 210;
-  --text-s: 20%;
-  --text-l: 20%;
-  
-  // State colors
-  --error-h: 0;
-  --error-s: 80%;
-  --error-l: 60%;
-  
-  --success-h: 145;
-  --success-s: 60%;
-  --success-l: 45%;
-  
-  --warning-h: 40;
-  --warning-s: 90%;
-  --warning-l: 50%;
+  @include engine.theme-core(
+    210,
+    70%,
+    50%,
+    210,
+    20%,
+    98%,
+    210,
+    20%,
+    20%,
+    0,
+    80%,
+    60%,
+    145,
+    60%,
+    45%,
+    40,
+    90%,
+    50%
+  );
   
   // Base colors
   --bg-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
@@ -133,21 +129,14 @@
   --dimension-name-color: #111827;
   --github-icon-color: #333333;
   
-  // Scrollbar
-  --scrollbar-track: #f3f4f6;
-  --scrollbar-thumb: #d1d5db;
-  --scrollbar-thumb-hover: #9ca3af;
-  --scrollbar-track-color: #f3f4f6;
-  --scrollbar-thumb-color: #d1d5db;
-  --scrollbar-thumb-hover-color: #9ca3af;
-  
-  // Gradient variables
-  --primary-gradient-start: #4f46e5;
-  --primary-gradient-end: #6366f1;
-  
-  // Changelog variables
-  --changelog-badge-bg: rgba(0, 0, 0, 0.05);
-  --changelog-date-bg: rgba(0, 0, 0, 0.05);
-  --changelog-shadow-color: rgba(0, 0, 0, 0.05);
-  --changelog-index-bg: rgba(0, 0, 0, 0.03);
+  @include engine.theme-scrollbar(#f3f4f6, #d1d5db, #9ca3af);
+
+  @include engine.theme-branding(
+    #4f46e5,
+    #6366f1,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.03)
+  );
 }

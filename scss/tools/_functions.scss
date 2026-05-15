@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use '../settings/tokens';
+
+@function token($collection, $key) {
+  $group: tokens.token-collection($collection);
+
+  @if map.has-key($group, $key) {
+    @return map.get($group, $key);
+  }
+
+  @error 'Unknown token key `#{$key}` in collection `#{$collection}`.';
+}
+
+@function fluid($min, $max, $min-viewport: 20rem, $max-viewport: 90rem) {
+  @if $min >= $max {
+    @error 'The $min value must be lower than $max for fluid().';
+  }
+
+  $slope: ($max - $min) / ($max-viewport - $min-viewport);
+  $intercept: $min - ($slope * $min-viewport);
+
+  @return clamp(#{$min}, #{$intercept} + #{100vw * $slope}, #{$max});
+}
+
+@function color-token($key) {
+  @return token(color, $key);
+}
+
+@function space($key) {
+  @return token(spacing, $key);
+}
+
+@function radius($key) {
+  @return token(radius, $key);
+}
+
+@function breakpoint($key) {
+  @return token(breakpoint, $key);
+}
+
+@function z-layer($key) {
+  @return token(z-index, $key);
+}

@@ -1,41 +1,30 @@
-@use '../utilities/color-utils' as colors;
+@use 'engine';
 
 .infinity-theme {
-    @include colors.create-color-scheme(210, 76%, 50%);
-    
-    // Base HSL color variables
-    // Primary blue colors
-    --primary-h: 210;
-    --primary-s: 76%;
-    --primary-l: 50%;
-    
-    // Secondary blue colors
-    --secondary-h: 210;
-    --secondary-s: 49%;
-    --secondary-l: 34%;
-    
-    // Background colors
-    --bg-h: 210;
-    --bg-s: 70%;
-    --bg-l: 13%;
-    
-    // Text colors
-    --text-h: 210;
-    --text-s: 100%;
-    --text-l: 95%;
-    
-    // State colors
-    --error-h: 0;
-    --error-s: 87%;
-    --error-l: 68%;
-    
-    --success-h: 145;
-    --success-s: 50%;
-    --success-l: 51%;
-    
-    --warning-h: 25;
-    --warning-s: 84%;
-    --warning-l: 57%;
+        @include engine.theme-core(
+            210,
+            76%,
+            50%,
+            210,
+            70%,
+            13%,
+            210,
+            100%,
+            95%,
+            0,
+            87%,
+            68%,
+            145,
+            50%,
+            51%,
+            25,
+            84%,
+            57%
+        );
+
+        --secondary-h: 210;
+        --secondary-s: 49%;
+        --secondary-l: 34%;
     
     // Base colors
     --bg-color: hsl(var(--bg-h), var(--bg-s), 13%);
@@ -122,23 +111,20 @@
     --box-shadow-color: hsla(0, 0%, 0%, 0.5);
     --box-shadow-card: 0 4px 6px hsla(0, 0%, 0%, 0.3);
 
-    // Scrollbar
-    --scrollbar-track: hsl(var(--bg-h), var(--bg-s), 13%);
-    --scrollbar-thumb: hsl(var(--bg-h), var(--bg-s), 25%);
-    --scrollbar-thumb-hover: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 34%);
-    --scrollbar-track-color: hsl(var(--bg-h), var(--bg-s), 13%);
-    --scrollbar-thumb-color: hsl(var(--bg-h), var(--bg-s), 25%);
-    --scrollbar-thumb-hover-color: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 34%);
+        @include engine.theme-scrollbar(
+            hsl(var(--bg-h), var(--bg-s), 13%),
+            hsl(var(--bg-h), var(--bg-s), 25%),
+            hsl(var(--primary-h), calc(var(--primary-s) - 27%), 34%)
+        );
 
-    // Gradient variables
-    --primary-gradient-start: hsl(210, 100%, 40%);
-    --primary-gradient-end: hsl(210, 100%, 50%);
-
-    // Changelog variables
-    --changelog-badge-bg: hsla(0, 0%, 100%, 0.15);
-    --changelog-date-bg: hsla(0, 0%, 0%, 0.3);
-    --changelog-shadow-color: hsla(0, 0%, 0%, 0.1);
-    --changelog-index-bg: hsla(0, 0%, 0%, 0.2);
+        @include engine.theme-branding(
+            hsl(210, 100%, 40%),
+            hsl(210, 100%, 50%),
+            hsla(0, 0%, 100%, 0.15),
+            hsla(0, 0%, 0%, 0.3),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2)
+        );
 
     // Buttons
     --button-bg: hsl(var(--bg-h), var(--bg-s), 25%);

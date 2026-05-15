@@ -1,8 +1,57 @@
 @use '../base/variables' as var;
 @use '../base/mixins' as mix;
-@use '../base/functions' as fn;
 
 /* Tabs styles */
+
+@mixin horizontal-scrollbar($height: 4px, $thumb-radius: 4px, $track-alpha: 0.3) {
+  &::-webkit-scrollbar {
+    height: $height;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color-light);
+    border-radius: $thumb-radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(var(--border-color-rgb), $track-alpha);
+  }
+}
+
+@mixin pane-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+}
+
+@mixin tab-indicator($bottom, $height, $radius: null) {
+  content: '';
+  position: absolute;
+  bottom: $bottom;
+  left: 0;
+  width: 100%;
+  height: $height;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+
+  @if $radius != null {
+    border-radius: $radius;
+  }
+}
 
 .tab-container {
   display: flex;
@@ -32,37 +81,36 @@
 
 .tabs {
   display: flex;
-  background-color: var(--tab-header-bg);
+  gap: var.$spacing-sm;
+  background-color: var(--card-bg-alt);
   border-bottom: 1px solid var(--border-color);
   position: relative;
-  
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color-light);
-    border-radius: 4px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background-color: rgba(var(--border-color-rgb), 0.3);
+  @include horizontal-scrollbar;
+
+  @include mix.mobile {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var.$spacing-xs;
+    gap: var.$spacing-xs;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   
   &.main-tabs {
     padding: 0;
-    
-    .tab-button {
-      padding: 1rem 1.5rem;
-      border-radius: 0;
-      min-width: 140px;
-      
-      @include mix.mobile {
-        min-width: auto;
-        flex: 1;
-        padding: 0.75rem 1rem;
-      }
-    }
+  }
+}
+
+.tabs.main-tabs .tab-button {
+  padding: 1rem 1.5rem;
+  border-radius: 0;
+  min-width: 140px;
+
+  @include mix.mobile {
+    min-width: auto;
+    flex: 1;
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -71,45 +119,28 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  padding: var.$spacing-sm var.$spacing-md;
+  margin-bottom: -2px;
   background-color: transparent;
-  color: var(--text-muted);
+  color: var(--text-color-secondary);
   border: none;
-  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  border-radius: var.$border-radius-sm;
+  font-weight: var.$font-weight-medium;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease;
   position: relative;
   white-space: nowrap;
   
-  i, svg {
-    font-size: 1.1rem;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  
   // Indicateur actif
   &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--primary-color);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease;
-    border-radius: 3px 3px 0 0;
+    @include tab-indicator(-1px, 2px);
   }
   
   // États interactifs
   &:hover:not(.active) {
-    color: var(--text-color);
-    background-color: rgba(var(--primary-color-rgb), 0.04);
-    
-    i, svg {
-      color: var(--primary-color);
-      transform: translateY(-2px);
-    }
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
   }
   
   &:active {
@@ -121,24 +152,42 @@
     color: var(--primary-color);
     font-weight: 600;
     background-color: rgba(var(--primary-color-rgb), 0.08);
+    border-bottom-color: var(--primary-color);
     
     &::after {
-      transform: scaleX(0.8);
+      transform: scaleX(1);
     }
     
-    i, svg {
-      color: var(--primary-color);
-    }
   }
   
   // Responsive
   @include mix.mobile {
-    padding: 0.6rem 1rem;
+    padding: var.$spacing-xs var.$spacing-sm;
+    font-size: var.$font-size-sm;
     
     span {
       font-size: 0.9rem;
     }
   }
+}
+
+.tab-button i,
+.tab-button svg {
+  margin-right: var.$spacing-xs;
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tab-button:hover:not(.active) i,
+.tab-button:hover:not(.active) svg,
+.tab-button.active i,
+.tab-button.active svg {
+  color: var(--primary-color);
+}
+
+.tab-button:hover:not(.active) i,
+.tab-button:hover:not(.active) svg {
+  transform: translateY(-2px);
 }
 
 .tab-content {
@@ -152,16 +201,12 @@
   min-height: 500px;
   width: 100%;
   overflow: hidden;
-  display: none;
-  opacity: 0;
   transform: translateY(10px);
   transition: 
     opacity 0.3s ease,
     transform 0.3s ease;
   
   &.active {
-    display: block;
-    opacity: 1;
     transform: translateY(0);
   }
   
@@ -192,23 +237,7 @@
     max-height: 100%;
   }
   
-  // Style de la scrollbar uniquement quand nécessaire
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-    border-radius: 4px;
-    
-    &:hover {
-      background-color: var(--scrollbar-thumb-hover);
-    }
-  }
-  
-  &::-webkit-scrollbar-track {
-    background-color: var(--scrollbar-track);
-  }
+  @include pane-scrollbar;
 }
 
 .tabs-vertical {
@@ -312,20 +341,6 @@
 }
 
 // Styles for sections
-.editor-sections {
-  display: flex;
-  height: 100%;
-  background-color: var(--card-bg);
-  border-radius: var.$border-radius-lg;
-  overflow: hidden;
-  box-shadow: var.$shadow-sm;
-  width: 100%;
-
-  @include mix.mobile {
-    flex-direction: column;
-  }
-}
-
 .section-nav {
   width: 220px;
   border-right: 1px solid var(--border-color);
@@ -474,174 +489,15 @@
   }
 }
 
-/* Dimensions section specific styling */
-.dimensions-grid {
-  display: grid;
-}
-
-.dimension-row {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 1rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: var(--card-bg);
-  
-  &:nth-child(odd) {
-    background-color: var(--card-bg-alt);
-  }
-  
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.dimension-name {
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  color: var(--dimension-name-color);
-}
-
-.dimension-fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.5rem;
-}
-
-// Navigation interne
-.section-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: var.$spacing-xs;
-  padding: var.$spacing-sm;
-  background-color: var(--card-bg-alt);
-  border-radius: var.$border-radius-sm;
-  width: 100%;
-
-  @include mix.mobile {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-right: var.$spacing-xs;
-  }
-}
-
-.section-tab {
-  display: flex;
-  align-items: center;
-  gap: var.$spacing-md;
-  padding: var.$spacing-sm var.$spacing-md;
-  color: var(--text-color);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var.$border-radius-sm;
-  font-weight: var.$font-weight-medium;
-  transition: all var.$transition-speed var.$transition-timing;
-  cursor: pointer;
-
-  i {
-    width: 20px;
-    text-align: center;
-    transition: transform var.$transition-speed var.$transition-timing;
-  }
-
-  &:hover:not(.active) {
-    background-color: var(--button-ghost-hover);
-    border-color: var(--border-color);
-
-    i {
-      transform: translateX(2px);
-    }
-  }
-
-  &.active {
-    background-color: var(--primary-color-light);
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-
-    i {
-      transform: scale(1.1);
-    }
-  }
-
-  @include mix.mobile {
-    width: auto;
-    justify-content: center;
-    padding: var.$spacing-sm;
-    min-width: 100px;
-    gap: var.$spacing-sm;
-  }
-}
-
 // Support des préférences de réduction de mouvement
-@media (prefers-reduced-motion: reduce) {
+@include mix.reduced-motion {
   .tab-pane,
-  .section-tab i,
-  .tab-button i {
+  .tab-button i,
+  .subtab-button .subtab-icon {
     transition: none;
     animation: none;
     transform: none;
   }
-}
-
-.editor-layout {
-  display: flex;
-  min-height: 500px;
-  height: 100%;
-}
-
-.editor-nav {
-  width: 250px;
-  flex-shrink: 0;
-  background-color: var(--card-bg-alt);
-  border-right: 1px solid var(--border-color);
-  padding: 1rem;
-  height: 100%;
-  overflow-y: auto;
-
-  .nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .nav-button {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: none;
-    background: none;
-    color: var(--text-color-secondary);
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: var.$border-radius-sm;
-
-    &:hover {
-      background: var(--button-ghost-hover);
-      color: var(--text-color);
-    }
-
-    &.active {
-      background: var(--primary-color-light);
-      color: var(--primary-color);
-      font-weight: 500;
-    }
-
-    i {
-      margin-right: 0.75rem;
-      font-size: 1.125rem;
-    }
-  }
-}
-
-.editor-content {
-  flex: 1;
-  overflow-y: auto;
-  background-color: var(--card-bg);
-  min-width: 0;
 }
 
 /* Masquage/affichage des panneaux */
@@ -662,134 +518,14 @@
   }
 }
 
-/* Style des onglets */
-.tabs {
-  display: flex;
-  gap: var.$spacing-sm;
-  border-bottom: 1px solid var(--border-color);
-  background-color: var(--card-bg-alt);
-
-  @include mix.mobile {
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: var.$spacing-xs;
-    gap: var.$spacing-xs;
-    
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
-
-.tab-button {
-  padding: var.$spacing-sm var.$spacing-md;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  color: var(--text-color-secondary);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  border-radius: var.$border-radius-sm;
-
-  i {
-    margin-right: var.$spacing-xs;
-  }
-
-  &:hover:not(.active) {
-    background-color: var(--hover-bg);
-    color: var(--primary-color);
-  }
-
-  &.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-
-    &::after {
-      transform: scaleX(1);
-    }
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary-color);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-
-  @include mix.mobile {
-    padding: var.$spacing-xs var.$spacing-sm;
-    font-size: var.$font-size-sm;
-  }
-}
-
-/* Style des boutons de navigation */
-.nav-button {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: var.$spacing-sm var.$spacing-md;
-  margin-bottom: var.$spacing-xs;
-  background: none;
-  border: none;
-  border-radius: var.$border-radius-sm;
-  color: var(--text-color-secondary);
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  i {
-    margin-right: var.$spacing-sm;
-    width: 20px;
-    text-align: center;
-
-    @include mix.mobile {
-      margin-right: var.$spacing-xs;
-    }
-  }
-
-  &:hover:not(.active) {
-    background-color: var(--hover-bg);
-    color: var(--primary-color);
-  }
-
-  &.active {
-    background-color: var(--primary-color-light);
-    color: var(--primary-color);
-  }
-}
-
-/* Animation de fondu */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 // Les sections
 .section-pane {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
   height: 0;
   overflow: hidden;
   transition: opacity 0.3s ease;
 
   &.active {
-    display: block;
-    opacity: 1;
-    visibility: visible;
     height: auto;
-    animation: fadeIn 0.3s ease;
   }
 
   .form-group {
@@ -820,46 +556,6 @@
   }
 }
 
-// Media queries for responsive layout
-@media (max-width: 768px) {
-  .editor-layout {
-    flex-direction: column;
-  }
-
-  .editor-nav {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.75rem;
-
-    .nav-group {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .nav-button {
-      width: auto;
-      flex: 1;
-      min-width: 120px;
-      justify-content: center;
-      padding: 0.5rem 0.75rem;
-
-      i {
-        margin-right: 0.5rem;
-      }
-    }
-  }
-
-  .editor-content {
-    padding: 1rem;
-  }
-}
-
-.btn {
-  border-radius: var.$border-radius-sm;
-}
-
 // Pour les onglets principaux en haut de l'application
 .main-tabs {
   display: flex;
@@ -867,18 +563,10 @@
   background-color: var(--tab-header-bg);
   border-bottom: 1px solid var(--border-color);
   padding: var.$spacing-sm;
+  @include horizontal-scrollbar(3px, var.$border-radius-full);
   
   .tab-button {
     flex-shrink: 0;
-  }
-  
-  &::-webkit-scrollbar {
-    height: 3px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color-light);
-    border-radius: var.$border-radius-full;
   }
 }
 
@@ -965,15 +653,7 @@
     overflow-x: auto;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
-    
-    &::-webkit-scrollbar {
-      height: 3px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color-light);
-      border-radius: 4px;
-    }
+    @include horizontal-scrollbar(3px);
     
     .subtab-button {
       padding: 0.5rem 1rem;

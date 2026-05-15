@@ -1,8 +1,8 @@
-// Import all utility modules
+@use 'color-utils';
+@use 'colors';
+@use 'display';
+@use 'flexbox';
+@use 'spacing';
+@use 'text';
 
 @forward 'color-utils';
-@forward 'spacing';
-@forward 'typography';
-@forward 'breakpoints';
-@forward 'accessibility';
-@forward 'animations'; 

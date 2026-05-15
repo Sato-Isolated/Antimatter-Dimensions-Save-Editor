@@ -1,110 +1,219 @@
-// Base colors
-$colors: (
-  primary: #6366f1,
-  primary-light: #818cf8,
-  primary-dark: #4f46e5,
-  secondary: #64748b,
-  secondary-light: #94a3b8,
-  secondary-dark: #475569,
-  success: #10b981,
-  danger: #ef4444,
-  warning: #f59e0b,
-  info: #3b82f6,
-  light: #f9fafb,
-  dark: #111827,
-  gray-100: #f3f4f6,
-  gray-200: #e5e7eb,
-  gray-300: #d1d5db,
-  gray-400: #9ca3af,
-  gray-500: #6b7280,
-  gray-600: #4b5563,
-  gray-700: #374151,
-  gray-800: #1f2937,
-  gray-900: #111827
-);
+@use 'sass:map';
+@use 'sass:meta';
+@use '../settings/tokens' as t;
+@use '../tools/functions' as fn;
 
-// Layout
-$max-width: 1600px;
+$colors: t.$color-tokens;
 
-// Transitions
-$transition-speed: 0.3s;
-$transition-duration: 0.3s;
-$transition-timing: ease;
+$max-width: fn.token(layout, max-width);
+$content-max-width: fn.token(layout, content-max-width);
+$container-width: fn.token(layout, content-max-width);
+$header-height: fn.token(layout, header-height);
+$footer-height: fn.token(layout, footer-height);
+$sidebar-width: fn.token(layout, sidebar-width);
+$mobile-sidebar-width: fn.token(layout, mobile-sidebar-width);
+
+$transition-speed: fn.token(motion, speed);
+$transition-duration: fn.token(motion, duration);
+$transition-speed-fast: 0.15s;
+$transition-speed-slow: 0.3s;
+$transition-timing: fn.token(motion, timing);
 $transition-properties: (
-  color: color $transition-duration $transition-timing,
-  background: background-color $transition-duration $transition-timing,
-  border: border-color $transition-duration $transition-timing,
-  transform: transform $transition-duration $transition-timing,
-  shadow: box-shadow $transition-duration $transition-timing,
-  opacity: opacity $transition-duration $transition-timing
+  color: fn.token(transition-property, color) $transition-duration $transition-timing,
+  background: fn.token(transition-property, background) $transition-duration $transition-timing,
+  border: fn.token(transition-property, border) $transition-duration $transition-timing,
+  transform: fn.token(transition-property, transform) $transition-duration $transition-timing,
+  shadow: fn.token(transition-property, shadow) $transition-duration $transition-timing,
+  opacity: fn.token(transition-property, opacity) $transition-duration $transition-timing
 );
 
-// Z-indices
-$z-index-base: 1;
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
-$z-index-notification: 1080;
+$z-index-negative: -1;
+$z-index-base: fn.token(z-index, base);
+$z-index-header: fn.token(z-index, header);
+$z-header: fn.token(z-index, header);
+$z-index-dropdown: fn.token(z-index, dropdown);
+$z-index-sticky: fn.token(z-index, sticky);
+$z-index-fixed: fn.token(z-index, fixed);
+$z-index-modal-backdrop: fn.token(z-index, modal-backdrop);
+$z-index-modal: fn.token(z-index, modal);
+$z-modal: fn.token(z-index, modal);
+$z-index-popover: fn.token(z-index, popover);
+$z-index-tooltip: fn.token(z-index, tooltip);
+$z-index-notification: fn.token(z-index, notification);
 
-// Dimensions
-$header-height: 60px;
-$footer-height: 60px;
-$sidebar-width: 250px;
-$mobile-sidebar-width: 250px;
+$spacing-xxs: fn.token(spacing, xxs);
+$spacing-xs: fn.token(spacing, xs);
+$spacing-sm: fn.token(spacing, sm);
+$spacing-md: fn.token(spacing, md);
+$spacing-lg: fn.token(spacing, lg);
+$spacing-xl: fn.token(spacing, xl);
+$spacing-xxl: fn.token(spacing, xxl);
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
 
-// Espacements
-$spacing-xxs: 0.25rem;
-$spacing-xs: 0.5rem;
-$spacing-sm: 0.75rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-xxl: 2.5rem;
+$breakpoint-xs: fn.token(breakpoint, xs);
+$breakpoint-sm: fn.token(breakpoint, sm);
+$breakpoint-md: fn.token(breakpoint, md);
+$breakpoint-lg: fn.token(breakpoint, lg);
+$breakpoint-xl: fn.token(breakpoint, xl);
+$breakpoint-xxl: fn.token(breakpoint, xxl);
 
-// Breakpoints
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1200px;
-$breakpoint-xxl: 1400px;
+$border-radius-xs: 2px;
+$border-radius-sm: fn.token(radius, sm);
+$border-radius-md: fn.token(radius, md);
+$border-radius-lg: fn.token(radius, lg);
+$border-radius-xl: 12px;
+$border-radius-full: fn.token(radius, full);
 
-// Border radius
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-full: 9999px;
+$font-family-base: fn.token(font-family, base);
+$font-family-mono: fn.token(font-family, mono);
+$font-family: $font-family-base;
 
-// Typography
-$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-$font-family-mono: monospace;
-$font-size-base: 1rem;
-$font-size-sm: 0.875rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
+$font-size-xxs: fn.token(font-size, xxs);
+$font-size-xs: fn.token(font-size, xs);
+$font-size-sm: fn.token(font-size, sm);
+$font-size-base: fn.token(font-size, base);
+$font-size-md: fn.token(font-size, md);
+$font-size-lg: fn.token(font-size, lg);
+$font-size-xl: fn.token(font-size, xl);
+$font-size-2xl: fn.token(font-size, 2xl);
+$font-size-3xl: fn.token(font-size, 3xl);
+$font-size-4xl: fn.token(font-size, 4xl);
 
-// Font weights
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+$font-weight-light: fn.token(font-weight, light);
+$font-weight-normal: fn.token(font-weight, normal);
+$font-weight-medium: fn.token(font-weight, medium);
+$font-weight-semibold: fn.token(font-weight, semibold);
+$font-weight-bold: fn.token(font-weight, bold);
 
-// Line heights
-$line-height-tight: 1.25;
-$line-height-base: 1.5;
-$line-height-relaxed: 1.75;
+$line-height-tight: fn.token(line-height, tight);
+$line-height-base: fn.token(line-height, base);
+$line-height-relaxed: fn.token(line-height, relaxed);
+$line-height-normal: fn.token(line-height, base);
+$line-height-loose: fn.token(line-height, relaxed);
 
-// Shadows
-$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-$shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+$shadow-sm: fn.token(shadow, sm);
+$shadow-md: fn.token(shadow, md);
+$shadow-lg: fn.token(shadow, lg);
+$shadow-xl: fn.token(shadow, xl);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
-// Mixins
+$changelog-card-min-width: fn.token(layout, changelog-card-min-width);
+$changelog-card-gap: fn.token(layout, changelog-card-gap);
+$changelog-animation-duration: fn.token(motion, changelog-duration);
+$changelog-icon-size: fn.token(layout, changelog-icon-size);
+
+$alpha-hover: 0.08;
+$alpha-focus: 0.12;
+$alpha-press: 0.16;
+$alpha-drag: 0.24;
+
+$primary-color: var(--primary-color);
+$primary-color-light: var(--primary-color-light);
+$text-color: var(--text-color);
+$text-color-secondary: var(--text-color-secondary);
+$border-color: var(--border-color);
+$header-bg: var(--card-bg);
+$footer-bg: var(--card-bg);
+
+@function theme-color($theme, $color: null) {
+  $theme-value: map.get($colors, $theme);
+
+  @if $color == null {
+    @if $theme-value != null {
+      @return $theme-value;
+    }
+
+    @error 'Color token `#{$theme}` does not exist.';
+  }
+
+  @if $theme-value != null and meta.type-of($theme-value) == 'map' {
+    $theme-map: $theme-value;
+
+    @if map.has-key($theme-map, $color) {
+      @return map.get($theme-map, $color);
+    }
+
+    @error 'Color `#{$color}` does not exist in theme `#{$theme}`.';
+  }
+
+  @if map.has-key($colors, $color) {
+    @return map.get($colors, $color);
+  }
+
+  @error 'Theme `#{$theme}` or color `#{$color}` is not defined in $colors.';
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else {
+    @error 'Unknown responsive breakpoint `#{$breakpoint}`. Use sm, md, lg, or xl.';
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-sm + 1}) and (max-width: #{$breakpoint-lg - 1}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: $border-radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: $border-radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+  }
+}
+
 @mixin theme-transition {
   transition:
     color $transition-duration $transition-timing,
@@ -113,380 +222,22 @@ $shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
     box-shadow $transition-duration $transition-timing;
 }
 
-@mixin custom-scrollbar {
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: $border-radius-full;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: $border-radius-full;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
-  }
-}
-
-@mixin responsive($breakpoint) {
-  @if $breakpoint == sm {
-    @media (min-width: $breakpoint-sm) { @content; }
-  } @else if $breakpoint == md {
-    @media (min-width: $breakpoint-md) { @content; }
-  } @else if $breakpoint == lg {
-    @media (min-width: $breakpoint-lg) { @content; }
-  } @else if $breakpoint == xl {
-    @media (min-width: $breakpoint-xl) { @content; }
-  }
-}
-
-@mixin focus-ring {
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--primary-color-light);
-  }
-}
-
-// Utilitaires
-@function theme-color($theme, $color) {
-  @return map-get(map-get($colors, $theme), $color);
-}
-
-// Z-index
-$z-index-header: 100;
-$z-index-modal: 1040;
-$z-index-notification: 1100;
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-popover: 1050;
-$z-index-tooltip: 1060;
-
-// Typography
-$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-$font-family-mono: monospace;
-$font-size-base: 1rem;
-$font-size-sm: 0.875rem;
-$font-size-lg: 1.125rem;
-$font-size-md: 1rem;
-$font-size-xxs: 0.625rem;
-$font-size-xs: 0.75rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-3xl: 1.875rem;
-$font-size-4xl: 2.25rem;
-
-// Line heights
-$line-height-tight: 1.25;
-$line-height-base: 1.5;
-$line-height-relaxed: 1.75;
-
-// Font weights
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
-// Layout
-$max-width: 1200px;
-$content-max-width: 1200px;
-
-// Additional colors
-$header-bg: var(--card-bg);
-$footer-bg: var(--card-bg);
-
-// Z-indices
-$z-header: 100;
-$z-modal: 1040;
-
-/* Changelog Variables */
-$changelog-card-min-width: 280px;
-$changelog-card-gap: 1.5rem;
-$changelog-animation-duration: 0.3s;
-$changelog-icon-size: 32px;
-
-// Specific spacings for the changelog
-$spacing-xxs: 0.25rem;
-$spacing-xs: 0.5rem;
-$spacing-sm: 0.75rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-xxl: 2.5rem;
-
-// Border radius
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-full: 9999px;
-
-// Font sizes
-$font-size-xs: 0.75rem;
-$font-size-sm: 0.875rem;
-$font-size-base: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-
-// Line heights
-$line-height-tight: 1.25;
-$line-height-relaxed: 1.5;
-
-// Font weights
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-bold: 700;
-
-// Colors
-$primary-color: var(--primary-color);
-$primary-color-light: var(--primary-color-light);
-$text-color: var(--text-color);
-$text-color-secondary: var(--text-color-secondary);
-$border-color: var(--border-color);
-
-// Mixins
-@mixin mobile {
-  @media (max-width: $breakpoint-sm) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: #{$breakpoint-sm + 1px}) and (max-width: $breakpoint-lg) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: #{$breakpoint-lg + 1px}) {
-    @content;
-  }
-}
-
-@mixin custom-scrollbar {
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: 9999px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 9999px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
-  }
-}
-
-// Headings
 @mixin heading($level) {
   font-weight: $font-weight-semibold;
-  line-height: 1.25;
+  line-height: $line-height-tight;
   color: var(--title-color);
 
   @if $level == 'h1' {
-    font-size: 2.25rem;
+    font-size: $font-size-4xl;
   } @else if $level == 'h2' {
-    font-size: 1.875rem;
+    font-size: $font-size-3xl;
   } @else if $level == 'h3' {
-    font-size: 1.5rem;
+    font-size: $font-size-2xl;
   } @else if $level == 'h4' {
-    font-size: 1.25rem;
+    font-size: $font-size-xl;
   } @else if $level == 'h5' {
-    font-size: 1.125rem;
+    font-size: $font-size-lg;
   } @else if $level == 'h6' {
-    font-size: 1rem;
-  }
-}
-
-// Typographie
-$font-family: 'Inter', system-ui, -apple-system, sans-serif;
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
-$font-size-xs: 0.75rem;   // 12px
-$font-size-sm: 0.875rem;  // 14px
-$font-size-base: 1rem;    // 16px
-$font-size-lg: 1.125rem;  // 18px
-$font-size-xl: 1.25rem;   // 20px
-$font-size-2xl: 1.5rem;   // 24px
-$font-size-3xl: 1.875rem; // 30px
-$font-size-4xl: 2.25rem;  // 36px
-
-$line-height-tight: 1.25;
-$line-height-normal: 1.5;
-$line-height-loose: 1.75;
-
-// Espacement
-$spacing-xxs: 0.25rem;  // 4px
-$spacing-xs: 0.5rem;    // 8px
-$spacing-sm: 0.75rem;   // 12px
-$spacing-md: 1rem;      // 16px
-$spacing-lg: 1.5rem;    // 24px
-$spacing-xl: 2rem;      // 32px
-$spacing-2xl: 3rem;     // 48px
-$spacing-3xl: 4rem;     // 64px
-$spacing-4xl: 6rem;     // 96px
-
-// Bordures
-$border-radius-xs: 2px;
-$border-radius-sm: 4px;
-$border-radius-md: 6px;
-$border-radius-lg: 8px;
-$border-radius-xl: 12px;
-$border-radius-full: 9999px;
-
-// Breakpoints
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-$breakpoint-xxl: 1400px;
-
-// Z-index
-$z-index-negative: -1;
-$z-index-base: 0;
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
-
-// Shadows
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-
-// Transitions
-$transition-speed: 0.2s;
-$transition-speed-fast: 0.15s;
-$transition-speed-slow: 0.3s;
-$transition-timing: ease-in-out;
-
-// Layout Sizes
-$sidebar-width: 280px;
-$mobile-sidebar-width: 240px;
-$header-height: 64px;
-$footer-height: 64px;
-$container-width: 1200px;
-
-// Alpha Values
-$alpha-hover: 0.08;
-$alpha-focus: 0.12;
-$alpha-press: 0.16;
-$alpha-drag: 0.24;
-
-// CSS Variables (defined in _base.scss)
-:root {
-  // These variables will be defined dynamically in CSS
-  --primary-color: #6366f1;
-  --primary-color-rgb: 99, 102, 241;
-  --primary-color-light: #818cf8;
-  --primary-color-dark: #4f46e5;
-  
-  --secondary-color: #64748b;
-  --secondary-color-rgb: 100, 116, 139;
-  --secondary-color-light: #94a3b8;
-  --secondary-color-dark: #475569;
-  
-  --success-color: #10b981;
-  --success-color-rgb: 16, 185, 129;
-  --success-color-dark: #059669;
-  
-  --danger-color: #ef4444;
-  --danger-color-rgb: 239, 68, 68;
-  --danger-color-dark: #dc2626;
-  
-  --warning-color: #f59e0b;
-  --warning-color-rgb: 245, 158, 11;
-  
-  --info-color: #3b82f6;
-  --info-color-rgb: 59, 130, 246;
-  
-  --primary-text: #fff;
-  --secondary-text: #fff;
-  
-  --text-color: #374151;
-  --text-muted: #6b7280;
-  --text-light: #9ca3af;
-  
-  --bg-color: #f9fafb;
-  --bg-color-alt: #f3f4f6;
-  
-  --card-bg: #fff;
-  --card-bg-alt: #f9fafb;
-  --card-header-bg: #f9fafb;
-  
-  --border-color: #e5e7eb;
-  --border-color-rgb: 229, 231, 235;
-  
-  --input-bg: #fff;
-  --focus-color: rgba(99, 102, 241, 0.5);
-  
-  --tab-header-bg: #f9fafb;
-  
-  --scrollbar-thumb: #d1d5db;
-  --scrollbar-thumb-hover: #9ca3af;
-  --scrollbar-track: #f3f4f6;
-  --scrollbar-thumb-color: #d1d5db;
-  --scrollbar-thumb-hover-color: #9ca3af;
-  --scrollbar-track-color: #f3f4f6;
-  
-  --font-family: #{$font-family};
-
-  // Variables for gradients
-  --primary-gradient-start: #3a6eff;
-  --primary-gradient-end: #5e9fff;
-  
-  // Variables for the changelog
-  --changelog-badge-bg: rgba(255, 255, 255, 0.15);
-  --changelog-date-bg: rgba(0, 0, 0, 0.15);
-  --changelog-shadow-color: rgba(0, 0, 0, 0.08);
-  --changelog-index-bg: rgba(0, 0, 0, 0.05);
-  
-  // Theme-specific gradient overrides (to adapt according to your themes)
-  .theme-dark {
-    --primary-gradient-start: #2a4fbb;
-    --primary-gradient-end: #4169e1;
-  }
-  
-  .theme-antimatter {
-    --primary-gradient-start: #7b00ff;
-    --primary-gradient-end: #9d00ff;
-  }
-  
-  .theme-infinity {
-    --primary-gradient-start: #0066cc;
-    --primary-gradient-end: #0088ff;
-  }
-  
-  .theme-eternity {
-    --primary-gradient-start: #802a00;
-    --primary-gradient-end: #cc4400;
-  }
-  
-  .theme-reality {
-    --primary-gradient-start: #2d882d;
-    --primary-gradient-end: #38b638;
+    font-size: $font-size-base;
   }
 }

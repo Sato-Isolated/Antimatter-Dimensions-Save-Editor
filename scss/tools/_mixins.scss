@@ -1,0 +1,63 @@
+@use 'sass:list';
+@use 'functions' as fn;
+
+@mixin mq($from) {
+  @media (min-width: fn.breakpoint($from)) {
+    @content;
+  }
+}
+
+@mixin mq-between($from, $to) {
+  @media (min-width: fn.breakpoint($from)) and (max-width: fn.breakpoint($to) - 0.02px) {
+    @content;
+  }
+}
+
+@mixin touch-device {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin cq($min-width) {
+  @container (min-width: $min-width) {
+    @content;
+  }
+}
+
+@mixin focus-ring($color: var(--primary-color), $alpha: 0.25, $size: 3px) {
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 $size color-mix(in srgb, $color #{$alpha * 100%}, transparent);
+  }
+}
+
+@mixin transition($properties...) {
+  $duration: fn.token(motion, duration);
+  $timing: fn.token(motion, timing);
+
+  @if list.length($properties) == 0 {
+    transition: all $duration $timing;
+  } @else {
+    $compiled: ();
+
+    @each $property in $properties {
+      $compiled: list.append($compiled, $property $duration $timing, comma);
+    }
+
+    transition: $compiled;
+  }
+}
+
+@mixin card-surface {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: fn.radius(md);
+  @include transition(box-shadow, transform);
+}

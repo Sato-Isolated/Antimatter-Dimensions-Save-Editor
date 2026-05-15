@@ -1,32 +1,27 @@
-@use '../utilities/color-utils' as colors;
+@use 'engine';
 
 /* Dark theme variables */
 .dark-theme {
-  @include colors.create-color-scheme(210, 80%, 40%);
-  
-  // Base HSL color variables
-  // Background colors
-  --bg-h: 0;
-  --bg-s: 0%;
-  --bg-l: 12%;
-  
-  // Text colors
-  --text-h: 0;
-  --text-s: 0%;
-  --text-l: 88%;
-  
-  // State colors
-  --error-h: 4;
-  --error-s: 90%;
-  --error-l: 58%;
-  
-  --success-h: 122;
-  --success-s: 39%;
-  --success-l: 49%;
-  
-  --warning-h: 36;
-  --warning-s: 100%;
-  --warning-l: 50%;
+  @include engine.theme-core(
+    210,
+    80%,
+    40%,
+    0,
+    0%,
+    12%,
+    0,
+    0%,
+    88%,
+    4,
+    90%,
+    58%,
+    122,
+    39%,
+    49%,
+    36,
+    100%,
+    50%
+  );
   
   // Base colors
   --bg-color: hsl(var(--bg-h), var(--bg-s), 12%);
@@ -186,21 +181,18 @@
   --progress-bg: hsl(220, 13%, 23%);
   --progress-fill: hsl(210, 70%, 60%);
   
-  // Scrollbar
-  --scrollbar-track: hsl(var(--bg-h), var(--bg-s), 20%);
-  --scrollbar-thumb: hsl(var(--bg-h), var(--bg-s), 31%);
-  --scrollbar-thumb-hover: hsl(var(--bg-h), var(--bg-s), 38%);
-  --scrollbar-track-color: hsl(var(--bg-h), var(--bg-s), 20%);
-  --scrollbar-thumb-color: hsl(var(--bg-h), var(--bg-s), 31%);
-  --scrollbar-thumb-hover-color: hsl(var(--bg-h), var(--bg-s), 38%);
-  
-  // Gradient variables
-  --primary-gradient-start: hsl(var(--primary-h), var(--primary-s), 37%);
-  --primary-gradient-end: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-  
-  // Changelog variables
-  --changelog-badge-bg: hsla(0, 0%, 100%, 0.1);
-  --changelog-date-bg: hsla(0, 0%, 0%, 0.3);
-  --changelog-shadow-color: hsla(0, 0%, 0%, 0.3);
-  --changelog-index-bg: hsla(0, 0%, 0%, 0.3);
+  @include engine.theme-scrollbar(
+    hsl(var(--bg-h), var(--bg-s), 20%),
+    hsl(var(--bg-h), var(--bg-s), 31%),
+    hsl(var(--bg-h), var(--bg-s), 38%)
+  );
+
+  @include engine.theme-branding(
+    hsl(var(--primary-h), var(--primary-s), 37%),
+    hsl(var(--primary-h), var(--primary-s), var(--primary-l)),
+    hsla(0, 0%, 100%, 0.1),
+    hsla(0, 0%, 0%, 0.3),
+    hsla(0, 0%, 0%, 0.3),
+    hsla(0, 0%, 0%, 0.3)
+  );
 }

@@ -1,31 +1,26 @@
-@use '../utilities/color-utils' as colors;
+@use 'engine';
 
 .reality-theme {
-    @include colors.create-color-scheme(122, 42%, 49%);
-    
-    // Base HSL color variables
-    // Background colors
-    --bg-h: 120;
-    --bg-s: 30%;
-    --bg-l: 14%;
-    
-    // Text colors
-    --text-h: 120;
-    --text-s: 100%;
-    --text-l: 94%;
-    
-    // State colors
-    --error-h: 0;
-    --error-s: 76%;
-    --error-l: 55%;
-    
-    --success-h: 122;
-    --success-s: 41%;
-    --success-l: 64%;
-    
-    --warning-h: 36;
-    --warning-s: 100%;
-    --warning-l: 50%;
+        @include engine.theme-core(
+            122,
+            42%,
+            49%,
+            120,
+            30%,
+            14%,
+            120,
+            100%,
+            94%,
+            0,
+            76%,
+            55%,
+            122,
+            41%,
+            64%,
+            36,
+            100%,
+            50%
+        );
     
     // Base colors
     --bg-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
@@ -112,23 +107,20 @@
     --box-shadow-color: hsla(0, 0%, 0%, 0.5);
     --box-shadow-card: 0 4px 6px hsla(0, 0%, 0%, 0.3);
 
-    // Scrollbar
-    --scrollbar-track: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
-    --scrollbar-thumb: hsl(var(--bg-h), var(--bg-s), 24%);
-    --scrollbar-thumb-hover: hsl(var(--bg-h), var(--bg-s), 32%);
-    --scrollbar-track-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
-    --scrollbar-thumb-color: hsl(var(--bg-h), var(--bg-s), 24%);
-    --scrollbar-thumb-hover-color: hsl(var(--bg-h), var(--bg-s), 32%);
+        @include engine.theme-scrollbar(
+            hsl(var(--bg-h), var(--bg-s), var(--bg-l)),
+            hsl(var(--bg-h), var(--bg-s), 24%),
+            hsl(var(--bg-h), var(--bg-s), 32%)
+        );
 
-    // Gradient variables
-    --primary-gradient-start: hsl(120, 50%, 35%);
-    --primary-gradient-end: hsl(120, 52%, 47%);
-
-    // Changelog variables
-    --changelog-badge-bg: hsla(0, 0%, 100%, 0.15);
-    --changelog-date-bg: hsla(0, 0%, 0%, 0.3);
-    --changelog-shadow-color: hsla(0, 0%, 0%, 0.1);
-    --changelog-index-bg: hsla(0, 0%, 0%, 0.2);
+        @include engine.theme-branding(
+            hsl(120, 50%, 35%),
+            hsl(120, 52%, 47%),
+            hsla(0, 0%, 100%, 0.15),
+            hsla(0, 0%, 0%, 0.3),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2)
+        );
 
     // Buttons
     --button-bg: hsl(var(--bg-h), var(--bg-s), 24%);
