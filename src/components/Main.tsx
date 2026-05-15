@@ -3,7 +3,8 @@ import { useSave, useSaveSelector } from '../contexts/SaveContext';
 import 'font-awesome/css/font-awesome.min.css';
 import WorkspaceViewTabs from './workflow/WorkspaceViewTabs';
 import WorkspacePanels from './workflow/WorkspacePanels';
-import WorkflowActionRow from './workflow/WorkflowActionRow';
+import ExportReviewStepSection from './workflow/ExportReviewStepSection';
+import ImportStepSection from './workflow/ImportStepSection';
 import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';
 import StatusChip from './workflow/StatusChip';
 import ValidationSummarySection from './workflow/ValidationSummarySection';
@@ -202,33 +203,13 @@ const Main: React.FC = () => {
           <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save support:</strong> PC and Android saves share the same workflow now. Import a save, verify the summary, then choose the structured workspace or JSON editor for deeper edits.
         </div>
         
-        <WorkflowStepCard
-          step="Step 1"
-          title="Import save"
-          headerAside={<StatusChip variant="neutral">Raw input</StatusChip>}
-        >
-            <p className="section-summary">Paste encrypted save data, then decode it into the shared document store.</p>
-            <div className="input-group">
-              <label htmlFor="save-import-input">Encrypted save</label>
-              <textarea
-                id="save-import-input"
-                ref={importInputRef}
-                className="save-textarea"
-                placeholder="Paste your encrypted save data here..."
-                spellCheck="false"
-                value={rawSaveData}
-                onChange={(e) => setRawSaveData(e.target.value)}
-              />
-            </div>
-            <WorkflowActionRow ariaLabel="Import actions">
-              <button id="pasteButton" className="btn primary" onClick={handlePaste}>
-                <i className="fa fa-paste"></i> Paste
-              </button>
-              <button id="decryptButton" className="btn secondary" onClick={handleDecrypt}>
-                <i className="fa fa-unlock"></i> Decrypt
-              </button>
-            </WorkflowActionRow>
-        </WorkflowStepCard>
+        <ImportStepSection
+          rawSaveData={rawSaveData}
+          onRawSaveDataChange={setRawSaveData}
+          onPaste={handlePaste}
+          onDecrypt={handleDecrypt}
+          importInputRef={importInputRef}
+        />
         
         <WorkflowStepCard
           step="Step 2"
@@ -281,51 +262,21 @@ const Main: React.FC = () => {
             />
         </WorkflowStepCard>
         
-        <WorkflowStepCard
-          step="Step 4"
-          title="Export review"
-          headerAside={<StatusChip variant={encodedOutputData ? 'success' : 'neutral'}>{encodedOutputData ? 'Ready to copy' : 'Not generated'}</StatusChip>}
-        >
-            <div className="export-review-grid">
-              <div className="export-review-card">
-                <span className="summary-label">Format</span>
-                <strong>{isLoaded ? saveType.toUpperCase() : 'Unknown'}</strong>
-              </div>
-              <div className="export-review-card">
-                <span className="summary-label">Dirty state</span>
-                <strong>{isDirty ? 'Pending export' : 'Matches imported snapshot'}</strong>
-              </div>
-              <div className="export-review-card">
-                <span className="summary-label">Last path</span>
-                <strong>{lastChange?.path || 'Root document'}</strong>
-              </div>
-              <div className="export-review-card">
-                <span className="summary-label">Export status</span>
-                <strong>{reviewMessage}</strong>
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="save-export-output">Encoded export</label>
-              <textarea
-                id="save-export-output"
-                ref={exportOutputRef}
-                className="save-textarea"
-                placeholder="Your encrypted save will appear here..."
-                spellCheck="false"
-                readOnly
-                value={encodedOutputData}
-              />
-            </div>
-            <WorkflowActionRow ariaLabel="Export actions">
-              <button ref={encryptButtonRef} id="encryptButton" className="btn primary" onClick={handleEncrypt} disabled={!isLoaded}>
-                <i className="fa fa-lock"></i> Encrypt
-              </button>
-              <button ref={copyButtonRef} id="copyButton" className="btn secondary" onClick={handleCopy} disabled={!encodedOutputData}>
-                <i className="fa fa-copy"></i> Copy
-              </button>
-            </WorkflowActionRow>
-        </WorkflowStepCard>
+        <ExportReviewStepSection
+          isLoaded={isLoaded}
+          saveTypeLabel={saveType.toUpperCase()}
+          isDirty={isDirty}
+          lastChangePath={lastChange?.path || 'Root document'}
+          reviewMessage={reviewMessage}
+          encodedOutputData={encodedOutputData}
+          onEncrypt={handleEncrypt}
+          onCopy={handleCopy}
+          canEncrypt={isLoaded}
+          canCopy={Boolean(encodedOutputData)}
+          exportOutputRef={exportOutputRef}
+          encryptButtonRef={encryptButtonRef}
+          copyButtonRef={copyButtonRef}
+        />
       </div>
     </main>
   );
