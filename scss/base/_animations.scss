@@ -41,90 +41,6 @@
   50% { transform: translateY(-5px); }
 }
 
-// Reusable Animation Classes
-.animate {
-  animation-duration: 0.3s;
-  animation-fill-mode: both;
-
-  &-slow { animation-duration: 0.5s; }
-  &-fast { animation-duration: 0.15s; }
-
-  &-fade-in { animation-name: fadeIn; }
-  &-slide-up { animation-name: slideInUp; }
-  &-slide-down { animation-name: slideInDown; }
-  &-spin { animation-name: spin; }
-  &-bounce { animation-name: bounce; }
-
-  &-infinite { animation-iteration-count: infinite; }
-  &-linear { animation-timing-function: linear; }
-}
-
-.animate-spin-hover {
-  transition: transform 0.3s ease;
-  
-  &:hover {
-    transform: rotate(180deg);
-  }
-}
-
-// Transitions
-.transition {
-  &-all { transition: all 0.3s ease; }
-  &-transform { transition: transform 0.3s ease; }
-  &-opacity { transition: opacity 0.3s ease; }
-  &-colors { 
-    transition: 
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      color 0.3s ease;
-  }
-  &-color { transition: color 0.3s ease; }
-  &-bg { transition: background-color 0.3s ease; }
-  &-border { transition: border-color 0.3s ease; }
-  &-shadow { transition: box-shadow 0.3s ease; }
-}
-
-// Notification Animation
-.notification {
-  &-enter {
-    animation: slideInUp 0.3s ease forwards;
-  }
-
-  &-exit {
-    animation: slideInDown 0.3s ease forwards;
-  }
-}
-
-// Accessibility helper classes
-.focus-visible {
-  &:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-  }
-}
-
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--primary-color);
-  color: white;
-  padding: 8px;
-  z-index: 100;
-
-  &:focus {
-    top: 0;
-  }
-}
-
-.blink {
-  animation: blink 2s ease-in-out infinite;
-  
-  &:hover {
-    animation: none;
-    opacity: 1;
-  }
-}
 
 // Support des préférences de mouvement réduit
 @media (prefers-reduced-motion: reduce) {
@@ -134,17 +50,6 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-// Accessibility helper classes
-.visually-hidden:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
 }
 
 // Animation de transition de thème

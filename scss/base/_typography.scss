@@ -69,28 +69,6 @@ p {
   }
 }
 
-.section-title {
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 0.5rem;
-  color: var(--title-color);
-}
-
-// Utility Text Styles
-.text-primary { color: var(--primary-color); }
-.text-accent { color: var(--accent-color); }
-.text-muted { color: var(--text-muted); }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-sm { font-size: var.$font-size-sm; }
-.text-lg { font-size: var.$font-size-lg; }
-.text-xl { font-size: var.$font-size-xl; }
-
-// Font Weights
-.font-normal { font-weight: var.$font-weight-normal; }
-.font-medium { font-weight: var.$font-weight-medium; }
-.font-semibold { font-weight: var.$font-weight-semibold; }
-.font-bold { font-weight: var.$font-weight-bold; }
 
 // Link Styles
 a {
@@ -121,6 +99,3 @@ ul, ol {
   margin-top: var.$spacing-xl;
 }
 
-.monospace {
-  font-family: monospace;
-}

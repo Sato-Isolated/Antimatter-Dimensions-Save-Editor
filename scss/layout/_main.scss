@@ -51,10 +51,6 @@
       font-weight: 600;
     }
     
-    &.with-tabs {
-      padding: 0;
-      border-bottom: none;
-    }
   }
   
   .card-body {
@@ -333,84 +329,3 @@ html {
   }
 }
 
-// Responsive Layout
-.layout-grid {
-  display: grid;
-  gap: var.$spacing-lg;
-  
-  @include mix.desktop {
-    grid-template-columns: 1fr var.$sidebar-width;
-  }
-
-  @include mix.tablet {
-    grid-template-columns: 1fr var.$mobile-sidebar-width;
-  }
-
-  @include mix.mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
-// Section Style
-.section-wrapper {
-  @include mix.card-base;
-  
-  .section-header {
-    padding: var.$spacing-md;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--card-header-bg);
-
-    h2 {
-      @include mix.heading('h2');
-      margin: 0;
-    }
-  }
-
-  .section-content {
-    padding: var.$spacing-md;
-  }
-}
-
-// Dimensions Manager
-.dimensions-manager {
-  display: grid;
-  gap: var.$spacing-lg;
-
-  .dimension-category {
-    @include mix.card-base;
-
-    .category-header {
-      padding: var.$spacing-md;
-      border-bottom: 1px solid var(--border-color);
-      background-color: var(--card-header-bg);
-
-      h3 {
-        @include mix.heading('h3');
-        margin: 0;
-      }
-    }
-
-    .category-content {
-      padding: var.$spacing-md;
-    }
-  }
-}
-
-// Transition Animations
-.fade-enter {
-  opacity: 0;
-}
-
-.fade-enter-active {
-  opacity: 1;
-  transition: opacity var.$transition-speed var.$transition-timing;
-}
-
-.fade-exit {
-  opacity: 1;
-}
-
-.fade-exit-active {
-  opacity: 0;
-  transition: opacity var.$transition-speed var.$transition-timing;
-}

@@ -3,12 +3,6 @@
 
 /* Button styles */
 
-.group-button {
-  display: flex;
-  gap: var.$spacing-xs;
-  margin: var.$spacing-xs 0;
-}
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -198,41 +192,6 @@
   }
 }
 
-.icon-button {
-  @include mix.flex-center;
-  width: 40px;
-  height: 40px;
-  border-radius: var.$border-radius-full;
-  background: transparent;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  @include mix.transition;
-
-  &:hover:not(:disabled) {
-    background-color: var(--button-ghost-hover);
-    transform: translateY(-2px);
-  }
-
-  i {
-    font-size: var.$font-size-lg;
-  }
-
-  &.changelog-link {
-    position: relative;
-    
-    &.has-update::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 8px;
-      height: 8px;
-      background-color: var(--primary-color);
-      border-radius: 50%;
-    }
-  }
-}
-
 .button-group {
   display: flex;
   gap: var.$spacing-xs;
@@ -260,12 +219,3 @@
   }
 }
 
-.action-buttons {
-  @include mix.flex-between;
-  margin-top: var.$spacing-md;
-  
-  @include mix.mobile {
-    flex-direction: column;
-    gap: var.$spacing-sm;
-  }
-}
