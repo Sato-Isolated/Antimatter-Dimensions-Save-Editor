@@ -91,7 +91,7 @@ export function androidToPc(androidValue: AndroidBigNumber): string {
 /**
  * Checks if a value is in Android big number format
  */
-export function isAndroidBigNumber(value: any): value is AndroidBigNumber {
+export function isAndroidBigNumber(value: unknown): value is AndroidBigNumber {
   return (
     typeof value === 'object' && 
     value !== null &&

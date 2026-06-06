@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { FaCheckCircle, FaUpload } from 'react-icons/fa';
 import { useSave } from '../contexts/SaveContext';
 import { SaveType } from '../services/SaveService';
 // CSS import removed - now using SCSS via main.scss
@@ -99,7 +100,7 @@ const SaveImport: React.FC = () => {
           onClick={handleFileInputClick}
         >
           <div className="drop-zone-content">
-            <i className="fa fa-upload"></i>
+            <FaUpload aria-hidden="true" />
             <p>Click to select or drag & drop your save file here</p>
             <p className="file-format-note">Accepts .txt save files</p>
           </div>
@@ -129,7 +130,7 @@ const SaveImport: React.FC = () => {
       
       {isLoaded && (
         <div className="success-message">
-          <i className="fa fa-check-circle"></i>
+          <FaCheckCircle aria-hidden="true" />
           <span>Save loaded successfully!</span>
           <div className="save-type-indicator">
             Format detected: {saveType === SaveType.Android ? 'Android' : 'PC'}

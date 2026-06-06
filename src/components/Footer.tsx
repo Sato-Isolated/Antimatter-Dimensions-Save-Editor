@@ -1,12 +1,13 @@
 import React from 'react';
-import 'font-awesome/css/font-awesome.min.css';
+import { FaBug } from 'react-icons/fa';
+import { APP_VERSION } from '../appMetadata';
 
 const Footer: React.FC = () => {
   return (
     <footer className="app-footer" role="contentinfo">
       <div className="footer-content">
         <div className="footer-info">
-          <p className="footer-version">Version <span>v2.0.0-BETA-4</span></p>
+          <p className="footer-version">Version <span>v{APP_VERSION}</span></p>
           <p className="footer-disclaimer">Independent editor workflow for Antimatter Dimensions saves.</p>
         </div>
         <div className="footer-links">
@@ -16,7 +17,7 @@ const Footer: React.FC = () => {
             rel="noopener noreferrer"
             aria-label="Report an issue on GitHub"
           >
-            <i className="fa fa-bug" aria-hidden="true"></i>
+            <FaBug aria-hidden="true" />
             Report an Issue
           </a>
           <span className="separator" aria-hidden="true">|</span>

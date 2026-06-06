@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faRocket } from '@fortawesome/free-solid-svg-icons';
-import { SaveType } from '../../services/SaveService';
-import { 
-  AntimatterDimensionsStruct,
-  AndroidStruct
-} from '../../Struct';
+import { FaCog, FaRocket } from 'react-icons/fa';
 
 const BlackHolesSection: React.FC<SectionProps> = ({
   saveData,
   handleValueChange,
-  renderValidationIndicator,
-  saveType
+  renderValidationIndicator
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('general');
 
@@ -21,14 +14,6 @@ const BlackHolesSection: React.FC<SectionProps> = ({
     setActiveSubtab(subtabId);
   };
   
-  // Helper for safely accessing PC-specific properties
-  const isPCFormat = (): boolean => {
-    return saveType === SaveType.PC;
-  };
-
-  // Cast saveData to specific type when needed - using 'as any' to bypass type checks for blackHole property
-  const pcSaveData = isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
-  const androidSaveData = !isPCFormat() ? saveData as AndroidStruct : null;
   const typedSaveData = saveData as any;
 
   return (
@@ -42,19 +27,19 @@ const BlackHolesSection: React.FC<SectionProps> = ({
             className={`subtab-button ${activeSubtab === 'general' ? 'active' : ''}`}
             onClick={() => handleSubtabClick('general')}
           >
-            <FontAwesomeIcon icon={faGear} className="subtab-icon" /> General
+            <FaCog className="subtab-icon" aria-hidden="true" /> General
           </button>
           <button 
             className={`subtab-button ${activeSubtab === 'upgrades' ? 'active' : ''}`}
             onClick={() => handleSubtabClick('upgrades')}
           >
-            <FontAwesomeIcon icon={faRocket} className="subtab-icon" /> Upgrades
+            <FaRocket className="subtab-icon" aria-hidden="true" /> Upgrades
           </button>
           <button 
             className={`subtab-button ${activeSubtab === 'blackhole2' ? 'active' : ''}`}
             onClick={() => handleSubtabClick('blackhole2')}
           >
-            <FontAwesomeIcon icon={faGear} className="subtab-icon" /> Black Hole 2
+            <FaCog className="subtab-icon" aria-hidden="true" /> Black Hole 2
           </button>
         </div>
         

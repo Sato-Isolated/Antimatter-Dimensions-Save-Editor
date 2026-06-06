@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSave } from '../contexts/SaveContext';
-import 'font-awesome/css/font-awesome.min.css';
+import { FaAtom, FaCheckCircle, FaGithub } from 'react-icons/fa';
 
 const Header: React.FC = () => {
   const { isLoaded, testResults, testSave } = useSave();
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
       <div className="header-content">
         <div className="header-brand">
           <h1>
-            <i className="fa fa-atom spin" aria-hidden="true"></i>
+            <FaAtom className="spin" aria-hidden="true" />
             <span>Antimatter Dimensions Editor</span>
           </h1>
           <p className="header-subtitle">Edit, validate, and re-export PC or Android saves from a single workflow shell.</p>
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
               disabled={!isLoaded}
               title="Test the save structure and registered values"
             >
-              <i className="fa fa-check-circle" aria-hidden="true"></i> Test
+              <FaCheckCircle aria-hidden="true" /> Test
             </button>
             
             <a
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
               rel="noopener noreferrer"
               aria-label="View project on GitHub"
             >
-              <i className="fa fa-github" aria-hidden="true"></i>
+              <FaGithub aria-hidden="true" />
               <span>GitHub</span>
             </a>
           </div>

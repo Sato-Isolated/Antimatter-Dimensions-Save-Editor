@@ -5,10 +5,6 @@ import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { SaveType } from '../../services/SaveService';
 import { parseNumericInput } from './fieldHelpers';
-import { 
-  AntimatterDimensionsStruct,
-  AndroidStruct as AntimatterDimensionsStructAndroid
-} from '../../Struct';
 
 const DilationSection: React.FC<SectionProps> = ({
   saveData,
@@ -27,10 +23,6 @@ const DilationSection: React.FC<SectionProps> = ({
   const isPCFormat = (): boolean => {
     return saveType === SaveType.PC;
   };
-
-  // Helper functions to safely access data based on format
-  const getPCData = () => isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
-  const getAndroidData = () => !isPCFormat() ? saveData as AntimatterDimensionsStructAndroid : null;
 
   return (
     <div className="section-pane active" id="dilation">

@@ -20,15 +20,15 @@ input[type="checkbox"] {
     border-color: var(--primary-color);
 
     &::after {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
+      content: '';
       position: absolute;
-      top: 50%;
+      top: 45%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--button-text);
-      font-size: 11px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 4px;
+      height: 8px;
+      border-right: 2px solid var(--button-text);
+      border-bottom: 2px solid var(--button-text);
     }
   }
 
@@ -80,7 +80,7 @@ input[type="radio"] {
 }
 
 
-// Animation de transition de thème
+// Theme transition animation
 @keyframes theme-transition {
   0% {
     opacity: 0.8;
@@ -92,7 +92,7 @@ input[type="radio"] {
   }
 }
 
-// Sélecteur de thème amélioré
+// Enhanced theme selector
 .theme-selector {
   margin-bottom: 1.5rem;
 
@@ -145,7 +145,7 @@ input[type="radio"] {
   }
 }
 
-// Visualiseur de thèmes
+// Theme preview
 .theme-previews {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

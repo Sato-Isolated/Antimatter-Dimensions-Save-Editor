@@ -102,4 +102,13 @@ describe('field registry', () => {
     expect(issues.some((issue) => issue.path === 'replicanti.chanceUpgrades')).toBe(false);
     expect(issues.some((issue) => issue.path === 'replicanti.intervalUpgrades')).toBe(false);
   });
+
+  it('derives normalized metadata for every registered field', () => {
+    for (const field of saveEditorFields) {
+      expect(field.path, field.id).toBe(field.nativePaths[SaveType.PC][0]);
+      expect(field.platformPath?.[SaveType.PC], field.id).toBe(field.nativePaths[SaveType.PC][0]);
+      expect(field.platformPath?.[SaveType.Android], field.id).toBe(field.nativePaths[SaveType.Android][0]);
+      expect(field.validationRule, field.id).toBe(field.rule);
+    }
+  });
 });

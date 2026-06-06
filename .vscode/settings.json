@@ -1,0 +1,18 @@
+{
+  "liveSassCompile.settings.generateMap": true,
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "expanded",
+      "extensionName": ".css"
+    }
+  ],
+  "liveSassCompile.settings.includeItems": [
+    "/scss/main.scss"
+  ],
+  "liveSassCompile.settings.excludeList": [
+    "**/node_modules/**",
+    ".vscode/**",
+    "**/scss/**/_*.scss",
+    "**/scss/utilities/*.scss"
+  ]
+}

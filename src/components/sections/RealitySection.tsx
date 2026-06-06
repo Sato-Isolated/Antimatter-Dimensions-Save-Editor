@@ -6,10 +6,6 @@ import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { SaveType } from '../../services/SaveService';
 import { parseNumericInput } from './fieldHelpers';
-import { 
-  AntimatterDimensionsStruct,
-  AndroidStruct as AntimatterDimensionsStructAndroid
-} from '../../Struct';
 
 const RealitySection: React.FC<SectionProps> = ({
   saveData,
@@ -29,9 +25,6 @@ const RealitySection: React.FC<SectionProps> = ({
     return saveType === SaveType.PC;
   };
 
-  // Cast saveData to specific type when needed
-  const pcSaveData = isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
-  const androidSaveData = !isPCFormat() ? saveData as AntimatterDimensionsStructAndroid : null;
   // Use typedSaveData to bypass type checking for properties that exist at runtime but aren't in the type definitions
   const typedSaveData = saveData as any;
 

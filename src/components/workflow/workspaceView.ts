@@ -1,13 +1,16 @@
+import { IconType } from 'react-icons';
+import { FaCode, FaCog, FaThLarge } from 'react-icons/fa';
+
 export type WorkspaceView = 'structured' | 'json' | 'settings';
 
 export type WorkspaceViewDefinition = {
   id: WorkspaceView;
   label: string;
-  iconClassName: string;
+  Icon: IconType;
 };
 
 export const workspaceViews: WorkspaceViewDefinition[] = [
-  { id: 'structured', label: 'Structured', iconClassName: 'fa fa-th-large' },
-  { id: 'json', label: 'JSON', iconClassName: 'fa fa-code' },
-  { id: 'settings', label: 'Preferences', iconClassName: 'fa fa-cog' },
+  { id: 'structured', label: 'Structured', Icon: FaThLarge },
+  { id: 'json', label: 'JSON', Icon: FaCode },
+  { id: 'settings', label: 'Preferences', Icon: FaCog },
 ];

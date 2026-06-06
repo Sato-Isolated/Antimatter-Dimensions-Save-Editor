@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPaste, FaUnlock } from 'react-icons/fa';
 import StatusChip from './StatusChip';
 import WorkflowActionRow from './WorkflowActionRow';
 import WorkflowStepCard from './WorkflowStepCard';
@@ -39,10 +40,10 @@ const ImportStepSection: React.FC<ImportStepSectionProps> = ({
       </div>
       <WorkflowActionRow ariaLabel="Import actions">
         <button id="pasteButton" className="btn primary" onClick={onPaste}>
-          <i className="fa fa-paste"></i> Paste
+          <FaPaste aria-hidden="true" /> Paste
         </button>
         <button id="decryptButton" className="btn secondary" onClick={onDecrypt}>
-          <i className="fa fa-unlock"></i> Decrypt
+          <FaUnlock aria-hidden="true" /> Decrypt
         </button>
       </WorkflowActionRow>
     </WorkflowStepCard>

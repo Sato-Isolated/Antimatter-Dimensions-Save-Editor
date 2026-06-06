@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
-import 'font-awesome/css/font-awesome.min.css';
 import ExportReviewStepSection from './workflow/ExportReviewStepSection';
 import ImportStepSection from './workflow/ImportStepSection';
 import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';

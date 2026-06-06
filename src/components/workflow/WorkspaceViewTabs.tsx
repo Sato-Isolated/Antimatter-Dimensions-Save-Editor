@@ -91,6 +91,7 @@ const WorkspaceViewTabs: React.FC<WorkspaceViewTabsProps> = ({
       {views.map((view) => {
         const isActive = activeView === view.id;
         const isDisabled = view.id === 'json' && isJsonDisabled;
+        const ViewIcon = view.Icon;
 
         return (
           <button
@@ -109,7 +110,7 @@ const WorkspaceViewTabs: React.FC<WorkspaceViewTabsProps> = ({
             aria-controls={panelIdForView(view.id)}
             tabIndex={isActive ? 0 : -1}
           >
-            <i className={view.iconClassName} aria-hidden="true"></i>
+            <ViewIcon aria-hidden="true" />
             <span>{view.label}</span>
           </button>
         );

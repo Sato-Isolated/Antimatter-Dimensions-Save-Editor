@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
 import {
   SaveDocumentSnapshot,
   SaveTestResults,
@@ -41,7 +42,7 @@ const ValidationStepSection: React.FC<ValidationStepSectionProps> = ({
           onClick={onRunStructureTest}
           disabled={!isLoaded}
         >
-          <i className="fa fa-check-circle"></i> Run structure test
+          <FaCheckCircle aria-hidden="true" /> Run structure test
         </button>
       )}
     >

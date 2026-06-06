@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
-import { FaGem, FaScroll, FaRobot, FaUsers, FaBalanceScale, FaDragon, FaFire, FaSun } from 'react-icons/fa';
+import { FaGem, FaScroll, FaRobot, FaUsers, FaBalanceScale, FaDragon, FaSun } from 'react-icons/fa';
 import { SaveType } from '../../services/SaveService';
 import { 
   AntimatterDimensionsStruct,

@@ -1,4 +1,16 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  FaAlignLeft,
+  FaAngleDown,
+  FaAngleUp,
+  FaArrowLeft,
+  FaArrowRight,
+  FaCopy,
+  FaCrosshairs,
+  FaDownload,
+  FaSave,
+  FaUndo,
+} from 'react-icons/fa';
 import { SaveDataRecord, SaveValidationIssue } from '../core/save/types';
 import { useSaveActions, useSaveSelector } from '../contexts/SaveContext';
 import JsonCodeMirror, { JsonCodeMirrorHandle, JsonCursorState } from './JsonCodeMirror';
@@ -562,7 +574,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   const visibleValidationIssues = validationIssues.slice(0, 8);
   const hiddenValidationIssueCount = Math.max(validationIssues.length - visibleValidationIssues.length, 0);
   const statusMessage = isParsing
-    ? 'Parsing draft…'
+    ? 'Parsing draft...'
     : parseState.errorMessage
     ? parseState.errorMessage
     : !parseState.isRootObject
@@ -593,7 +605,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
         </div>
         <div className="json-editor-actions">
           <button type="button" className="btn secondary" onClick={handleUndo} disabled={history.index <= 0}>
-            <i className="fa fa-arrow-left" aria-hidden="true"></i> Undo
+            <FaArrowLeft aria-hidden="true" /> Undo
           </button>
           <button
             type="button"
@@ -601,22 +613,22 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
             onClick={handleRedo}
             disabled={history.index === -1 || history.index >= history.entries.length - 1}
           >
-            <i className="fa fa-arrow-right" aria-hidden="true"></i> Redo
+            <FaArrowRight aria-hidden="true" /> Redo
           </button>
           <button type="button" className="btn secondary" onClick={handleFormat} disabled={!parseState.parsed}>
-            <i className="fa fa-align-left" aria-hidden="true"></i> Format
+            <FaAlignLeft aria-hidden="true" /> Format
           </button>
           <button type="button" className="btn secondary" onClick={handleReset}>
-            <i className="fa fa-undo" aria-hidden="true"></i> Reset
+            <FaUndo aria-hidden="true" /> Reset
           </button>
           <button type="button" className="btn secondary" onClick={handleCopyDraft}>
-            <i className="fa fa-copy" aria-hidden="true"></i> Copy
+            <FaCopy aria-hidden="true" /> Copy
           </button>
           <button type="button" className="btn secondary" onClick={handleExportDraft}>
-            <i className="fa fa-download" aria-hidden="true"></i> Export
+            <FaDownload aria-hidden="true" /> Export
           </button>
           <button type="button" className="btn primary" onClick={handleApply} disabled={!canApply}>
-            <i className="fa fa-save" aria-hidden="true"></i> Apply to workspace
+            <FaSave aria-hidden="true" /> Apply to workspace
           </button>
         </div>
       </div>
@@ -685,7 +697,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
           disabled={!searchState.query || searchMatchCount === 0}
           aria-label="Go to the previous search result"
         >
-          <i className="fa fa-angle-up" aria-hidden="true"></i>
+          <FaAngleUp aria-hidden="true" />
         </button>
         <button
           type="button"
@@ -694,7 +706,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
           disabled={!searchState.query || searchMatchCount === 0}
           aria-label="Go to the next search result"
         >
-          <i className="fa fa-angle-down" aria-hidden="true"></i>
+          <FaAngleDown aria-hidden="true" />
         </button>
       </div>
 
@@ -738,7 +750,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
         </div>
         {parseState.errorOffset !== null && (
           <button type="button" className="btn secondary" onClick={handleJumpToError}>
-            <i className="fa fa-crosshairs" aria-hidden="true"></i> Jump to error
+            <FaCrosshairs aria-hidden="true" /> Jump to error
           </button>
         )}
       </div>

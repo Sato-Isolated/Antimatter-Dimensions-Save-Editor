@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStopwatch, faChartLine, faHistory, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { FaChartLine, FaHistory, FaStopwatch, FaTrophy } from 'react-icons/fa';
 import { parseNumericInput, resolveRecentRecordsPath } from './fieldHelpers';
 
 /**
@@ -32,25 +31,25 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
           className={`subtab-button ${activeSubtab === 'statistics' ? 'active' : ''}`}
           onClick={() => handleSubtabClick('statistics')}
         >
-          <FontAwesomeIcon icon={faChartLine} className="subtab-icon" /> Statistics
+          <FaChartLine className="subtab-icon" aria-hidden="true" /> Statistics
         </button>
         <button 
           className={`subtab-button ${activeSubtab === 'current' ? 'active' : ''}`}
           onClick={() => handleSubtabClick('current')}
         >
-          <FontAwesomeIcon icon={faStopwatch} className="subtab-icon" /> Current Game
+          <FaStopwatch className="subtab-icon" aria-hidden="true" /> Current Game
         </button>
         <button 
           className={`subtab-button ${activeSubtab === 'best' ? 'active' : ''}`}
           onClick={() => handleSubtabClick('best')}
         >
-          <FontAwesomeIcon icon={faTrophy} className="subtab-icon" /> Best Scores
+          <FaTrophy className="subtab-icon" aria-hidden="true" /> Best Scores
         </button>
         <button 
           className={`subtab-button ${activeSubtab === 'recent' ? 'active' : ''}`}
           onClick={() => handleSubtabClick('recent')}
         >
-          <FontAwesomeIcon icon={faHistory} className="subtab-icon" /> Recent Games
+          <FaHistory className="subtab-icon" aria-hidden="true" /> Recent Games
         </button>
       </div>
       

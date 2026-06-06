@@ -1,4 +1,4 @@
-import { BankedInfinitiesClass, AchievementTimes, Type } from './CommonStruct';
+import { BankedInfinitiesClass, AchievementTimes } from './CommonStruct';
 
 export interface BestAmSet {
     id:     string;

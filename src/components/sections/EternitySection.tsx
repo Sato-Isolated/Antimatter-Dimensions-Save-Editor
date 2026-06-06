@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import SectionShell, { SectionShellTab } from './SectionShell';
-import { FaHourglassHalf, FaArrowUp, FaTrophy, FaGem } from 'react-icons/fa';
+import { FaHourglassHalf, FaTrophy, FaGem } from 'react-icons/fa';
 import BigNumberInput from '../BigNumberInput';
 import JsonTextareaField from '../JsonTextareaField';
 import { parseNumericInput } from './fieldHelpers';

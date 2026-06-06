@@ -23,11 +23,7 @@ export default defineConfig({
             return;
           }
 
-          if (
-            id.includes('@fortawesome')
-            || id.includes('font-awesome')
-            || id.includes('react-icons')
-          ) {
+          if (id.includes('react-icons')) {
             return 'vendor-icons';
           }
 

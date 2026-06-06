@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaTrophy, FaInfinity, FaHourglassHalf } from 'react-icons/fa';
 import { SaveType } from '../../services/SaveService';
-import { 
-  AntimatterDimensionsStruct,
-  AndroidStruct as AntimatterDimensionsStructAndroid
-} from '../../Struct';
+import { AntimatterDimensionsStruct } from '../../Struct';
 import BigNumberInput from '../BigNumberInput';
 
 const ChallengesSection: React.FC<SectionProps> = ({
@@ -28,7 +25,6 @@ const ChallengesSection: React.FC<SectionProps> = ({
 
   // Cast saveData to specific type when needed
   const pcSaveData = isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
-  const androidSaveData = !isPCFormat() ? saveData as AntimatterDimensionsStructAndroid : null;
 
   return (
     <div className="section-pane active" id="challenges">

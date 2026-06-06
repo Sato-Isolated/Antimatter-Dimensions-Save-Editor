@@ -5,10 +5,7 @@ import { FaSuperscript, FaInfinity, FaHourglassHalf, FaSun } from 'react-icons/f
 import BigNumberInput from '../BigNumberInput';
 import { SaveType } from '../../services/SaveService';
 import { parseNumericInput } from './fieldHelpers';
-import { 
-  AntimatterDimensionsStruct,
-  AndroidStruct as AntimatterDimensionsStructAndroid
-} from '../../Struct';
+import { AntimatterDimensionsStruct } from '../../Struct';
 
 const GeneralSection: React.FC<SectionProps> = ({ 
   saveData, 
@@ -28,34 +25,10 @@ const GeneralSection: React.FC<SectionProps> = ({
     return saveType === SaveType.PC ? saveData as AntimatterDimensionsStruct : null;
   };
 
-  // Helper for safely accessing Android-specific properties
-  const getAndroidData = (): AntimatterDimensionsStructAndroid | null => {
-    return saveType === SaveType.Android ? saveData as AntimatterDimensionsStructAndroid : null;
-  };
-
-  // Check if a property exists in both PC and Android formats
-  const hasProperty = (prop: string): boolean => {
-    return prop in saveData;
-  };
-
   // Helper for handling boolean values that may not exist in Android format
   const getBooleanValue = (prop: string, defaultValue = false): boolean => {
     if (prop in saveData) {
       return Boolean(saveData[prop as keyof typeof saveData]);
-    }
-    return defaultValue;
-  };
-
-  // Helper for numeric inputs that may be different types in Android
-  const getNumericValue = (prop: string, defaultValue = 0): number => {
-    if (prop in saveData) {
-      const value = saveData[prop as keyof typeof saveData];
-      if (typeof value === 'number') {
-        return value;
-      } else if (typeof value === 'object' && value !== null && 'mantissa' in value && 'exponent' in value) {
-        // For Android BankedInfinitiesClass, show approximate value
-        return value.mantissa * Math.pow(10, value.exponent);
-      }
     }
     return defaultValue;
   };

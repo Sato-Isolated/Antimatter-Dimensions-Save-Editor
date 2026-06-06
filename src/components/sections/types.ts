@@ -8,7 +8,7 @@ import { SaveDataRecord } from '../../core/save/types';
  */
 export interface SectionProps {
   saveData: AntimatterDimensionsStruct | SaveDataRecord;
-  handleValueChange: (path: string, value: any) => void;
+  handleValueChange: (path: string, value: unknown) => void;
   renderValidationIndicator: (path: string) => React.ReactNode;
   saveType: SaveType;
 } 

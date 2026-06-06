@@ -403,7 +403,6 @@ const isPropertyRelevantForStage = (propertyPath: string, stage: ProgressionStag
  * @returns Filtered reference appropriate for the stage
  */
 const createStageAppropriateReference = (fullReference: any, stage: ProgressionStage, saveType: SaveType): any => {
-  const requiredProperties = getRequiredPropertiesByStage(stage, saveType);
   const stageReference: any = {};
   
   // Helper function to recursively filter properties

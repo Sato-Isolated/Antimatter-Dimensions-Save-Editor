@@ -87,7 +87,7 @@
       opacity: 0.05;
     }
     
-    i {
+    svg {
       transform: scale(1.1);
       color: var(--primary-color);
     }
@@ -99,12 +99,12 @@
     font-weight: var.$font-weight-semibold;
     transform: translateX(5px);
     
-    i {
+    svg {
       transform: scale(1.2);
     }
   }
 
-  i {
+  svg {
     margin-right: var.$spacing-lg;
     font-size: var.$font-size-lg;
     position: relative;
@@ -133,7 +133,7 @@
       transform: translateY(-2px);
     }
     
-    i {
+    svg {
       margin-right: var.$spacing-md;
     }
   }
@@ -179,7 +179,7 @@
   }
 }
 
-// Support des préférences de réduction de mouvement
+// Reduced motion support
 @include mix.reduced-motion {
   .subtab-button .subtab-icon,
   .subtab-content,
@@ -331,7 +331,7 @@
   }
 }
 
-/* Grille de dimensions améliorée */
+/* Enhanced dimensions grid */
 .dimensions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

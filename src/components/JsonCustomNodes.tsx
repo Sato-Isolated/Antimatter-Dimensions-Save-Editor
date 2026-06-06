@@ -18,7 +18,7 @@ const formatTime = (timeInMs: number) => {
 };
 
 // Timestamp formatter
-const TimestampNode = ({ value, path, onEdit }: any) => {
+const TimestampNode = ({ value, onEdit }: any) => {
   const dateString = new Date(value).toLocaleString();
   
   return (
@@ -41,7 +41,7 @@ const TimestampNode = ({ value, path, onEdit }: any) => {
 };
 
 // Duration formatter
-const DurationNode = ({ value, path, onEdit }: any) => {
+const DurationNode = ({ value, onEdit }: any) => {
   return (
     <div className="custom-duration-node">
       <span
@@ -62,7 +62,7 @@ const DurationNode = ({ value, path, onEdit }: any) => {
 };
 
 // Scientific notation formatter
-const ScientificNotationNode = ({ value, path, onEdit }: any) => {
+const ScientificNotationNode = ({ value, onEdit }: any) => {
   let formattedValue = value;
   if (typeof value === 'number' && Math.abs(value) >= 1000) {
     formattedValue = value.toExponential(2);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaAndroid } from 'react-icons/fa';
 
 type WorkflowStatusBannersProps = {
   errorMessage: string | null;
@@ -16,7 +17,7 @@ const WorkflowStatusBanners: React.FC<WorkflowStatusBannersProps> = ({
       )}
 
       <div className="alert alert-info">
-        <strong><i className="fa fa-android pulse-subtle" aria-hidden="true"></i> Save support:</strong> PC and Android saves share the same workflow now. Import a save, verify the summary, then choose the structured workspace or JSON editor for deeper edits.
+        <strong><FaAndroid className="pulse-subtle" aria-hidden="true" /> Save support:</strong> PC and Android saves share the same workflow now. Import a save, verify the summary, then choose the structured workspace or JSON editor for deeper edits.
       </div>
     </>
   );

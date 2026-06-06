@@ -22,10 +22,14 @@ export interface SaveFieldDefinition {
   description: string;
   group: string;
   kind: SaveFieldKind;
+  path?: DocumentPath;
+  platformPath?: Partial<Record<SaveType, DocumentPath>>;
   platformKinds?: Partial<Record<SaveType, SaveFieldKind>>;
   nativePaths: Record<SaveType, DocumentPath[]>;
   rule?: SaveFieldRule;
+  validationRule?: SaveFieldRule;
   platformRules?: Partial<Record<SaveType, SaveFieldRule>>;
+  parser?: (value: string, saveType: SaveType) => unknown;
 }
 
 export interface SaveFieldSectionDefinition {
@@ -35,7 +39,15 @@ export interface SaveFieldSectionDefinition {
   fields: SaveFieldDefinition[];
 }
 
-const buildField = (field: SaveFieldDefinition): SaveFieldDefinition => field;
+const buildField = (field: SaveFieldDefinition): SaveFieldDefinition => ({
+  ...field,
+  path: field.path ?? field.nativePaths[SaveType.PC][0],
+  platformPath: field.platformPath ?? {
+    [SaveType.PC]: field.nativePaths[SaveType.PC][0],
+    [SaveType.Android]: field.nativePaths[SaveType.Android][0],
+  },
+  validationRule: field.validationRule ?? field.rule,
+});
 
 export const saveEditorSections: SaveFieldSectionDefinition[] = [
   {

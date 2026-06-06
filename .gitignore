@@ -1,8 +1,12 @@
 # Dependencies
 node_modules/
 dist/
-.github/
-.!.github/agents/
-.!.github/instructions/
-.vscode/
-.!.vscode/
+scss/main.css
+scss/main.css.map
+.github/*
+!.github/
+!.github/agents/
+!.github/instructions/
+.vscode/*
+!.vscode/
+!.vscode/settings.json

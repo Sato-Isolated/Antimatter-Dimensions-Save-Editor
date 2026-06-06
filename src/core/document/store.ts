@@ -1,5 +1,10 @@
 import { setValueAtPath } from './path';
-import { cloneSaveData, decodeSaveString, encodeSaveData, validateDecodedSave } from '../save/serialization';
+import {
+  cloneSaveDataPreservingSpecialValues,
+  decodeSaveString,
+  encodeSaveData,
+  validateDecodedSave,
+} from '../save/serialization';
 import { validateRegisteredFields } from '../save/fieldRegistry';
 import {
   DocumentPath,
@@ -11,12 +16,6 @@ import {
 } from '../save/types';
 
 type Listener = () => void;
-
-const createEmptyValidation = () => ({
-  success: true,
-  stage: 'early' as const,
-  issues: [],
-});
 
 const buildDocumentValidation = (workingData: SaveDataRecord, saveType: SaveType) => {
   const baseValidation = validateDecodedSave(workingData);
@@ -81,8 +80,8 @@ export class SaveEditorStore {
       return { success: false, errorMessage };
     }
 
-    const originalData = cloneSaveData(decryptResult.data);
-    const workingData = cloneSaveData(decryptResult.data);
+    const originalData = cloneSaveDataPreservingSpecialValues(decryptResult.data);
+    const workingData = cloneSaveDataPreservingSpecialValues(decryptResult.data);
     const document: SaveDocumentSnapshot = {
       sourceType: decryptResult.saveType,
       originalData,

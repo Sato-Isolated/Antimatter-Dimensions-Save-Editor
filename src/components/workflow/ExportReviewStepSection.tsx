@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaCopy, FaLock } from 'react-icons/fa';
 import StatusChip from './StatusChip';
 import WorkflowActionRow from './WorkflowActionRow';
 import WorkflowStepCard from './WorkflowStepCard';
@@ -73,10 +74,10 @@ const ExportReviewStepSection: React.FC<ExportReviewStepSectionProps> = ({
       </div>
       <WorkflowActionRow ariaLabel="Export actions">
         <button ref={encryptButtonRef} id="encryptButton" className="btn primary" onClick={onEncrypt} disabled={!canEncrypt}>
-          <i className="fa fa-lock"></i> Encrypt
+          <FaLock aria-hidden="true" /> Encrypt
         </button>
         <button ref={copyButtonRef} id="copyButton" className="btn secondary" onClick={onCopy} disabled={!canCopy}>
-          <i className="fa fa-copy"></i> Copy
+          <FaCopy aria-hidden="true" /> Copy
         </button>
       </WorkflowActionRow>
     </WorkflowStepCard>

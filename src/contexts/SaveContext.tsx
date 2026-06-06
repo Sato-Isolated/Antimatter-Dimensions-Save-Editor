@@ -43,7 +43,7 @@ export interface SaveContextType {
   errorMessage: string | null;
   decryptSave: () => void;
   encryptSave: () => string;
-  updateSaveData: (path: string, value: any) => void;
+  updateSaveData: (path: string, value: unknown) => void;
   setRawSaveData: (data: string) => void;
   testSave: () => void;
 }
@@ -52,7 +52,7 @@ interface SaveActions {
   setRawSaveData: (data: string) => void;
   decryptSave: () => void;
   encryptSave: () => string;
-  updateSaveData: (path: string, value: any) => void;
+  updateSaveData: (path: string, value: unknown) => void;
   replaceSaveData: (data: SaveDataRecord) => void;
   testSave: () => Promise<void>;
   setTestResults: (results: SaveTestResults | null) => void;
@@ -203,7 +203,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
         }
 
         const results = testSaveData(encrypted, saveJsonContent);
-        const realityCheck = checkRealitySection(modifiedSaveData as any);
+        const realityCheck = checkRealitySection(modifiedSaveData as never);
         const comparisonErrors: string[] = [];
 
         if (comparisonReferenceAsset && results.decryptedData) {
@@ -243,7 +243,7 @@ export const SaveProvider: React.FC<SaveProviderProps> = ({ children }) => {
         store.loadFromEncoded();
       },
       encryptSave: () => store.encodeWorkingData(),
-      updateSaveData: (path: string, value: any) => {
+      updateSaveData: (path: string, value: unknown) => {
         if (!path) {
           store.replaceWorkingData(value as SaveDataRecord, 'json');
           return;

@@ -121,7 +121,7 @@
     border: 1px solid rgba(var(--info-color-rgb), 0.3);
     color: var(--info-color);
     
-    i {
+    svg {
       margin-right: 0.5rem;
     }
     
@@ -320,11 +320,11 @@ html {
   top: 50%;
   transform: translateY(-50%);
   
-  &.valid i {
+  &.valid svg {
     color: #28a745;
   }
   
-  &.invalid i {
+  &.invalid svg {
     color: #dc3545;
   }
 }

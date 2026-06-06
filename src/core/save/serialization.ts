@@ -344,6 +344,30 @@ export const decodeSaveString = (encodedSaveData: string): SaveDecodeResult => {
   }
 };
 
-export const cloneSaveData = <T extends SaveDataRecord>(value: T): T => {
-  return JSON.parse(JSON.stringify(value)) as T;
+const cloneSpecialJsonValue = <T,>(value: T): T => {
+  if (Array.isArray(value)) {
+    return value.map((entry) => cloneSpecialJsonValue(entry)) as T;
+  }
+
+  if (value instanceof Set) {
+    return new Set([...value].map((entry) => cloneSpecialJsonValue(entry))) as T;
+  }
+
+  if (value instanceof Date) {
+    return new Date(value.getTime()) as T;
+  }
+
+  if (isObjectRecord(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, cloneSpecialJsonValue(entry)])
+    ) as T;
+  }
+
+  return value;
 };
+
+export const cloneSaveDataPreservingSpecialValues = <T extends SaveDataRecord>(value: T): T => {
+  return cloneSpecialJsonValue(value);
+};
+
+export const cloneSaveData = cloneSaveDataPreservingSpecialValues;

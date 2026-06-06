@@ -1,4 +1,4 @@
-import { Type, BestAmSet } from './RecordsStruct';
+import { Type } from './RecordsStruct';
 import { EternityChalls } from './EternityStruct';
 
 export interface AntimatterDimensionsStructReality {

@@ -3,7 +3,7 @@
 
 /* Header styles */
 
-// Animation de l'icône
+// Icon animation
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -74,7 +74,7 @@
     font-weight: var.$font-weight-bold;
     color: var(--primary-color);
 
-    i {
+    svg {
       font-size: 1.5em;
       
       &.spin {
@@ -192,7 +192,7 @@
       box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.18);
     }
 
-    i {
+    svg {
       font-size: var.$font-size-lg;
     }
 

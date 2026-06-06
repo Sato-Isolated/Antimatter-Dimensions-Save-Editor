@@ -3,7 +3,6 @@ import { SectionProps } from './types';
 import { FaGlobe, FaArrowCircleRight, FaCube, FaChartLine } from 'react-icons/fa';
 import { SaveType } from '../../services/SaveService';
 import { 
-  AntimatterDimensionsStruct,
   PCStruct,
   AndroidStruct
 } from '../../Struct';
