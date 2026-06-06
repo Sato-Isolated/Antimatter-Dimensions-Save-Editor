@@ -1,9 +1,6 @@
 @use '../base/variables' as var;
 @use '../base/mixins' as mix;
 
-/* Header styles */
-
-// Icon animation
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -21,199 +18,107 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: color-mix(in srgb, var(--header-bg) 95%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(var(--border-color-rgb), 0.92);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
-  padding: var.$spacing-md var.$spacing-lg;
-  transition: all 0.3s ease;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--tool-border, var(--border-color));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    color-mix(in srgb, var(--header-bg, var(--card-bg)) 94%, transparent);
+  backdrop-filter: blur(16px);
 
   .header-content {
-    width: 100%;
-    max-width: 1680px;
+    width: min(100%, 1720px);
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: var.$spacing-lg;
+    gap: 1rem;
+  }
 
-    @include mix.mobile {
-      padding: var.$spacing-sm;
-      flex-direction: column;
-      gap: var.$spacing-sm;
-      text-align: left;
-
-      h1 {
-        font-size: var.$font-size-xl;
-        
-        .spin {
-          margin-right: var.$spacing-xs;
-        }
-      }
-
-      .header-meta {
-        justify-content: stretch;
-        width: 100%;
-      }
-    }
-
-    @include mix.tablet {
-      padding: var.$spacing-md;
-
-      h1 {
-        font-size: var.$font-size-2xl;
-      }
-    }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
   }
 
   h1 {
     display: flex;
     align-items: center;
-    gap: var.$spacing-md;
-    font-size: var.$font-size-xl;
-    font-weight: var.$font-weight-bold;
-    color: var(--primary-color);
+    gap: 0.65rem;
+    margin: 0;
+    color: var(--title-color);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
 
     svg {
-      font-size: 1.5em;
-      
+      width: 1.75rem;
+      height: 1.75rem;
+      color: var(--primary-color);
+
       &.spin {
-        animation: spin 4s linear infinite;
         animation-play-state: paused;
-        
+
         @media (prefers-reduced-motion: no-preference) {
           animation-play-state: running;
         }
       }
     }
-
-    @include mix.mobile {
-      font-size: var.$font-size-lg;
-    }
   }
 
-  .header-brand {
-    display: grid;
-    gap: 0.55rem;
-    min-width: 0;
-  }
-
-  .header-subtitle {
-    max-width: 48rem;
-    color: color-mix(in srgb, var(--text-color) 74%, var(--text-muted));
-    margin: 0;
-  }
-
-  .header-meta {
-    display: flex;
-    align-items: stretch;
-    gap: var.$spacing-md;
-
-    @include mix.mobile {
-      flex-direction: column;
-    }
-  }
-
-  .header-status {
-    min-width: 18rem;
-    display: grid;
-    gap: 0.4rem;
-    padding: 0.9rem 1.05rem;
-    border-radius: var.$border-radius-lg;
-    border: 1px solid rgba(var(--primary-color-rgb), 0.24);
-    background:
-      linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.16), rgba(var(--primary-color-rgb), 0.05)),
-      color-mix(in srgb, var(--card-bg) 88%, var(--header-bg));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-
-  .header-status-label {
-    margin: 0;
-    font-size: var.$font-size-xs;
-    font-weight: var.$font-weight-bold;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--primary-color);
-  }
-
-  .header-status-copy {
-    margin: 0;
-    font-size: var.$font-size-sm;
-    color: var(--text-color);
-    font-weight: var.$font-weight-medium;
-    line-height: 1.45;
-
-    &.success {
-      color: var(--success-color);
-    }
-
-    &.danger {
-      color: var(--danger-color);
-    }
-  }
-
-  .header-actions {
-    display: flex;
+  .header-version,
+  .header-platform {
+    display: inline-flex;
     align-items: center;
-    gap: var.$spacing-sm;
-
-    @include mix.mobile {
-      width: 100%;
-
-      .btn,
-      .github-button {
-        flex: 1;
-      }
-    }
+    min-height: 1.75rem;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--tool-border, var(--border-color));
+    border-radius: 6px;
+    background: var(--tool-panel-bg, var(--card-bg));
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
   }
 
+  .header-meta,
+  .header-actions,
   .github-button {
     display: flex;
     align-items: center;
-    gap: var.$spacing-sm;
-    padding: var.$spacing-sm var.$spacing-md;
-    border-radius: var.$border-radius-lg;
-    background: var(--button-ghost);
+    gap: 0.65rem;
+  }
+
+  .github-button {
+    min-height: 2rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
     color: var(--text-color);
-    font-weight: var.$font-weight-medium;
-    transition: all 0.3s ease;
+    font-size: 0.88rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease;
 
     &:hover {
       background: var(--button-ghost-hover);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
+      color: var(--primary-color);
     }
 
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.18);
     }
-
-    svg {
-      font-size: var.$font-size-lg;
-    }
-
-    @include mix.mobile {
-      span {
-        display: none;
-      }
-      
-      padding: var.$spacing-sm;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      justify-content: center;
-    }
   }
 
   @include mix.mobile {
-    padding: var.$spacing-sm;
-    
     .header-content {
-      gap: var.$spacing-sm;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .header-meta {
+      width: 100%;
+      justify-content: space-between;
     }
   }
 }

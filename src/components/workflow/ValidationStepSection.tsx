@@ -6,7 +6,7 @@ import {
   SaveValidationIssue,
 } from '../../core/save/types';
 import ValidationSummarySection from './ValidationSummarySection';
-import WorkflowStepCard from './WorkflowStepCard';
+import WorkflowPanel from './WorkflowPanel';
 
 type ValidationStepSectionProps = {
   isLoaded: boolean;
@@ -32,9 +32,10 @@ const ValidationStepSection: React.FC<ValidationStepSectionProps> = ({
   runStructureTestButtonRef,
 }) => {
   return (
-    <WorkflowStepCard
+    <WorkflowPanel
       step="Step 2"
       title="Validation summary"
+      summary="Run registry and structure checks before editing or exporting."
       headerAside={(
         <button
           ref={runStructureTestButtonRef}
@@ -55,7 +56,7 @@ const ValidationStepSection: React.FC<ValidationStepSectionProps> = ({
         testResults={testResults}
         formattedLastChange={formattedLastChange}
       />
-    </WorkflowStepCard>
+    </WorkflowPanel>
   );
 };
 

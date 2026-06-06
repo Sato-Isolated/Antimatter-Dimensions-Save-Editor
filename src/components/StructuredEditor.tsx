@@ -1,4 +1,21 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import type { IconType } from 'react-icons';
+import {
+  FaAtom,
+  FaCircleNotch,
+  FaClone,
+  FaCog,
+  FaCube,
+  FaExpand,
+  FaGem,
+  FaHistory,
+  FaHourglassHalf,
+  FaInfinity,
+  FaRobot,
+  FaStar,
+  FaSun,
+  FaTrophy,
+} from 'react-icons/fa';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
 import { tokenizeDocumentPath } from '../core/document/path';
 import { SaveValidationIssue } from '../core/save/types';
@@ -31,6 +48,7 @@ interface StructuredSectionDefinition {
   description: string;
   Component: React.ComponentType<SectionProps>;
   issuePrefixes: string[];
+  Icon: IconType;
 }
 
 const structuredSectionGroups: Array<StructuredSectionDefinition['group']> = [
@@ -46,6 +64,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'General',
     description: 'Core progression, currencies, and top-level save values.',
     Component: GeneralSection,
+    Icon: FaAtom,
     issuePrefixes: [
       'antimatter',
       'matter',
@@ -68,6 +87,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Dimensions',
     description: 'Antimatter, Infinity, Time, Eternity, and Reality dimensions.',
     Component: DimensionsSection,
+    Icon: FaCube,
     issuePrefixes: [
       'dimensions.antimatter',
       'dimensions.infinity',
@@ -82,6 +102,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Replicanti',
     description: 'Replicanti settings, upgrades, and galaxy growth.',
     Component: ReplicantiSection,
+    Icon: FaClone,
     issuePrefixes: ['replicanti'],
   },
   {
@@ -90,6 +111,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Infinity',
     description: 'Infinity resources, upgrades, and related progression.',
     Component: InfinitySection,
+    Icon: FaInfinity,
     issuePrefixes: [
       'infinity',
       'infinityPoints',
@@ -109,6 +131,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Eternity',
     description: 'Eternity currencies, studies, and related progression.',
     Component: EternitySection,
+    Icon: FaHourglassHalf,
     issuePrefixes: [
       'eternity',
       'eternityPoints',
@@ -124,6 +147,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Dilation',
     description: 'Time dilation resources, upgrades, and rebuyables.',
     Component: DilationSection,
+    Icon: FaExpand,
     issuePrefixes: ['dilation', 'dilatedTime', 'tachyonParticles'],
   },
   {
@@ -132,6 +156,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Reality',
     description: 'Reality progression, machines, and automator state.',
     Component: RealitySection,
+    Icon: FaSun,
     issuePrefixes: ['realities', 'partSimulatedReality', 'reality'],
   },
   {
@@ -140,6 +165,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Glyphs',
     description: 'Glyph inventory, filter state, and sacrifice progress.',
     Component: GlyphsSection,
+    Icon: FaGem,
     issuePrefixes: ['glyphs', 'reality.glyphs', 'sac'],
   },
   {
@@ -148,6 +174,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Celestials',
     description: 'Celestial progression, unlocks, and run-specific data.',
     Component: CelestialsSection,
+    Icon: FaStar,
     issuePrefixes: ['celestials'],
   },
   {
@@ -156,6 +183,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Black Holes',
     description: 'Black hole upgrades, intervals, and state.',
     Component: BlackHolesSection,
+    Icon: FaCircleNotch,
     issuePrefixes: ['blackHole', 'blackHolePause', 'reality.blackHoleBits'],
   },
   {
@@ -164,6 +192,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Challenges',
     description: 'Normal, Infinity, Eternity, and Reality challenge state.',
     Component: ChallengesSection,
+    Icon: FaTrophy,
     issuePrefixes: ['challenge', 'challenges'],
   },
   {
@@ -172,6 +201,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Autobuyers',
     description: 'Automation toggles, intervals, and purchase settings.',
     Component: AutoBuyersSection,
+    Icon: FaRobot,
     issuePrefixes: ['auto', 'autobuyer'],
   },
   {
@@ -180,6 +210,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Records',
     description: 'Timers, best runs, and historical milestone records.',
     Component: RecordsSection,
+    Icon: FaHistory,
     issuePrefixes: ['records', 'lastTen', 'best'],
   },
   {
@@ -188,6 +219,7 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Settings',
     description: 'Options, confirmations, UI preferences, and toggles.',
     Component: SettingsSection,
+    Icon: FaCog,
     issuePrefixes: ['options'],
   },
 ];
@@ -416,6 +448,7 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
                   const isSelected = section.id === activeSection.id;
                   const issues = sectionIssues[section.id] ?? [];
                   const severityClass = issues.length > 0 ? severityClassByIssue(issues) : 'neutral';
+                  const SectionIcon = section.Icon;
 
                   return (
                     <button
@@ -429,7 +462,10 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
                         ? `${section.title}, ${issues.length} issue${issues.length === 1 ? '' : 's'}`
                         : `${section.title}, no issues`}
                     >
-                      <span>{section.title}</span>
+                      <span className="section-button-label">
+                        <SectionIcon className="section-button-icon" aria-hidden="true" />
+                        <span>{section.title}</span>
+                      </span>
                       {issues.length > 0 && (
                         <span className={`status-chip ${severityClass}`} aria-hidden="true">
                           {issues.length}

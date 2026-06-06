@@ -1,7 +1,7 @@
 import React from 'react';
-import WorkflowStepCard from './WorkflowStepCard';
 import WorkspacePanels from './WorkspacePanels';
 import WorkspaceViewTabs from './WorkspaceViewTabs';
+import WorkflowPanel from './WorkflowPanel';
 import { WorkspaceView, workspaceViews } from './workspaceView';
 
 type WorkflowWorkspaceStepSectionProps = {
@@ -36,10 +36,10 @@ const WorkflowWorkspaceStepSection: React.FC<WorkflowWorkspaceStepSectionProps> 
   panelIdForView,
 }) => {
   return (
-    <WorkflowStepCard
+    <WorkflowPanel
       step="Step 3"
       title="Edit workspace"
-      summary="Use the structured editor for safe field-level changes, switch to JSON for expert edits, or open preferences to adjust the shell."
+      summary="Use structured fields for safe edits, JSON for expert changes, or preferences for the shell."
       headerAside={(
         <WorkspaceViewTabs
           views={workspaceViews}
@@ -65,7 +65,7 @@ const WorkflowWorkspaceStepSection: React.FC<WorkflowWorkspaceStepSectionProps> 
         tabIdForView={tabIdForView}
         panelIdForView={panelIdForView}
       />
-    </WorkflowStepCard>
+    </WorkflowPanel>
   );
 };
 

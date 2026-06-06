@@ -1,13 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
+import CommandBarActions from './workflow/CommandBarActions';
 import ExportReviewStepSection from './workflow/ExportReviewStepSection';
 import ImportStepSection from './workflow/ImportStepSection';
+import SaveInspector from './workflow/SaveInspector';
 import WorkflowAnnouncements from './workflow/WorkflowAnnouncements';
-import WorkflowHeroSection from './workflow/WorkflowHeroSection';
+import WorkflowRail from './workflow/WorkflowRail';
 import WorkflowStatusBanners from './workflow/WorkflowStatusBanners';
 import WorkflowWorkspaceStepSection from './workflow/WorkflowWorkspaceStepSection';
 import ValidationStepSection from './workflow/ValidationStepSection';
 import { WorkspaceView } from './workflow/workspaceView';
+import { WorkflowStepId, workflowSteps } from './workflow/workflowSteps';
 import { useShellAnnouncements } from './workflow/useShellAnnouncements';
 import { useShellKeyboardShortcuts } from './workflow/useShellKeyboardShortcuts';
 
@@ -20,6 +23,7 @@ const formatChangeTime = (timestamp: number | null): string => {
 };
 
 const Main: React.FC = () => {
+  const [activeWorkflowStep, setActiveWorkflowStep] = useState<WorkflowStepId>('import');
   const [workspaceView, setWorkspaceView] = useState<WorkspaceView>('structured');
   const [hasMountedJsonEditor, setHasMountedJsonEditor] = useState(false);
   const structuredPanelRef = useRef<HTMLElement | null>(null);
@@ -31,8 +35,9 @@ const Main: React.FC = () => {
   const copyButtonRef = useRef<HTMLButtonElement | null>(null);
   const exportOutputRef = useRef<HTMLTextAreaElement | null>(null);
   const hasFocusedWorkspacePanel = useRef(false);
-  const tabIdForView = (view: WorkspaceView): string => `workspace-tab-${view}`;
-  const panelIdForView = (view: WorkspaceView): string => `workspace-panel-${view}`;
+  const wasLoadedRef = useRef(false);
+  const tabIdForView = useCallback((view: WorkspaceView): string => `workspace-tab-${view}`, []);
+  const panelIdForView = useCallback((view: WorkspaceView): string => `workspace-panel-${view}`, []);
 
   useEffect(() => {
     if (!hasFocusedWorkspacePanel.current) {
@@ -67,6 +72,7 @@ const Main: React.FC = () => {
   const validationIssues = saveDocument?.validation.issues ?? [];
   const validationErrors = validationIssues.filter((issue) => issue.severity === 'error');
   const validationWarnings = validationIssues.filter((issue) => issue.severity === 'warning');
+  const saveTypeLabel = saveType.toUpperCase();
   const reviewMessage = !isLoaded
     ? 'Import and decode a save before generating an export string.'
     : encodedOutputData
@@ -89,7 +95,55 @@ const Main: React.FC = () => {
     testResults,
   });
 
+  useEffect(() => {
+    if (isLoaded && !wasLoadedRef.current) {
+      setActiveWorkflowStep('edit');
+    }
+
+    wasLoadedRef.current = isLoaded;
+  }, [isLoaded]);
+
+  const focusAfterStepChange = useCallback((focusCallback: () => void): void => {
+    window.setTimeout(focusCallback, 0);
+  }, []);
+
+  const focusImportInput = useCallback(() => {
+    setActiveWorkflowStep('import');
+    focusAfterStepChange(() => importInputRef.current?.focus());
+  }, [focusAfterStepChange]);
+
+  const focusRunValidationButton = useCallback(() => {
+    setActiveWorkflowStep('validate');
+    focusAfterStepChange(() => runStructureTestButtonRef.current?.focus());
+  }, [focusAfterStepChange]);
+
+  const focusCurrentWorkspaceTab = useCallback(() => {
+    setActiveWorkflowStep('edit');
+    focusAfterStepChange(() => {
+      const tabElement = globalThis.document.getElementById(tabIdForView(workspaceView));
+      if (tabElement instanceof HTMLButtonElement) {
+        tabElement.focus();
+      }
+    });
+  }, [focusAfterStepChange, tabIdForView, workspaceView]);
+
+  const focusExportOutput = useCallback(() => {
+    setActiveWorkflowStep('export');
+    focusAfterStepChange(() => exportOutputRef.current?.focus());
+  }, [focusAfterStepChange]);
+
+  const focusEncryptButton = useCallback(() => {
+    setActiveWorkflowStep('export');
+    focusAfterStepChange(() => encryptButtonRef.current?.focus());
+  }, [focusAfterStepChange]);
+
+  const focusCopyButton = useCallback(() => {
+    setActiveWorkflowStep('export');
+    focusAfterStepChange(() => copyButtonRef.current?.focus());
+  }, [focusAfterStepChange]);
+
   const handleWorkspaceViewChange = (nextView: WorkspaceView) => {
+    setActiveWorkflowStep('edit');
     setWorkspaceView(nextView);
     if (nextView === 'json') {
       setHasMountedJsonEditor(true);
@@ -104,6 +158,7 @@ const Main: React.FC = () => {
   };
   
   const handlePaste = async () => {
+    setActiveWorkflowStep('import');
     try {
       const text = await navigator.clipboard.readText();
       setRawSaveData(text);
@@ -116,21 +171,25 @@ const Main: React.FC = () => {
   };
   
   const handleDecrypt = () => {
+    setActiveWorkflowStep('validate');
     decryptSave();
     announceStatus('Decrypting the imported save.');
   };
 
   const handleRunStructureTest = () => {
+    setActiveWorkflowStep('validate');
     testSave();
     announceStatus('Running the structure test.');
   };
   
   const handleEncrypt = () => {
+    setActiveWorkflowStep('export');
     encryptSave();
     announceStatus('Generating the encrypted export string.');
   };
   
   const handleCopy = async () => {
+    setActiveWorkflowStep('export');
     try {
       if (encodedOutputData) {
         await navigator.clipboard.writeText(encodedOutputData);
@@ -142,12 +201,37 @@ const Main: React.FC = () => {
     }
   };
 
-  const focusCurrentWorkspaceTab = () => {
-    const tabElement = globalThis.document.getElementById(tabIdForView(workspaceView));
-    if (tabElement instanceof HTMLButtonElement) {
-      tabElement.focus();
-    }
-  };
+  const stepStatusById = useMemo(() => ({
+    import: isLoaded
+      ? { label: 'Decoded', variant: 'success' as const }
+      : rawSaveData.trim()
+        ? { label: 'Input ready', variant: 'warning' as const }
+        : { label: 'Awaiting import', variant: 'neutral' as const },
+    validate: !isLoaded
+      ? { label: 'No save', variant: 'neutral' as const }
+      : validationErrors.length > 0
+        ? { label: `${validationErrors.length} errors`, variant: 'danger' as const }
+        : validationWarnings.length > 0
+          ? { label: `${validationWarnings.length} warnings`, variant: 'warning' as const }
+          : { label: 'Clear', variant: 'success' as const },
+    edit: !isLoaded
+      ? { label: 'Locked', variant: 'neutral' as const }
+      : isDirty
+        ? { label: 'Unsaved', variant: 'warning' as const }
+        : { label: 'Ready', variant: 'success' as const },
+    export: encodedOutputData
+      ? { label: 'Ready', variant: 'success' as const }
+      : isDirty
+        ? { label: 'Pending', variant: 'warning' as const }
+        : { label: 'Not generated', variant: 'neutral' as const },
+  }), [
+    encodedOutputData,
+    isDirty,
+    isLoaded,
+    rawSaveData,
+    validationErrors.length,
+    validationWarnings.length,
+  ]);
 
   useShellKeyboardShortcuts({
     onPaste: handlePaste,
@@ -158,81 +242,119 @@ const Main: React.FC = () => {
     canRunStructureTest: isLoaded,
     canEncrypt: isLoaded,
     canCopy: Boolean(encodedOutputData),
-    importInputRef,
-    runStructureTestButtonRef,
-    encryptButtonRef,
-    copyButtonRef,
     focusCurrentWorkspaceTab,
-    exportOutputRef,
+    focusImportInput,
+    focusRunValidationButton,
+    focusExportOutput,
+    focusEncryptButton,
+    focusCopyButton,
   });
   
   return (
     <main className="editor-container workflow-shell" id="save-editor">
       <WorkflowAnnouncements statusMessage={statusAnnouncement} alertMessage={alertAnnouncement} />
 
-      <div className="main-content">
-        <WorkflowHeroSection
+      <div className="compact-tool-shell">
+        <CommandBarActions
+          activeStep={activeWorkflowStep}
           isLoaded={isLoaded}
           isDirty={isDirty}
-          saveTypeLabel={saveType.toUpperCase()}
-          validationIssueCount={validationIssues.length}
-          validationErrorCount={validationErrors.length}
-          validationWarningCount={validationWarnings.length}
-        />
-
-        <WorkflowStatusBanners errorMessage={errorMessage} />
-        
-        <ImportStepSection
-          rawSaveData={rawSaveData}
-          onRawSaveDataChange={setRawSaveData}
+          saveTypeLabel={saveTypeLabel}
+          encodedOutputData={encodedOutputData}
           onPaste={handlePaste}
           onDecrypt={handleDecrypt}
-          importInputRef={importInputRef}
-        />
-        
-        <ValidationStepSection
-          isLoaded={isLoaded}
-          document={saveDocument}
-          validationIssues={validationIssues}
-          validationErrorCount={validationErrors.length}
-          validationWarningCount={validationWarnings.length}
-          testResults={testResults}
-          formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
           onRunStructureTest={handleRunStructureTest}
-          runStructureTestButtonRef={runStructureTestButtonRef}
-        />
-
-        <WorkflowWorkspaceStepSection
-          workspaceView={workspaceView}
-          onWorkspaceViewChange={handleWorkspaceViewChange}
-          hasMountedJsonEditor={hasMountedJsonEditor}
-          isDirty={isDirty}
-          isLoaded={isLoaded}
-          saveType={saveType}
-          errorMessage={errorMessage}
-          lastChangeSource={lastChange?.source ?? 'none'}
-          structuredPanelRef={structuredPanelRef}
-          jsonPanelRef={jsonPanelRef}
-          settingsPanelRef={settingsPanelRef}
-          tabIdForView={tabIdForView}
-          panelIdForView={panelIdForView}
-        />
-        
-        <ExportReviewStepSection
-          isLoaded={isLoaded}
-          saveTypeLabel={saveType.toUpperCase()}
-          isDirty={isDirty}
-          lastChangePath={lastChange?.path || 'Root document'}
-          reviewMessage={reviewMessage}
-          encodedOutputData={encodedOutputData}
           onEncrypt={handleEncrypt}
           onCopy={handleCopy}
-          canEncrypt={isLoaded}
-          canCopy={Boolean(encodedOutputData)}
-          exportOutputRef={exportOutputRef}
-          encryptButtonRef={encryptButtonRef}
-          copyButtonRef={copyButtonRef}
         />
+
+        <div className="compact-tool-layout">
+          <WorkflowRail
+            steps={workflowSteps}
+            activeStep={activeWorkflowStep}
+            statusByStep={stepStatusById}
+            onStepSelect={setActiveWorkflowStep}
+          />
+
+          <div className="tool-workspace">
+            <WorkflowStatusBanners errorMessage={errorMessage} />
+            
+            {activeWorkflowStep === 'import' && (
+              <ImportStepSection
+                rawSaveData={rawSaveData}
+                onRawSaveDataChange={setRawSaveData}
+                onPaste={handlePaste}
+                onDecrypt={handleDecrypt}
+                importInputRef={importInputRef}
+              />
+            )}
+            
+            {activeWorkflowStep === 'validate' && (
+              <ValidationStepSection
+                isLoaded={isLoaded}
+                document={saveDocument}
+                validationIssues={validationIssues}
+                validationErrorCount={validationErrors.length}
+                validationWarningCount={validationWarnings.length}
+                testResults={testResults}
+                formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
+                onRunStructureTest={handleRunStructureTest}
+                runStructureTestButtonRef={runStructureTestButtonRef}
+              />
+            )}
+
+            {activeWorkflowStep === 'edit' && (
+              <WorkflowWorkspaceStepSection
+                workspaceView={workspaceView}
+                onWorkspaceViewChange={handleWorkspaceViewChange}
+                hasMountedJsonEditor={hasMountedJsonEditor}
+                isDirty={isDirty}
+                isLoaded={isLoaded}
+                saveType={saveType}
+                errorMessage={errorMessage}
+                lastChangeSource={lastChange?.source ?? 'none'}
+                structuredPanelRef={structuredPanelRef}
+                jsonPanelRef={jsonPanelRef}
+                settingsPanelRef={settingsPanelRef}
+                tabIdForView={tabIdForView}
+                panelIdForView={panelIdForView}
+              />
+            )}
+            
+            {activeWorkflowStep === 'export' && (
+              <ExportReviewStepSection
+                isLoaded={isLoaded}
+                saveTypeLabel={saveTypeLabel}
+                isDirty={isDirty}
+                lastChangePath={lastChange?.path || 'Root document'}
+                reviewMessage={reviewMessage}
+                encodedOutputData={encodedOutputData}
+                onEncrypt={handleEncrypt}
+                onCopy={handleCopy}
+                canEncrypt={isLoaded}
+                canCopy={Boolean(encodedOutputData)}
+                exportOutputRef={exportOutputRef}
+                encryptButtonRef={encryptButtonRef}
+                copyButtonRef={copyButtonRef}
+              />
+            )}
+          </div>
+
+          <SaveInspector
+            activeStep={activeWorkflowStep}
+            isLoaded={isLoaded}
+            isDirty={isDirty}
+            saveTypeLabel={saveTypeLabel}
+            validationIssueCount={validationIssues.length}
+            validationErrorCount={validationErrors.length}
+            validationWarningCount={validationWarnings.length}
+            errorMessage={errorMessage}
+            testResults={testResults}
+            formattedLastChange={formatChangeTime(lastChange?.timestamp ?? null)}
+            lastChangePath={lastChange?.path || 'Root document'}
+            encodedOutputData={encodedOutputData}
+          />
+        </div>
       </div>
     </main>
   );

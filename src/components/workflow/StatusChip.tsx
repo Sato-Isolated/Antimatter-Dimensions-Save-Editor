@@ -1,6 +1,6 @@
 import React from 'react';
 
-type StatusChipVariant = 'neutral' | 'success' | 'warning' | 'danger';
+export type StatusChipVariant = 'neutral' | 'success' | 'warning' | 'danger';
 
 type StatusChipProps = {
   variant: StatusChipVariant;

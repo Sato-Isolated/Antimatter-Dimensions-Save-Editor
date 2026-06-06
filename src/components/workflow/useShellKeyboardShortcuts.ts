@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from 'react';
+import { useEffect } from 'react';
 
 type UseShellKeyboardShortcutsArgs = {
   onPaste: () => void | Promise<void>;
@@ -9,12 +9,12 @@ type UseShellKeyboardShortcutsArgs = {
   canRunStructureTest: boolean;
   canEncrypt: boolean;
   canCopy: boolean;
-  importInputRef: RefObject<HTMLTextAreaElement | null>;
-  runStructureTestButtonRef: RefObject<HTMLButtonElement | null>;
-  encryptButtonRef: RefObject<HTMLButtonElement | null>;
-  copyButtonRef: RefObject<HTMLButtonElement | null>;
   focusCurrentWorkspaceTab: () => void;
-  exportOutputRef: RefObject<HTMLTextAreaElement | null>;
+  focusImportInput: () => void;
+  focusRunValidationButton: () => void;
+  focusExportOutput: () => void;
+  focusEncryptButton: () => void;
+  focusCopyButton: () => void;
 };
 
 const isEditableTarget = (target: EventTarget | null): boolean => {
@@ -39,12 +39,12 @@ export const useShellKeyboardShortcuts = ({
   canRunStructureTest,
   canEncrypt,
   canCopy,
-  importInputRef,
-  runStructureTestButtonRef,
-  encryptButtonRef,
-  copyButtonRef,
   focusCurrentWorkspaceTab,
-  exportOutputRef,
+  focusImportInput,
+  focusRunValidationButton,
+  focusExportOutput,
+  focusEncryptButton,
+  focusCopyButton,
 }: UseShellKeyboardShortcutsArgs): void => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -55,13 +55,13 @@ export const useShellKeyboardShortcuts = ({
       if (event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
         if (normalizedKey === '1') {
           event.preventDefault();
-          importInputRef.current?.focus();
+          focusImportInput();
           return;
         }
 
         if (normalizedKey === '2') {
           event.preventDefault();
-          runStructureTestButtonRef.current?.focus();
+          focusRunValidationButton();
           return;
         }
 
@@ -73,7 +73,7 @@ export const useShellKeyboardShortcuts = ({
 
         if (normalizedKey === '4') {
           event.preventDefault();
-          exportOutputRef.current?.focus();
+          focusExportOutput();
           return;
         }
       }
@@ -92,7 +92,7 @@ export const useShellKeyboardShortcuts = ({
         event.preventDefault();
         if (canRunStructureTest) {
           onRunStructureTest();
-          runStructureTestButtonRef.current?.focus();
+          focusRunValidationButton();
         }
         return;
       }
@@ -101,7 +101,7 @@ export const useShellKeyboardShortcuts = ({
         event.preventDefault();
         if (canEncrypt) {
           onEncrypt();
-          encryptButtonRef.current?.focus();
+          focusEncryptButton();
         }
         return;
       }
@@ -110,7 +110,7 @@ export const useShellKeyboardShortcuts = ({
         event.preventDefault();
         if (canCopy) {
           void onCopy();
-          copyButtonRef.current?.focus();
+          focusCopyButton();
         }
       }
 
@@ -128,16 +128,16 @@ export const useShellKeyboardShortcuts = ({
     canCopy,
     canEncrypt,
     canRunStructureTest,
-    copyButtonRef,
-    encryptButtonRef,
-    exportOutputRef,
+    focusCopyButton,
+    focusEncryptButton,
+    focusExportOutput,
     focusCurrentWorkspaceTab,
-    importInputRef,
+    focusImportInput,
+    focusRunValidationButton,
     onCopy,
     onDecrypt,
     onEncrypt,
     onPaste,
     onRunStructureTest,
-    runStructureTestButtonRef,
   ]);
 };

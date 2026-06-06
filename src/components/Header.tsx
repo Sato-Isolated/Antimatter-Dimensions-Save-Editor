@@ -1,24 +1,8 @@
 import React from 'react';
-import { useSave } from '../contexts/SaveContext';
-import { FaAtom, FaCheckCircle, FaGithub } from 'react-icons/fa';
+import { FaAtom, FaGithub } from 'react-icons/fa';
+import { APP_VERSION } from '../appMetadata';
 
 const Header: React.FC = () => {
-  const { isLoaded, testResults, testSave } = useSave();
-
-  const structureStatus = !testResults
-    ? 'Run a save check after decrypting a save to confirm structure and registered field values.'
-    : testResults.success
-      ? 'Latest save check passed.'
-      : `Latest save check found ${testResults.errors.length} issue${testResults.errors.length === 1 ? '' : 's'}.`;
-
-  const handleTest = () => {
-    if (!isLoaded) {
-      return;
-    }
-
-    testSave();
-  };
-
   return (
     <header className="app-header" role="banner">
       <div className="header-content">
@@ -27,27 +11,12 @@ const Header: React.FC = () => {
             <FaAtom className="spin" aria-hidden="true" />
             <span>Antimatter Dimensions Editor</span>
           </h1>
-          <p className="header-subtitle">Edit, validate, and re-export PC or Android saves from a single workflow shell.</p>
+          <span className="header-version">v{APP_VERSION}</span>
         </div>
 
         <div className="header-meta">
-          <div className="header-status" aria-live="polite">
-            <p className="header-status-label">Save check status</p>
-            <p className={`header-status-copy ${testResults ? (testResults.success ? 'success' : 'danger') : 'neutral'}`}>
-              {structureStatus}
-            </p>
-          </div>
-
+          <span className="header-platform">PC / Android</span>
           <div className="header-actions">
-            <button 
-              className="btn test-button" 
-              onClick={handleTest}
-              disabled={!isLoaded}
-              title="Test the save structure and registered values"
-            >
-              <FaCheckCircle aria-hidden="true" /> Test
-            </button>
-            
             <a
               href="https://github.com/Sato-Isolated/Antimatter-Dimensions-Save-Editor"
               className="github-button"

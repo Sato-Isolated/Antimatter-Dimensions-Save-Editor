@@ -2,7 +2,7 @@ import React from 'react';
 import { FaCopy, FaLock } from 'react-icons/fa';
 import StatusChip from './StatusChip';
 import WorkflowActionRow from './WorkflowActionRow';
-import WorkflowStepCard from './WorkflowStepCard';
+import WorkflowPanel from './WorkflowPanel';
 
 type ExportReviewStepSectionProps = {
   isLoaded: boolean;
@@ -36,9 +36,10 @@ const ExportReviewStepSection: React.FC<ExportReviewStepSectionProps> = ({
   copyButtonRef,
 }) => {
   return (
-    <WorkflowStepCard
+    <WorkflowPanel
       step="Step 4"
       title="Export review"
+      summary="Review dirty state and generate the encrypted save output."
       headerAside={<StatusChip variant={encodedOutputData ? 'success' : 'neutral'}>{encodedOutputData ? 'Ready to copy' : 'Not generated'}</StatusChip>}
     >
       <div className="export-review-grid">
@@ -80,7 +81,7 @@ const ExportReviewStepSection: React.FC<ExportReviewStepSectionProps> = ({
           <FaCopy aria-hidden="true" /> Copy
         </button>
       </WorkflowActionRow>
-    </WorkflowStepCard>
+    </WorkflowPanel>
   );
 };
 

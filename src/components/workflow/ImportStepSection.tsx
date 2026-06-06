@@ -2,7 +2,7 @@ import React from 'react';
 import { FaPaste, FaUnlock } from 'react-icons/fa';
 import StatusChip from './StatusChip';
 import WorkflowActionRow from './WorkflowActionRow';
-import WorkflowStepCard from './WorkflowStepCard';
+import WorkflowPanel from './WorkflowPanel';
 
 type ImportStepSectionProps = {
   rawSaveData: string;
@@ -20,12 +20,12 @@ const ImportStepSection: React.FC<ImportStepSectionProps> = ({
   importInputRef,
 }) => {
   return (
-    <WorkflowStepCard
+    <WorkflowPanel
       step="Step 1"
       title="Import save"
+      summary="Paste encrypted save data, then decode it locally into the shared document store."
       headerAside={<StatusChip variant="neutral">Raw input</StatusChip>}
     >
-      <p className="section-summary">Paste encrypted save data, then decode it into the shared document store.</p>
       <div className="input-group">
         <label htmlFor="save-import-input">Encrypted save</label>
         <textarea
@@ -46,7 +46,7 @@ const ImportStepSection: React.FC<ImportStepSectionProps> = ({
           <FaUnlock aria-hidden="true" /> Decrypt
         </button>
       </WorkflowActionRow>
-    </WorkflowStepCard>
+    </WorkflowPanel>
   );
 };
 

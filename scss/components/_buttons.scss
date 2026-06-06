@@ -1,221 +1,118 @@
 @use '../base/variables' as var;
 @use '../base/mixins' as mix;
 
-/* Button styles */
-
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var.$spacing-xs;
-  padding: 0.6rem 1.25rem;
-  font-size: var.$font-size-base;
-  font-weight: var.$font-weight-medium;
-  border-radius: var.$border-radius-md;
-  border: none;
+  gap: 0.42rem;
+  min-height: 2.12rem;
+  padding: 0.45rem 0.74rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
   cursor: pointer;
-  @include mix.transition(background-color, border-color, color, box-shadow, transform);
+  color: var(--button-text);
+  font-family: var.$font-family-base;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.15;
   text-decoration: none;
-  line-height: var.$line-height-base;
-  font-family: var(--font-family);
-  position: relative;
-  overflow: hidden;
-  
-  // Ripple effect for buttons
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
-  }
-  
-  &:active::after {
-    width: 300px;
-    height: 300px;
-    opacity: 1;
-    transition: width 0s, height 0s, opacity 0.3s ease;
-  }
-  
-  i,
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+
   svg {
-    font-size: 1.1rem;
-    @include mix.transition(transform);
+    width: 0.92rem;
+    height: 0.92rem;
+    flex: 0 0 auto;
   }
-  
-  &:hover i,
-  &:hover svg {
+
+  &:hover:not(:disabled) {
     transform: translateY(-1px);
   }
-  
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.25);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
   }
-  
+
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
-    
-    &:hover {
-      transform: none;
-    }
+    opacity: 0.48;
+    transform: none;
   }
-  
-  // Variants de base
+
   &.primary {
-    background-color: var(--primary-color);
+    background: linear-gradient(180deg, var(--primary-color-light), var(--primary-color));
+    border-color: color-mix(in srgb, var(--primary-color) 84%, white);
     color: var(--primary-text);
-    
-    &:hover {
-      background-color: var(--primary-color-dark);
-      box-shadow: var.$shadow-md;
-    }
+    box-shadow: 0 10px 24px rgba(var(--primary-color-rgb), 0.22);
   }
-  
+
   &.secondary {
-    background-color: var(--secondary-color);
-    color: var(--secondary-text);
-    
-    &:hover {
-      background-color: var(--secondary-color-dark);
-      box-shadow: var.$shadow-md;
-    }
-  }
-  
-  &.tertiary {
-    background-color: transparent;
+    background: var(--tool-control-bg, var(--button-bg));
+    border-color: var(--tool-border-strong, var(--border-color));
     color: var(--text-color);
-    border: 1px solid var(--border-color);
-    
-    &:hover {
-      background-color: rgba(var(--border-color-rgb), 0.1);
-    }
   }
-  
+
+  &.tertiary,
   &.ghost {
-    background-color: transparent;
+    background: transparent;
+    border-color: var(--tool-border, var(--border-color));
     color: var(--text-color);
-    
-    &:hover {
-      background-color: rgba(var(--border-color-rgb), 0.1);
+
+    &:hover:not(:disabled) {
+      background: var(--button-ghost-hover);
+      border-color: var(--tool-border-strong, var(--border-color));
     }
   }
-  
+
   &.danger {
     background-color: var(--danger-color);
     color: #fff;
-    
-    &:hover {
-      background-color: var(--danger-color-dark);
-      box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-    }
   }
-  
+
   &.success {
     background-color: var(--success-color);
     color: #fff;
-    
-    &:hover {
-      background-color: var(--success-color-dark);
-      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
-    }
   }
 
-  &.primary,
-  &.secondary,
-  &.tertiary,
-  &.danger,
-  &.success {
-    &:hover {
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(-1px);
-    }
-  }
-  
-  // Sizes
   &.sm {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-    
-    i, svg {
-      font-size: 0.9rem;
-    }
+    min-height: 1.85rem;
+    padding: 0.34rem 0.58rem;
+    font-size: 0.78rem;
   }
-  
+
   &.lg {
-    padding: 0.8rem 1.5rem;
-    font-size: 1.05rem;
-    
-    i, svg {
-      font-size: 1.2rem;
-    }
+    min-height: 2.48rem;
+    padding: 0.58rem 0.95rem;
+    font-size: 0.93rem;
   }
-  
-  // Circular Button
-  &.circle {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    border-radius: 50%;
-    
-    &.sm {
-      width: 2rem;
-      height: 2rem;
-    }
-    
-    &.lg {
-      width: 3rem;
-      height: 3rem;
-    }
-  }
-  
-  // Block Button
+
   &.block {
-    display: flex;
     width: 100%;
-  }
-  
-  // Adaptations mobiles
-  @include mix.mobile {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
   }
 }
 
 .button-group {
   display: flex;
-  gap: var.$spacing-xs;
-  
+  flex-wrap: wrap;
+  gap: 0.45rem;
+
   &.vertical {
     flex-direction: column;
   }
-  
-  &.attached {
-    gap: 0;
-    
+
+  @include mix.mobile {
     .btn {
-      border-radius: 0;
-      
-      &:first-child {
-        border-top-left-radius: var.$border-radius-md;
-        border-bottom-left-radius: var.$border-radius-md;
-      }
-      
-      &:last-child {
-        border-top-right-radius: var.$border-radius-md;
-        border-bottom-right-radius: var.$border-radius-md;
-      }
+      width: 100%;
     }
   }
 }
-

@@ -1,86 +1,41 @@
 @use '../base/variables' as var;
 @use '../base/mixins' as mix;
 
-/* Main content layout styles */
-
 .editor-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  min-height: calc(100vh - 140px); // Soustraire la hauteur du header et footer
-  width: min(1680px, 100%);
-  margin: 0 auto;
-  padding: 1.25rem;
-  
-  @include mix.mobile {
-    padding: 1rem;
-    gap: 1rem;
-  }
+  min-height: calc(100vh - 104px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .main-content {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.workflow-shell .card {
-  background-color: var(--card-bg);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
-  transition: box-shadow 0.3s ease, border-color 0.2s ease;
-  
-  &:hover {
-    box-shadow: 0 22px 56px rgba(15, 23, 42, 0.08);
-  }
-  
-  .card-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--card-header-bg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    
-  }
-  
-  .card-body {
-    padding: 1.5rem;
-    
-    @include mix.mobile {
-      padding: 1rem;
-    }
-  }
+  display: grid;
+  gap: 1rem;
 }
 
 .workflow-shell .save-textarea {
   width: 100%;
-  min-height: 120px;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background-color: var(--input-bg);
+  min-height: 8.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--tool-border, var(--border-color));
+  border-radius: 7px;
+  background: var(--tool-input-bg, var(--input-bg));
   color: var(--text-color);
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
+  font-family: var.$font-family-mono;
+  font-size: 0.86rem;
+  line-height: 1.45;
   resize: vertical;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  
-  &:focus {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+  &:focus,
+  &:focus-visible {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.18);
   }
-  
+
   &::placeholder {
     color: var(--text-muted);
   }
@@ -88,244 +43,72 @@
 
 .workflow-shell .button-group {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  
+  flex-wrap: wrap;
+  gap: 0.45rem;
+
   @include mix.mobile {
     flex-direction: column;
-  }
-  
-  .btn {
-    flex: 1;
-    min-width: 120px;
-    
-    @include mix.mobile {
-      width: 100%;
-    }
   }
 }
 
 .workflow-shell .alert {
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--tool-border, var(--border-color));
+
   &.alert-danger {
-    background-color: rgba(220, 53, 69, 0.1);
-    border: 1px solid rgba(220, 53, 69, 0.3);
-    color: #dc3545;
+    background-color: rgba(var(--danger-color-rgb), 0.12);
+    border-color: rgba(var(--danger-color-rgb), 0.32);
+    color: var(--danger-color);
   }
-  
+
   &.alert-info {
     background-color: rgba(var(--info-color-rgb), 0.1);
-    border: 1px solid rgba(var(--info-color-rgb), 0.3);
+    border-color: rgba(var(--info-color-rgb), 0.28);
     color: var(--info-color);
-    
+
     svg {
       margin-right: 0.5rem;
-    }
-    
-    a {
-      color: var(--primary-color);
-      font-weight: 600;
-      text-decoration: underline;
-      transition: color 0.2s ease;
-      
-      &:hover {
-        color: var(--primary-color-hover);
-      }
     }
   }
 }
 
 .workflow-shell .editor-sections {
   display: grid;
-  grid-template-columns: minmax(232px, 252px) minmax(0, 1fr);
-  min-height: 760px;
-  max-height: none;
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.04), transparent 16%),
-    var(--card-bg);
+  grid-template-columns: minmax(198px, 220px) minmax(0, 1fr);
+  min-height: 560px;
+  border: 1px solid var(--tool-border, var(--border-color));
+  border-radius: 7px;
+  background: var(--tool-panel-bg, var(--card-bg));
   overflow: hidden;
-  
-  @include mix.mobile {
+
+  @media (max-width: 980px) {
     grid-template-columns: 1fr;
-    height: auto;
-    min-height: auto;
   }
-  
+
   .section-nav {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    border-right: 1px solid var(--border-color);
-    background:
-      linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.08), transparent 18%),
-      var(--card-bg-alt);
+    border-right: 1px solid var(--tool-border, var(--border-color));
+    background: var(--tool-sidebar-bg, var(--card-bg-alt));
     overflow-y: auto;
-    
-    @include mix.mobile {
-      width: 100%;
-      border-right: none;
-      border-bottom: 1px solid var(--border-color);
-      flex-direction: row;
-      flex-wrap: wrap;
-      overflow-x: auto;
-      height: auto;
-    }
-  }
-
-  .section-nav-header {
-    padding: 1rem 1rem 0;
-    margin-bottom: 0.35rem;
-
-    h3,
-    p {
-      margin: 0;
-    }
-
-    p {
-      margin-top: 0.55rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-  }
-
-  .section-nav-list {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0;
     padding: 0;
 
-    @include mix.mobile {
-      flex-direction: row;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-      padding: 0 0.75rem 0.75rem;
+    @media (max-width: 980px) {
+      border-right: none;
+      border-bottom: 1px solid var(--tool-border, var(--border-color));
     }
   }
-  
-  .section-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.72rem 0.85rem;
-    border: none;
-    background: transparent;
-    text-align: left;
-    color: var(--text-color);
-    font-weight: 500;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    
-    svg {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-    }
-    
-    &:hover {
-      background-color: rgba(var(--primary-color-rgb), 0.08);
-      
-      svg {
-        color: var(--primary-color);
-      }
-    }
-    
-    &.active {
-      background-color: rgba(var(--primary-color-rgb), 0.12);
-      border-left-color: var(--primary-color);
-      color: var(--primary-color);
-      box-shadow: inset 0 0 0 1px rgba(var(--primary-color-rgb), 0.15);
-      
-      svg {
-        color: var(--primary-color);
-      }
-    }
-    
-    @include mix.mobile {
-      padding: 0.75rem 1rem;
-      border-left: none;
-      border-bottom: 3px solid transparent;
-      
-      &.active {
-        border-left-color: transparent;
-        border-bottom-color: var(--primary-color);
-      }
-    }
-  }
-  
+
   .section-content {
-    flex: 1;
-    padding: 1.1rem 1.2rem 1.25rem;
-    overflow: visible;
     min-height: 0;
-    
-    @include mix.mobile {
-      padding: 1rem;
-    }
+    padding: 0.72rem;
+    overflow: visible;
   }
 }
 
-// Adding Global Smooth Scrolling
 html {
   scroll-behavior: smooth;
 }
-
-// Improved Form Style
-.input-group {
-  position: relative;
-  margin-bottom: 1rem;
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--text-color);
-  }
-  
-  input, select, textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--input-bg);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    
-    &:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
-    }
-  }
-  
-  small {
-    display: block;
-    margin-top: 0.5rem;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-  }
-}
-
-// Adding Visual Validation
-.validation-indicator {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  
-  &.valid svg {
-    color: #28a745;
-  }
-  
-  &.invalid svg {
-    color: #dc3545;
-  }
-}
-

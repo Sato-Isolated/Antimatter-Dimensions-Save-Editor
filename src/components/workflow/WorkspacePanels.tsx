@@ -101,15 +101,6 @@ const WorkspacePanels: React.FC<WorkspacePanelsProps> = ({
                 <p>Theme preferences stay compatible with the existing selector and local storage behavior.</p>
                 <ThemeSelector />
               </div>
-
-              <div className="settings-block">
-                <h3>Workflow notes</h3>
-                <ul className="workflow-list">
-                  <li>The structured workspace is generated from the registry in core save metadata.</li>
-                  <li>The JSON editor mounts lazily to avoid paying its cost until you open it.</li>
-                  <li>Dirty, error, and format state are surfaced in the shell instead of being hidden inside tabs.</li>
-                </ul>
-              </div>
             </div>
           )}
         </section>

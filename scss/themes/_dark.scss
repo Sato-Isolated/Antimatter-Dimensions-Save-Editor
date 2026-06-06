@@ -65,6 +65,16 @@
   --success-color-dark: hsl(var(--success-h), var(--success-s), 39%);
   
   // Backgrounds
+  --shell-bg: #070b12;
+  --surface-1: #0d141f;
+  --surface-2: #111b29;
+  --surface-sidebar: #0a111b;
+  --surface-input: #0a1118;
+  --surface-control: #121d2b;
+  --line-soft: rgba(124, 145, 174, 0.22);
+  --line-strong: rgba(148, 163, 184, 0.34);
+  --header-bg: #070b12;
+  --footer-bg: #070b12;
   --card-bg: hsl(var(--bg-h), var(--bg-s), 17%);
   --card-bg-alt: hsl(var(--bg-h), var(--bg-s), 20%);
   --card-header-bg: hsl(var(--bg-h), var(--bg-s), 17%);

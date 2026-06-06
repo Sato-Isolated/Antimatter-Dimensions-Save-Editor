@@ -5,7 +5,7 @@
 
 .app-footer {
   margin-top: auto;
-  background: linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.03), transparent), var(--footer-bg);
+  background: linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.03), transparent), var(--footer-bg, var(--card-bg));
   border-top: 1px solid var(--border-color);
   padding: var.$spacing-md;
 
