@@ -40,6 +40,7 @@ const WorkflowWorkspaceStepSection: React.FC<WorkflowWorkspaceStepSectionProps> 
       step="Step 3"
       title="Edit workspace"
       summary="Use structured fields for safe edits, JSON for expert changes, or preferences for the shell."
+      className="workspace-workflow-panel"
       headerAside={(
         <WorkspaceViewTabs
           views={workspaceViews}

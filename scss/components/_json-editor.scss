@@ -1,42 +1,45 @@
 .workflow-shell {
   .json-editor-codemirror {
     height: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
+    border: 0;
+    border-radius: var(--tool-radius-md);
     overflow: hidden;
     background:
-      linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.035), transparent 14%),
-      var(--input-bg);
-    box-shadow:
-      0 16px 30px rgba(15, 23, 42, 0.06),
-      inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+      linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.035), transparent 18%),
+      var(--tool-input-bg);
+    box-shadow: none;
 
     &.is-invalid {
-      border-color: rgba(220, 53, 69, 0.38);
-      box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(var(--danger-color-rgb, 220, 53, 69), 0.52);
     }
 
     .cm-editor {
       height: 100%;
       min-height: 0;
-      background-color: var(--input-bg);
+      background-color: transparent;
       color: var(--text-color);
     }
 
     .cm-scroller {
       height: 100%;
       min-height: 0;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
     }
 
     .cm-content,
     .cm-gutterElement {
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.86rem;
+      line-height: 1.52;
     }
 
     .cm-gutters {
-      background-color: color-mix(in srgb, var(--card-bg-alt) 82%, var(--input-bg));
-      border-right: 1px solid rgba(var(--border-color-rgb), 0.85);
+      background-color: color-mix(in srgb, var(--tool-panel-bg-strong) 86%, var(--tool-input-bg));
+      border-right: 1px solid var(--tool-border);
+      color: var(--text-muted);
+    }
+
+    .cm-line {
+      padding: 0 0.6rem;
     }
 
     .cm-activeLine,
@@ -50,8 +53,8 @@
     }
 
     .cm-panels {
-      border-bottom: 1px solid var(--border-color);
-      background-color: var(--card-bg-alt);
+      border-bottom: 1px solid var(--tool-border);
+      background-color: var(--tool-panel-bg-strong);
       color: var(--text-color);
     }
 

@@ -87,19 +87,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           themeColor = '#121212';
           break;
         case 'antimatter':
-          themeColor = '#130826';
+          themeColor = '#090516';
           break;
         case 'infinity':
-          themeColor = '#1a3b5c';
+          themeColor = '#061626';
           break;
         case 'eternity':
-          themeColor = '#3a1042';
+          themeColor = '#160f0b';
           break;
         case 'reality':
-          themeColor = '#340909';
+          themeColor = '#071712';
           break;
         default:
-          themeColor = '#ffffff';
+          themeColor = '#f5f7fb';
       }
       
       metaThemeColor.setAttribute('content', themeColor);

@@ -27,26 +27,26 @@
         --secondary-l: 34%;
     
     // Base colors
-    --bg-color: hsl(var(--bg-h), var(--bg-s), 13%);
-    --bg-color-alt: hsl(var(--bg-h), var(--bg-s), 18%);
-    --bg-color-secondary: hsl(var(--bg-h), var(--bg-s), 25%);
-    --text-color: hsl(var(--text-h), var(--text-s), var(--text-l));
-    --text-muted: hsl(var(--text-h), 50%, 71%);
-    --border-color: hsl(var(--bg-h), var(--bg-s), 25%);
-    --border-color-rgb: 26, 54, 93;
+    --bg-color: #061626;
+    --bg-color-alt: #0b2034;
+    --bg-color-secondary: #102c46;
+    --text-color: #e7f6ff;
+    --text-muted: #9ec7dd;
+    --border-color: #1a4664;
+    --border-color-rgb: 26, 70, 100;
 
     // Accent colors
-    --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-    --primary-color-rgb: 49, 130, 206;
-    --primary-color-light: hsl(var(--primary-h), var(--primary-s), 57%);
-    --primary-color-dark: hsl(var(--primary-h), var(--primary-s), 43%);
-    --primary-color-hover: hsl(var(--primary-h), var(--primary-s), 57%);
+    --primary-color: #38bdf8;
+    --primary-color-rgb: 56, 189, 248;
+    --primary-color-light: #7dd3fc;
+    --primary-color-dark: #0284c7;
+    --primary-color-hover: #7dd3fc;
     --primary-text: hsl(0, 0%, 100%);
-    --secondary-color: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 34%);
-    --secondary-color-rgb: 44, 82, 130;
-    --secondary-color-light: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 39%);
-    --secondary-color-dark: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 28%);
-    --secondary-color-hover: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 42%);
+    --secondary-color: #123654;
+    --secondary-color-rgb: 18, 54, 84;
+    --secondary-color-light: #1a4c73;
+    --secondary-color-dark: #0b263c;
+    --secondary-color-hover: #1a4c73;
     --secondary-text: hsl(0, 0%, 100%);
     --accent-color: hsl(var(--primary-h), var(--primary-s), 57%);
 
@@ -71,21 +71,29 @@
     --danger-color-light: hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
 
     // Backgrounds
-    --card-bg: hsl(var(--bg-h), var(--bg-s), 18%);
-    --card-bg-alt: hsl(var(--bg-h), var(--bg-s), 13%);
-    --card-header-bg: hsl(var(--bg-h), var(--bg-s), 18%);
-    --card-footer-bg: hsl(var(--bg-h), var(--bg-s), 34%);
+    --card-bg: #0b2034;
+    --card-bg-alt: #102c46;
+    --card-header-bg: #102c46;
+    --card-footer-bg: #143b5c;
+    --shell-bg: #061626;
+    --surface-1: #0b2034;
+    --surface-2: #102c46;
+    --surface-sidebar: #071b2d;
+    --surface-input: #0e2a42;
+    --surface-control: #123654;
+    --line-soft: #1a4664;
+    --line-strong: #24648c;
     --title-color: hsl(0, 0%, 100%);
 
     // Forms
-    --input-bg: hsl(var(--bg-h), var(--bg-s), 25%);
+    --input-bg: #0e2a42;
     --input-text: hsl(var(--text-h), var(--text-s), var(--text-l));
-    --input-border: hsl(var(--primary-h), calc(var(--primary-s) - 27%), 34%);
-    --input-focus-border: hsl(var(--primary-h), var(--primary-s), 57%);
-    --input-focus-shadow: hsla(var(--primary-h), var(--primary-s), 57%, 0.5);
-    --input-readonly-bg: hsl(var(--bg-h), var(--bg-s), 18%);
-    --input-group-bg: hsl(var(--bg-h), var(--bg-s), 18%);
-    --input-placeholder: hsl(var(--text-h), 50%, 71%);
+    --input-border: #1a4664;
+    --input-focus-border: #38bdf8;
+    --input-focus-shadow: rgba(56, 189, 248, 0.35);
+    --input-readonly-bg: #0b2034;
+    --input-group-bg: #0b2034;
+    --input-placeholder: #9ec7dd;
 
     // Text and labels
     --label-color: hsl(var(--text-h), var(--text-s), var(--text-l));

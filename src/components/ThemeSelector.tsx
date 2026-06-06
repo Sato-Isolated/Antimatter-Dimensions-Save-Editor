@@ -18,8 +18,8 @@ const ThemeSelector: React.FC = () => {
     { 
       id: 'light', 
       name: 'Light',
-      description: 'Light theme for daytime use',
-      colors: ['#6366f1', '#ffffff', '#f9fafb', '#e5e7eb'] 
+      description: 'Cool slate palette for bright workspaces',
+      colors: ['#2563eb', '#ffffff', '#f5f7fb', '#ccd6e3'] 
     },
     { 
       id: 'dark', 
@@ -30,26 +30,26 @@ const ThemeSelector: React.FC = () => {
     { 
       id: 'antimatter', 
       name: 'Antimatter',
-      description: 'Inspired by dark matter and antimatter',
-      colors: ['#8a2be2', '#130826', '#1e0f38', '#bb86fc'] 
+      description: 'Deep violet surfaces with a focused glow',
+      colors: ['#9f6bff', '#090516', '#180f30', '#3a2670'] 
     },
     { 
       id: 'infinity', 
       name: 'Infinity',
-      description: 'Cosmic theme with blue and ocean colors',
-      colors: ['#3182ce', '#0a1f38', '#0d2b4d', '#4299e1'] 
+      description: 'Cold cyan controls over ocean-blue panels',
+      colors: ['#38bdf8', '#061626', '#102c46', '#24648c'] 
     },
     { 
       id: 'eternity', 
       name: 'Eternity',
-      description: 'Warm orange and brown colors for eternity',
-      colors: ['#ff7043', '#301b10', '#3d2216', '#ff8a65'] 
+      description: 'Copper highlights over warm dark surfaces',
+      colors: ['#f97316', '#160f0b', '#2f1e14', '#6a3a20'] 
     },
     { 
       id: 'reality', 
       name: 'Reality',
-      description: 'Green and nature-inspired theme',
-      colors: ['#4caf50', '#1a2e1a', '#243d24', '#81c784'] 
+      description: 'Green technical palette with teal depth',
+      colors: ['#22c55e', '#071712', '#122d22', '#2c6f4d'] 
     },
   ];
 

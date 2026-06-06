@@ -23,26 +23,26 @@
         );
     
     // Base colors
-    --bg-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
-    --bg-color-alt: hsl(var(--bg-h), var(--bg-s), 17%);
-    --bg-color-secondary: hsl(var(--bg-h), var(--bg-s), 21%);
-    --text-color: hsl(var(--text-h), var(--text-s), var(--text-l));
-    --text-muted: hsl(var(--text-h), 75%, 77%);
-    --border-color: hsl(var(--bg-h), var(--bg-s), 21%);
-    --border-color-rgb: 77, 42, 26;
+    --bg-color: #160f0b;
+    --bg-color-alt: #231710;
+    --bg-color-secondary: #2f1e14;
+    --text-color: #fff2e5;
+    --text-muted: #d7b99f;
+    --border-color: #4b2b1a;
+    --border-color-rgb: 75, 43, 26;
 
     // Accent colors
-    --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-    --primary-color-rgb: 255, 112, 67;
-    --primary-color-light: hsl(var(--primary-h), 80%, 70%);
-    --primary-color-dark: hsl(var(--primary-h), 76%, 50%);
-    --primary-color-hover: hsl(var(--primary-h), 80%, 70%);
+    --primary-color: #f97316;
+    --primary-color-rgb: 249, 115, 22;
+    --primary-color-light: #fb923c;
+    --primary-color-dark: #c2410c;
+    --primary-color-hover: #fb923c;
     --primary-text: hsl(0, 0%, 100%);
-    --secondary-color: hsl(var(--bg-h), var(--bg-s), 21%);
-    --secondary-color-rgb: 77, 42, 26;
-    --secondary-color-light: hsl(var(--bg-h), var(--bg-s), 27%);
-    --secondary-color-dark: hsl(var(--bg-h), var(--bg-s), 17%);
-    --secondary-color-hover: hsl(var(--bg-h), var(--bg-s), 27%);
+    --secondary-color: #322014;
+    --secondary-color-rgb: 50, 32, 20;
+    --secondary-color-light: #4b2b1a;
+    --secondary-color-dark: #21150e;
+    --secondary-color-hover: #4b2b1a;
     --secondary-text: hsl(0, 0%, 100%);
     --accent-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
 
@@ -67,20 +67,28 @@
     --danger-color-light: hsla(var(--error-h), var(--error-s), var(--error-l), 0.2);
 
     // Backgrounds
-    --card-bg: hsl(var(--bg-h), var(--bg-s), 17%);
-    --card-bg-alt: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
-    --card-header-bg: hsl(var(--bg-h), var(--bg-s), 17%);
-    --card-footer-bg: hsl(var(--bg-h), var(--bg-s), 25%);
+    --card-bg: #231710;
+    --card-bg-alt: #2f1e14;
+    --card-header-bg: #2f1e14;
+    --card-footer-bg: #3b2517;
+    --shell-bg: #160f0b;
+    --surface-1: #231710;
+    --surface-2: #2f1e14;
+    --surface-sidebar: #1c120d;
+    --surface-input: #2a1a11;
+    --surface-control: #322014;
+    --line-soft: #4b2b1a;
+    --line-strong: #6a3a20;
 
     // Forms
-    --input-bg: hsl(var(--bg-h), var(--bg-s), 21%);
+    --input-bg: #2a1a11;
     --input-text: hsl(var(--text-h), var(--text-s), var(--text-l));
-    --input-border: hsl(var(--bg-h), var(--bg-s), 27%);
-    --input-focus-border: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-    --input-focus-shadow: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
-    --input-readonly-bg: hsl(var(--bg-h), var(--bg-s), 17%);
-    --input-group-bg: hsl(var(--bg-h), var(--bg-s), 17%);
-    --input-placeholder: hsl(var(--text-h), 75%, 77%);
+    --input-border: #4b2b1a;
+    --input-focus-border: #f97316;
+    --input-focus-shadow: rgba(249, 115, 22, 0.34);
+    --input-readonly-bg: #231710;
+    --input-group-bg: #231710;
+    --input-placeholder: #d7b99f;
 
     // Text and labels
     --label-color: hsl(var(--text-h), var(--text-s), var(--text-l));
@@ -94,10 +102,10 @@
     --focus-color: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
 
     // Buttons
-    --button-bg: hsl(var(--bg-h), var(--bg-s), 21%);
+    --button-bg: #322014;
     --button-text: hsl(var(--text-h), var(--text-s), var(--text-l));
-    --button-hover-bg: hsl(var(--bg-h), var(--bg-s), 27%);
-    --button-active-bg: hsl(var(--bg-h), var(--bg-s), 32%);
+    --button-hover-bg: #4b2b1a;
+    --button-active-bg: #60351d;
     --button-ghost-hover: hsla(0, 0%, 100%, 0.05);
 
     // Tabs

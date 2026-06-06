@@ -29,6 +29,20 @@ body {
   overflow-x: hidden;
 }
 
+#root,
+.app {
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.app > main {
+  flex: 1 0 auto;
+}
+
 textarea {
   width: 100%;
   min-height: 100px;

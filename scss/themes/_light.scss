@@ -24,23 +24,23 @@
   );
   
   // Base colors
-  --bg-color: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
-  --bg-color-alt: hsl(var(--bg-h), var(--bg-s), 94%);
-  --bg-color-secondary: hsl(var(--bg-h), var(--bg-s), 90%);
-  --text-color: hsl(var(--text-h), var(--text-s), var(--text-l));
-  --text-muted: hsl(var(--text-h), var(--text-s), 50%);
-  --border-color: hsl(var(--bg-h), var(--bg-s), 85%);
-  --border-color-rgb: 212, 218, 226;
+  --bg-color: #f5f7fb;
+  --bg-color-alt: #edf2f8;
+  --bg-color-secondary: #e3eaf3;
+  --text-color: #172033;
+  --text-muted: #64748b;
+  --border-color: #ccd6e3;
+  --border-color-rgb: 204, 214, 227;
 
   // Accent colors
-  --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-  --primary-color-rgb: 49, 130, 206;
-  --primary-color-light: hsl(var(--primary-h), var(--primary-s), 60%);
-  --primary-color-dark: hsl(var(--primary-h), var(--primary-s), 40%);
-  --primary-color-hover: hsl(var(--primary-h), var(--primary-s), 60%);
+  --primary-color: #2563eb;
+  --primary-color-rgb: 37, 99, 235;
+  --primary-color-light: #3b82f6;
+  --primary-color-dark: #1d4ed8;
+  --primary-color-hover: #1d4ed8;
   --primary-text: hsl(0, 0%, 100%);
   --secondary-color: hsl(var(--primary-h), calc(var(--primary-s) - 20%), var(--primary-l));
-  --secondary-color-rgb: 113, 128, 150;
+  --secondary-color-rgb: 100, 116, 139;
   --secondary-color-light: hsl(var(--primary-h), calc(var(--primary-s) - 20%), 60%);
   --secondary-color-dark: hsl(var(--primary-h), calc(var(--primary-s) - 20%), 40%);
   --secondary-color-hover: hsl(var(--primary-h), calc(var(--primary-s) - 20%), 60%);
@@ -68,11 +68,19 @@
   --danger-color-light: hsla(var(--error-h), var(--error-s), var(--error-l), 0.1);
 
   // Backgrounds
-  --card-bg: hsl(var(--bg-h), var(--bg-s), 100%);
-  --card-bg-alt: hsl(var(--bg-h), var(--bg-s), 98%);
-  --card-header-bg: hsl(var(--bg-h), var(--bg-s), 96%);
-  --card-footer-bg: hsl(var(--bg-h), var(--bg-s), 94%);
-  --title-color: hsl(var(--text-h), var(--text-s), 10%);
+  --card-bg: #ffffff;
+  --card-bg-alt: #f8fafc;
+  --card-header-bg: #f1f5f9;
+  --card-footer-bg: #e8eef6;
+  --title-color: #0f172a;
+  --shell-bg: #edf3fb;
+  --surface-1: #ffffff;
+  --surface-2: #f8fbff;
+  --surface-sidebar: #eef4fc;
+  --surface-input: #ffffff;
+  --surface-control: #eef3fa;
+  --line-soft: #d5dfeb;
+  --line-strong: #b8c7d9;
 
   // Shadows
   --box-shadow-color: hsla(var(--text-h), var(--text-s), 10%, 0.1);
@@ -80,22 +88,22 @@
 
   // Forms
   --input-bg: #ffffff;
-  --input-text: #333333;
-  --input-border: #e5e7eb;
-  --input-focus-border: #3b82f6;
-  --input-focus-shadow: rgba(59, 130, 246, 0.25);
-  --input-readonly-bg: #f9fafb;
-  --input-group-bg: #f3f4f6;
+  --input-text: #172033;
+  --input-border: #ccd6e3;
+  --input-focus-border: #2563eb;
+  --input-focus-shadow: rgba(37, 99, 235, 0.22);
+  --input-readonly-bg: #f1f5f9;
+  --input-group-bg: #eef3fa;
 
   // Text and labels
-  --label-color: #4b5563;
-  --help-text-color: #6b7280;
+  --label-color: #475569;
+  --help-text-color: #64748b;
 
   // Buttons
-  --button-bg: #f3f4f6;
-  --button-text: #374151;
-  --button-hover-bg: #e5e7eb;
-  --button-active-bg: #d1d5db;
+  --button-bg: #eef3fa;
+  --button-text: #334155;
+  --button-hover-bg: #dbe7f5;
+  --button-active-bg: #c8d8ea;
   
   // Section Buttons
   --section-button-bg: #f3f4f6;
