@@ -40,11 +40,6 @@ export interface SaveDecodeResult {
   validation: SaveValidationSummary;
 }
 
-export interface SaveTestResults {
-  success: boolean;
-  errors: string[];
-}
-
 export interface SaveChangeMeta {
   path: DocumentPath;
   timestamp: number;
@@ -59,7 +54,6 @@ export interface SaveEditorState {
   isLoaded: boolean;
   isDirty: boolean;
   saveType: SaveType;
-  testResults: SaveTestResults | null;
   document: SaveDocumentSnapshot | null;
   lastChange: SaveChangeMeta | null;
 }

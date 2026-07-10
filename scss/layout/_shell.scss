@@ -1,0 +1,241 @@
+@use '../tools/mixins';
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  box-shadow: 0 0.8rem 2.5rem color-mix(in srgb, var(--shadow) 32%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+  color: var(--text-strong);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text-strong);
+  }
+
+  svg {
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: 0 0 auto;
+    color: var(--accent);
+  }
+}
+
+.brand-compact,
+.import-compact,
+.export-compact {
+  display: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 500;
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+.import-screen {
+  display: grid;
+  min-height: calc(100dvh - var(--header-height));
+  padding: clamp(3rem, 8vh, 7rem) var(--space-5) var(--space-8);
+  place-items: start center;
+}
+
+.import-content {
+  display: grid;
+  width: min(100%, 46rem);
+  margin-top: clamp(1rem, 8vh, 6rem);
+  gap: var(--space-5);
+}
+
+.import-heading {
+  display: grid;
+  gap: var(--space-3);
+
+  h1 {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  p {
+    max-width: 62ch;
+    color: var(--text-muted);
+    font-size: 1.03rem;
+  }
+}
+
+.import-field {
+  display: grid;
+  gap: var(--space-2);
+
+  label {
+    color: var(--text-strong);
+    font-weight: 600;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 14rem;
+    padding: 1rem 1.15rem;
+    resize: vertical;
+    @include mixins.surface(color-mix(in srgb, var(--field) 96%, transparent), var(--border-strong));
+    color: var(--text-strong);
+    font-family: var(--font-mono);
+    font-size: 0.93rem;
+    line-height: 1.55;
+    @include mixins.transition(border-color, box-shadow);
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus {
+      border-color: var(--accent);
+      @include mixins.focus-ring(var(--focus-rgb), 0.18);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--danger);
+    }
+  }
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.88rem;
+}
+
+.import-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.import-privacy {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+@include mixins.media-down(shell) {
+  .app-header {
+    padding: 0 var(--space-4);
+  }
+
+  .github-link {
+    display: none;
+  }
+}
+
+@include mixins.media-down(forms) {
+  :root {
+    --header-height: 4.25rem;
+  }
+
+  .app-header {
+    gap: var(--space-3);
+    padding: 0 var(--space-3);
+  }
+
+  .brand {
+    gap: var(--space-2);
+    font-size: 1rem;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .brand-full,
+  .import-full,
+  .export-full {
+    display: none;
+  }
+
+  .brand-compact,
+  .import-compact,
+  .export-compact {
+    display: inline;
+  }
+
+  .header-actions {
+    gap: 0.4rem;
+  }
+
+  .import-another {
+    padding-inline: 0.55rem;
+  }
+
+  .export-action {
+    min-height: 2.55rem;
+    padding-inline: 0.75rem;
+  }
+
+  .import-screen {
+    padding: var(--space-7) var(--space-4);
+  }
+
+  .import-content {
+    margin-top: 0;
+  }
+
+  .import-heading h1 {
+    font-size: 2.1rem;
+  }
+
+  .import-field textarea {
+    min-height: 13rem;
+  }
+
+  .import-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@include mixins.media-down(compact) {
+  .brand-compact {
+    display: none;
+  }
+}

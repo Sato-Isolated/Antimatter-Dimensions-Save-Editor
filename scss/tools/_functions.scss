@@ -1,43 +1,18 @@
+@use 'sass:color';
 @use 'sass:map';
-@use '../settings/tokens';
 
-@function token($collection, $key) {
-  $group: tokens.token-collection($collection);
-
-  @if map.has-key($group, $key) {
-    @return map.get($group, $key);
+@function required($values, $key, $label: 'token') {
+  @if not map.has-key($values, $key) {
+    @error 'Unknown #{$label} `#{$key}`.';
   }
 
-  @error 'Unknown token key `#{$key}` in collection `#{$collection}`.';
+  @return map.get($values, $key);
 }
 
-@function fluid($min, $max, $min-viewport: 20rem, $max-viewport: 90rem) {
-  @if $min >= $max {
-    @error 'The $min value must be lower than $max for fluid().';
-  }
+@function rgb-channels($value) {
+  $red: color.channel($value, 'red', $space: rgb);
+  $green: color.channel($value, 'green', $space: rgb);
+  $blue: color.channel($value, 'blue', $space: rgb);
 
-  $slope: ($max - $min) / ($max-viewport - $min-viewport);
-  $intercept: $min - ($slope * $min-viewport);
-
-  @return clamp(#{$min}, #{$intercept} + #{100vw * $slope}, #{$max});
-}
-
-@function color-token($key) {
-  @return token(color, $key);
-}
-
-@function space($key) {
-  @return token(spacing, $key);
-}
-
-@function radius($key) {
-  @return token(radius, $key);
-}
-
-@function breakpoint($key) {
-  @return token(breakpoint, $key);
-}
-
-@function z-layer($key) {
-  @return token(z-index, $key);
+  @return #{$red}, #{$green}, #{$blue};
 }

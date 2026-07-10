@@ -1,8 +1,10 @@
-@use 'settings';
-@use 'tools';
-@use 'generic';
-@use 'elements';
+@use 'settings/tokens';
 @use 'themes';
-@use 'components';
-@use 'objects';
-@use 'utilities';
+@use 'base/reset';
+@use 'base/global';
+@use 'layout/shell';
+@use 'components/buttons';
+@use 'components/forms';
+@use 'components/editor';
+@use 'components/dialogs';
+@use 'components/json-editor';

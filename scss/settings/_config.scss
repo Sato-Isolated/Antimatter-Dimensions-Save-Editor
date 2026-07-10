@@ -1,0 +1,45 @@
+$fonts: (
+  display: ('Aptos Display', 'Segoe UI Variable Display', 'Segoe UI', sans-serif),
+  ui: ('Aptos', 'Segoe UI Variable Text', 'Segoe UI', sans-serif),
+  mono: ('Cascadia Mono', 'SFMono-Regular', Consolas, monospace),
+);
+
+$spaces: (
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.5rem,
+  6: 2rem,
+  7: 3rem,
+  8: 4rem,
+);
+
+$radii: (
+  sm: 0.3rem,
+  md: 0.5rem,
+  lg: 0.75rem,
+);
+
+$layout: (
+  control-height: 3.5rem,
+  header-height: 4.75rem,
+  sidebar-width: 18.25rem,
+  content-width: 78rem,
+);
+
+$layers: (
+  header: 20,
+  dialog: 100,
+);
+
+$motion: (
+  fast: 150ms,
+  base: 220ms,
+);
+
+$breakpoints: (
+  shell: 64rem,
+  forms: 48rem,
+  compact: 32rem,
+);

@@ -1,76 +1,219 @@
-.workflow-shell {
-  .json-editor-codemirror {
-    height: 100%;
-    border: 0;
-    border-radius: var(--tool-radius-md);
+@use '../tools/mixins';
+
+.json-editor-shell {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.json-editor-toolbar,
+.json-editor-search,
+.json-editor-status-block,
+.json-validation-summary {
+  @include mixins.surface(color-mix(in srgb, var(--surface) 90%, transparent));
+}
+
+.json-editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+.json-editor-heading {
+  display: grid;
+  gap: 0.25rem;
+
+  h3 {
+    font-size: 1rem;
+  }
+}
+
+.json-editor-heading p,
+.json-editor-helper {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.json-editor-actions,
+.json-validation-summary__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.json-editor-search {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 1fr) auto auto auto auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+
+.json-editor-search__label,
+.json-editor-search__status,
+.json-editor-search__toggle {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.json-editor-search__input {
+  min-height: 2.45rem;
+  padding: 0.5rem 0.7rem;
+  @include mixins.surface(var(--field));
+  color: var(--text-strong);
+
+  &:focus {
+    border-color: var(--accent);
+    @include mixins.focus-ring(var(--focus-rgb), 0.16);
+  }
+}
+
+.json-editor-search__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.json-editor-surface {
+  height: clamp(30rem, 64vh, 48rem);
+  min-height: 26rem;
+  overflow: hidden;
+  @include mixins.surface(var(--field), var(--border-strong));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.json-text-editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 100%;
+  min-width: 0;
+  background: var(--field);
+
+  &__gutter,
+  &__input {
+    min-height: 100%;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    line-height: 1.55;
+    tab-size: 2;
+  }
+
+  &__gutter {
+    min-width: 3.8rem;
     overflow: hidden;
-    background:
-      linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.035), transparent 18%),
-      var(--tool-input-bg);
-    box-shadow: none;
+    padding: 1rem 0.75rem;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    text-align: right;
+    user-select: none;
+  }
 
-    &.is-invalid {
-      box-shadow: inset 0 0 0 1px rgba(var(--danger-color-rgb, 220, 53, 69), 0.52);
-    }
+  &__input {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    resize: none;
+    padding: 1rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    caret-color: var(--accent);
+    white-space: pre;
+  }
 
-    .cm-editor {
-      height: 100%;
-      min-height: 0;
-      background-color: transparent;
-      color: var(--text-color);
-    }
+  &:focus-within {
+    outline: 2px solid rgba(var(--focus-rgb), 0.22);
+    outline-offset: -2px;
+  }
 
-    .cm-scroller {
-      height: 100%;
-      min-height: 0;
-      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-    }
+  &.is-invalid {
+    outline: 2px solid rgba(var(--danger-rgb), 0.42);
+    outline-offset: -2px;
+  }
+}
 
-    .cm-content,
-    .cm-gutterElement {
-      font-size: 0.86rem;
-      line-height: 1.52;
-    }
+.json-editor-status-block,
+.json-validation-summary {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
 
-    .cm-gutters {
-      background-color: color-mix(in srgb, var(--tool-panel-bg-strong) 86%, var(--tool-input-bg));
-      border-right: 1px solid var(--tool-border);
-      color: var(--text-muted);
-    }
+.json-editor-status-block.is-error {
+  border-color: rgba(var(--danger-rgb), 0.45);
+  background: rgba(var(--danger-rgb), 0.07);
+}
 
-    .cm-line {
-      padding: 0 0.6rem;
-    }
+.json-editor-status-block__summary {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--text);
+  font-size: 0.84rem;
+}
 
-    .cm-activeLine,
-    .cm-activeLineGutter {
-      background-color: rgba(var(--primary-color-rgb), 0.08);
-    }
+.json-editor-status-block__location {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
 
-    .cm-selectionBackground,
-    ::selection {
-      background-color: rgba(var(--primary-color-rgb), 0.18);
-    }
+.json-validation-summary__issues,
+.validation-issue-list {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
 
-    .cm-panels {
-      border-bottom: 1px solid var(--tool-border);
-      background-color: var(--tool-panel-bg-strong);
-      color: var(--text-color);
-    }
+  li {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}
 
-    .cm-searchMatch {
-      background-color: rgba(255, 193, 7, 0.18);
-      border: 1px solid rgba(255, 193, 7, 0.28);
-    }
+.custom-duration-node,
+.custom-scientific-node,
+.custom-timestamp-node {
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
 
-    .cm-searchMatch.cm-searchMatch-selected {
-      background-color: rgba(var(--primary-color-rgb), 0.18);
-      border-color: rgba(var(--primary-color-rgb), 0.32);
-    }
+@include mixins.media-down(shell) {
+  .json-editor-search {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+}
 
-    .cm-foldGutter .cm-gutterElement,
-    .cm-lineNumbers .cm-gutterElement {
-      cursor: default;
+@include mixins.media-down(forms) {
+  .json-editor-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .json-editor-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .btn {
+      width: 100%;
     }
+  }
+
+  .json-editor-search {
+    grid-template-columns: 1fr;
+  }
+
+  .json-editor-surface {
+    height: 60vh;
+    min-height: 25rem;
   }
 }

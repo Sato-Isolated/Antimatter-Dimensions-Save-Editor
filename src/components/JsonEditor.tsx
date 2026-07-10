@@ -13,7 +13,7 @@ import {
 } from 'react-icons/fa';
 import { SaveDataRecord, SaveValidationIssue } from '../core/save/types';
 import { useSaveActions, useSaveSelector } from '../contexts/SaveContext';
-import JsonCodeMirror, { JsonCodeMirrorHandle, JsonCursorState } from './JsonCodeMirror';
+import JsonTextEditor, { JsonCursorState, JsonTextEditorHandle } from './JsonTextEditor';
 
 interface JsonEditorProps {
   isActive: boolean;
@@ -211,22 +211,10 @@ const countOccurrences = (text: string, query: string, caseSensitive: boolean): 
 const summarizeValidation = (issues: SaveValidationIssue[]) => {
   const errors = issues.filter((issue) => issue.severity === 'error');
   const warnings = issues.filter((issue) => issue.severity === 'warning');
-  const counts = new Map<string, number>();
-
-  for (const issue of issues) {
-    const key = issue.path ?? 'General';
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  }
-
-  const topPaths = [...counts.entries()]
-    .map(([path, count]) => ({ path, count }))
-    .sort((left, right) => right.count - left.count)
-    .slice(0, 5);
 
   return {
     errors,
     warnings,
-    topPaths,
   };
 };
 
@@ -264,7 +252,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   const [searchState, setSearchState] = useState<SearchState>({ query: '', caseSensitive: false });
   const [cursorState, setCursorState] = useState<JsonCursorState>({ offset: 0, line: 1, column: 1 });
   const [liveMessage, setLiveMessage] = useState<string | null>(null);
-  const editorRef = useRef<JsonCodeMirrorHandle | null>(null);
+  const editorRef = useRef<JsonTextEditorHandle | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const historyCommitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const parseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -340,11 +328,11 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
     const errors = validationIssues.filter((issue) => issue.severity === 'error').length;
     const warnings = validationIssues.filter((issue) => issue.severity === 'warning').length;
     if (validationIssues.length === 0) {
-      setLiveMessage('Workspace validation is clear after apply.');
+      setLiveMessage('Changes applied.');
       return;
     }
 
-    setLiveMessage(`Workspace validation after apply: ${errors} error${errors === 1 ? '' : 's'} and ${warnings} warning${warnings === 1 ? '' : 's'}.`);
+    setLiveMessage(`Validation after apply: ${errors} error${errors === 1 ? '' : 's'} and ${warnings} warning${warnings === 1 ? '' : 's'}.`);
   }, [validation]);
 
   const handleCursorChange = useCallback((nextCursorState: JsonCursorState) => {
@@ -403,7 +391,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
     setParseState(parseDraft(baselineDraft));
     setIsParsing(false);
     setHistory({ entries: [baselineDraft], index: 0 });
-    setLiveMessage('Draft reset to the current workspace snapshot.');
+    setLiveMessage('Draft reset to the current save.');
   };
 
   const handleApply = () => {
@@ -421,7 +409,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
     setParseState(parseDraft(committedDraft));
     setIsParsing(false);
     setHistory({ entries: [committedDraft], index: 0 });
-    setLiveMessage('Draft applied to the workspace.');
+    setLiveMessage('Draft applied to the save.');
   };
 
   const handleUndo = () => {
@@ -530,7 +518,6 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   const normalizedSearchQuery = searchState.query.trim();
   const isEditorInvalid = Boolean(parseState.errorMessage) || (!isParsing && !parseState.isRootObject);
   const canApply = !isParsing && parseState.isRootObject && hasLocalChanges;
-  const lineCount = useMemo(() => draft.split('\n').length, [draft]);
   const searchMatches = useMemo(
     () => countOccurrences(draft, normalizedSearchQuery, searchState.caseSensitive),
     [draft, normalizedSearchQuery, searchState.caseSensitive],
@@ -580,8 +567,9 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
     : !parseState.isRootObject
       ? 'JSON root must be an object to match the save document model.'
       : hasLocalChanges
-        ? 'Draft parsed successfully. Apply to sync the JSON document back to the workspace.'
-        : 'Draft matches the current workspace snapshot.';
+        ? 'Draft is ready to apply.'
+        : '';
+  const showStatus = isParsing || isEditorInvalid || hasLocalChanges;
 
   if (!isActive) {
     return null;
@@ -590,18 +578,18 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   if (!saveDocument) {
     return (
       <div className="editor-empty-state compact">
-        <h3>JSON workspace is unavailable</h3>
+        <h3>JSON editor is unavailable</h3>
         <p>Decode a save before opening the expert editor.</p>
       </div>
     );
   }
 
   return (
-    <div className="json-editor-shell" aria-label="Expert JSON workspace" aria-busy={isParsing}>
+    <div className="json-editor-shell" aria-label="Full document JSON editor" aria-busy={isParsing}>
       <div className="json-editor-toolbar">
         <div className="json-editor-heading">
-          <h3 id={editorLabelId}>Expert JSON workspace</h3>
-          <p>Edit the full save document locally, then commit the parsed result back to the centralized store.</p>
+          <h3 id={editorLabelId}>Full document editor</h3>
+          <p>Edit the complete save data, then apply the parsed draft.</p>
         </div>
         <div className="json-editor-actions">
           <button type="button" className="btn secondary" onClick={handleUndo} disabled={history.index <= 0}>
@@ -628,24 +616,9 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
             <FaDownload aria-hidden="true" /> Export
           </button>
           <button type="button" className="btn primary" onClick={handleApply} disabled={!canApply}>
-            <FaSave aria-hidden="true" /> Apply to workspace
+            <FaSave aria-hidden="true" /> Apply changes
           </button>
         </div>
-      </div>
-
-      <div className="json-editor-meta">
-        <span className="status-chip neutral">{String(saveDocument.sourceType).toUpperCase()} save</span>
-        <span className={`status-chip ${hasLocalChanges ? 'warning' : 'success'}`}>
-          {hasLocalChanges ? 'Local changes pending' : 'Draft matches workspace'}
-        </span>
-        <span className={`status-chip ${isParsing ? 'neutral' : isEditorInvalid ? 'danger' : 'success'}`}>
-          {isParsing ? 'Parsing draft' : isEditorInvalid ? 'JSON invalid' : 'JSON valid'}
-        </span>
-        <span className="status-chip neutral">{lineCount} lines</span>
-        <span className="status-chip neutral">Ln {cursorState.line}, Col {cursorState.column}</span>
-        <span className="status-chip neutral">
-          {searchMatchCount > 0 ? `${currentSearchMatch}/${searchMatchCount} matches` : 'Search idle'}
-        </span>
       </div>
 
       <div className="json-editor-search" role="search" aria-label="Search in JSON draft">
@@ -711,13 +684,13 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
       </div>
 
       <div className="json-editor-surface">
-        <JsonCodeMirror
+        <JsonTextEditor
           ref={editorRef}
           value={draft}
           searchQuery={searchState.query}
           caseSensitive={searchState.caseSensitive}
           invalid={isEditorInvalid}
-          describedBy={`${editorHelperId} ${editorStatusId}${validationIssues.length > 0 ? ` ${editorValidationId}` : ''}`}
+          describedBy={`${editorHelperId}${showStatus ? ` ${editorStatusId}` : ''}${validationIssues.length > 0 ? ` ${editorValidationId}` : ''}`}
           onChange={handleDraftChange}
           onCursorChange={handleCursorChange}
           onRequestSearchFocus={focusSearchInput}
@@ -732,54 +705,44 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
       </div>
 
       <p id={editorHelperId} className="json-editor-helper">
-        This mode is commit-based: changes stay local until you click Apply to workspace.
+        Changes stay in this draft until you click Apply changes.
       </p>
 
-      <div
-        id={editorStatusId}
-        className={`json-editor-status-block${parseState.errorMessage ? ' is-error' : ''}`}
-        role={parseState.errorMessage ? 'alert' : 'status'}
-      >
-        <div className="json-editor-status-block__summary">
-          <span>{statusMessage}</span>
-          {parseState.errorLine !== null && parseState.errorColumn !== null && (
-            <span className="json-editor-status-block__location">
-              Line {parseState.errorLine}, column {parseState.errorColumn}
-            </span>
+      {showStatus && (
+        <div
+          id={editorStatusId}
+          className={`json-editor-status-block${isEditorInvalid ? ' is-error' : ''}`}
+          role={isEditorInvalid ? 'alert' : 'status'}
+        >
+          <div className="json-editor-status-block__summary">
+            <span>{statusMessage}</span>
+            {parseState.errorLine !== null && parseState.errorColumn !== null && (
+              <span className="json-editor-status-block__location">
+                Line {parseState.errorLine}, column {parseState.errorColumn}
+              </span>
+            )}
+          </div>
+          {parseState.errorOffset !== null && (
+            <button type="button" className="btn secondary" onClick={handleJumpToError}>
+              <FaCrosshairs aria-hidden="true" /> Jump to error
+            </button>
           )}
         </div>
-        {parseState.errorOffset !== null && (
-          <button type="button" className="btn secondary" onClick={handleJumpToError}>
-            <FaCrosshairs aria-hidden="true" /> Jump to error
-          </button>
-        )}
-      </div>
+      )}
 
       <div className="sr-only" aria-live="polite">
         {liveMessage ?? ''}
       </div>
 
       {validationIssues.length > 0 && (
-        <div className="workflow-list-block json-validation-summary" id={editorValidationId}>
-          <h3>Workspace validation after commit</h3>
+        <div className="json-validation-summary" id={editorValidationId}>
+          <h3>Validation after apply</h3>
           <div className="json-validation-summary__meta">
             <span className="status-chip danger">{validationSummary.errors.length} errors</span>
             <span className="status-chip warning">{validationSummary.warnings.length} warnings</span>
-            <span className="status-chip neutral">{validationSummary.topPaths.length} hot spots</span>
           </div>
 
-          {validationSummary.topPaths.length > 0 && (
-            <ul className="json-validation-summary__paths">
-              {validationSummary.topPaths.map((item) => (
-                <li key={item.path}>
-                  <span className="field-path-badge">{item.count}</span>
-                  <span className="issue-path">{item.path}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <ul className="workflow-list json-validation-summary__issues">
+          <ul className="validation-issue-list json-validation-summary__issues">
             {visibleValidationIssues.map((issue) => (
               <li key={`${issue.code}-${issue.path ?? issue.message}`}>
                 <span className={`issue-severity-pill ${issue.severity}`}>{issue.severity.toUpperCase()}</span>

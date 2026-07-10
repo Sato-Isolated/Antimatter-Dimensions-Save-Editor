@@ -72,4 +72,30 @@ describe('save editor store', () => {
     expect(store.getState().encodedOutputData).toBe('');
     expect(store.getState().encryptedSave).toBe('');
   });
+
+  it('revalidates edits automatically and resets the complete session', () => {
+    const store = createSaveEditorStore();
+    const encoded = encodeSaveData(createPcSave(), SaveType.PC)!;
+
+    store.loadFromEncoded(encoded);
+    store.updateDocumentAtPath('version', 'invalid');
+
+    expect(store.getState().document?.validation.success).toBe(true);
+    expect(store.getState().document?.validation.issues).toEqual(
+      expect.arrayContaining([expect.objectContaining({ path: 'version', severity: 'warning' })]),
+    );
+
+    store.reset();
+
+    expect(store.getState()).toMatchObject({
+      rawSaveData: '',
+      encodedOutputData: '',
+      encryptedSave: '',
+      errorMessage: null,
+      isLoaded: false,
+      isDirty: false,
+      document: null,
+      lastChange: null,
+    });
+  });
 });

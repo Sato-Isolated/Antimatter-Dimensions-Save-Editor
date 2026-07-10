@@ -1,0 +1,268 @@
+@use '../tools/mixins';
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: grid;
+  padding: var(--space-5);
+  background: rgba(1, 4, 10, 0.78);
+  place-items: center;
+  animation: dialog-fade var(--motion-fast) ease-out both;
+}
+
+.app-dialog {
+  width: min(100%, 40rem);
+  max-height: min(90dvh, 52rem);
+  overflow: auto;
+  @include mixins.surface(var(--surface-raised), var(--border-strong), var(--radius-md));
+  color: var(--text);
+  box-shadow: 0 2rem 6rem var(--shadow);
+  animation: dialog-enter var(--motion-base) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 1.8rem 2rem 1.2rem;
+
+  > div {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  h2 {
+    font-size: 1.55rem;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    max-width: 60ch;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+}
+
+.dialog-close {
+  flex: 0 0 auto;
+
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.75;
+  }
+}
+
+.dialog-body {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 2rem 1.4rem;
+
+  > label {
+    color: var(--text-strong);
+    font-size: 0.88rem;
+    font-weight: 620;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 15rem;
+    padding: 0.9rem 1rem;
+    resize: vertical;
+    @include mixins.surface(var(--field), var(--border-strong));
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: 1.1rem 2rem 1.7rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+.export-copy-state {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--success);
+  font-size: 0.86rem;
+
+  &.error {
+    color: var(--danger);
+  }
+}
+
+.confirm-dialog {
+  width: min(100%, 32rem);
+}
+
+.preferences-dialog {
+  width: min(100%, 48rem);
+}
+
+.preferences-content {
+  gap: var(--space-7);
+}
+
+.theme-picker {
+  display: grid;
+  gap: var(--space-4);
+
+  legend {
+    margin-bottom: var(--space-4);
+    color: var(--text-strong);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 650;
+  }
+}
+
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.theme-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 4.4rem;
+  padding: 0.8rem;
+  @include mixins.surface(var(--surface-soft));
+  cursor: pointer;
+  @include mixins.transition(border-color, background-color);
+
+  &:hover,
+  &.active {
+    border-color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.07);
+  }
+
+  input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--accent);
+  }
+}
+
+.theme-option-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+
+  strong {
+    color: var(--text-strong);
+    font-size: 0.88rem;
+  }
+
+  small {
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.73rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.theme-swatches {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.15rem;
+
+  span {
+    width: 0.85rem;
+    height: 1.7rem;
+  }
+}
+
+.about-editor {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+
+  h3 {
+    font-size: 1.05rem;
+  }
+
+  p,
+  a {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+  }
+
+  a {
+    width: fit-content;
+    color: var(--accent);
+  }
+}
+
+.section-picker-dialog {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88vw, 24rem);
+  max-height: 100dvh;
+  border-width: 0 1px 0 0;
+  border-radius: 0;
+}
+
+.mobile-section-navigation {
+  padding: 0 var(--space-4) var(--space-7);
+
+  .section-nav-button::before {
+    left: -1rem;
+  }
+}
+
+@keyframes dialog-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dialog-enter {
+  from { opacity: 0; transform: translateY(0.75rem) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@include mixins.media-down(forms) {
+  .dialog-backdrop {
+    padding: var(--space-3);
+  }
+
+  .app-dialog {
+    max-height: calc(100dvh - 1.5rem);
+  }
+
+  .dialog-header {
+    padding: 1.35rem 1.25rem 1rem;
+  }
+
+  .dialog-body {
+    padding: 0 1.25rem 1.2rem;
+  }
+
+  .dialog-actions {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .theme-options {
+    grid-template-columns: 1fr;
+  }
+
+  .section-picker-dialog {
+    max-height: 100dvh;
+  }
+}

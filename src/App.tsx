@@ -1,7 +1,5 @@
 import React from 'react';
-import Header from './components/Header';
 import Main from './components/Main';
-import Footer from './components/Footer';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { SaveProvider } from './contexts/SaveContext';
 
@@ -10,13 +8,12 @@ const App: React.FC = () => {
     <ThemeProvider>
       <SaveProvider>
         <div className="app">
-          <Header />
+          <a className="skip-link" href="#save-editor">Skip to editor</a>
           <Main />
-          <Footer />
         </div>
       </SaveProvider>
     </ThemeProvider>
   );
-}
+};
 
-export default App; 
+export default App;

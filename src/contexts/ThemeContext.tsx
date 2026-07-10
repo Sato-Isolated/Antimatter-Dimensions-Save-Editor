@@ -12,7 +12,7 @@ interface ThemeContextType {
 
 // Creating context with default values
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => {},
   setTheme: () => {}
 });
@@ -44,8 +44,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     }
     
-    // Default to light theme
-    return 'light';
+    // The approved cosmic-editorial surface is the default for new visitors.
+    return 'dark';
   };
   
   // State to store the current theme
@@ -84,7 +84,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       
       switch (theme) {
         case 'dark':
-          themeColor = '#121212';
+          themeColor = '#070a11';
           break;
         case 'antimatter':
           themeColor = '#090516';

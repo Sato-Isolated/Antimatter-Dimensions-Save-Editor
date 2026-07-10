@@ -1,24 +1,16 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
-import type { IconType } from 'react-icons';
-import {
-  FaAtom,
-  FaCircleNotch,
-  FaClone,
-  FaCog,
-  FaCube,
-  FaExpand,
-  FaGem,
-  FaHistory,
-  FaHourglassHalf,
-  FaInfinity,
-  FaRobot,
-  FaStar,
-  FaSun,
-  FaTrophy,
-} from 'react-icons/fa';
+import React, {
+  forwardRef,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSave, useSaveSelector } from '../contexts/SaveContext';
 import { tokenizeDocumentPath } from '../core/document/path';
 import { SaveValidationIssue } from '../core/save/types';
+import AppDialog from './AppDialog';
 import {
   AutoBuyersSection,
   BlackHolesSection,
@@ -39,7 +31,12 @@ import {
 
 interface StructuredEditorProps {
   isActive: boolean;
+  toolbarAside: React.ReactNode;
 }
+
+export type StructuredEditorHandle = {
+  focusFirstError: () => void;
+};
 
 interface StructuredSectionDefinition {
   id: string;
@@ -48,7 +45,6 @@ interface StructuredSectionDefinition {
   description: string;
   Component: React.ComponentType<SectionProps>;
   issuePrefixes: string[];
-  Icon: IconType;
 }
 
 const structuredSectionGroups: Array<StructuredSectionDefinition['group']> = [
@@ -64,7 +60,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'General',
     description: 'Core progression, currencies, and top-level save values.',
     Component: GeneralSection,
-    Icon: FaAtom,
     issuePrefixes: [
       'antimatter',
       'matter',
@@ -87,7 +82,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Dimensions',
     description: 'Antimatter, Infinity, Time, Eternity, and Reality dimensions.',
     Component: DimensionsSection,
-    Icon: FaCube,
     issuePrefixes: [
       'dimensions.antimatter',
       'dimensions.infinity',
@@ -102,7 +96,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Replicanti',
     description: 'Replicanti settings, upgrades, and galaxy growth.',
     Component: ReplicantiSection,
-    Icon: FaClone,
     issuePrefixes: ['replicanti'],
   },
   {
@@ -111,7 +104,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Infinity',
     description: 'Infinity resources, upgrades, and related progression.',
     Component: InfinitySection,
-    Icon: FaInfinity,
     issuePrefixes: [
       'infinity',
       'infinityPoints',
@@ -131,7 +123,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Eternity',
     description: 'Eternity currencies, studies, and related progression.',
     Component: EternitySection,
-    Icon: FaHourglassHalf,
     issuePrefixes: [
       'eternity',
       'eternityPoints',
@@ -147,7 +138,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Dilation',
     description: 'Time dilation resources, upgrades, and rebuyables.',
     Component: DilationSection,
-    Icon: FaExpand,
     issuePrefixes: ['dilation', 'dilatedTime', 'tachyonParticles'],
   },
   {
@@ -156,7 +146,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Reality',
     description: 'Reality progression, machines, and automator state.',
     Component: RealitySection,
-    Icon: FaSun,
     issuePrefixes: ['realities', 'partSimulatedReality', 'reality'],
   },
   {
@@ -165,7 +154,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Glyphs',
     description: 'Glyph inventory, filter state, and sacrifice progress.',
     Component: GlyphsSection,
-    Icon: FaGem,
     issuePrefixes: ['glyphs', 'reality.glyphs', 'sac'],
   },
   {
@@ -174,7 +162,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Celestials',
     description: 'Celestial progression, unlocks, and run-specific data.',
     Component: CelestialsSection,
-    Icon: FaStar,
     issuePrefixes: ['celestials'],
   },
   {
@@ -183,7 +170,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Black Holes',
     description: 'Black hole upgrades, intervals, and state.',
     Component: BlackHolesSection,
-    Icon: FaCircleNotch,
     issuePrefixes: ['blackHole', 'blackHolePause', 'reality.blackHoleBits'],
   },
   {
@@ -192,7 +178,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Challenges',
     description: 'Normal, Infinity, Eternity, and Reality challenge state.',
     Component: ChallengesSection,
-    Icon: FaTrophy,
     issuePrefixes: ['challenge', 'challenges'],
   },
   {
@@ -201,7 +186,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Autobuyers',
     description: 'Automation toggles, intervals, and purchase settings.',
     Component: AutoBuyersSection,
-    Icon: FaRobot,
     issuePrefixes: ['auto', 'autobuyer'],
   },
   {
@@ -210,7 +194,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Records',
     description: 'Timers, best runs, and historical milestone records.',
     Component: RecordsSection,
-    Icon: FaHistory,
     issuePrefixes: ['records', 'lastTen', 'best'],
   },
   {
@@ -219,7 +202,6 @@ const structuredSections: StructuredSectionDefinition[] = [
     title: 'Settings',
     description: 'Options, confirmations, UI preferences, and toggles.',
     Component: SettingsSection,
-    Icon: FaCog,
     issuePrefixes: ['options'],
   },
 ];
@@ -295,12 +277,13 @@ const updateDescribedBy = (control: HTMLElement, validationId: string | null): v
   control.removeAttribute('aria-describedby');
 };
 
-const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
+const StructuredEditor = forwardRef<StructuredEditorHandle, StructuredEditorProps>(({ isActive, toolbarAside }, ref) => {
   const panelId = useId();
   const { isLoaded, modifiedSaveData, saveType, updateSaveData } = useSave();
-  const document = useSaveSelector((state) => state.document);
+  const saveDocument = useSaveSelector((state) => state.document);
   const panelRef = useRef<HTMLElement | null>(null);
   const [activeSectionId, setActiveSectionId] = useState<string>(structuredSections[0].id);
+  const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
 
   useEffect(() => {
     if (!structuredSections.some((section) => section.id === activeSectionId)) {
@@ -308,7 +291,7 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
     }
   }, [activeSectionId]);
 
-  const validationIssues = useMemo(() => document?.validation.issues ?? [], [document]);
+  const validationIssues = useMemo(() => saveDocument?.validation.issues ?? [], [saveDocument]);
 
   const sectionIssues = useMemo(() => {
     return structuredSections.reduce<Record<string, SaveValidationIssue[]>>((accumulator, section) => {
@@ -342,22 +325,19 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
       }
 
       const severityClass = severityClassByIssue(matchingIssues);
-      const title = matchingIssues.map((issue) => issue.message).join('\n');
-      const label = matchingIssues.some((issue) => issue.severity === 'error')
-        ? `${matchingIssues.length} validation error${matchingIssues.length === 1 ? '' : 's'}`
-        : `${matchingIssues.length} validation warning${matchingIssues.length === 1 ? '' : 's'}`;
+      const firstIssue = matchingIssues[0];
       const validationId = `${LEGACY_VALIDATION_ID_PREFIX}${sanitizePathForId(path)}`;
 
       return (
         <span
           id={validationId}
-          className={`validation-indicator status-chip ${severityClass}`}
-          title={title}
-          aria-label={label}
+          className={`validation-message ${severityClass}`}
           data-validation-id={validationId}
           data-validation-path={path}
+          data-validation-severity={firstIssue.severity}
         >
-          {matchingIssues.length}
+          {firstIssue.message}
+          {matchingIssues.length > 1 ? ` (+${matchingIssues.length - 1} more)` : ''}
         </span>
       );
     };
@@ -404,7 +384,7 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
 
         updateDescribedBy(control, validationId);
 
-        if (validationId) {
+        if (validationId && validationIndicator?.dataset.validationSeverity === 'error') {
           control.setAttribute('aria-invalid', 'true');
           return;
         }
@@ -414,15 +394,80 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
     });
   }, [activeSectionId, modifiedSaveData, validationIssues]);
 
+  useImperativeHandle(ref, () => ({
+    focusFirstError: () => {
+      const firstError = validationIssues.find((issue) => issue.severity === 'error' && issue.path);
+      if (!firstError?.path) {
+        return;
+      }
+
+      const targetSection = structuredSections.find((section) => {
+        return section.issuePrefixes.some((prefix) => matchesIssuePrefix(firstError.path, prefix));
+      });
+
+      if (targetSection) {
+        setActiveSectionId(targetSection.id);
+      }
+      setIsMobileNavigationOpen(false);
+
+      window.setTimeout(() => {
+        const validationId = `${LEGACY_VALIDATION_ID_PREFIX}${sanitizePathForId(firstError.path ?? '')}`;
+        const control = document.querySelector<HTMLElement>(`[aria-describedby~="${validationId}"]`);
+        control?.focus();
+        control?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 0);
+    },
+  }), [validationIssues]);
+
   const activeSection = structuredSections.find((section) => section.id === activeSectionId) ?? structuredSections[0];
-  const activeSectionIssueCount = sectionIssues[activeSection.id]?.length ?? 0;
   const ActiveSectionComponent = activeSection.Component;
+
+  const renderNavigation = (isMobile = false): React.ReactNode => (
+    <>
+      {groupedSections.map(({ group, sections }) => (
+        <section key={group} className="section-nav-group" aria-label={group}>
+          <p className="section-nav-group-title">{group}</p>
+          <div className="section-nav-list">
+            {sections.map((section) => {
+              const isSelected = section.id === activeSection.id;
+              const issues = sectionIssues[section.id] ?? [];
+              const severityClass = issues.length > 0 ? severityClassByIssue(issues) : '';
+
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  id={isMobile ? undefined : `${panelId}-${section.id}-tab`}
+                  className={`section-nav-button ${isSelected ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveSectionId(section.id);
+                    if (isMobile) {
+                      setIsMobileNavigationOpen(false);
+                    }
+                  }}
+                  aria-current={isSelected ? 'page' : undefined}
+                  aria-label={issues.length > 0
+                    ? `${section.title}, ${issues.length} issue${issues.length === 1 ? '' : 's'}`
+                    : section.title}
+                >
+                  <span>{section.title}</span>
+                  {issues.length > 0 ? (
+                    <span className={`section-nav-count ${severityClass}`} aria-hidden="true">{issues.length}</span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </>
+  );
 
   if (!isActive) {
     return null;
   }
 
-  if (!isLoaded || !document || !modifiedSaveData) {
+  if (!isLoaded || !saveDocument || !modifiedSaveData) {
     return (
       <div className="editor-empty-state" role="status" aria-live="polite">
         <h3>Structured editor unavailable</h3>
@@ -433,86 +478,60 @@ const StructuredEditor: React.FC<StructuredEditorProps> = ({ isActive }) => {
 
   return (
     <div className="structured-editor" aria-label="Structured save editor">
-      <div className="editor-sections">
-        <nav className="section-nav" aria-label="Structured editor sections">
-          <div className="section-nav-header">
-            <h3>Sections</h3>
-            <p>Choose a save area to edit against the current document store.</p>
-          </div>
+      <nav className="section-navigation" aria-label="Structured editor sections">
+        {renderNavigation()}
+      </nav>
 
-          {groupedSections.map(({ group, sections }) => (
-            <section key={group} className="section-nav-group" aria-label={group}>
-              <p className="section-nav-group-title">{group}</p>
-              <div className="section-nav-list">
-                {sections.map((section) => {
-                  const isSelected = section.id === activeSection.id;
-                  const issues = sectionIssues[section.id] ?? [];
-                  const severityClass = issues.length > 0 ? severityClassByIssue(issues) : 'neutral';
-                  const SectionIcon = section.Icon;
+      <article className="editor-document">
+        <button
+          type="button"
+          className="mobile-section-trigger"
+          onClick={() => setIsMobileNavigationOpen(true)}
+          aria-haspopup="dialog"
+        >
+          <span>{activeSection.title}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+        </button>
 
-                  return (
-                    <button
-                      key={section.id}
-                      type="button"
-                      id={`${panelId}-${section.id}-tab`}
-                      className={`section-button ${isSelected ? 'active' : ''}`}
-                      onClick={() => setActiveSectionId(section.id)}
-                      aria-pressed={isSelected}
-                      aria-label={issues.length > 0
-                        ? `${section.title}, ${issues.length} issue${issues.length === 1 ? '' : 's'}`
-                        : `${section.title}, no issues`}
-                    >
-                      <span className="section-button-label">
-                        <SectionIcon className="section-button-icon" aria-hidden="true" />
-                        <span>{section.title}</span>
-                      </span>
-                      {issues.length > 0 && (
-                        <span className={`status-chip ${severityClass}`} aria-hidden="true">
-                          {issues.length}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+        <section
+          ref={panelRef}
+          id={`${panelId}-${activeSection.id}-panel`}
+          className="editor-document-content"
+          role="region"
+          aria-labelledby={`${panelId}-${activeSection.id}-tab`}
+        >
+          <header className="editor-document-header">
+            <div>
+              <h2>{activeSection.title}</h2>
+              <p>{activeSection.description}</p>
+            </div>
+            {toolbarAside}
+          </header>
+
+          <ActiveSectionComponent
+            saveData={modifiedSaveData}
+            handleValueChange={updateSaveData}
+            renderValidationIndicator={renderValidationIndicator}
+            saveType={saveType}
+          />
+        </section>
+      </article>
+
+      <AppDialog
+        isOpen={isMobileNavigationOpen}
+        title="Sections"
+        description="Choose a save area to edit."
+        className="section-picker-dialog"
+        onClose={() => setIsMobileNavigationOpen(false)}
+      >
+        <nav className="mobile-section-navigation" aria-label="Save sections">
+          {renderNavigation(true)}
         </nav>
-
-        <div className="section-content">
-          <section
-            ref={panelRef}
-            id={`${panelId}-${activeSection.id}-panel`}
-            className="section-pane active"
-            role="region"
-            aria-labelledby={`${panelId}-${activeSection.id}-tab`}
-          >
-            <header className="structured-editor-toolbar">
-              <div>
-                <h2>{activeSection.title}</h2>
-                <p>{activeSection.description}</p>
-              </div>
-              <div className="structured-editor-status" aria-label="Section validation status">
-                <span className="status-chip neutral">Format: {saveType.toUpperCase()}</span>
-                <span className={`status-chip ${activeSectionIssueCount > 0 ? severityClassByIssue(sectionIssues[activeSection.id] ?? []) : 'success'}`}>
-                  {activeSectionIssueCount > 0
-                    ? `${activeSectionIssueCount} issue${activeSectionIssueCount === 1 ? '' : 's'}`
-                    : 'No issues'}
-                </span>
-              </div>
-            </header>
-
-            <ActiveSectionComponent
-              saveData={modifiedSaveData}
-              handleValueChange={updateSaveData}
-              renderValidationIndicator={renderValidationIndicator}
-              saveType={saveType}
-            />
-          </section>
-        </div>
-      </div>
+      </AppDialog>
     </div>
   );
-};
+});
+
+StructuredEditor.displayName = 'StructuredEditor';
 
 export default StructuredEditor;

@@ -36,7 +36,6 @@ const createInitialState = (): SaveEditorState => ({
   isLoaded: false,
   isDirty: false,
   saveType: SaveType.PC,
-  testResults: null,
   document: null,
   lastChange: null,
 });
@@ -56,7 +55,7 @@ export class SaveEditorStore {
   getState = (): SaveEditorState => this.state;
 
   setRawSaveData = (rawSaveData: string): void => {
-    this.patch({ rawSaveData });
+    this.patch({ rawSaveData, errorMessage: null });
   };
 
   loadFromEncoded = (rawSaveData: string = this.state.rawSaveData): { success: boolean; errorMessage: string | null } => {
@@ -175,10 +174,6 @@ export class SaveEditorStore {
     });
 
     return encoded;
-  };
-
-  setTestResults = (testResults: SaveEditorState['testResults']): void => {
-    this.patch({ testResults });
   };
 
   setErrorMessage = (errorMessage: string | null): void => {
