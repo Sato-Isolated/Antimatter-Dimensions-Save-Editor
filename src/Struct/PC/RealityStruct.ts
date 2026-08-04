@@ -38,25 +38,12 @@ export interface AntimatterDimensionsStructReality {
 export interface Automator {
     state:           State;
     scripts:         { [key: string]: Script };
-    constants:       Constants;
+    constants:       Record<string, string>;
+    constantSortOrder: string[];
     execTimer:       number;
     type:            number;
     forceUnlock:     boolean;
     currentInfoPane: number;
-}
-
-export interface Constants {
-    TSEarlyGame:     string;
-    TSADActive:      string;
-    TSTDActive:      string;
-    TSFirstDil:      string;
-    TSIDActive:      string;
-    TSTDPassive:     string;
-    TSTDIdle:        string;
-    TSEC11:          string;
-    TS2PathFull:     string;
-    TS2PathFullIdle: string;
-    TSFull:          string;
 }
 
 export interface Script {
@@ -72,14 +59,14 @@ export interface State {
     repeat:          boolean;
     forceRestart:    boolean;
     followExecution: boolean;
-    stack:           any[];
+    stack:           unknown[];
 }
 
 export interface Glyphs {
-    active:              any[];
+    active:              unknown[];
     inventory:           Inventory[];
     sac:                 HighestRefinementValue;
-    undo:                any[];
+    undo:                unknown[];
     sets:                Set[];
     protectedRows:       number;
     createdRealityGlyph: boolean;
@@ -89,7 +76,7 @@ export interface Glyphs {
 export interface Cosmetics {
     active:           boolean;
     glowNotification: boolean;
-    unlockedFromNG:   any[];
+    unlockedFromNG:   unknown[];
     symbolMap:        EternityChalls;
     colorMap:         EternityChalls;
 }

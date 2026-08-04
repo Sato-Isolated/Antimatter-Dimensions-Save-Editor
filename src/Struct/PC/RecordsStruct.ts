@@ -5,10 +5,14 @@ export interface AntimatterDimensionsStructRecords {
     realTimePlayed:       number;
     realTimeDoomed:       number;
     fullGameCompletions:  number;
+    previousRunRealTime?: number;
     totalAntimatter:      string;
-    lastTenInfinities:    Array<Array<number | string>>;
-    lastTenEternities:    Array<Array<number | string>>;
-    lastTenRealities:     Array<Array<number | RealityMachines>>;
+    recentInfinities?:    Array<Array<number | string>>;
+    recentEternities?:    Array<Array<number | string>>;
+    recentRealities?:     Array<Array<number | RealityMachines | string>>;
+    lastTenInfinities?:   Array<Array<number | string>>;
+    lastTenEternities?:   Array<Array<number | string>>;
+    lastTenRealities?:    Array<Array<number | RealityMachines>>;
     thisInfinity:         ThisInfinity;
     bestInfinity:         BestInfinity;
     thisEternity:         ThisEternity;
@@ -98,4 +102,4 @@ export interface ThisReality {
     bestEternitiesPerMs: string;
     maxReplicanti:       string;
     maxDT:               string;
-} 
+}

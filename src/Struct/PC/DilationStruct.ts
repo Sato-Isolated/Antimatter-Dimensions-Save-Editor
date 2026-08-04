@@ -1,12 +1,12 @@
 export interface AntimatterDimensionsStructDilation {
-    studies:              any[];
+    studies:              unknown[];
     active:               boolean;
     tachyonParticles:     string;
     dilatedTime:          string;
     nextThreshold:        string;
     baseTachyonGalaxies:  number;
     totalTachyonGalaxies: number;
-    upgrades:             any[];
+    upgrades:             unknown[];
     rebuyables:           { [key: string]: number };
     lastEP:               string;
-} 
+}

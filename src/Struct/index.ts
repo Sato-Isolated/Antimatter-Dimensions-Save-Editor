@@ -27,40 +27,71 @@ export type { BankedInfinitiesClass };
 // Type helper for components
 export type AntimatterDimensionsStructType = PCStructType | AndroidStructType;
 
+type StructBigNumber = string | number | { mantissa: number; exponent: number };
+
+interface StructDimension {
+  amount?: StructBigNumber;
+  bought?: number;
+  cost?: StructBigNumber;
+  costBumps?: number;
+  baseAmount?: number;
+  isUnlocked?: boolean;
+}
+
+interface StructDimensions {
+  antimatter?: StructDimension[];
+  infinity?: StructDimension[];
+  time?: StructDimension[];
+}
+
+interface StructChallengeState {
+  current?: number;
+  bestTimes?: number[];
+  completedBits?: number;
+  unlocked?: number;
+  requirementBits?: number;
+}
+
+interface StructChallenge {
+  normal?: StructChallengeState;
+  infinity?: StructChallengeState;
+  eternity?: StructChallengeState;
+}
+
 // Type declaration to handle common properties accessed across both platforms
 declare global {
   interface CommonPlatformProps {
-    dimensions?: any;
-    challenge?: any;
-    antimatter?: any;
+    dimensions?: StructDimensions;
+    challenge?: StructChallenge;
+    antimatter?: unknown;
     break?: boolean;
     infinityPoints?: string | { mantissa: number; exponent: number };
     infinities?: string | { mantissa: number; exponent: number };
     infinitiesBanked?: string | { mantissa: number; exponent: number };
     infinityPower?: string | { mantissa: number; exponent: number };
     IPMultPurchases?: number;
-    infinityUpgrades?: any[];
-    matter?: any;
+    infinityUpgrades?: unknown[];
+    matter?: StructBigNumber;
     dimensionBoosts?: number;
     galaxies?: number;
-    sacrificed?: any;
-    partInfinityPoint?: any;
-    partInfinitied?: any;
-    eternityPoints?: any;
-    eternities?: any;
-    timeShards?: any;
-    totalTickGained?: any;
-    totalTickBought?: any;
-    realities?: any;
+    sacrificed?: StructBigNumber;
+    partInfinityPoint?: number | string;
+    partInfinitied?: number | string;
+    eternityPoints?: StructBigNumber;
+    eternities?: StructBigNumber;
+    timeShards?: StructBigNumber;
+    totalTickGained?: StructBigNumber;
+    totalTickBought?: StructBigNumber;
+    realities?: StructBigNumber;
     ic2Count?: number;
-    eterc8ids?: any;
-    eterc8repl?: any;
-    chall2Pow?: any;
-    chall3Pow?: any;
-    chall8TotalSacrifice?: any;
-    chall9TickspeedCostBumps?: any;
+    eterc8ids?: number;
+    eterc8repl?: number;
+    chall2Pow?: number;
+    chall3Pow?: StructBigNumber;
+    chall8TotalSacrifice?: StructBigNumber;
+    chall9TickspeedCostBumps?: number;
     tickspeed?: string | { mantissa: number; exponent: number };
-    eternityUpgrades?: any[];
+    eternityUpgrades?: unknown[];
     epmultUpgrades?: number;
     timestudies?: {
       studies?: number[];
@@ -79,4 +110,4 @@ declare module './AntimatterDimensionsStruct' {
 // Augment the AndroidStruct type
 declare module './Android/AndroidStruct' {
   interface AntimatterDimensionsStructAndroid extends CommonPlatformProps {}
-} 
+}

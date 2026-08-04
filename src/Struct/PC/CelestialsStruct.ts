@@ -307,7 +307,7 @@ export interface SingularitySorting {
 
 export interface Pelle {
     doomed:          boolean;
-    upgrades:        any[];
+    upgrades:        unknown[];
     remnants:        number;
     realityShards:   string;
     records:         PelleRecords;
@@ -382,7 +382,7 @@ export interface Ra {
     momentumTime:           number;
     unlockBits:             number;
     run:                    boolean;
-    charged:                any[];
+    charged:                unknown[];
     disCharge:              boolean;
     peakGamespeed:          number;
     petWithRemembrance:     string;
@@ -429,4 +429,4 @@ export interface V {
     runGlyphs:          Array<BestAmSet[]>;
     runRecords:         number[];
     wantsFlipped:       boolean;
-} 
+}

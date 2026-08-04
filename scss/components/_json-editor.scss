@@ -151,6 +151,11 @@
   background: rgba(var(--danger-rgb), 0.07);
 }
 
+.json-editor-status-block.is-conflict {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
 .json-editor-status-block__summary {
   display: grid;
   gap: 0.2rem;

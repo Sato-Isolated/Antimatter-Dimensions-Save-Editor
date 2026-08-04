@@ -71,7 +71,7 @@ export interface Speedrun {
     isUnlocked:           boolean;
     name:                 string;
     offlineTimeUsed:      number;
-    previousRuns:         any[];
+    previousRuns:         unknown[];
     records:              number[];
     seedSelection:        number;
     startDate:            number;
@@ -79,4 +79,4 @@ export interface Speedrun {
 }
 
 export interface AchievementTimes {
-} 
+}

@@ -45,27 +45,13 @@ export interface AntimatterDimensionsStructReality {
 
 export interface Automator {
     constantSortOrder: string[];
-    constants:         Constants;
+    constants:         Record<string, string>;
     currentInfoPane:   number;
     execTimer:         number;
     forceUnlock:       boolean;
     scripts:           Script[];
     state:             State;
     type:              number;
-}
-
-export interface Constants {
-    TSEarlyGame:     string;
-    TSADActive:      string;
-    TSTDActive:      string;
-    TSFirstDil:      string;
-    TSIDActive:      string;
-    TSTDPassive:     string;
-    TSTDIdle:        string;
-    TSEC11:          string;
-    TS2PathFull:     string;
-    TS2PathFullIdle: string;
-    TSFull:          string;
 }
 
 export interface Script {
@@ -80,12 +66,12 @@ export interface State {
     forceRestart:    boolean;
     mode:            number;
     repeat:          boolean;
-    stack:           any[];
+    stack:           unknown[];
     topLevelScript:  number;
 }
 
 export interface Glyphs {
-    active:              any[];
+    active:              unknown[];
     cosmetics:           Cosmetics;
     createdRealityGlyph: boolean;
     filter:              Filter;
@@ -93,7 +79,7 @@ export interface Glyphs {
     protectedRows:       number;
     sac:                 HighestRefinementValue;
     sets:                Set[];
-    undo:                any[];
+    undo:                unknown[];
 }
 
 export interface Cosmetics {
@@ -101,7 +87,7 @@ export interface Cosmetics {
     colorMap:         AchievementTimes;
     glowNotification: boolean;
     symbolMap:        AchievementTimes;
-    unlockedFromNG:   any[];
+    unlockedFromNG:   unknown[];
 }
 
 export interface Filter {

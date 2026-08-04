@@ -3,12 +3,14 @@
   "private": true,
   "version": "2.1",
   "type": "module",
+  "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "pnpm typecheck && vite build",
+    "typecheck": "tsc --noEmit --project tsconfig.json --pretty false && tsc --noEmit --project tsconfig.node.json --pretty false",
     "prebuild": "pnpm run clean",
     "clean": "rimraf dist",
-    "lint": "eslint src --ext ts,tsx",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "test": "vitest run",
     "preview": "vite preview",
     "deploy": "pnpm run build && gh-pages -d dist"

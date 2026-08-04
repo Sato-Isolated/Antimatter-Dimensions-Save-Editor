@@ -1,12 +1,15 @@
 # Dependencies
 node_modules/
 dist/
+*.tsbuildinfo
 scss/main.css
 scss/main.css.map
 .github/*
 !.github/
 !.github/agents/
 !.github/instructions/
+!.github/workflows/
+!.github/workflows/**
 .vscode/*
 !.vscode/
 !.vscode/settings.json

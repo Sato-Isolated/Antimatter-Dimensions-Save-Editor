@@ -9,7 +9,7 @@ export interface Speedrun {
     startDate:            number;
     name:                 string;
     offlineTimeUsed:      number;
-    records:              { [key: string]: number };
-    milestones:           any[];
-    achievementTimes:     any;
-} 
+    records:              unknown[] | Record<string, number>;
+    milestones:           unknown[];
+    achievementTimes:     Record<string, unknown>;
+}

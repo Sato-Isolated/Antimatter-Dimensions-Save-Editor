@@ -111,13 +111,15 @@
   position: relative;
   min-width: 0;
   overflow: hidden;
+  isolation: isolate;
+  contain: paint;
   padding: clamp(2.5rem, 4vw, 4.1rem) clamp(2rem, 4.2vw, 4.8rem) 5rem;
 
   &::before {
     position: absolute;
     top: -15rem;
-    right: -18rem;
-    width: 48rem;
+    right: 0;
+    width: min(48rem, 100%);
     height: 48rem;
     pointer-events: none;
     border: 1px solid var(--orbit);
@@ -127,6 +129,7 @@
       0 0 0 14rem color-mix(in srgb, var(--orbit) 28%, transparent);
     content: '';
     opacity: 0.36;
+    pointer-events: none;
   }
 }
 
@@ -345,6 +348,157 @@
   gap: 1.25rem 1.65rem;
 }
 
+.automator-script-list,
+.automator-command-catalog,
+.automator-currency-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.automator-script-card,
+.automator-command-category,
+.automator-command-entry,
+.automator-currency-entry {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+.automator-script-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.automator-script-card__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.automator-script-card__header h5 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.automator-script-card__badges {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--accent);
+  font-size: 0.76rem;
+}
+
+.automator-script-card__length {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.automator-command-category,
+.automator-command-entry {
+  padding: 0;
+}
+
+.automator-command-category > summary,
+.automator-command-entry > summary {
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  font-weight: 620;
+}
+
+.automator-command-category > .field-description,
+.automator-command-entry > code,
+.automator-command-entry > p,
+.automator-command-entry > ul {
+  display: block;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.automator-command-entry {
+  margin: 0.6rem 1rem 1rem;
+  background: color-mix(in srgb, var(--background) 55%, transparent);
+}
+
+.automator-command-entry > code {
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.automator-command-entry > p,
+.automator-command-entry > ul {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.automator-currency-entry {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.automator-currency-entry code {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.automator-currency-entry span {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.automator-constant-key {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+.automator-constant-reference {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.automator-constant-reference__entry {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.8fr) minmax(10rem, 0.55fr) minmax(0, 1.6fr);
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+
+  strong {
+    color: var(--text-strong);
+    font-size: 0.78rem;
+  }
+
+  code {
+    overflow-wrap: anywhere;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  span {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}
+
 .general-grid > h4,
 .dimensions-grid > h4,
 .records-grid > h4,
@@ -355,6 +509,516 @@
 .dimension-group {
   display: grid;
   gap: 1rem;
+}
+
+.challenge-bitfield {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 1rem;
+  padding: 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+.challenge-bitfield__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h4 {
+    margin: 0;
+  }
+
+  p {
+    max-width: 52rem;
+    margin: 0.35rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+}
+
+.challenge-bitfield__mask {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.challenge-bitfield__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.challenge-bitfield__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.challenge-bitfield__progress {
+  margin: -0.35rem 0 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.challenge-bit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 0.8rem;
+}
+
+.challenge-bit-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--field) 64%, transparent);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  span {
+    display: grid;
+    min-width: 0;
+    gap: 0.2rem;
+  }
+
+  strong {
+    overflow: hidden;
+    color: var(--text-strong);
+    font-size: 0.8rem;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  em {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-style: normal;
+    line-height: 1.35;
+  }
+}
+
+.bits-collections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem 1.4rem;
+}
+
+.bitfield-card,
+.collection-card {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--field) 54%, transparent);
+  content-visibility: auto;
+  contain-intrinsic-size: 12rem;
+}
+
+.bitfield-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-width: 0;
+
+  h4 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 0.98rem;
+    font-weight: 650;
+  }
+
+  p {
+    max-width: 48ch;
+    margin: 0.35rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+}
+
+.bitfield-card__path {
+  flex: 0 1 auto;
+  max-width: 48%;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bitfield-card__raw {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.8rem;
+
+  label,
+  > div {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 650;
+  }
+
+  > div {
+    min-width: 6.5rem;
+    padding-bottom: 0.55rem;
+  }
+
+  code {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+}
+
+.bitfield-card__selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+
+  label {
+    display: grid;
+    flex: 1 1 8rem;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 650;
+  }
+}
+
+.bitfield-card__actions,
+.collection-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.bitfield-card__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.bitfield-options,
+.collection-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-height: 22rem;
+  overflow: auto;
+}
+
+.bitfield-option,
+.collection-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  span {
+    display: grid;
+    min-width: 0;
+    gap: 0.18rem;
+  }
+
+  strong {
+    overflow: hidden;
+    color: var(--text-strong);
+    font-size: 0.74rem;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+  }
+
+  em {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-style: normal;
+    line-height: 1.35;
+  }
+}
+
+.bitfield-card__unknown,
+.collection-card__unknown {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+
+  &.detected {
+    color: var(--warning);
+  }
+
+  code {
+    overflow-wrap: anywhere;
+    color: var(--warning);
+    font-family: var(--font-mono);
+  }
+}
+
+.field-description {
+  margin: 0.28rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.reality-perk-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.55rem;
+  margin-top: 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+
+  strong {
+    flex-basis: 100%;
+    color: var(--text-strong);
+    font-size: 0.76rem;
+  }
+
+  span {
+    padding: 0.2rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  }
+
+  code {
+    color: var(--accent);
+    font-family: var(--font-mono);
+  }
+}
+
+.milestone-list {
+  display: grid;
+  gap: 0.55rem;
+  max-height: 32rem;
+  overflow: auto;
+}
+
+.milestone-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--field) 42%, transparent);
+
+  strong {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  span {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  &.is-reached {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+
+    strong {
+      color: var(--accent);
+    }
+  }
+}
+
+.collection-card__raw {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+
+  textarea {
+    width: 100%;
+    min-height: 5rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+}
+
+.save-field-explorer__toolbar {
+  display: grid;
+  grid-template-columns: minmax(16rem, 2fr) repeat(2, minmax(10rem, 1fr));
+  gap: 1rem;
+  padding: 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+.save-field-explorer__search,
+.save-field-explorer__select,
+.save-field-card__control {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.save-field-explorer__toolbar label,
+.save-field-card__control label,
+.save-field-card .json-textarea-field > label {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+}
+
+.save-field-explorer__summary {
+  padding: 0.9rem 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.save-field-explorer__summary strong {
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-weight: 650;
+}
+
+.save-field-explorer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.save-field-card {
+  align-content: start;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--field) 54%, transparent);
+}
+
+.save-field-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.6rem;
+  min-width: 0;
+}
+
+.save-field-card__meta code {
+  flex: 1 1 100%;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.save-field-card__badge,
+.save-field-card__domain {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.24rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.save-field-card__badge.registered {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  color: var(--accent);
+}
+
+.save-field-card__badge.discovered {
+  border-color: color-mix(in srgb, var(--warning) 45%, var(--border));
+  color: var(--warning);
+}
+
+.save-field-card__domain {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+}
+
+.save-field-card__control,
+.save-field-card .json-textarea-field {
+  margin-top: 0.85rem;
+}
+
+.save-field-card__control input,
+.save-field-card__control textarea,
+.save-field-card .json-textarea-field textarea {
+  width: 100%;
+}
+
+.save-field-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.7rem;
+  color: var(--text-strong);
+  cursor: pointer;
+}
+
+.save-field-card__description {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.save-field-explorer__load-more {
+  margin-top: 1.2rem;
 }
 
 .validation-message {
@@ -482,6 +1146,66 @@
   .settings-grid {
     grid-template-columns: 1fr;
     gap: 1.15rem;
+  }
+
+  .bits-collections-grid {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .bitfield-card__header {
+    flex-direction: column;
+  }
+
+  .bitfield-card__path {
+    max-width: 100%;
+  }
+
+  .bitfield-options,
+  .collection-options {
+    grid-template-columns: 1fr;
+  }
+
+  .bitfield-card__raw {
+    grid-template-columns: 1fr;
+  }
+
+  .bitfield-card__raw > div {
+    min-width: 0;
+    padding-bottom: 0;
+  }
+
+  .challenge-bitfield__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .challenge-bitfield__mask {
+    width: fit-content;
+  }
+
+  .challenge-bit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .automator-script-card__header {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .automator-currency-entry {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .automator-constant-reference__entry {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .save-field-explorer__toolbar,
+  .save-field-explorer__grid {
+    grid-template-columns: 1fr;
   }
 
   .section-subtabs {

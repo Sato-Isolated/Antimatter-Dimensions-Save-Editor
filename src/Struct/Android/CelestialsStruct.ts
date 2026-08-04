@@ -95,7 +95,7 @@ export interface Pelle {
     remnants:        number;
     rifts:           Rifts;
     showBought:      boolean;
-    upgrades:        any[];
+    upgrades:        unknown[];
 }
 
 export interface Collapsed {
@@ -215,4 +215,4 @@ export interface HighestRefinementValueSource {
     "ra3"?: boolean;
     "ra4"?: boolean;
     [key: string]: boolean | undefined;
-} 
+}

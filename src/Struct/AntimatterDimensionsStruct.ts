@@ -19,7 +19,7 @@ import { Timestudy } from './PC/TimestudyStruct';
 
 export interface AntimatterDimensionsStruct {
   auto: Auto;
-  blackHole: BlackHole;
+  blackHole: BlackHole[];
   break: boolean;
   challenge: Challenge;
   celestials: Celestials;
@@ -32,6 +32,8 @@ export interface AntimatterDimensionsStruct {
     respec: boolean;
     studies: number[];
   };
+  /** PC saves keep Eternity Challenge completion counts at the root. */
+  eternityChalls?: EternityChalls;
   IAP: Iap;
   infinity: AntimatterDimensionsStructInfinity;
   infinityPoints: { mantissa: number; exponent: number } | string;
@@ -47,5 +49,23 @@ export interface AntimatterDimensionsStruct {
   replicanti: Replicanti;
   speedrun: Speedrun;
   timestudy: Timestudy;
+  buyUntil10?: boolean;
+  sacrificed?: string | number;
+  achievementBits?: number;
+  secretAchievementBits?: number;
+  infinityRebuyables?: number[];
+  backupTimer?: number;
+  secretUnlocks?: number;
+  shownRuns?: number;
+  requirementChecks?: Record<string, boolean>;
+  blackHolePause?: boolean;
+  blackHoleAutoPauseMode?: number;
+  blackHolePauseTime?: number;
+  blackHoleNegative?: boolean;
+  isGameEnd?: boolean;
+  tabNotifications?: Record<string, boolean>;
+  triggeredTabNotificationBits?: number;
+  tutorialState?: Record<string, unknown>;
+  tutorialActive?: boolean;
   version: number;
-} 
+}

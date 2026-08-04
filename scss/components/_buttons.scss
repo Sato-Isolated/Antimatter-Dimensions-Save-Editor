@@ -57,6 +57,17 @@
   }
 }
 
+.btn.danger {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #170506;
+
+  &:hover {
+    background: color-mix(in srgb, var(--danger) 84%, white 16%);
+    transform: translateY(-1px);
+  }
+}
+
 .text-button,
 .btn.secondary {
   border-color: transparent;

@@ -18,13 +18,13 @@ A powerful web-based tool for editing and managing save files from the Antimatte
   - Glyphs & Sacrifice Values
   - Achievements
   - Celestials (Teresa, Effarig, Nameless Ones, V, Ra, Lai'tela, Pelle)
+  - All values explorer with path search, type filters, domain filters, and direct editing for fields without a dedicated control
 
 - **JSON Editor**: Direct JSON editing for advanced users
 
 - **Save Management**
   - Import/Export encrypted save data
   - Decrypt/Encrypt save files
-  - Auto-save changes
   - Validation of save file structure
 
 - **User Experience**
@@ -57,9 +57,26 @@ The structured editor provides an intuitive interface for editing game values:
 - **Eternity**: Control eternity points, time shards, theorems, and studies
 - **Dilation**: Adjust tachyon particles, dilated time, and black hole settings
 - **Reality**: Edit reality machines, imaginary machines, and perk points
+- **Automator**: Edit the scripts and constants saved by the game, inspect execution state, and browse the pinned in-game command reference. Script text is preserved but not compiled by the editor.
 - **Glyphs**: Modify glyph level cap, sacrifice values, and cosmetic settings
 - **Achievements**: Unlock all achievements or secret achievements with a single click
-- **Celestials**: Fine-tune all celestial-related properties for each of the seven celestials
+  - **Celestials**: Fine-tune all celestial-related properties for each of the seven celestials
+  - **Challenges**: Inspect upstream completion bits individually or complete all known Normal/Infinity Challenges with the exact game masks
+  - **Bits & collections**: Edit upstream progression, celestial, glyph, interface/news bitfields and Set-backed collections while preserving unknown values
+
+- **All values**: Search every object, array, and leaf found in the loaded save. Fields marked `Discovered` are inferred from the current document and remain available even when the structured registry has no dedicated definition yet.
+
+To complete every known bitfield challenge, open **Challenges**, choose
+**Normal Challenges** or **Infinity Challenges**, then click **Complete all
+known**. Challenge ids are one-based bit indexes: Normal Challenges 1-12 use
+mask `8190`, and Infinity Challenges 1-8 use mask `510`; bit 0 is unused.
+Unknown or future bits are preserved. Eternity Challenge completion is not a
+bitfield: set `eternityChalls.eterc1` through `eternityChalls.eterc12` to `5`
+in the Eternity section to mark all five completions for each challenge.
+
+The detailed index and compatibility notes for the new bitfield/collection
+controls are in [`docs/bitfields-and-collections.md`](docs/bitfields-and-collections.md)
+and [`docs/upstream-compatibility.md`](docs/upstream-compatibility.md).
 
 ### JSON Editor
 
@@ -74,10 +91,19 @@ For advanced users who need direct access to the save file structure:
 Customize your editing experience:
 
 - Choose default editor view
-- Toggle auto-save functionality
 - Enable/disable confirmations
 - Switch between display modes
 - Configure advanced options
+
+## Compatibility and backup boundaries
+
+The editor supports the documented PC and Android save transport envelopes at
+the codec and fixture level. Android transport support is not a claim of
+PC-to-Android conversion or compatibility with every live Android game build.
+An internal round-trip does not prove that a real save will load in the game;
+use an untouched backup and perform a manual import/export check before relying
+on an edited save. The editor does not apply upstream save migrations
+automatically.
 
 ## Contributing
 

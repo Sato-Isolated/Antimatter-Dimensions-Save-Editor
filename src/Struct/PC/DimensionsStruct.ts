@@ -23,17 +23,3 @@ export interface TimeElement {
     amount: string;
     bought: number;
 }
-
-export interface EternityDimension {
-    amount:     string;
-    bought:     number;
-    baseAmount: number;
-    cost?:      string;
-    isUnlocked?: boolean;
-}
-
-export interface RealityDimension {
-    amount:     string;
-    bought:     number;
-    isUnlocked: boolean;
-} 

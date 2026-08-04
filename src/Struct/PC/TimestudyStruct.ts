@@ -4,7 +4,7 @@ export interface Timestudy {
     amBought:       number;
     ipBought:       number;
     epBought:       number;
-    studies:        any[];
+    studies:        unknown[];
     shopMinimized:  boolean;
     preferredPaths: Array<number[] | number>;
     presets:        Preset[];
@@ -13,4 +13,4 @@ export interface Timestudy {
 export interface Preset {
     name:    string;
     studies: string;
-} 
+}

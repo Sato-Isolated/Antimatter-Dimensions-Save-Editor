@@ -19,6 +19,9 @@ export default [
         },
       },
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
     plugins: {
       '@typescript-eslint': tsPlugin,
       'react-hooks': reactHooks,

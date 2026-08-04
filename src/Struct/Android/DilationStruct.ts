@@ -10,8 +10,8 @@ export interface AntimatterDimensionsStructDilation {
     lastEP:               BankedInfinitiesClass;
     nextThreshold:        BankedInfinitiesClass;
     rebuyables:           number[];
-    studies:              any[];
+    studies:              unknown[];
     tachyonParticles:     BankedInfinitiesClass;
     upgradeBits:          number;
-    upgrades:             any[];
-} 
+    upgrades:             unknown[];
+}
