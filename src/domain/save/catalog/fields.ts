@@ -983,14 +983,14 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
       buildField({
         id: 'automatorMode',
         label: 'Automator Mode',
-        description: 'Persisted Automator mode: paused, running, or single step.',
+        description: 'Persisted Automator execution mode. Current upstream values are paused, running, or single step; a zero value is preserved without normalization.',
         group: 'automator',
         kind: 'integer',
         nativePaths: {
           [SaveType.PC]: ['reality.automator.state.mode'],
           [SaveType.Android]: ['reality.automator.state.mode'],
         },
-        rule: { minimum: 1, maximum: 3, integer: true },
+        rule: { minimum: 0, maximum: 3, integer: true },
       }),
       buildField({
         id: 'automatorTopLevelScript',

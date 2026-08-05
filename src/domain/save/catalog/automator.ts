@@ -708,7 +708,17 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
   if (isRecord(state)) {
     const mode = state.mode;
     if (typeof mode === 'number' && !automatorModeDefinitions.some((definition) => definition.value === mode)) {
-      issues.push(createAutomatorIssue('automator-mode', 'Automator mode must be Paused (1), Running (2), or Single step (3).', 'reality.automator.state.mode'));
+      // The pinned game source has a separate unlock predicate and only defines
+      // modes 1-3. Preserve zero without inventing a game meaning for it.
+      const isUnrecognizedZeroMode = mode === 0;
+      issues.push(createAutomatorIssue(
+        'automator-mode',
+        isUnrecognizedZeroMode
+          ? 'Automator mode 0 is outside the current upstream mode enum and will be preserved without changing the save.'
+          : 'Automator mode must be Paused (1), Running (2), or Single step (3).',
+        'reality.automator.state.mode',
+        isUnrecognizedZeroMode ? 'warning' : 'error',
+      ));
     }
 
     for (const field of ['topLevelScript', 'editorScript'] as const) {

@@ -90,6 +90,27 @@ describe('save editor store', () => {
     }
   });
 
+  it('imports and round-trips saves with an unrecognized zero Automator mode', () => {
+    const store = createSaveEditorStore();
+    const source = {
+      ...createPcSave(),
+      reality: { automator: { state: { mode: 0 } } },
+    };
+    const encoded = encodeSaveData(source, SaveType.PC)!;
+
+    expect(store.loadFromEncoded(encoded)).toEqual({ success: true, errorMessage: null });
+    expect(store.getState().document?.validation.issues).toEqual(
+      expect.arrayContaining([expect.objectContaining({
+        code: 'automator-mode',
+        path: 'reality.automator.state.mode',
+        severity: 'warning',
+      })]),
+    );
+
+    const reencoded = store.encodeWorkingData();
+    expect(decodeSaveString(reencoded).data?.reality).toEqual(source.reality);
+  });
+
   it('preserves unknown nested fields after a structured edit', () => {
     const store = createSaveEditorStore();
     const source = {

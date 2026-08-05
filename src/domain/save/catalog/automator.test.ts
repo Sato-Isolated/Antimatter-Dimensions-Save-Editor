@@ -73,6 +73,20 @@ describe('Automator catalog and save contracts', () => {
       .filter((issue) => issue.severity === 'error')).toEqual([]);
   });
 
+  it('keeps an unrecognized zero mode importable without rewriting it', () => {
+    const issues = validateAutomatorSave(asSaveObject({
+      reality: { automator: { state: { mode: 0 } } },
+    }), SaveType.PC);
+
+    expect(issues).toEqual([
+      expect.objectContaining({
+        code: 'automator-mode',
+        path: 'reality.automator.state.mode',
+        severity: 'warning',
+      }),
+    ]);
+  });
+
   it('blocks malformed scripts, constants, references, and execution metadata', () => {
     const invalidSave = asSaveObject({
       reality: {
@@ -91,6 +105,9 @@ describe('Automator catalog and save contracts', () => {
     });
 
     const codes = new Set(validateAutomatorSave(invalidSave).map((issue) => issue.code));
+    expect(validateAutomatorSave(invalidSave)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: 'automator-mode', severity: 'error' })]),
+    );
     expect([...codes]).toEqual(expect.arrayContaining([
       'automator-script-id-duplicate',
       'automator-script-name-length',
