@@ -13,7 +13,7 @@
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "test": "vitest run",
     "preview": "vite preview",
-    "deploy": "pnpm run build && gh-pages -d dist"
+    "deploy": "pnpm run build && gh-pages -d dist --no-history"
   },
   "dependencies": {
     "pako": "^2.1.0",
