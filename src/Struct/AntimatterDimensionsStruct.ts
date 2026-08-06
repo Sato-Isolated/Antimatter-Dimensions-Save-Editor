@@ -61,7 +61,7 @@ export interface AntimatterDimensionsStruct {
   blackHolePause?: boolean;
   blackHoleAutoPauseMode?: number;
   blackHolePauseTime?: number;
-  blackHoleNegative?: boolean;
+  blackHoleNegative?: number;
   isGameEnd?: boolean;
   tabNotifications?: Record<string, boolean>;
   triggeredTabNotificationBits?: number;

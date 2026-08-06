@@ -5,6 +5,7 @@ import {
   resolveFieldPath,
   saveEditorFields,
   resolveStructuredEditPath,
+  validateFieldValue,
   validateRegisteredFields,
 } from './fields';
 import { SaveType } from '../model';
@@ -13,6 +14,12 @@ const breakInfinityField = saveEditorFields.find((field) => field.id === 'breakI
 const replicantiChanceField = saveEditorFields.find((field) => field.id === 'replicantiChance');
 const replicantiIntervalField = saveEditorFields.find((field) => field.id === 'replicantiInterval');
 const blackHoleNegativeField = saveEditorFields.find((field) => field.id === 'blackHoleNegative');
+const blackHoleAutoPauseModeField = saveEditorFields.find((field) => field.id === 'blackHoleAutoPauseMode');
+const teresaPouredAmountField = saveEditorFields.find((field) => field.id === 'teresaPouredAmount');
+const effarigRelicShardsField = saveEditorFields.find((field) => field.id === 'effarigRelicShards');
+const laitelaEntropyField = saveEditorFields.find((field) => field.id === 'laitelaEntropy');
+const laitelaSingularitiesField = saveEditorFields.find((field) => field.id === 'laitelaSingularities');
+const pelleRemnantsField = saveEditorFields.find((field) => field.id === 'pelleRemnants');
 
 describe('field registry', () => {
   it('resolves Android-native paths through the central adapter', () => {
@@ -67,6 +74,57 @@ describe('field registry', () => {
 
     expect(blackHoleNegativeField?.kind).toBe('number');
     expect(issues.some((issue) => issue.path === 'blackHoleNegative' && issue.severity === 'error')).toBe(false);
+  });
+
+  it('keeps upstream black-hole ranges and sentinels valid', () => {
+    expect(validateFieldValue(blackHoleNegativeField!, 1e-300, 'blackHoleNegative', SaveType.PC)).toEqual([]);
+    expect(validateFieldValue(blackHoleNegativeField!, 0, 'blackHoleNegative', SaveType.PC)
+      .some((issue) => issue.code === 'minimum-value')).toBe(true);
+    expect(validateFieldValue(blackHoleNegativeField!, 1.1, 'blackHoleNegative', SaveType.PC)
+      .some((issue) => issue.code === 'maximum-value')).toBe(true);
+
+    expect(validateFieldValue(blackHoleAutoPauseModeField!, 2, 'blackHoleAutoPauseMode', SaveType.PC)).toEqual([]);
+    expect(validateFieldValue(blackHoleAutoPauseModeField!, 3, 'blackHoleAutoPauseMode', SaveType.PC)
+      .some((issue) => issue.code === 'maximum-value')).toBe(true);
+
+    expect(validateFieldValue(laitelaEntropyField!, -1, 'celestials.laitela.entropy', SaveType.PC)).toEqual([]);
+    expect(validateFieldValue(laitelaEntropyField!, 0.37, 'celestials.laitela.entropy', SaveType.PC)).toEqual([]);
+  });
+
+  it('registers and validates large celestial resources on both platforms', () => {
+    expect(teresaPouredAmountField?.nativePaths[SaveType.PC]).toEqual(['celestials.teresa.pouredAmount']);
+    expect(effarigRelicShardsField?.platformKinds?.[SaveType.Android]).toBe('big-number');
+
+    expect(validateFieldValue(
+      teresaPouredAmountField!,
+      1e24,
+      'celestials.teresa.pouredAmount',
+      SaveType.PC,
+    )).toEqual([]);
+    expect(validateFieldValue(
+      effarigRelicShardsField!,
+      7.966617569528e+142,
+      'celestials.effarig.relicShards',
+      SaveType.PC,
+    )).toEqual([]);
+    expect(validateFieldValue(
+      effarigRelicShardsField!,
+      { mantissa: 7.966617569528, exponent: 142 },
+      'celestials.effarig.relicShards',
+      SaveType.Android,
+    )).toEqual([]);
+    expect(validateFieldValue(
+      laitelaSingularitiesField!,
+      6.904453283670405e+45,
+      'celestials.laitela.singularities',
+      SaveType.PC,
+    )).toEqual([]);
+    expect(validateFieldValue(
+      pelleRemnantsField!,
+      365165945,
+      'celestials.pelle.remnants',
+      SaveType.PC,
+    )).toEqual([]);
   });
 
   it('uses Android-specific replicanti upgrade paths and rules', () => {

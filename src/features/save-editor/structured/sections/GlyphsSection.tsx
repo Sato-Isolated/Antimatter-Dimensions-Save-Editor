@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaCircle, FaPalette, FaHistory, FaDiceD20 } from 'react-icons/fa';
 import JsonTextareaField from '../../../../shared/ui/JsonValueField';
+import { parseNumericInput } from './fieldHelpers';
 import FieldDescription from '../../../../shared/ui/FieldDescription';
 
 const GlyphsSection: React.FC<SectionProps> = ({
@@ -254,7 +255,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="power-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.power || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.power', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.power', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.power')}
@@ -266,7 +267,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="infinity-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.infinity || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.infinity', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.infinity', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.infinity')}
@@ -278,7 +279,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="time-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.time || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.time', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.time', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.time')}
@@ -290,7 +291,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="replication-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.replication || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.replication', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.replication', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.replication')}
@@ -302,7 +303,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="dilation-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.dilation || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.dilation', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.dilation', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.dilation')}
@@ -314,7 +315,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="effarig-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.effarig || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.effarig', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.effarig', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.effarig')}
@@ -326,7 +327,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="reality-sacrifice"
                   value={saveData.reality?.glyphs?.sac?.reality || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.sac.reality', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.sac.reality', parseNumericInput(e.target.value))}
                   step="0.01"
                 />
                 {renderValidationIndicator('reality.glyphs.sac.reality')}

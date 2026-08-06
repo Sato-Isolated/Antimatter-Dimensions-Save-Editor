@@ -9,6 +9,11 @@ describe('fieldHelpers', () => {
     expect(parseNumericInput('3.5')).toBe(3.5);
   });
 
+  it('keeps the current value when a number input is temporarily incomplete', () => {
+    expect(parseNumericInput('1e', 3.5)).toBe(3.5);
+    expect(parseNumericInput('', 3.5)).toBe(3.5);
+  });
+
   it('resolves recent record paths for newer PC saves', () => {
     expect(resolveRecentRecordsPath(newsaveFixture, 'Infinities')).toBe('records.recentInfinities');
     expect(resolveRecentRecordsPath(newsaveFixture, 'Eternities')).toBe('records.recentEternities');

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaCog, FaRocket } from 'react-icons/fa';
+import { parseNumericInput } from './fieldHelpers';
 
 interface BlackHoleView {
   unlocked?: boolean;
@@ -99,7 +100,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 id="black-hole-1-phase"
                 value={typedSaveData.blackHole?.[0]?.phase || 0}
                 step="0.01"
-                onChange={(e) => handleValueChange('blackHole[0].phase', parseFloat(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].phase', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].phase')}
             </div>
@@ -162,7 +163,8 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="blackHolePauseTime"
                 value={typedSaveData.blackHolePauseTime || 0}
-                onChange={(e) => handleValueChange('blackHolePauseTime', parseFloat(e.target.value))}
+                step="any"
+                onChange={(e) => handleValueChange('blackHolePauseTime', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHolePauseTime')}
             </div>
@@ -172,8 +174,12 @@ const BlackHolesSection: React.FC<SectionProps> = ({
               <input
                 type="number"
                 id="blackHoleNegative"
-                value={typedSaveData.blackHoleNegative || 0}
-                onChange={(e) => handleValueChange('blackHoleNegative', parseInt(e.target.value))}
+                value={typedSaveData.blackHoleNegative ?? 0}
+                step="any"
+                onChange={(e) => handleValueChange(
+                  'blackHoleNegative',
+                  parseNumericInput(e.target.value, typedSaveData.blackHoleNegative ?? 0),
+                )}
               />
               {renderValidationIndicator('blackHoleNegative')}
             </div>
@@ -290,7 +296,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 id="black-hole-2-phase"
                 value={typedSaveData.blackHole?.[1]?.phase || 0}
                 step="0.01"
-                onChange={(e) => handleValueChange('blackHole[1].phase', parseFloat(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].phase', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].phase')}
             </div>

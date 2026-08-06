@@ -9,6 +9,7 @@ import {
 } from '../../../../Struct';
 import BigNumberInput from '../../../../shared/ui/BigNumberField';
 import JsonTextareaField from '../../../../shared/ui/JsonValueField';
+import { parseNumericInput } from './fieldHelpers';
 
 // Helper function to safely convert BankedInfinitiesClass to string
 const formatBigNumber = (value: string | BankedInfinitiesClass | number | undefined): string => {
@@ -42,6 +43,9 @@ const CelestialsSection: React.FC<SectionProps> = ({
   // Cast saveData to specific type when needed
   const pcSaveData = isPCFormat() ? saveData as AntimatterDimensionsStruct : null;
   const androidSaveData = !isPCFormat() ? saveData as AntimatterDimensionsStructAndroid : null;
+  const pelleRemnants = (isPCFormat()
+    ? pcSaveData?.celestials?.pelle?.remnants
+    : androidSaveData?.celestials?.pelle?.remnants) ?? 0;
 
   return (
     <div className="section-pane active" id="celestials">
@@ -132,7 +136,11 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="teresa-poured"
                   value={saveData.celestials?.teresa?.pouredAmount || 0}
-                  onChange={(e) => handleValueChange('celestials.teresa.pouredAmount', parseInt(e.target.value))}
+                  step="any"
+                  onChange={(e) => handleValueChange(
+                    'celestials.teresa.pouredAmount',
+                    parseNumericInput(e.target.value, saveData.celestials?.teresa?.pouredAmount ?? 0),
+                  )}
                 />
                 {renderValidationIndicator('celestials.teresa.pouredAmount')}
               </div>
@@ -232,7 +240,11 @@ const CelestialsSection: React.FC<SectionProps> = ({
                       type="number"
                       id="effarig-relics"
                       value={Number(pcSaveData?.celestials?.effarig?.relicShards || 0)}
-                      onChange={(e) => handleValueChange('celestials.effarig.relicShards', parseInt(e.target.value))}
+                      step="any"
+                      onChange={(e) => handleValueChange(
+                        'celestials.effarig.relicShards',
+                        parseNumericInput(e.target.value, Number(pcSaveData?.celestials?.effarig?.relicShards || 0)),
+                      )}
                     />
                   </>
                 ) : (
@@ -491,8 +503,12 @@ const CelestialsSection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="laitela-entropy"
-                  value={saveData.celestials?.laitela?.entropy || 0}
-                  onChange={(e) => handleValueChange('celestials.laitela.entropy', parseInt(e.target.value))}
+                  value={saveData.celestials?.laitela?.entropy ?? 0}
+                  step="any"
+                  onChange={(e) => handleValueChange(
+                    'celestials.laitela.entropy',
+                    parseNumericInput(e.target.value, saveData.celestials?.laitela?.entropy ?? 0),
+                  )}
                 />
                 {renderValidationIndicator('celestials.laitela.entropy')}
               </div>
@@ -547,7 +563,11 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="laitela-singularities"
                   value={saveData.celestials?.laitela?.singularities || 0}
-                  onChange={(e) => handleValueChange('celestials.laitela.singularities', parseInt(e.target.value))}
+                  step="any"
+                  onChange={(e) => handleValueChange(
+                    'celestials.laitela.singularities',
+                    parseNumericInput(e.target.value, saveData.celestials?.laitela?.singularities ?? 0),
+                  )}
                 />
                 {renderValidationIndicator('celestials.laitela.singularities')}
               </div>
@@ -586,21 +606,16 @@ const CelestialsSection: React.FC<SectionProps> = ({
               
               <div className="form-group">
                 <label htmlFor="pelle-remnants">Remnants</label>
-                {isPCFormat() ? (
-                  <input
-                    type="text"
-                    id="pelle-remnants"
-                    value="0"
-                    onChange={(e) => handleValueChange('celestials.pelle.remnants', e.target.value)}
-                  />
-                ) : (
-                  <BigNumberInput
-                    label="Remnants"
-                    value={(androidSaveData?.celestials?.pelle?.remnants as unknown) || { mantissa: 0, exponent: 0 }}
-                    onChange={(value) => handleValueChange('celestials.pelle.remnants', value)}
-                    saveType={saveType}
-                  />
-                )}
+                <input
+                  type="number"
+                  id="pelle-remnants"
+                  value={pelleRemnants}
+                  step="any"
+                  onChange={(e) => handleValueChange(
+                    'celestials.pelle.remnants',
+                    parseNumericInput(e.target.value, pelleRemnants),
+                  )}
+                />
                 {renderValidationIndicator('celestials.pelle.remnants')}
               </div>
               

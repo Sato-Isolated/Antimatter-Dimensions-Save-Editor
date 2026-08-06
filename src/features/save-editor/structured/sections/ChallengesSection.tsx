@@ -14,6 +14,7 @@ import { SaveObject } from '../../../../domain/save/model';
 import BigNumberInput from '../../../../shared/ui/BigNumberField';
 import FieldDescription from '../../../../shared/ui/FieldDescription';
 import ChallengeBitfieldEditor from './ChallengeBitfieldEditor';
+import { parseNumericInput } from './fieldHelpers';
 
 const formatBestTime = (value: unknown): number | '' => (
   typeof value === 'number' && Number.isFinite(value) && value < Number.MAX_VALUE ? value : ''
@@ -333,7 +334,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
                 id="chall2Pow"
                 value={pcSaveData?.chall2Pow || 1}
                 step="0.01"
-                onChange={(e) => handleValueChange('chall2Pow', parseFloat(e.target.value))}
+                onChange={(e) => handleValueChange('chall2Pow', parseNumericInput(e.target.value))}
               />
               <FieldDescription>Normal Challenge 2 production power. Antimatter Dimension production is multiplied by this value while C2 is active; it recovers over time and resets when buying.</FieldDescription>
               {renderValidationIndicator('chall2Pow')}
