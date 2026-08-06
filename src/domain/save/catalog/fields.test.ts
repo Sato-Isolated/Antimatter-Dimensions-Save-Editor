@@ -12,6 +12,7 @@ import { SaveType } from '../model';
 const breakInfinityField = saveEditorFields.find((field) => field.id === 'breakInfinity');
 const replicantiChanceField = saveEditorFields.find((field) => field.id === 'replicantiChance');
 const replicantiIntervalField = saveEditorFields.find((field) => field.id === 'replicantiInterval');
+const blackHoleNegativeField = saveEditorFields.find((field) => field.id === 'blackHoleNegative');
 
 describe('field registry', () => {
   it('resolves Android-native paths through the central adapter', () => {
@@ -59,6 +60,13 @@ describe('field registry', () => {
     expect(issues.some((issue) => issue.path === 'dimensionBoosts')).toBe(true);
     expect(issues.some((issue) => issue.path === 'version')).toBe(true);
     expect(issues.filter((issue) => issue.path === 'dimensionBoosts')[0]?.severity).toBe('error');
+  });
+
+  it('accepts decimal Black Hole Negative factors used by the upstream game', () => {
+    const issues = validateRegisteredFields({ blackHoleNegative: 0.1 }, SaveType.PC);
+
+    expect(blackHoleNegativeField?.kind).toBe('number');
+    expect(issues.some((issue) => issue.path === 'blackHoleNegative' && issue.severity === 'error')).toBe(false);
   });
 
   it('uses Android-specific replicanti upgrade paths and rules', () => {
