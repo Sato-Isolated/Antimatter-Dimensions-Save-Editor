@@ -905,12 +905,12 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         label: 'Black Hole Negative',
         description: 'Global black hole negative mode.',
         group: 'black-holes',
-        kind: 'integer',
+        kind: 'number',
         nativePaths: {
           [SaveType.PC]: ['blackHoleNegative'],
           [SaveType.Android]: ['blackHoleNegative'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0 },
       }),
       buildField({
         id: 'glyphInventory',
