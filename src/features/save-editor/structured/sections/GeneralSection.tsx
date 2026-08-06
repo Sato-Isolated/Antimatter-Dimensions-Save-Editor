@@ -216,7 +216,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   name="partInfinityPoint"
                   value={saveData.partInfinityPoint || 0}
                   step="0.01"
-                  onChange={(e) => handleValueChange('partInfinityPoint', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('partInfinityPoint', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('partInfinityPoint')}
               </div>
@@ -229,7 +229,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   name="partInfinitied"
                   value={saveData.partInfinitied || 0}
                   step="0.01"
-                  onChange={(e) => handleValueChange('partInfinitied', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('partInfinitied', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('partInfinitied')}
               </div>

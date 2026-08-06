@@ -133,10 +133,10 @@ const BigNumberField: React.FC<BigNumberFieldProps> = ({
       return;
     }
 
-    const parsedMantissa = Number.parseFloat(nextMantissa);
-    const parsedExponent = Number.parseInt(nextExponent, 10);
+    const parsedMantissa = Number(nextMantissa);
+    const parsedExponent = Number(nextExponent);
 
-    if (Number.isNaN(parsedMantissa) || Number.isNaN(parsedExponent)) {
+    if (!Number.isFinite(parsedMantissa) || !Number.isInteger(parsedExponent)) {
       restoreAndroidDrafts();
       return;
     }

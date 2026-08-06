@@ -886,7 +886,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['blackHoleAutoPauseMode'],
           [SaveType.Android]: ['blackHoleAutoPauseMode'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, maximum: 2, integer: true },
       }),
       buildField({
         id: 'blackHolePauseTime',
@@ -910,7 +910,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['blackHoleNegative'],
           [SaveType.Android]: ['blackHoleNegative'],
         },
-        rule: { minimum: 0 },
+        rule: { minimum: 1e-300, maximum: 1 },
       }),
       buildField({
         id: 'glyphInventory',
@@ -1111,6 +1111,33 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         rule: { minimum: 0, maximum: 7, integer: true },
       }),
       buildField({
+        id: 'teresaPouredAmount',
+        label: 'Teresa Poured Amount',
+        description: 'Teresa reality-matter amount poured into the container.',
+        group: 'celestials',
+        kind: 'number',
+        nativePaths: {
+          [SaveType.PC]: ['celestials.teresa.pouredAmount'],
+          [SaveType.Android]: ['celestials.teresa.pouredAmount'],
+        },
+        rule: { minimum: 0 },
+      }),
+      buildField({
+        id: 'effarigRelicShards',
+        label: 'Effarig Relic Shards',
+        description: 'Effarig relic shards; PC stores a number and Android stores mantissa/exponent data.',
+        group: 'celestials',
+        kind: 'number',
+        platformKinds: {
+          [SaveType.Android]: 'big-number',
+        },
+        nativePaths: {
+          [SaveType.PC]: ['celestials.effarig.relicShards'],
+          [SaveType.Android]: ['celestials.effarig.relicShards'],
+        },
+        rule: { minimum: 0 },
+      }),
+      buildField({
         id: 'raUnlockBits',
         label: 'Ra Unlock Bits',
         description: 'Ra unlock bit field.',
@@ -1160,26 +1187,26 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
       buildField({
         id: 'laitelaEntropy',
         label: 'Laitela Entropy',
-        description: 'Laitela entropy progress.',
+        description: 'Laitela entropy progress; -1 is the upstream completion sentinel.',
         group: 'celestials',
         kind: 'number',
         nativePaths: {
           [SaveType.PC]: ['celestials.laitela.entropy'],
           [SaveType.Android]: ['celestials.laitela.entropy'],
         },
-        rule: { minimum: 0 },
+        rule: { minimum: -1, maximum: 1 },
       }),
       buildField({
         id: 'laitelaSingularities',
         label: 'Laitela Singularities',
         description: 'Laitela singularity count.',
         group: 'celestials',
-        kind: 'number',
+        kind: 'integer',
         nativePaths: {
           [SaveType.PC]: ['celestials.laitela.singularities'],
           [SaveType.Android]: ['celestials.laitela.singularities'],
         },
-        rule: { minimum: 0 },
+        rule: { minimum: 0, integer: true },
       }),
       buildField({
         id: 'pelleDoomed',
@@ -1197,12 +1224,12 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         label: 'Pelle Remnants',
         description: 'Pelle remnants resource.',
         group: 'celestials',
-        kind: 'number',
+        kind: 'integer',
         nativePaths: {
           [SaveType.PC]: ['celestials.pelle.remnants'],
           [SaveType.Android]: ['celestials.pelle.remnants'],
         },
-        rule: { minimum: 0 },
+        rule: { minimum: 0, integer: true },
       }),
       buildField({
         id: 'pelleQuoteBits',

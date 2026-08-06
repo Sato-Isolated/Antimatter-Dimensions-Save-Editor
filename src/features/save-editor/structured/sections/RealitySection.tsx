@@ -135,7 +135,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   id="partSimulatedReality"
                   value={isPCFormat() ? (typedSaveData.partSimulatedReality || 0) : (typedSaveData.reality?.partSimulated || 0)}
                   step="0.01"
-                  onChange={(e) => handleValueChange(isPCFormat() ? 'partSimulatedReality' : 'reality.partSimulated', parseFloat(e.target.value) || 0)}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 'partSimulatedReality' : 'reality.partSimulated', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Fractional simulated-Reality progress, normally between 0 and 1.</FieldDescription>
                 {renderValidationIndicator(isPCFormat() ? 'partSimulatedReality' : 'reality.partSimulated')}
@@ -198,7 +198,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   id="reality-secondGaussian"
                   step="0.01"
                   value={saveData.reality?.secondGaussian || 0}
-                  onChange={(e) => handleValueChange('reality.secondGaussian', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.secondGaussian', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Second value of the Reality Gaussian random stream.</FieldDescription>
                 {renderValidationIndicator('reality.secondGaussian')}
@@ -223,7 +223,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   id="reality-musicSecondGaussian"
                   step="0.01"
                   value={saveData.reality?.musicSecondGaussian || 0}
-                  onChange={(e) => handleValueChange('reality.musicSecondGaussian', parseFloat(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.musicSecondGaussian', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Second value of the music Gaussian random stream.</FieldDescription>
                 {renderValidationIndicator('reality.musicSecondGaussian')}
@@ -351,7 +351,7 @@ const RealitySection: React.FC<SectionProps> = ({
                     type="number"
                     id="reality-perks"
                     value={typeof typedSaveData.reality?.perkPoints === 'number' ? typedSaveData.reality.perkPoints : 0}
-                    onChange={(e) => handleValueChange('reality.perkPoints', parseFloat(e.target.value) || 0)}
+                    onChange={(e) => handleValueChange('reality.perkPoints', parseNumericInput(e.target.value))}
                   />
                 ) : (
                   <BigNumberInput
