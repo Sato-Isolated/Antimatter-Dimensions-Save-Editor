@@ -29,9 +29,9 @@ interface DilationView {
 
 const dilationCollectionDefinition = collectionCatalog.find((entry) => entry.id === 'dilationUpgrades');
 
-// Android stores the one-time upgrade IDs as a bitfield. The bit positions use
-// the same upstream IDs, just as the Android Reality upgrade bitfield does.
-const dilationAndroidBits: BitDefinition[] = dilationUpgradeDefinitions
+// Mobile stores the one-time upgrade IDs as a bitfield. The bit positions use
+// the same upstream IDs, just as the mobile Reality upgrade bitfield does.
+const dilationMobileBits: BitDefinition[] = dilationUpgradeDefinitions
   .filter((definition) => definition.storage === 'collection')
   .map((definition) => ({
     bit: definition.id,
@@ -50,20 +50,20 @@ const DilationSection: React.FC<SectionProps> = ({
   const saveRecord = saveData as unknown as SaveObject;
   const dilation = (saveData as unknown as { dilation?: DilationView }).dilation;
 
-  const getRebuyableValue = (id: number, androidIndex: number): number => {
+  const getRebuyableValue = (id: number, mobileIndex: number): number => {
     const rebuyables = dilation?.rebuyables;
-    if (Array.isArray(rebuyables)) return rebuyables[androidIndex] ?? 0;
+    if (Array.isArray(rebuyables)) return rebuyables[mobileIndex] ?? 0;
     if (rebuyables && typeof rebuyables === 'object') return rebuyables[String(id)] ?? 0;
     return 0;
   };
 
-  const setRebuyableValue = (id: number, androidIndex: number, value: number): void => {
+  const setRebuyableValue = (id: number, mobileIndex: number, value: number): void => {
     if (isPC) {
       handleValueChange(`dilation.rebuyables.${id}`, value);
       return;
     }
 
-    handleValueChange(`dilation.rebuyables[${androidIndex}]`, value);
+    handleValueChange(`dilation.rebuyables[${mobileIndex}]`, value);
   };
 
   const tabs = [
@@ -237,10 +237,10 @@ const DilationSection: React.FC<SectionProps> = ({
           {!isPC ? (
             <BitfieldEditor
               path="dilation.upgradeBits"
-              label="One-time Dilation upgrades (Android bitfield)"
-              description="Android stores the one-time Dilation upgrade IDs as bits; the checkbox labels use the upstream upgrade IDs and effects."
+              label="One-time Dilation upgrades (mobile bitfield)"
+              description="Mobile saves store the one-time Dilation upgrade IDs as bits; the checkbox labels use the upstream upgrade IDs and effects."
               value={dilation?.upgradeBits ?? 0}
-              knownBits={dilationAndroidBits}
+              knownBits={dilationMobileBits}
               onChange={handleValueChange}
               renderValidationIndicator={renderValidationIndicator}
             />

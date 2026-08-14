@@ -225,8 +225,8 @@ const EternitySection: React.FC<SectionProps> = ({
           ) : (
             <BitfieldEditor
               path="eternityUpgradeBits"
-              label="Bought Eternity upgrades (Android bitfield)"
-              description="Android stores the six one-time Eternity upgrade IDs as bits; the upgrade effects are named below."
+              label="Bought Eternity upgrades (mobile bitfield)"
+              description="Mobile saves store the six one-time Eternity upgrade IDs as bits; the upgrade effects are named below."
               value={data.eternityUpgradeBits ?? 0}
               knownBits={eternityUpgradeBits}
               onChange={handleValueChange}
@@ -320,7 +320,7 @@ const EternitySection: React.FC<SectionProps> = ({
         <div className="resource-group">
           <h4>Eternity Challenge completions</h4>
           <p className="field-description">
-            A completion increases the reward of that EC. PC/Web uses named `eterc1`…`eterc12` properties; Android uses a 12-slot array.
+            A completion increases the reward of that EC. PC/Web uses named `eterc1`…`eterc12` properties; mobile uses a 12-slot array.
           </p>
           <EternityChallengeCompletions
             saveType={saveType}

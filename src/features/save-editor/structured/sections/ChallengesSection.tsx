@@ -288,7 +288,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
           <p className="challenge-bitfield__note">
             Eternity Challenges do not use a completedBits field upstream. Their completion counts are stored in
             eternityChalls.eterc1 through eternityChalls.eterc12 on PC/Web and
-            challenge.eternity.completions[0..11] on Android; edit them in the Eternity section.
+            challenge.eternity.completions[0..11] on mobile; edit them in the Eternity section.
             Persistent unlock bits are edited in the Reality section, while this panel owns the selected study ID
             and historical requirement cache.
           </p>

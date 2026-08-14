@@ -488,8 +488,8 @@ const AutomatorSection: React.FC<SectionProps> = ({
         <div className="resource-group">
           <h4>Compatibility boundary</h4>
           <FieldDescription>
-            Save shape: checked against PC/Android fixtures. Command syntax: catalogued from pinned upstream but not
-            compiled here. Live-game compatibility: not verified, especially for Android where this source snapshot does
+            Save shape: checked against PC/mobile fixtures. Command syntax: catalogued from pinned upstream but not
+            compiled here. Live-game compatibility: not verified, especially on mobile where this source snapshot does
             not include a matching runtime implementation.
           </FieldDescription>
         </div>

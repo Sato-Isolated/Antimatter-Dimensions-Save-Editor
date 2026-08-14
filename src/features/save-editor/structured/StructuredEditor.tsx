@@ -297,7 +297,7 @@ const StructuredEditor = forwardRef<StructuredEditorHandle, StructuredEditorProp
     return (
       <div className="editor-empty-state" role="status" aria-live="polite">
         <h3>Structured editor unavailable</h3>
-        <p>Import and decode a PC or Android save to browse the historical editor sections.</p>
+        <p>Import and decode a PC, Android, or iOS save to browse the historical editor sections.</p>
       </div>
     );
   }

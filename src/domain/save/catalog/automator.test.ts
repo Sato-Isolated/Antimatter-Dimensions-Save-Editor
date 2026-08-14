@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import androidFixture from '../../../../tests/fixtures/save/android.json';
+import appleFixture from '../../../../tests/fixtures/save/apple.json';
 import newsaveFixture from '../../../../tests/fixtures/save/newsave.json';
 import { SaveObject, SaveType } from '../model';
 import {
@@ -121,5 +122,20 @@ describe('Automator catalog and save contracts', () => {
       'automator-editor-type',
       'automator-info-pane',
     ]));
+  });
+
+  it('accepts the Apple fixture with zero errors', () => {
+    expect(validateAutomatorSave(asSaveObject(appleFixture), SaveType.Apple)
+      .filter((issue) => issue.severity === 'error')).toEqual([]);
+  });
+
+  it('flags object-shaped Automator scripts on mobile saves', () => {
+    const issues = validateAutomatorSave(asSaveObject({
+      reality: { automator: { scripts: { first: { id: 1, name: 'x', content: '' } } } },
+    }), SaveType.Apple);
+
+    expect(issues).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: 'automator-scripts-mobile-shape', severity: 'error' })]),
+    );
   });
 });

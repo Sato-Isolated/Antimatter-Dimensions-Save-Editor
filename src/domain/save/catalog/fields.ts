@@ -1,5 +1,6 @@
 import { getValueAtPath } from '../document/path';
 import { createAndroidSavePlatformAdapter } from '../platforms/android';
+import { createAppleSavePlatformAdapter } from '../platforms/apple';
 import { SavePlatformAdapter } from '../platforms/adapter';
 import { createPcSavePlatformAdapter } from '../platforms/pc';
 import {
@@ -95,9 +96,14 @@ export const structuredPathExemptions: Array<{ prefix: string; reason: string }>
   { prefix: 'brake', reason: 'PC/Android use different top-level break-infinity keys.' },
 ];
 
-type SaveFieldDefinitionInput = Omit<SaveFieldDefinition, 'sectionId' | 'support'> & {
+type SaveFieldDefinitionInput = Omit<SaveFieldDefinition, 'sectionId' | 'support' | 'nativePaths'> & {
   sectionId?: string;
   support?: Partial<Record<SaveType, SaveFieldSupport>>;
+  nativePaths: {
+    [SaveType.PC]: DocumentPath[];
+    [SaveType.Android]: DocumentPath[];
+    [SaveType.Apple]?: DocumentPath[];
+  };
 };
 
 const sectionIdByGroup: Readonly<Record<string, string>> = {
@@ -116,12 +122,35 @@ const sectionIdByGroup: Readonly<Record<string, string>> = {
   'bits-collections': 'bits-collections',
 };
 
+/**
+ * iOS is a port of the Android save model, so a field's Apple entry mirrors its
+ * Android entry unless the field declares an Apple-specific value.
+ */
+const mirrorAppleFromAndroid = <T,>(
+  values: Partial<Record<SaveType, T>> | undefined,
+): Partial<Record<SaveType, T>> | undefined => {
+  if (!values || values[SaveType.Apple] !== undefined || values[SaveType.Android] === undefined) {
+    return values;
+  }
+
+  return { ...values, [SaveType.Apple]: values[SaveType.Android] };
+};
+
 const buildField = (field: SaveFieldDefinitionInput): SaveFieldDefinition => ({
   ...field,
   sectionId: field.sectionId ?? sectionIdByGroup[field.group] ?? 'all-fields',
+  nativePaths: {
+    [SaveType.PC]: field.nativePaths[SaveType.PC],
+    [SaveType.Android]: field.nativePaths[SaveType.Android],
+    [SaveType.Apple]: field.nativePaths[SaveType.Apple] ?? field.nativePaths[SaveType.Android],
+  },
+  platformKinds: mirrorAppleFromAndroid(field.platformKinds),
+  platformRules: mirrorAppleFromAndroid(field.platformRules),
   support: {
     [SaveType.PC]: field.support?.[SaveType.PC] ?? (field.nativePaths[SaveType.PC].length > 0 ? 'supported' : 'unsupported'),
     [SaveType.Android]: field.support?.[SaveType.Android] ?? (field.nativePaths[SaveType.Android].length > 0 ? 'supported' : 'unsupported'),
+    [SaveType.Apple]: field.support?.[SaveType.Apple] ??
+      ((field.nativePaths[SaveType.Apple] ?? field.nativePaths[SaveType.Android]).length > 0 ? 'supported' : 'unsupported'),
   },
 });
 
@@ -1340,17 +1369,22 @@ const existingStructuredPaths = new Set(
   saveEditorFieldGroups.flatMap((group) => group.fields).flatMap((field) => field.nativePaths[SaveType.PC]),
 );
 
+/**
+ * Mobile (Android/iOS) names for upstream PC bitfield/collection paths. `kind`
+ * is set only where the mobile model replaces a PC Set/array with a bitfield.
+ */
+const mobileBitfieldOverrides: Readonly<Record<string, { path: DocumentPath; kind?: SaveFieldKind }>> = {
+  achievementBits: { path: 'achievements' },
+  secretAchievementBits: { path: 'secretAchievements' },
+  eternityUpgrades: { path: 'eternityUpgradeBits', kind: 'integer' },
+  dilationUpgrades: { path: 'dilation.upgradeBits', kind: 'integer' },
+  infinityUpgradeBitsLegacy: { path: 'infinityUpgradeBits', kind: 'integer' },
+};
+
 const bitfieldCollectionFields: SaveFieldDefinition[] = bitfieldCollectionFieldSpecs
   .filter((spec) => !existingStructuredPaths.has(spec.path))
   .map((spec) => {
-    const androidBitfieldPath = spec.id === 'eternityUpgrades'
-      ? 'eternityUpgradeBits'
-      : spec.id === 'dilationUpgrades'
-        ? 'dilation.upgradeBits'
-        : spec.id === 'infinityUpgradeBitsLegacy'
-          ? 'infinityUpgradeBits'
-        : spec.path;
-    const androidBitfield = androidBitfieldPath !== spec.path;
+    const override = mobileBitfieldOverrides[spec.id];
 
     return buildField({
       id: spec.id,
@@ -1360,10 +1394,10 @@ const bitfieldCollectionFields: SaveFieldDefinition[] = bitfieldCollectionFieldS
       kind: spec.kind,
       nativePaths: {
         [SaveType.PC]: [spec.path],
-        [SaveType.Android]: [androidBitfieldPath],
+        [SaveType.Android]: [override?.path ?? spec.path],
       },
-      platformKinds: androidBitfield ? { [SaveType.Android]: 'integer' } : undefined,
-      platformRules: androidBitfield ? { [SaveType.Android]: { minimum: 0, integer: true } } : undefined,
+      platformKinds: override?.kind ? { [SaveType.Android]: override.kind } : undefined,
+      platformRules: override?.kind ? { [SaveType.Android]: { minimum: 0, integer: true } } : undefined,
       rule: spec.kind === 'integer'
         ? {
           minimum: spec.minimum ?? 0,
@@ -1387,6 +1421,7 @@ const platformCatalogFields = saveEditorFields.map((field) => ({
 export const savePlatformAdapters: Readonly<Record<SaveType, SavePlatformAdapter>> = {
   [SaveType.PC]: createPcSavePlatformAdapter(platformCatalogFields),
   [SaveType.Android]: createAndroidSavePlatformAdapter(platformCatalogFields),
+  [SaveType.Apple]: createAppleSavePlatformAdapter(platformCatalogFields),
 };
 
 export const getSavePlatformAdapter = (saveType: SaveType): SavePlatformAdapter => {
@@ -1397,7 +1432,7 @@ const saveEditorFieldById = new Map(saveEditorFields.map((field) => [field.id, f
 const saveEditorFieldByPath = new Map<string, SaveFieldDefinition>();
 
 for (const field of saveEditorFields) {
-  for (const saveType of [SaveType.PC, SaveType.Android]) {
+  for (const saveType of [SaveType.PC, SaveType.Android, SaveType.Apple]) {
     for (const path of getSavePlatformAdapter(saveType).getFieldPaths(field.id, field.nativePaths[saveType])) {
       saveEditorFieldByPath.set(`${saveType}:${path}`, field);
     }
@@ -1668,6 +1703,11 @@ export const validateRegisteredFields = (
     issues.push(...validateFieldValue(field, value, path, saveType));
   }
 
+  // Mobile glyph effect masks exceed the 31-bit model this PC mask validator
+  // enforces (tests/fixtures/save/android.json has
+  // reality.glyphs.inventory[21..27].effects up to 206158430208), so running
+  // it on a mobile save would emit blocking invalid-bitfield issues and make
+  // every Android/Apple import fail.
   if (saveType === SaveType.PC) {
     issues.push(...validateBitfieldCollections(saveData));
   }

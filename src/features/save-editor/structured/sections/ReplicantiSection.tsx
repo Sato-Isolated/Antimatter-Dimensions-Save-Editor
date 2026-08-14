@@ -37,8 +37,8 @@ const ReplicantiSection: React.FC<SectionProps> = ({
   const replicanti = (saveData as unknown as { replicanti?: ReplicantiView }).replicanti;
   const chanceUpgrades = replicanti?.chanceUpgrades ?? 0;
   const intervalUpgrades = replicanti?.intervalUpgrades ?? 0;
-  const androidEffectiveChance = Math.min(1, 0.01 + Math.max(0, chanceUpgrades) * 0.01);
-  const androidBaseInterval = Math.max(50, 1000 * (0.9 ** Math.max(0, intervalUpgrades)));
+  const mobileEffectiveChance = Math.min(1, 0.01 + Math.max(0, chanceUpgrades) * 0.01);
+  const mobileBaseInterval = Math.max(50, 1000 * (0.9 ** Math.max(0, intervalUpgrades)));
 
   const tabs = [
     { id: 'settings', label: 'General', icon: <FaCircle className="subtab-icon" aria-hidden="true" /> },
@@ -51,7 +51,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
       <div className="section-content">
         <h3>Replicanti</h3>
         <p className="section-shell-description">
-          Replicanti reproduce on a timer. PC/Web stores the live chance and interval; Android stores the number of purchases that produce those values.
+          Replicanti reproduce on a timer. PC/Web stores the live chance and interval; mobile saves store the number of purchases that produce those values.
         </p>
 
         <nav className="section-subtabs" aria-label="Replicanti sections">
@@ -134,8 +134,8 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   )}
                 />
                 <FieldDescription>
-                  {isPC ? replicantiFieldDescriptions.chancePc : replicantiFieldDescriptions.chanceAndroid}
-                  {!isPC ? ` Current effective chance from this count: ${formatPercent(androidEffectiveChance)}.` : ''}
+                  {isPC ? replicantiFieldDescriptions.chancePc : replicantiFieldDescriptions.chanceMobile}
+                  {!isPC ? ` Current effective chance from this count: ${formatPercent(mobileEffectiveChance)}.` : ''}
                 </FieldDescription>
                 {renderValidationIndicator(isPC ? 'replicanti.chance' : 'replicanti.chanceUpgrades')}
               </div>
@@ -173,8 +173,8 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                   )}
                 />
                 <FieldDescription>
-                  {isPC ? replicantiFieldDescriptions.intervalPc : replicantiFieldDescriptions.intervalAndroid}
-                  {!isPC ? ` Base interval from this count: ${androidBaseInterval.toFixed(2)} ms before other game modifiers.` : ''}
+                  {isPC ? replicantiFieldDescriptions.intervalPc : replicantiFieldDescriptions.intervalMobile}
+                  {!isPC ? ` Base interval from this count: ${mobileBaseInterval.toFixed(2)} ms before other game modifiers.` : ''}
                 </FieldDescription>
                 {renderValidationIndicator(isPC ? 'replicanti.interval' : 'replicanti.intervalUpgrades')}
               </div>
@@ -226,7 +226,7 @@ const ReplicantiSection: React.FC<SectionProps> = ({
                     parseNumericInput(event.target.value),
                   )}
                 />
-                <FieldDescription>{isPC ? replicantiFieldDescriptions.galaxyCapPc : replicantiFieldDescriptions.galaxyCapAndroid}</FieldDescription>
+                <FieldDescription>{isPC ? replicantiFieldDescriptions.galaxyCapPc : replicantiFieldDescriptions.galaxyCapMobile}</FieldDescription>
                 {renderValidationIndicator(isPC ? 'replicanti.boughtGalaxyCap' : 'replicanti.maxGalaxiesUpgrades')}
               </div>
 

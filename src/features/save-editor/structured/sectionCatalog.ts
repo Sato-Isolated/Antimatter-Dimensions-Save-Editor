@@ -1,5 +1,7 @@
 import type { ComponentType } from 'react';
 import { bitfieldCatalog, collectionCatalog } from '../../../domain/save/catalog/bitfields';
+import { getFieldDefinition } from '../../../domain/save/catalog/fields';
+import { SaveType } from '../../../domain/save/model';
 import SaveFieldExplorerSection from './sections/SaveFieldExplorerSection';
 import AutoBuyersSection from './sections/AutoBuyersSection';
 import AutomatorSection from './sections/AutomatorSection';
@@ -36,9 +38,20 @@ export const structuredSectionGroups: readonly StructuredSectionGroup[] = [
   'History & options',
 ];
 
+const catalogEntryPrefixes = (entryId: string, declaredPath: string): string[] => {
+  const field = getFieldDefinition(entryId);
+  if (!field) return [declaredPath];
+
+  return [...new Set([
+    ...field.nativePaths[SaveType.PC],
+    ...field.nativePaths[SaveType.Android],
+    ...field.nativePaths[SaveType.Apple],
+  ])];
+};
+
 const bitsCollectionsIssuePrefixes = [
-  ...bitfieldCatalog.filter((field) => !field.dedicatedSectionId).map((field) => field.path),
-  ...collectionCatalog.filter((field) => !field.dedicatedSectionId).map((field) => field.path),
+  ...bitfieldCatalog.filter((field) => !field.dedicatedSectionId).flatMap((field) => catalogEntryPrefixes(field.id, field.path)),
+  ...collectionCatalog.filter((field) => !field.dedicatedSectionId).flatMap((field) => catalogEntryPrefixes(field.id, field.path)),
   'dilation.upgradeBits',
   'eternityUpgradeBits',
 ];

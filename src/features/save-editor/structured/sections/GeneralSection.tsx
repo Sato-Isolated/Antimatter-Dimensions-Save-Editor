@@ -3,7 +3,7 @@ import { SectionProps } from './types';
 import SectionShell, { SectionShellTab } from '../../../../shared/ui/SectionShell';
 import { FaSuperscript, FaInfinity, FaHourglassHalf, FaSun } from 'react-icons/fa';
 import BigNumberInput from '../../../../shared/ui/BigNumberField';
-import { SaveType } from '../../../../domain/save/model';
+import { SaveType, isMobileSaveType } from '../../../../domain/save/model';
 import { parseNumericInput } from './fieldHelpers';
 import { AntimatterDimensionsStruct } from '../../../../Struct';
 
@@ -102,7 +102,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                 </div>
               )}
               
-              {saveType === SaveType.Android && (
+              {isMobileSaveType(saveType) && (
                 <div className="form-group">
                   <label htmlFor="brake">Break Infinity</label>
                   <select
@@ -351,7 +351,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                 </div>
               )}
               
-              {saveType === SaveType.Android && (
+              {isMobileSaveType(saveType) && (
                 <div className="form-group">
                   <BigNumberInput 
                     label="Reality Machines"

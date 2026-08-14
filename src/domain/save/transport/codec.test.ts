@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import androidFixture from '../../../../tests/fixtures/save/android.json';
+import appleFixture from '../../../../tests/fixtures/save/apple.json';
 import pcFixture from '../../../../tests/fixtures/save/pc.json';
 import newsaveFixture from '../../../../tests/fixtures/save/newsave.json';
 import {
@@ -22,6 +23,7 @@ describe('save serialization', () => {
     for (const [name, saveType] of [
       ['pc.txt', SaveType.PC],
       ['android.txt', SaveType.Android],
+      ['apple.txt', SaveType.Apple],
     ] as const) {
       const encoded = readTransportFixture(name);
       const decoded = decodeSaveString(encoded);
@@ -67,6 +69,24 @@ describe('save serialization', () => {
     expect(decoded.data?.lastUpdate).toBe(androidFixture.lastUpdate);
     expect(decoded.data?.brake).toBe(androidFixture.brake);
     expect(decoded.data).toEqual(androidFixture);
+  });
+
+  it('round-trips the Apple fixture', () => {
+    const encoded = encodeSaveData(cloneFixture(appleFixture), SaveType.Apple);
+
+    expect(encoded).toBeTruthy();
+    expect(encoded!.startsWith('AntimatterDimensionsAppleSaveFormatAAA')).toBe(true);
+    expect(encoded!.endsWith('EndOfSavefile')).toBe(true);
+    expect(detectSaveType(encoded!)).toBe(SaveType.Apple);
+
+    const decoded = decodeSaveString(encoded!);
+    expect(decoded.saveType).toBe(SaveType.Apple);
+    expect(decoded.transportVersion).toBe('AAA');
+    expect(decoded.dataVersion).toBe(30110503);
+    expect(decoded.shape).toBe('player');
+    expect(decoded.validation.success).toBe(true);
+    expect(decoded.data?.brake).toBe(appleFixture.brake);
+    expect(decoded.data).toEqual(appleFixture);
   });
 
   it('round-trips the upstream v25 fixture with exact transport text', () => {
@@ -140,6 +160,19 @@ describe('save serialization', () => {
     const withCarriageReturn = decodeSaveString(`${encoded}\r\n`);
     expect(withCarriageReturn.validation.issues).toEqual(
       expect.arrayContaining([expect.objectContaining({ code: 'invalid-line-break', severity: 'error' })]),
+    );
+
+    const appleEncoded = readTransportFixture('apple.txt');
+    const unknownAppleVersion = appleEncoded.replace('FormatAAA', 'FormatAAB');
+    const unknownAppleResult = decodeSaveString(unknownAppleVersion);
+    expect(unknownAppleResult.validation.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'unknown-transport-version',
+          severity: 'error',
+          message: expect.stringContaining('Apple'),
+        }),
+      ]),
     );
   });
 
