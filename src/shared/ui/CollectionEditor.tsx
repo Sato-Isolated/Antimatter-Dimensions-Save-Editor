@@ -11,6 +11,7 @@ import { parseEditorJson, stringifyEditorJson } from '../../domain/save/transpor
 
 interface CollectionEditorProps {
   definition: CollectionCatalogEntry;
+  path?: string;
   value: unknown;
   onChange: (path: string, value: unknown) => void;
   renderValidationIndicator: (path: string) => React.ReactNode;
@@ -30,10 +31,12 @@ const asCollection = (value: unknown): Array<string | number> => {
 
 const CollectionEditor: React.FC<CollectionEditorProps> = ({
   definition,
+  path,
   value,
   onChange,
   renderValidationIndicator,
 }) => {
+  const targetPath = path ?? definition.path;
   const entries = asCollection(value);
   const serializedEntries = stringifyEditorJson(entries, 2);
   const [rawDraft, setRawDraft] = useState(serializedEntries);
@@ -47,7 +50,7 @@ const CollectionEditor: React.FC<CollectionEditorProps> = ({
   const updateRaw = (): void => {
     try {
       const parsed: unknown = parseEditorJson(rawDraft);
-      if (Array.isArray(parsed)) onChange(definition.path, parsed);
+      if (Array.isArray(parsed)) onChange(targetPath, parsed);
     } catch {
       // Keep the draft visible while the validation layer reports malformed JSON.
     }
@@ -60,14 +63,14 @@ const CollectionEditor: React.FC<CollectionEditorProps> = ({
           <h4>{definition.label}</h4>
           <p>{definition.description}</p>
         </div>
-        <code className="bitfield-card__path">{definition.path}</code>
+        <code className="bitfield-card__path">{targetPath}</code>
       </div>
 
       <div className="collection-card__actions">
-        <button type="button" className="button secondary" onClick={() => onChange(definition.path, addAllKnownCollectionEntries(entries, definition.entries))}>
+        <button type="button" className="button secondary" onClick={() => onChange(targetPath, addAllKnownCollectionEntries(entries, definition.entries))}>
           Add known
         </button>
-        <button type="button" className="button secondary" onClick={() => onChange(definition.path, removeAllKnownCollectionEntries(entries, definition.entries))}>
+        <button type="button" className="button secondary" onClick={() => onChange(targetPath, removeAllKnownCollectionEntries(entries, definition.entries))}>
           Remove known
         </button>
       </div>
@@ -78,7 +81,7 @@ const CollectionEditor: React.FC<CollectionEditorProps> = ({
             <input
               type="checkbox"
               checked={entries.some((valueEntry) => valueEntry === entry.value)}
-              onChange={(event) => onChange(definition.path, setCollectionEntry(entries, entry.value, event.target.checked))}
+              onChange={(event) => onChange(targetPath, setCollectionEntry(entries, entry.value, event.target.checked))}
             />
             <span>
               <strong>{entry.label}</strong>
@@ -103,7 +106,7 @@ const CollectionEditor: React.FC<CollectionEditorProps> = ({
         JSON array
         <textarea value={rawDraft} onChange={(event) => setRawDraft(event.target.value)} onBlur={updateRaw} rows={4} />
       </label>
-      {renderValidationIndicator(definition.path)}
+      {renderValidationIndicator(targetPath)}
     </article>
   );
 };

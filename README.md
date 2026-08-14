@@ -97,13 +97,15 @@ Customize your editing experience:
 
 ## Compatibility and backup boundaries
 
-The editor supports the documented PC and Android save transport envelopes at
-the codec and fixture level. Android transport support is not a claim of
-PC-to-Android conversion or compatibility with every live Android game build.
-An internal round-trip does not prove that a real save will load in the game;
-use an untouched backup and perform a manual import/export check before relying
-on an edited save. The editor does not apply upstream save migrations
-automatically.
+The editor supports the documented PC, Android, and iOS save transport
+envelopes at the codec and fixture level. The iOS fixture is derived from a
+real iOS export, re-encoded by this editor after scrubbing the one
+identifying string; it is not shipped as the raw payload. Mobile transport
+support is not a claim of PC-to-mobile conversion or compatibility with every
+live Android or iOS game build. An internal round-trip does not prove that a
+real save will load in the game; use an untouched backup and perform a manual
+import/export check before relying on an edited save. The editor does not
+apply upstream save migrations automatically.
 
 ## Contributing
 

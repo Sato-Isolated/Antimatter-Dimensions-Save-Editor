@@ -1,4 +1,4 @@
-import { DocumentPath, SaveObject, SaveType, SaveValidationIssue } from '../model';
+import { DocumentPath, SaveObject, SaveType, SaveValidationIssue, isMobileSaveType } from '../model';
 
 /**
  * Human-readable Automator data copied from the pinned game source snapshot.
@@ -650,10 +650,10 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
       'reality.automator.scripts',
     ));
   }
-  if (scripts !== undefined && saveType === SaveType.Android && !Array.isArray(scripts)) {
+  if (scripts !== undefined && saveType !== undefined && isMobileSaveType(saveType) && !Array.isArray(scripts)) {
     issues.push(createAutomatorIssue(
-      'automator-scripts-android-shape',
-      'Android Automator scripts must use the upstream array shape.',
+      'automator-scripts-mobile-shape',
+      'Mobile Automator scripts must use the upstream array shape.',
       'reality.automator.scripts',
     ));
   }

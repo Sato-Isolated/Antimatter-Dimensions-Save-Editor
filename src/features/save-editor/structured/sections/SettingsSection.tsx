@@ -4,7 +4,7 @@ import { FaDesktop, FaBolt, FaCheck, FaVideo } from 'react-icons/fa';
 import { hasPath, getValueAtPath } from '../../../../domain/save/document/path';
 import { bitfieldCatalog, getKnownBitDefinitions } from '../../../../domain/save/catalog/bitfields';
 import { resolveRegisteredFieldPath } from '../../../../domain/save/catalog/fields';
-import { SaveObject, SaveType } from '../../../../domain/save/model';
+import { SaveObject, isMobileSaveType } from '../../../../domain/save/model';
 import BitfieldEditor from '../../../../shared/ui/BitfieldEditor';
 import FieldDescription from '../../../../shared/ui/FieldDescription';
 import { parseNumericInput } from './fieldHelpers';
@@ -207,9 +207,9 @@ const SettingsSection: React.FC<SectionProps> = ({
                 >
                   <option value="enabled">Enabled</option>
                   <option value="disabled">Disabled</option>
-                  {saveType === SaveType.Android && <option value="shown">Shown (Android)</option>}
+                  {isMobileSaveType(saveType) && <option value="shown">Shown (mobile)</option>}
                 </select>
-                <FieldDescription>PC/Web saves use a boolean. Android fixtures may use SHOWN, which keeps offline progress enabled while exposing the away-progress view.</FieldDescription>
+                <FieldDescription>PC/Web saves use a boolean. Mobile saves may use SHOWN, which keeps offline progress enabled while exposing the away-progress view.</FieldDescription>
                 {renderValidationIndicator('options.offlineProgress')}
               </div>
 

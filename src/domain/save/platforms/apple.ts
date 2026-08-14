@@ -2,10 +2,10 @@ import { SavePlatformAdapter, SavePlatformCatalogField, createSavePlatformAdapte
 import { mobileSaveAliases } from './mobile';
 import { SaveType } from '../model';
 
-export const createAndroidSavePlatformAdapter = (
+export const createAppleSavePlatformAdapter = (
   fields: readonly SavePlatformCatalogField[],
 ): SavePlatformAdapter => createSavePlatformAdapter(
-  SaveType.Android,
+  SaveType.Apple,
   fields,
   {
     transportVersions: ['AAA'],

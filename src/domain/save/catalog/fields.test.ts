@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import appleFixture from '../../../../tests/fixtures/save/apple.json';
 import {
   readFieldValue,
   resolveRegisteredFieldPath,
@@ -8,7 +9,7 @@ import {
   validateFieldValue,
   validateRegisteredFields,
 } from './fields';
-import { SaveType } from '../model';
+import { SaveObject, SaveType } from '../model';
 
 const breakInfinityField = saveEditorFields.find((field) => field.id === 'breakInfinity');
 const replicantiChanceField = saveEditorFields.find((field) => field.id === 'replicantiChance');
@@ -236,16 +237,22 @@ describe('field registry', () => {
       } else {
         expect(field.nativePaths[SaveType.Android].length, field.id).toBeGreaterThan(0);
       }
+      if (field.support[SaveType.Apple] === 'unsupported') {
+        expect(field.nativePaths[SaveType.Apple], field.id).toEqual([]);
+      } else {
+        expect(field.nativePaths[SaveType.Apple].length, field.id).toBeGreaterThan(0);
+      }
       expect(field.sectionId, field.id).toBeTruthy();
       expect(field.support[SaveType.PC], field.id).toBe('supported');
       expect(['supported', 'unsupported', 'discovered']).toContain(field.support[SaveType.Android]);
+      expect(['supported', 'unsupported', 'discovered']).toContain(field.support[SaveType.Apple]);
     }
   });
 
   it('keeps field ids and platform candidate paths unique', () => {
     expect(new Set(saveEditorFields.map((field) => field.id)).size).toBe(saveEditorFields.length);
 
-    for (const saveType of [SaveType.PC, SaveType.Android]) {
+    for (const saveType of [SaveType.PC, SaveType.Android, SaveType.Apple]) {
       const paths = saveEditorFields.flatMap((field) => field.nativePaths[saveType]);
       expect(new Set(paths).size, saveType).toBe(paths.length);
     }
@@ -304,5 +311,29 @@ describe('field registry', () => {
       expect.objectContaining({ path: 'challenge.normal.completedBits', code: 'minimum-value', severity: 'error' }),
       expect.objectContaining({ path: 'challenge.infinity.completedBits', code: 'integer-required', severity: 'error' }),
     ]));
+  });
+
+  it('resolves mobile achievement mask paths on the Apple fixture', () => {
+    const appleData = appleFixture as unknown as SaveObject;
+    expect(resolveRegisteredFieldPath(appleData, 'achievementBits', SaveType.Apple)).toBe('achievements');
+    expect(resolveRegisteredFieldPath(appleData, 'secretAchievementBits', SaveType.Apple)).toBe('secretAchievements');
+
+    const achievementBitsField = saveEditorFields.find((field) => field.id === 'achievementBits');
+    expect(achievementBitsField).toBeTruthy();
+    const achievements = readFieldValue(appleData, achievementBitsField!, SaveType.Apple);
+    expect(Array.isArray(achievements)).toBe(true);
+    expect((achievements as unknown[]).length).toBe(18);
+
+    expect(resolveFieldPath(appleData, breakInfinityField!, SaveType.Apple)).toBe('brake');
+  });
+
+  it('reports no missing-field warnings for Apple achievement masks', () => {
+    const appleData = appleFixture as unknown as SaveObject;
+    const issues = validateRegisteredFields(appleData, SaveType.Apple);
+
+    expect(issues.some((issue) => issue.severity === 'error')).toBe(false);
+    expect(issues.some((issue) =>
+      issue.code === 'optional-field-missing' && (issue.path === 'achievements' || issue.path === 'secretAchievements'),
+    )).toBe(false);
   });
 });

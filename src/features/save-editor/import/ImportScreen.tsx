@@ -22,7 +22,7 @@ const ImportScreen: React.FC<ImportScreenProps> = ({
       <section className="import-content" aria-labelledby="import-title">
         <header className="import-heading">
           <h1 id="import-title">Import a save</h1>
-          <p>Paste your encrypted PC or Android save. Everything stays in your browser.</p>
+          <p>Paste your encrypted PC, Android, or iOS save. Everything stays in your browser.</p>
         </header>
 
         <div className="import-field">

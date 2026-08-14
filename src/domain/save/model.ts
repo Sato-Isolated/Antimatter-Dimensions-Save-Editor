@@ -28,7 +28,12 @@ export type SaveArray = JsonArray;
 export enum SaveType {
   PC = 'pc',
   Android = 'android',
+  Apple = 'apple',
 }
+
+/** Android and iOS ship the same mobile save model; only the transport marker differs. */
+export const isMobileSaveType = (saveType: SaveType): boolean =>
+  saveType === SaveType.Android || saveType === SaveType.Apple;
 
 export type DocumentPath = string;
 

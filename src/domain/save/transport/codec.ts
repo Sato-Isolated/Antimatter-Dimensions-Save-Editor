@@ -10,6 +10,7 @@ import {
   SaveType,
   SaveValidationIssue,
   SaveValidationSummary,
+  isMobileSaveType,
 } from '../model';
 
 type UnknownRecord = Record<string, unknown>;
@@ -20,6 +21,7 @@ const decoder = new TextDecoder('utf-8', { fatal: true });
 const startingString = {
   savefile: 'AntimatterDimensionsSavefileFormat',
   android: 'AntimatterDimensionsAndroidSaveFormat',
+  apple: 'AntimatterDimensionsAppleSaveFormat',
 };
 
 const endingString = 'EndOfSavefile';
@@ -147,9 +149,9 @@ const encodePcText = (text: string): string => {
   return `${startingString.savefile}AAB${encodePrintableBinary(compressed)}${endingString}`;
 };
 
-const encodeAndroidText = (text: string): string => {
+const encodeMobileText = (prefix: string, text: string): string => {
   const compressed = pako.gzip(encoder.encode(text));
-  return `${startingString.android}AAA${encodePrintableBinary(compressed)}${endingString}`;
+  return `${prefix}AAA${encodePrintableBinary(compressed)}${endingString}`;
 };
 
 const decodeModernText = (
@@ -158,7 +160,7 @@ const decodeModernText = (
   saveType: SaveType,
 ): string => {
   let encodedPayload = payload;
-  const hasSuffix = saveType === SaveType.Android || transportVersion === 'AAB';
+  const hasSuffix = isMobileSaveType(saveType) || transportVersion === 'AAB';
 
   if (hasSuffix) {
     if (!encodedPayload.endsWith(endingString)) {
@@ -175,7 +177,7 @@ const decodeModernText = (
   );
 
   const compressed = decodePrintableBinary(encodedPayload);
-  const inflated = saveType === SaveType.Android ? pako.ungzip(compressed) : pako.inflate(compressed);
+  const inflated = isMobileSaveType(saveType) ? pako.ungzip(compressed) : pako.inflate(compressed);
   assertTransportLimit(
     inflated.length,
     SAVE_TRANSPORT_LIMITS.maxInflatedBytes,
@@ -221,6 +223,19 @@ const decodeText = (text: string): DecodedTransport => {
     return {
       decoded: decodeModernText(text.slice(startingString.android.length + 3), 'AAA', SaveType.Android),
       saveType: SaveType.Android,
+      transportVersion: 'AAA',
+    };
+  }
+
+  if (text.startsWith(startingString.apple)) {
+    const version = text.slice(startingString.apple.length, startingString.apple.length + 3) as SaveTransportVersion;
+    if (version !== 'AAA') {
+      unknownTransportVersion('Apple', version);
+    }
+
+    return {
+      decoded: decodeModernText(text.slice(startingString.apple.length + 3), 'AAA', SaveType.Apple),
+      saveType: SaveType.Apple,
       transportVersion: 'AAA',
     };
   }
@@ -448,6 +463,10 @@ export const detectSaveType = (encodedSaveData: string): SaveType => {
     return SaveType.PC;
   }
 
+  if (encodedSaveData.startsWith(startingString.apple)) {
+    return SaveType.Apple;
+  }
+
   return encodedSaveData.startsWith(startingString.android) ? SaveType.Android : SaveType.PC;
 };
 
@@ -458,7 +477,9 @@ export const validateDecodedSave = (saveData: SaveObject | null): SaveValidation
 export const encodeSaveData = (saveData: SaveObject, saveType: SaveType = SaveType.PC): string | null => {
   try {
     const json = JSON.stringify(saveData, editorJsonReplacer);
-    const encoded = saveType === SaveType.Android ? encodeAndroidText(json) : encodePcText(json);
+    const encoded = isMobileSaveType(saveType)
+      ? encodeMobileText(saveType === SaveType.Apple ? startingString.apple : startingString.android, json)
+      : encodePcText(json);
     assertTransportLimit(
       encoded.length,
       SAVE_TRANSPORT_LIMITS.maxEncodedCharacters,
@@ -507,11 +528,11 @@ export const decodeSaveString = (encodedSaveData: string): SaveDecodeResult => {
     };
   } catch (error) {
     const saveType = detectSaveType(encodedSaveData);
-    const versionCandidate = encodedSaveData.startsWith(startingString.savefile)
-      ? encodedSaveData.slice(startingString.savefile.length, startingString.savefile.length + 3)
-      : encodedSaveData.startsWith(startingString.android)
-        ? encodedSaveData.slice(startingString.android.length, startingString.android.length + 3)
-        : '';
+    const matchedPrefix = [startingString.savefile, startingString.android, startingString.apple]
+      .find((prefix) => encodedSaveData.startsWith(prefix));
+    const versionCandidate = matchedPrefix
+      ? encodedSaveData.slice(matchedPrefix.length, matchedPrefix.length + 3)
+      : '';
     const transportVersion: SaveTransportVersion = versionCandidate === 'AAA' || versionCandidate === 'AAB'
       ? versionCandidate
       : (encodedSaveData.startsWith('AntimatterDimensions') ? 'unknown' : 'legacy');

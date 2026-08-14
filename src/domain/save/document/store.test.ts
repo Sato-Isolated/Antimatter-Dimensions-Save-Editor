@@ -1,10 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import appleFixture from '../../../../tests/fixtures/save/apple.json';
 import pcFixture from '../../../../tests/fixtures/save/pc.json';
 import newsaveFixture from '../../../../tests/fixtures/save/newsave.json';
 import { getValueAtPath, hasPath, setValueAtPath } from './path';
 import { createSaveEditorStore } from './store';
 import { decodeSaveString, encodeSaveData } from '../transport/codec';
-import { SaveType } from '../model';
+import { SaveObject, SaveType } from '../model';
 
 const createPcSave = () => ({
   antimatter: '10',
@@ -218,5 +220,28 @@ describe('save editor store', () => {
       })]),
     );
     expect(store.encodeWorkingData()).toBe('');
+  });
+
+  it('loads an Apple save, edits an achievement mask segment, and re-exports with the Apple marker', () => {
+    const encoded = readFileSync(new URL('../../../../tests/fixtures/save/apple.txt', import.meta.url), 'utf8').trim();
+    const store = createSaveEditorStore();
+
+    expect(store.loadFromEncoded(encoded).success).toBe(true);
+    expect(store.getState().saveType).toBe(SaveType.Apple);
+
+    const achievements = [...(appleFixture.achievements as number[])];
+    expect(achievements[5]).toBe(32);
+    achievements[5] = 33;
+    store.updateDocumentAtPath('achievements', achievements);
+
+    const reencoded = store.encodeWorkingData();
+    expect(reencoded.startsWith('AntimatterDimensionsAppleSaveFormatAAA')).toBe(true);
+
+    const decoded = decodeSaveString(reencoded);
+    const decodedData = decoded.data as SaveObject;
+    expect((decodedData.achievements as number[])[5]).toBe(33);
+
+    const expectedData: SaveObject = { ...(appleFixture as unknown as SaveObject), achievements };
+    expect(decodedData).toEqual(expectedData);
   });
 });

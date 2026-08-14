@@ -289,7 +289,7 @@ const RealitySection: React.FC<SectionProps> = ({
           <div className="resource-group">
             <h4>Repeatable Reality upgrades</h4>
             <FieldDescription>
-              These five counters are purchase levels, not completion bits. PC stores them under reality.rebuyables.1–5; Android stores the same values in the zero-based reality.rebuyables array.
+              These five counters are purchase levels, not completion bits. PC stores them under reality.rebuyables.1–5; mobile stores the same values in the zero-based reality.rebuyables array.
             </FieldDescription>
             <div className="reality-grid">
               {realityRebuyableDefinitions.map((definition) => {
@@ -361,7 +361,7 @@ const RealitySection: React.FC<SectionProps> = ({
                     saveType={saveType}
                   />
                 )}
-                <FieldDescription>Reality perk currency. Android may store it as a mantissa/exponent object; PC stores a number.</FieldDescription>
+                <FieldDescription>Reality perk currency. Mobile saves may store it as a mantissa/exponent object; PC stores a number.</FieldDescription>
                 {renderValidationIndicator('reality.perkPoints')}
               </div>
               

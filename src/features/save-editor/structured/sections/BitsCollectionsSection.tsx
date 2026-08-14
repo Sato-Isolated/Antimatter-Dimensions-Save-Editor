@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaCodeBranch, FaEye, FaLayerGroup, FaList, FaStar } from 'react-icons/fa';
 import { getValueAtPath } from '../../../../domain/save/document/path';
 import BitfieldEditor, { BitfieldOptions, UnknownBits } from '../../../../shared/ui/BitfieldEditor';
@@ -18,6 +18,7 @@ import {
   clearAllKnownSegmentBits,
   GlyphMaskTarget,
 } from '../../../../domain/save/catalog/bitfields';
+import { getFieldDefinition, resolveFieldPath } from '../../../../domain/save/catalog/fields';
 import { SaveObject, SaveType } from '../../../../domain/save/model';
 import { SectionProps } from './types';
 
@@ -34,12 +35,13 @@ const inputNumber = (event: React.ChangeEvent<HTMLInputElement>): number =>
 
 interface SegmentedMaskEditorProps {
   definition: BitfieldCatalogEntry;
+  path: string;
   value: unknown;
   onChange: (path: string, value: unknown) => void;
   renderValidationIndicator: (path: string) => React.ReactNode;
 }
 
-const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, value, onChange, renderValidationIndicator }) => {
+const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, path, value, onChange, renderValidationIndicator }) => {
   const isNewsMap = definition.shape === 'map';
   const segmentValues = Array.isArray(value) ? value : [];
   const mapValue = useMemo(() => (isRecord(value) ? value : {}), [value]);
@@ -70,12 +72,12 @@ const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, v
       const nextSegments = Array.isArray(nextMap[category]) ? [...nextMap[category] as unknown[]] : [];
       nextSegments[selectedSegment] = nextValue;
       nextMap[category] = nextSegments;
-      onChange(definition.path, nextMap);
+      onChange(path, nextMap);
       return;
     }
     const nextSegments = Array.isArray(value) ? [...value] : [];
     nextSegments[selectedSegment] = nextValue;
-    onChange(definition.path, nextSegments);
+    onChange(path, nextSegments);
   };
 
   const updateKnown = (activate: boolean): void => {
@@ -86,7 +88,7 @@ const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, v
     const nextSegments = activate
       ? setAllKnownSegmentBits(segmentValues.filter((entry): entry is number => typeof entry === 'number'), selectedSegment, knownBits)
       : clearAllKnownSegmentBits(segmentValues.filter((entry): entry is number => typeof entry === 'number'), selectedSegment, knownBits);
-    onChange(definition.path, nextSegments);
+    onChange(path, nextSegments);
   };
 
   const updateBit = (bitIndex: number, enabled: boolean): void => {
@@ -95,7 +97,7 @@ const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, v
       return;
     }
     const source = segmentValues.every((entry) => typeof entry === 'number') ? segmentValues as number[] : [];
-    onChange(definition.path, setSegmentBit(source, selectedSegment, bitIndex, enabled));
+    onChange(path, setSegmentBit(source, selectedSegment, bitIndex, enabled));
   };
 
   const unknownBits = getUnknownSetBits(selectedValue, knownBits);
@@ -107,7 +109,7 @@ const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, v
           <h4>{definition.label}</h4>
           <p>{definition.description}</p>
         </div>
-        <code className="bitfield-card__path">{definition.path}</code>
+        <code className="bitfield-card__path">{path}</code>
       </div>
 
       <div className="bitfield-card__selectors">
@@ -144,7 +146,7 @@ const SegmentedMaskEditor: React.FC<SegmentedMaskEditorProps> = ({ definition, v
           <code>{formatHex(selectedValue)}</code>
         </div>
       </div>
-      {renderValidationIndicator(isNewsMap ? `${definition.path}.${category}[${selectedSegment}]` : `${definition.path}[${selectedSegment}]`)}
+      {renderValidationIndicator(isNewsMap ? `${path}.${category}[${selectedSegment}]` : `${path}[${selectedSegment}]`)}
       <div className="bitfield-card__actions">
         <button type="button" className="button secondary" onClick={() => updateKnown(true)}>Complete known</button>
         <button type="button" className="button secondary" onClick={() => updateKnown(false)}>Clear known</button>
@@ -188,26 +190,29 @@ const BitsCollectionsSection: React.FC<SectionProps> = ({
 }) => {
   const [activeGroup, setActiveGroup] = useState<(typeof sectionGroups)[number]['id']>('progression');
   const saveRecord = saveData as unknown as SaveObject;
+  const isPC = saveType === SaveType.PC;
+  const resolveCatalogPath = useCallback(
+    (entryId: string, declaredPath: string): string => {
+      const field = getFieldDefinition(entryId);
+      return field ? resolveFieldPath(saveRecord, field, saveType) : declaredPath;
+    },
+    [saveRecord, saveType],
+  );
   const glyphTargets = useMemo(() => getGlyphBitfieldTargets(saveRecord), [saveRecord]);
   const bitfieldsByGroup = useMemo(
-    () => bitfieldCatalog.filter((entry) => entry.section === activeGroup && !entry.dedicatedSectionId),
-    [activeGroup],
+    () => bitfieldCatalog
+      .filter((entry) => entry.section === activeGroup && !entry.dedicatedSectionId)
+      .map((definition) => ({ definition, path: resolveCatalogPath(definition.id, definition.path) }))
+      .filter(({ path }) => isPC || getValueAtPath(saveRecord, path) !== undefined),
+    [activeGroup, isPC, resolveCatalogPath, saveRecord],
   );
   const collections = useMemo(
-    () => collectionCatalog.filter((entry) => !entry.dedicatedSectionId),
-    [],
+    () => collectionCatalog
+      .filter((entry) => !entry.dedicatedSectionId)
+      .map((definition) => ({ definition, path: resolveCatalogPath(definition.id, definition.path) }))
+      .filter(({ path }) => isPC || getValueAtPath(saveRecord, path) !== undefined),
+    [isPC, resolveCatalogPath, saveRecord],
   );
-
-  if (saveType !== SaveType.PC) {
-    return (
-      <div className="section-pane active" id="bits-collections">
-        <div className="section-content">
-          <h3>Bits &amp; collections</h3>
-          <p className="editor-empty-state">This upstream catalog targets PC/Web/Steam saves. Android remains available through All values and the JSON editor.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="section-pane active" id="bits-collections">
@@ -230,38 +235,50 @@ const BitsCollectionsSection: React.FC<SectionProps> = ({
 
         <p className="field-description">
           Progression-owned masks and collections are edited in their dedicated sections (Infinity, Eternity,
-          Dilation, Reality, Challenges, or Celestials). This view keeps only cross-cutting/raw catalog values;
-          unknown values remain available through All values and the JSON editor.
+          Dilation, Reality, Challenges, or Celestials). This catalog is the PC/Web superset; mobile saves show
+          the subset of bitfields and collections they actually store, and unknown values remain available
+          through All values and the JSON editor.
         </p>
 
         {activeGroup === 'collections' ? (
-          <div className="bits-collections-grid">
-            {collections.map((definition) => (
-              <CollectionEditor
-                key={definition.id}
-                definition={definition}
-                value={getValueAtPath(saveRecord, definition.path)}
-                onChange={handleValueChange}
-                renderValidationIndicator={renderValidationIndicator}
-              />
-            ))}
-          </div>
+          collections.length > 0 ? (
+            <div className="bits-collections-grid">
+              {collections.map(({ definition, path }) => (
+                <CollectionEditor
+                  key={definition.id}
+                  definition={definition}
+                  path={path}
+                  value={getValueAtPath(saveRecord, path)}
+                  onChange={handleValueChange}
+                  renderValidationIndicator={renderValidationIndicator}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="editor-empty-state">This save has no values from this upstream group. Anything the mobile model stores under a different name remains available in All values and the JSON editor.</p>
+          )
         ) : activeGroup === 'glyphs' ? (
+          isPC ? (
+            <div className="bits-collections-grid">
+              {glyphTargets.length > 0 ? glyphTargets.map((target) => (
+                <GlyphMaskEditor key={target.path} target={target} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />
+              )) : <p className="editor-empty-state">No active or inventory glyph mask is present in this save. Future glyph fields remain available in All values.</p>}
+            </div>
+          ) : (
+            <p className="editor-empty-state">Mobile glyph effect masks use a wider bit layout than this 31-bit catalog, so they stay editable in All values and the JSON editor.</p>
+          )
+        ) : bitfieldsByGroup.length > 0 ? (
           <div className="bits-collections-grid">
-            {glyphTargets.length > 0 ? glyphTargets.map((target) => (
-              <GlyphMaskEditor key={target.path} target={target} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />
-            )) : <p className="editor-empty-state">No active or inventory glyph mask is present in this save. Future glyph fields remain available in All values.</p>}
-          </div>
-        ) : (
-          <div className="bits-collections-grid">
-            {bitfieldsByGroup.map((definition) => {
-              const value = getValueAtPath(saveRecord, definition.path);
+            {bitfieldsByGroup.map(({ definition, path }) => {
+              const value = getValueAtPath(saveRecord, path);
               if (definition.shape === 'number') {
-                return <BitfieldEditor key={definition.id} path={definition.path} label={definition.label} description={definition.description} value={value} knownBits={getKnownBitDefinitions(definition)} rawOnly={definition.rawOnly} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />;
+                return <BitfieldEditor key={definition.id} path={path} label={definition.label} description={definition.description} value={value} knownBits={getKnownBitDefinitions(definition)} rawOnly={definition.rawOnly} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />;
               }
-              return <SegmentedMaskEditor key={definition.id} definition={definition} value={value} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />;
+              return <SegmentedMaskEditor key={definition.id} definition={definition} path={path} value={value} onChange={handleValueChange} renderValidationIndicator={renderValidationIndicator} />;
             })}
           </div>
+        ) : (
+          <p className="editor-empty-state">This save has no values from this upstream group. Anything the mobile model stores under a different name remains available in All values and the JSON editor.</p>
         )}
       </div>
     </div>

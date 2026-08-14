@@ -197,7 +197,7 @@ const InfinitySection: React.FC<SectionProps> = ({
               />
             ) : (
               <div className="form-group">
-                <label htmlFor="inf-upgradeBits">Android Infinity upgrade mask (fixture)</label>
+                <label htmlFor="inf-upgradeBits">Mobile Infinity upgrade mask (fixture)</label>
                 <input
                   type="number"
                   min="0"
@@ -206,7 +206,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                   value={typedSaveData.infinityUpgradeBits || 0}
                   onChange={(e) => handleValueChange('infinityUpgradeBits', parseInt(e.target.value, 10) || 0)}
                 />
-                <FieldDescription>Fixture-derived Android field. Its bit-to-upgrade mapping is not present in the pinned PC/Web source, so the raw mask is preserved rather than given guessed labels.</FieldDescription>
+                <FieldDescription>Fixture-derived mobile field. Its bit-to-upgrade mapping is not present in the pinned PC/Web source, so the raw mask is preserved rather than given guessed labels.</FieldDescription>
                 {renderValidationIndicator('infinityUpgradeBits')}
               </div>
             )}
@@ -238,7 +238,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                   </div>
                 );
               }) : (
-                <FieldDescription>Android does not expose the PC/Web `infinityRebuyables` array in the current fixture schema.</FieldDescription>
+                <FieldDescription>Mobile does not expose the PC/Web `infinityRebuyables` array in the current fixture schema.</FieldDescription>
               )}
             </div>
           </div>
@@ -276,7 +276,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                     value={typeof ic4Tier === 'number' ? ic4Tier : 0}
                     onChange={(e) => handleValueChange(ic4TierPath, parseInt(e.target.value, 10) || 0)}
                   />
-                  <FieldDescription>Android fixture field for the current IC4 dimension tier. It is not the completion bitfield.</FieldDescription>
+                  <FieldDescription>Mobile fixture field for the current IC4 dimension tier. It is not the completion bitfield.</FieldDescription>
                   {renderValidationIndicator(ic4TierPath)}
                 </div>
               )}

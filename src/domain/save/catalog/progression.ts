@@ -289,16 +289,16 @@ export const replicantiFieldDescriptions = {
   amount: 'Current Replicanti count. Each Replicanti tick grows this amount using the stored chance.',
   timer: 'Milliseconds accumulated toward the next Replicanti tick; leftover time rolls over between game ticks.',
   chancePc: 'Actual chance per Replicanti unit to reproduce on each tick, stored as a fraction from 0 to 1 on PC/Web.',
-  chanceAndroid: 'Android stores the number of +1% Replicanti Chance purchases here; it is not the final probability.',
+  chanceMobile: 'Mobile saves store the number of +1% Replicanti Chance purchases here; it is not the final probability.',
   chanceCost: 'Current Infinity Point price of the next Replicanti Chance purchase.',
   intervalPc: 'Milliseconds between Replicanti ticks on PC/Web. Lower is faster; the game applies further speed modifiers at runtime.',
-  intervalAndroid: 'Android stores the number of Replicanti Interval upgrade purchases here; it is not milliseconds.',
+  intervalMobile: 'Mobile saves store the number of Replicanti Interval upgrade purchases here; it is not milliseconds.',
   intervalCost: 'Current Infinity Point price of the next Replicanti Interval purchase.',
   galaxies: 'Replicanti Galaxies already earned. This is separate from the maximum Galaxy upgrade count.',
   galaxyCapPc: 'Number of Max Replicanti Galaxy upgrades bought on PC/Web; extra bonuses can raise the effective cap.',
-  galaxyCapAndroid: 'Android stores the number of Max Replicanti Galaxy upgrade purchases here.',
+  galaxyCapMobile: 'Mobile saves store the number of Max Replicanti Galaxy upgrade purchases here.',
   galaxyCost: 'Current Infinity Point price of the next Max Replicanti Galaxy upgrade.',
-  galaxyBuyer: 'Android Replicanti Galaxy autobuyer toggle.',
+  galaxyBuyer: 'Mobile Replicanti Galaxy autobuyer toggle.',
 } as const;
 
 export type DimensionId = 'antimatter' | 'infinity' | 'time';
