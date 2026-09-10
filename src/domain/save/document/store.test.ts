@@ -59,6 +59,20 @@ describe('save editor store', () => {
     expect(decoded.data?.antimatter).toBe('42');
   });
 
+  it('imports and round-trips a fractional dimension boost value', () => {
+    const store = createSaveEditorStore();
+    const encoded = encodeSaveData({ ...createPcSave(), dimensionBoosts: 4.5 }, SaveType.PC)!;
+
+    expect(store.loadFromEncoded(encoded)).toEqual({ success: true, errorMessage: null });
+    expect(store.getState().document?.validation.issues).not.toEqual(
+      expect.arrayContaining([expect.objectContaining({ path: 'dimensionBoosts', code: 'integer-required' })]),
+    );
+
+    const reencoded = store.encodeWorkingData();
+    expect(reencoded).toBeTruthy();
+    expect(decodeSaveString(reencoded).data?.dimensionBoosts).toBe(4.5);
+  });
+
   it('drops stale export output when the workspace changes or load fails', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const store = createSaveEditorStore();

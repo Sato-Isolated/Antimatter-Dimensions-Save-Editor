@@ -129,7 +129,9 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="dimensionBoosts" 
                   name="dimensionBoosts"
                   value={saveData.dimensionBoosts || 0}
-                  onChange={(e) => handleValueChange('dimensionBoosts', parseInt(e.target.value))}
+                  min="0"
+                  step="any"
+                  onChange={(e) => handleValueChange('dimensionBoosts', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('dimensionBoosts')}
               </div>

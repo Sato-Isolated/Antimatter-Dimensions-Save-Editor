@@ -70,6 +70,18 @@ describe('field registry', () => {
     expect(issues.filter((issue) => issue.path === 'dimensionBoosts')[0]?.severity).toBe('error');
   });
 
+  it('accepts fractional dimension boost values consumed by the upstream game', () => {
+    const dimensionBoostsField = saveEditorFields.find((field) => field.id === 'dimensionBoosts');
+
+    expect(dimensionBoostsField?.kind).toBe('number');
+    expect(validateFieldValue(
+      dimensionBoostsField!,
+      4.5,
+      'dimensionBoosts',
+      SaveType.PC,
+    )).toEqual([]);
+  });
+
   it('accepts decimal Black Hole Negative factors used by the upstream game', () => {
     const issues = validateRegisteredFields({ blackHoleNegative: 0.1 }, SaveType.PC);
 

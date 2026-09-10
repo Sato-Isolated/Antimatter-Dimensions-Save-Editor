@@ -186,14 +186,14 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
       buildField({
         id: 'dimensionBoosts',
         label: 'Dimension Boosts',
-        description: 'Current number of dimension boosts.',
+        description: 'Current dimension boost value; the game floors it when calculating purchased boosts.',
         group: 'overview',
-        kind: 'integer',
+        kind: 'number',
         nativePaths: {
           [SaveType.PC]: ['dimensionBoosts'],
           [SaveType.Android]: ['dimensionBoosts'],
         },
-        rule: { required: true, minimum: 0, integer: true },
+        rule: { required: true, minimum: 0 },
       }),
       buildField({
         id: 'galaxies',
