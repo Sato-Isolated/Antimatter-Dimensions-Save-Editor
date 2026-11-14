@@ -61,10 +61,17 @@ const JsonValueField: React.FC<JsonValueFieldProps> = ({
 }) => {
   const errorId = useId();
   const descriptionId = description ? `${id}-description` : undefined;
-  const serializedValue = stringifyValue(value, fallbackValue, stringifySpace);
+  let serializedValue = '';
+  let serializationError: string | null = null;
+  try {
+    serializedValue = stringifyValue(value, fallbackValue, stringifySpace);
+  } catch {
+    serializationError = 'This value cannot be represented as save JSON. Fix its numeric value first.';
+  }
   const lastSyncedValueRef = useRef(serializedValue);
   const [draft, setDraft] = useState(serializedValue);
   const [error, setError] = useState<string | null>(null);
+  const errorMessage = serializationError ?? error;
 
   useEffect(() => {
     if (serializedValue !== lastSyncedValueRef.current) {
@@ -83,8 +90,8 @@ const JsonValueField: React.FC<JsonValueFieldProps> = ({
         value={draft}
         placeholder={placeholder}
         aria-label={ariaLabel}
-        aria-invalid={Boolean(error)}
-        aria-describedby={[descriptionId, error ? errorId : undefined].filter(Boolean).join(' ') || undefined}
+        aria-invalid={Boolean(errorMessage)}
+        aria-describedby={[descriptionId, errorMessage ? errorId : undefined].filter(Boolean).join(' ') || undefined}
         onChange={(event) => {
           const nextDraft = event.target.value;
           setDraft(nextDraft);
@@ -106,7 +113,7 @@ const JsonValueField: React.FC<JsonValueFieldProps> = ({
         }}
       />
       {description ? <p id={descriptionId} className="field-description">{description}</p> : null}
-      {error ? <IssueMessage id={errorId} message={error} /> : null}
+      {errorMessage ? <IssueMessage id={errorId} message={errorMessage} /> : null}
     </div>
   );
 };

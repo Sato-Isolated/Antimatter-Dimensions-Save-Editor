@@ -197,9 +197,9 @@ export const validateDiscoveredSaveFields = (
 
     issues.push({
       code: 'discovered-type-mismatch',
-      message: `${baselineField.path} must remain a ${baselineField.kind} value (received ${currentKind}).`,
+      message: `${baselineField.path} changed from ${baselineField.kind} to ${currentKind}; its schema is inferred.`,
       path: baselineField.path,
-      severity: 'error',
+      severity: 'warning',
     });
   }
 

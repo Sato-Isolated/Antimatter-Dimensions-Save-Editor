@@ -528,6 +528,7 @@ const validateScriptRecord = (
       'automator-script-name-length',
       `Automator script names cannot exceed ${automatorLimits.maxScriptNameCharacters} characters in the game.`,
       `${path}.name`,
+      'warning',
     ));
   }
 
@@ -540,6 +541,7 @@ const validateScriptRecord = (
         'automator-script-content-length',
         `A single Automator script cannot exceed ${automatorLimits.maxScriptCharacters} characters in the game.`,
         `${path}.content`,
+        'warning',
       ));
     }
   }
@@ -562,19 +564,21 @@ const validateAutomatorConstants = (automator: Record<string, unknown>): SaveVal
       'automator-constant-count',
       `The game allows at most ${automatorLimits.maxConstantCount} Automator constants.`,
       'reality.automator.constants',
+      'warning',
     ));
   }
 
   for (const name of constantNames) {
     const path = `reality.automator.constants.${name}`;
     if (!/^[a-zA-Z_][a-zA-Z_0-9]*$/u.test(name)) {
-      issues.push(createAutomatorIssue('automator-constant-name', 'Automator constant names must be valid identifiers.', path));
+      issues.push(createAutomatorIssue('automator-constant-name', 'Automator constant names must be valid identifiers.', path, 'warning'));
     }
     if (name.length > automatorLimits.maxConstantNameCharacters) {
       issues.push(createAutomatorIssue(
         'automator-constant-name-length',
         `Automator constant names cannot exceed ${automatorLimits.maxConstantNameCharacters} characters in the game.`,
         path,
+        'warning',
       ));
     }
     if (typeof constants[name] !== 'string') {
@@ -584,6 +588,7 @@ const validateAutomatorConstants = (automator: Record<string, unknown>): SaveVal
         'automator-constant-value-length',
         `Automator constant values cannot exceed ${automatorLimits.maxConstantValueCharacters} characters in the game.`,
         path,
+        'warning',
       ));
     }
   }
@@ -601,7 +606,7 @@ const validateAutomatorConstants = (automator: Record<string, unknown>): SaveVal
           continue;
         }
         if (seen.has(name)) {
-          issues.push(createAutomatorIssue('automator-constant-order-duplicate', `Constant ${name} appears more than once in constantSortOrder.`, path));
+          issues.push(createAutomatorIssue('automator-constant-order-duplicate', `Constant ${name} appears more than once in constantSortOrder.`, path, 'warning'));
         }
         seen.add(name);
         if (!Object.prototype.hasOwnProperty.call(constants, name)) {
@@ -630,9 +635,9 @@ const validateAutomatorConstants = (automator: Record<string, unknown>): SaveVal
 };
 
 /**
- * Validates the cross-field contracts the game relies on when compiling and
- * starting Automator scripts. Missing legacy Automator subtrees remain
- * optional; malformed present data is reported instead of silently repaired.
+ * Checks stored structure, not script compilation. PC gameplay limits and
+ * unknown enums are advisory, including on mobile where they are unverified.
+ * Missing legacy subtrees remain optional; no data is silently repaired.
  */
 export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType): SaveValidationIssue[] => {
   const automator = getAutomatorRecord(saveData);
@@ -666,6 +671,7 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
         'automator-script-count',
         `The game allows at most ${automatorLimits.maxScriptCount} Automator scripts.`,
         'reality.automator.scripts',
+        'warning',
       ));
     }
     scripts.forEach((script, index) => {
@@ -683,6 +689,7 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
         'automator-script-count',
         `The game allows at most ${automatorLimits.maxScriptCount} Automator scripts.`,
         'reality.automator.scripts',
+        'warning',
       ));
     }
     entries.forEach(([key, script]) => {
@@ -701,6 +708,7 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
       'automator-total-script-content-length',
       `All Automator scripts together cannot exceed ${automatorLimits.maxTotalScriptCharacters} characters in the game.`,
       'reality.automator.scripts',
+      'warning',
     ));
   }
 
@@ -717,7 +725,7 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
           ? 'Automator mode 0 is outside the current upstream mode enum and will be preserved without changing the save.'
           : 'Automator mode must be Paused (1), Running (2), or Single step (3).',
         'reality.automator.state.mode',
-        isUnrecognizedZeroMode ? 'warning' : 'error',
+        'warning',
       ));
     }
 
@@ -728,6 +736,7 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
           'automator-script-reference',
           `Automator state.${field} references script ${scriptId}, which is not present in the save.`,
           `reality.automator.state.${field}`,
+          'warning',
         ));
       }
     }
@@ -739,12 +748,12 @@ export const validateAutomatorSave = (saveData: SaveObject, saveType?: SaveType)
 
   const type = automator.type;
   if (typeof type === 'number' && !automatorEditorTypeDefinitions.some((definition) => definition.value === type)) {
-    issues.push(createAutomatorIssue('automator-editor-type', 'Automator editor type must be Text (0) or Blocks (1).', 'reality.automator.type'));
+    issues.push(createAutomatorIssue('automator-editor-type', 'Automator editor type must be Text (0) or Blocks (1).', 'reality.automator.type', 'warning'));
   }
 
   const currentInfoPane = automator.currentInfoPane;
   if (typeof currentInfoPane === 'number' && !automatorInfoPanelDefinitions.some((definition) => definition.value === currentInfoPane)) {
-    issues.push(createAutomatorIssue('automator-info-pane', 'Automator currentInfoPane must reference a known in-game information panel.', 'reality.automator.currentInfoPane'));
+    issues.push(createAutomatorIssue('automator-info-pane', 'Automator currentInfoPane must reference a known in-game information panel.', 'reality.automator.currentInfoPane', 'warning'));
   }
 
   return issues;

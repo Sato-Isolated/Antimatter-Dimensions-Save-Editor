@@ -67,7 +67,7 @@ describe('field registry', () => {
     expect(codes).toContain('minimum-value');
     expect(issues.some((issue) => issue.path === 'dimensionBoosts')).toBe(true);
     expect(issues.some((issue) => issue.path === 'version')).toBe(true);
-    expect(issues.filter((issue) => issue.path === 'dimensionBoosts')[0]?.severity).toBe('error');
+    expect(issues.filter((issue) => issue.path === 'dimensionBoosts')[0]?.severity).toBe('warning');
   });
 
   it('accepts fractional dimension boost values consumed by the upstream game', () => {

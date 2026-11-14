@@ -21,6 +21,9 @@ const reservedInfinityStringError = (): TypeError => {
 
 /** Shared JSON replacer for Infinity and Set values at the JSON boundary. */
 export const editorJsonReplacer: EditorJsonReplacer = (_key, value) => {
+  if (typeof value === 'number' && (Number.isNaN(value) || value === Number.NEGATIVE_INFINITY)) {
+    throw new TypeError('NaN and negative infinity cannot be serialized as save JSON.');
+  }
   if (value === EDITOR_INFINITY_MARKER) {
     throw reservedInfinityStringError();
   }

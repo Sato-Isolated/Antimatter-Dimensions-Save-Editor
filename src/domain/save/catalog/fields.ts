@@ -21,6 +21,7 @@ export type SaveFieldKind = 'big-number' | 'number' | 'integer' | 'boolean' | 'a
 export type SaveFieldSupport = 'supported' | 'unsupported' | 'discovered';
 
 export interface SaveFieldRule {
+  constraintSeverity?: SaveValidationIssue['severity'];
   required?: boolean;
   minimum?: number;
   maximum?: number;
@@ -193,7 +194,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['dimensionBoosts'],
           [SaveType.Android]: ['dimensionBoosts'],
         },
-        rule: { required: true, minimum: 0 },
+        rule: { minimum: 0 },
       }),
       buildField({
         id: 'galaxies',
@@ -205,7 +206,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['galaxies'],
           [SaveType.Android]: ['galaxies'],
         },
-        rule: { required: true, minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true },
       }),
       buildField({
         id: 'breakInfinity',
@@ -608,7 +609,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['challenge.normal.completedBits'],
           [SaveType.Android]: ['challenge.normal.completedBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'normalChallengeBestTimes',
@@ -643,7 +644,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['challenge.infinity.completedBits'],
           [SaveType.Android]: ['challenge.infinity.completedBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'infinityChallengeBestTimes',
@@ -690,7 +691,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['challenge.eternity.requirementBits'],
           [SaveType.Android]: ['challenge.eternity.requirementBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'eternityChallengeCompletions',
@@ -1174,7 +1175,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['celestials.ra.unlockBits'],
           [SaveType.Android]: ['celestials.ra.unlockBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'raQuoteBits',
@@ -1186,7 +1187,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['celestials.ra.quoteBits'],
           [SaveType.Android]: ['celestials.ra.quoteBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'raMomentumTime',
@@ -1268,7 +1269,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['celestials.pelle.quoteBits'],
           [SaveType.Android]: ['celestials.pelle.quoteBits'],
         },
-        rule: { minimum: 0, integer: true },
+        rule: { minimum: 0, integer: true, constraintSeverity: 'error' },
       }),
       buildField({
         id: 'pelleUpgrades',
@@ -1395,9 +1396,13 @@ const bitfieldCollectionFields: SaveFieldDefinition[] = bitfieldCollectionFieldS
         [SaveType.Android]: [override?.path ?? spec.path],
       },
       platformKinds: override?.kind ? { [SaveType.Android]: override.kind } : undefined,
-      platformRules: override?.kind ? { [SaveType.Android]: { minimum: 0, integer: true } } : undefined,
+      // The PC 31-bit upper bound is not a proven mobile storage limit.
+      platformRules: override?.kind || spec.kind === 'integer'
+        ? { [SaveType.Android]: { minimum: 0, integer: true, constraintSeverity: 'error' } }
+        : undefined,
       rule: spec.kind === 'integer'
         ? {
+          constraintSeverity: 'error',
           minimum: spec.minimum ?? 0,
           maximum: spec.maximum ?? BITFIELD_MAX,
           integer: spec.integer ?? true,
@@ -1556,6 +1561,8 @@ export const validateFieldValue = (
   const issues: SaveValidationIssue[] = [];
   const rule = getFieldRule(field, saveType);
   const kind = getFieldKind(field, saveType);
+  // Gameplay expectations are advisory; malformed representations still block.
+  const constraintSeverity = rule?.constraintSeverity ?? 'warning';
 
   if (value === undefined || value === null || value === '') {
     if (rule?.required) {
@@ -1663,7 +1670,7 @@ export const validateFieldValue = (
         code: 'integer-required',
         message: `${field.label} must be an integer.`,
         path: resolvedPath,
-        severity: 'error',
+        severity: constraintSeverity,
       });
     }
 
@@ -1672,7 +1679,7 @@ export const validateFieldValue = (
         code: 'minimum-value',
         message: `${field.label} must be at least ${rule.minimum}.`,
         path: resolvedPath,
-        severity: 'error',
+        severity: constraintSeverity,
       });
     }
 
@@ -1681,7 +1688,7 @@ export const validateFieldValue = (
         code: 'maximum-value',
         message: `${field.label} must be at most ${rule.maximum}.`,
         path: resolvedPath,
-        severity: 'error',
+        severity: constraintSeverity,
       });
     }
   }

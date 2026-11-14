@@ -230,7 +230,7 @@ describe('save editor store', () => {
       expect.arrayContaining([expect.objectContaining({
         path: 'reality.automator.scripts.1.content',
         code: 'discovered-type-mismatch',
-        severity: 'error',
+        severity: 'warning',
       })]),
     );
     expect(store.encodeWorkingData()).toBe('');

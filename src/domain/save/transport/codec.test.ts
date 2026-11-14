@@ -187,7 +187,7 @@ describe('save serialization', () => {
     expect(decoded.data?.version).toBe(14);
   });
 
-  it('blocks invalid roots, NaN, non-integer versions, and malformed black holes', () => {
+  it('blocks invalid roots, NaN, nonnumeric versions, and malformed black holes', () => {
     const missingAntimatter = validateDecodedSave({ version: 14, lastUpdate: 1 });
     expect(missingAntimatter.issues).toEqual(
       expect.arrayContaining([expect.objectContaining({ code: 'missing-antimatter', severity: 'error' })]),
@@ -195,7 +195,7 @@ describe('save serialization', () => {
 
     const invalidValues = validateDecodedSave({
       antimatter: '10',
-      version: 14.5,
+      version: 'invalid',
       lastUpdate: 1,
       nested: { value: Number.NaN },
       blackHole: {},

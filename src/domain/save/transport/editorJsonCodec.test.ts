@@ -6,6 +6,9 @@ import {
 } from './editorJsonCodec';
 
 describe('editor JSON codec', () => {
+  it.each([NaN, -Infinity])('rejects %s instead of silently writing null', (value) => {
+    expect(() => stringifyEditorJson({ nested: [value] })).toThrow('cannot be serialized');
+  });
   it('serializes and revives positive Infinity with the upstream marker', () => {
     const source = {
       current: Number.POSITIVE_INFINITY,

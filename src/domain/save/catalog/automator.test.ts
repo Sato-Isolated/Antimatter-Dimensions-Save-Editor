@@ -88,7 +88,7 @@ describe('Automator catalog and save contracts', () => {
     ]);
   });
 
-  it('blocks malformed scripts, constants, references, and execution metadata', () => {
+  it('blocks malformed data while warning about limits, references, and unknown enums', () => {
     const invalidSave = asSaveObject({
       reality: {
         automator: {
@@ -107,7 +107,12 @@ describe('Automator catalog and save contracts', () => {
 
     const codes = new Set(validateAutomatorSave(invalidSave).map((issue) => issue.code));
     expect(validateAutomatorSave(invalidSave)).toEqual(
-      expect.arrayContaining([expect.objectContaining({ code: 'automator-mode', severity: 'error' })]),
+      expect.arrayContaining([
+        expect.objectContaining({ code: 'automator-mode', severity: 'warning' }),
+        expect.objectContaining({ code: 'automator-script-id-duplicate', severity: 'error' }),
+        expect.objectContaining({ code: 'automator-constant-value', severity: 'error' }),
+        expect.objectContaining({ code: 'automator-stack-shape', severity: 'error' }),
+      ]),
     );
     expect([...codes]).toEqual(expect.arrayContaining([
       'automator-script-id-duplicate',

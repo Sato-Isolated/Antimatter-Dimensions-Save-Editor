@@ -129,7 +129,9 @@ describe('upstream catalog and validation', () => {
     const invalidCollection = validateBitfieldCollections({
       infinityUpgrades: ['timeMult', 42],
     } as SaveObject);
-    expect(invalidCollection).toContainEqual(expect.objectContaining({ code: 'invalid-collection-entry', severity: 'error' }));
+    expect(invalidCollection).toContainEqual(expect.objectContaining({ code: 'invalid-collection-entry', severity: 'warning' }));
+    expect(validateBitfieldCollections({ infinityUpgrades: [{}] }))
+      .toContainEqual(expect.objectContaining({ code: 'invalid-collection-entry', severity: 'error' }));
 
     const duplicateCollection = validateBitfieldCollections({
       infinityUpgrades: ['timeMult', 'timeMult', 'futureUpgrade'],

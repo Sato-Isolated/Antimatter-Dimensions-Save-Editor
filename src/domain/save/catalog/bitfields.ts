@@ -822,7 +822,13 @@ const validateCollection = (value: unknown, definition: CollectionCatalogEntry):
 
   const issues: SaveValidationIssue[] = value.flatMap((entry, index) => collectionValueMatchesType(entry, definition.valueType)
     ? []
-    : [{ code: 'invalid-collection-entry', message: `${definition.label} entry ${index} has an incompatible type.`, path: `${definition.path}[${index}]`, severity: 'error' as const }]);
+    : [{
+      code: 'invalid-collection-entry',
+      message: `${definition.label} entry ${index} differs from the current catalog type.`,
+      path: `${definition.path}[${index}]`,
+      severity: typeof entry === 'string' || (typeof entry === 'number' && Number.isFinite(entry))
+        ? 'warning' as const : 'error' as const,
+    }]);
 
   for (const duplicate of getDuplicateCollectionEntries(value)) {
     issues.push({

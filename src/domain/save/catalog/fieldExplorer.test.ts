@@ -55,7 +55,7 @@ describe('discovered save field explorer', () => {
     });
   });
 
-  it('blocks incompatible edits to discovered fields while preserving new unknown keys', () => {
+  it('warns about inferred type changes while preserving new unknown keys', () => {
     const baseline = JSON.parse(JSON.stringify(newsaveFixture)) as SaveObject;
     const changed = setValueAtPath(baseline, 'reality.automator.scripts.1.content', 123);
     const withUnknownKey = setValueAtPath(changed, 'futureUpstreamField.enabled', true);
@@ -65,7 +65,7 @@ describe('discovered save field explorer', () => {
       expect.objectContaining({
         code: 'discovered-type-mismatch',
         path: 'reality.automator.scripts.1.content',
-        severity: 'error',
+        severity: 'warning',
       }),
     ]));
     expect(issues.some((issue) => issue.path === 'futureUpstreamField.enabled')).toBe(false);
