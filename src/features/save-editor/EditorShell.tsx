@@ -12,12 +12,14 @@ type EditorShellProps = {
   mode: EditorMode;
   validationMessage: string | null;
   onModeChange: (mode: EditorMode) => void;
+  onDraftDirtyChange: (dirty: boolean) => void;
 };
 
 const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(({
   mode,
   validationMessage,
   onModeChange,
+  onDraftDirtyChange,
 }, ref) => {
   const [hasMountedJson, setHasMountedJson] = useState(mode === 'json');
   const structuredEditorRef = useRef<StructuredEditorHandle | null>(null);
@@ -70,7 +72,7 @@ const EditorShell = forwardRef<EditorShellHandle, EditorShellProps>(({
             {tabs}
           </header>
           <Suspense fallback={<p className="editor-loading" role="status">Loading JSON editor…</p>}>
-            <JsonEditor isActive={mode === 'json'} />
+            <JsonEditor isActive={mode === 'json'} onDraftDirtyChange={onDraftDirtyChange} />
           </Suspense>
         </section>
       ) : null}

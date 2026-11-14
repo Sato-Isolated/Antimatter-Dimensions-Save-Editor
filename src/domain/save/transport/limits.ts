@@ -1,6 +1,6 @@
 /**
- * Resource limits applied before Base64 decoding/decompression and after
- * inflation. They protect the browser from accidental or hostile zip-bomb
+ * Resource limits applied before Base64 decoding/decompression and incrementally
+ * during inflation. They protect the browser from accidental or hostile zip-bomb
  * inputs without changing the game's wire format.
  */
 export const SAVE_TRANSPORT_LIMITS = {

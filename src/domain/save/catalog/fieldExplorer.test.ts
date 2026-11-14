@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import pcFixture from '../../../../tests/fixtures/save/pc.json';
 import newsaveFixture from '../../../../tests/fixtures/save/newsave.json';
 import { collectDiscoveredSaveFields, validateDiscoveredSaveFields } from './fieldExplorer';
-import { setValueAtPath } from '../document/path';
+import { getValueAtPath, setValueAtPath } from '../document/path';
 import { SaveObject, SaveType } from '../model';
 
 const findField = (path: string, fixture: SaveObject) => {
@@ -10,6 +10,22 @@ const findField = (path: string, fixture: SaveObject) => {
 };
 
 describe('discovered save field explorer', () => {
+  it('keeps literal dotted keys distinct from nested keys during discovery and validation', () => {
+    const baseline = { future: { 'a.b': 1, a: { b: 2 } } };
+    const paths = collectDiscoveredSaveFields(baseline, SaveType.PC).map((field) => field.path);
+    expect(paths).toContain('future["a.b"]');
+    expect(findField('future["a.b"]', baseline)?.label).toBe('A.b');
+    expect(paths).toContain('future.a.b');
+    const changed = setValueAtPath(baseline, 'future["a.b"]', 'wrong type');
+    expect(getValueAtPath(changed, 'future.a.b')).toBe(2);
+    expect(validateDiscoveredSaveFields(changed, baseline, SaveType.PC).map((issue) => issue.path))
+      .toEqual(['future["a.b"]']);
+  });
+
+  it('leaves registered big-number representation rules to the catalog', () => {
+    expect(validateDiscoveredSaveFields({ antimatter: Infinity }, { antimatter: '10' }, SaveType.PC)).toEqual([]);
+  });
+
   it('enumerates the nested PC v14 and v25 values with stable paths', () => {
     const pcFields = collectDiscoveredSaveFields(pcFixture, SaveType.PC);
     const v25Fields = collectDiscoveredSaveFields(newsaveFixture, SaveType.PC);

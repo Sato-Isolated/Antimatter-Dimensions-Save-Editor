@@ -142,61 +142,8 @@ const JsonTextEditor = forwardRef<JsonTextEditorHandle, JsonTextEditorProps>(fun
     findPrevious: () => findMatch('previous'),
   }), [findMatch, selectRange]);
 
-  const replaceSelection = useCallback((replacement: string, selectionStart: number, selectionEnd: number): void => {
-    const textarea = textareaRef.current;
-    if (!textarea) {
-      return;
-    }
-
-    const nextValue = `${textarea.value.slice(0, textarea.selectionStart)}${replacement}${textarea.value.slice(textarea.selectionEnd)}`;
-    onChange(nextValue);
-    window.requestAnimationFrame(() => {
-      textarea.focus();
-      textarea.setSelectionRange(selectionStart, selectionEnd);
-      reportCursor();
-    });
-  }, [onChange, reportCursor]);
-
-  const handleTab = useCallback((event: KeyboardEvent<HTMLTextAreaElement>): void => {
-    event.preventDefault();
-    const textarea = event.currentTarget;
-    const { selectionStart, selectionEnd, value: currentValue } = textarea;
-
-    if (selectionStart === selectionEnd) {
-      const indentation = event.shiftKey ? '' : '  ';
-      if (!indentation) {
-        const lineStart = currentValue.lastIndexOf('\n', selectionStart - 1) + 1;
-        const removable = currentValue.slice(lineStart, selectionStart).match(/^ {1,2}/u)?.[0].length ?? 0;
-        if (removable > 0) {
-          textarea.setSelectionRange(lineStart, selectionStart);
-          replaceSelection('', selectionStart - removable, selectionStart - removable);
-        }
-        return;
-      }
-
-      replaceSelection(indentation, selectionStart + indentation.length, selectionStart + indentation.length);
-      return;
-    }
-
-    const firstLineStart = currentValue.lastIndexOf('\n', selectionStart - 1) + 1;
-    const selectedBlock = currentValue.slice(firstLineStart, selectionEnd);
-    const lines = selectedBlock.split('\n');
-    const transformedLines = event.shiftKey
-      ? lines.map((line) => line.replace(/^ {1,2}/u, ''))
-      : lines.map((line) => `  ${line}`);
-    const replacement = transformedLines.join('\n');
-    const selectionDelta = replacement.length - selectedBlock.length;
-    textarea.setSelectionRange(firstLineStart, selectionEnd);
-    replaceSelection(replacement, firstLineStart, selectionEnd + selectionDelta);
-  }, [replaceSelection]);
-
   const handleKeyDown = useCallback((event: KeyboardEvent<HTMLTextAreaElement>): void => {
     const mod = event.ctrlKey || event.metaKey;
-
-    if (event.key === 'Tab') {
-      handleTab(event);
-      return;
-    }
 
     if (mod && event.key.toLocaleLowerCase() === 'f' && !event.shiftKey) {
       event.preventDefault();
@@ -247,7 +194,6 @@ const JsonTextEditor = forwardRef<JsonTextEditorHandle, JsonTextEditorProps>(fun
       }
     }
   }, [
-    handleTab,
     onApplyShortcut,
     onFormatShortcut,
     onNextSearchShortcut,

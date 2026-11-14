@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
 import { FaChartLine, FaHistory, FaStopwatch, FaTrophy } from 'react-icons/fa';
-import { parseNumericInput, resolveRecentRecordsPath } from './fieldHelpers';
+import { parseNumericInput } from './fieldHelpers';
+import { resolveRegisteredFieldPath } from '../../../../domain/save/catalog/fields';
+import { getClearedRecentRecords, RecentRecordsFieldId } from '../../../../domain/save/catalog/records';
+import IssueMessage from '../../../../shared/ui/IssueMessage';
+import { getValueAtPath } from '../../../../domain/save/document/path';
+import { SaveObject } from '../../../../domain/save/model';
 
 type RecordScalar = string | number;
 
@@ -48,11 +53,22 @@ interface RecordsView extends RecordEntryView {
  * Records section component
  * Allows viewing and editing of game records
  */
-const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, renderValidationIndicator }) => {
+const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, renderValidationIndicator, saveType }) => {
   const [activeSubtab, setActiveSubtab] = useState('statistics');
-  const recentInfinitiesPath = resolveRecentRecordsPath(saveData, 'Infinities');
-  const recentEternitiesPath = resolveRecentRecordsPath(saveData, 'Eternities');
-  const recentRealitiesPath = resolveRecentRecordsPath(saveData, 'Realities');
+  const [clearError, setClearError] = useState<string | null>(null);
+  const saveRecord = saveData as unknown as SaveObject;
+  const recentInfinitiesPath = resolveRegisteredFieldPath(saveRecord, 'recordsRecentInfinities', saveType);
+  const recentEternitiesPath = resolveRegisteredFieldPath(saveRecord, 'recordsRecentEternities', saveType);
+  const recentRealitiesPath = resolveRegisteredFieldPath(saveRecord, 'recordsRecentRealities', saveType);
+  const clearRecentRecords = (fieldId: RecentRecordsFieldId): void => {
+    try {
+      const path = resolveRegisteredFieldPath(saveRecord, fieldId, saveType);
+      handleValueChange(path, getClearedRecentRecords(saveRecord, fieldId, saveType));
+      setClearError(null);
+    } catch {
+      setClearError('Recent records could not be cleared: each record must be an array or an object. Your save was not changed.');
+    }
+  };
   
   // Handle subtab changes
   const handleSubtabClick = (subtabId: string) => {
@@ -64,6 +80,7 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
   return (
     <div className="section-content">
       <h2>Records</h2>
+      {clearError ? <IssueMessage message={clearError} /> : null}
       
       {/* Subtabs */}
       <div className="section-subtabs">
@@ -433,11 +450,8 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
           <div className="form-group">
             <button 
               className="btn btn-primary"
-              onClick={() => {
-                // Create a record for last 10 infinities
-                const lastInfinities = Array(10).fill([0, "1"]);
-                handleValueChange(recentInfinitiesPath, lastInfinities);
-              }}
+              disabled={!Array.isArray(getValueAtPath(saveRecord, recentInfinitiesPath))}
+              onClick={() => clearRecentRecords('recordsRecentInfinities')}
             >
               Clear Recent Infinities
             </button>
@@ -446,11 +460,8 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
           <div className="form-group">
             <button 
               className="btn btn-primary"
-              onClick={() => {
-                // Create a record for last 10 eternities
-                const lastEternities = Array(10).fill([0, "1"]);
-                handleValueChange(recentEternitiesPath, lastEternities);
-              }}
+              disabled={!Array.isArray(getValueAtPath(saveRecord, recentEternitiesPath))}
+              onClick={() => clearRecentRecords('recordsRecentEternities')}
             >
               Clear Recent Eternities
             </button>
@@ -459,11 +470,8 @@ const RecordsSection: React.FC<SectionProps> = ({ saveData, handleValueChange, r
           <div className="form-group">
             <button 
               className="btn btn-primary"
-              onClick={() => {
-                // Create a record for last 10 realities
-                const lastRealities = Array(10).fill([0, "1"]);
-                handleValueChange(recentRealitiesPath, lastRealities);
-              }}
+              disabled={!Array.isArray(getValueAtPath(saveRecord, recentRealitiesPath))}
+              onClick={() => clearRecentRecords('recordsRecentRealities')}
             >
               Clear Recent Realities
             </button>

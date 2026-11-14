@@ -28,6 +28,7 @@ const AppShell: React.FC = () => {
   const validationErrors = useMemo(() => getBlockingValidationErrors(validationIssues), [validationIssues]);
 
   const [editorMode, setEditorMode] = useState<EditorMode>('structured');
+  const [hasJsonDraft, setHasJsonDraft] = useState(false);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isDiscardOpen, setIsDiscardOpen] = useState(false);
@@ -48,10 +49,10 @@ const AppShell: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (validationErrors.length === 0) {
+    if (validationErrors.length === 0 && !hasJsonDraft) {
       setValidationMessage(null);
     }
-  }, [validationErrors.length]);
+  }, [validationErrors.length, hasJsonDraft]);
 
   const closePreferences = useCallback(() => setIsPreferencesOpen(false), []);
   const closeExport = useCallback(() => setIsExportOpen(false), []);
@@ -78,6 +79,7 @@ const AppShell: React.FC = () => {
   const resetToImport = useCallback((): void => {
     resetSave();
     setEditorMode('structured');
+    setHasJsonDraft(false);
     setIsDiscardOpen(false);
     setIsExportOpen(false);
     setClipboardError(null);
@@ -87,15 +89,20 @@ const AppShell: React.FC = () => {
   }, [resetSave]);
 
   const handleImportAnother = useCallback((): void => {
-    if (isDirty) {
+    if (isDirty || hasJsonDraft) {
       setIsDiscardOpen(true);
       return;
     }
 
     resetToImport();
-  }, [isDirty, resetToImport]);
+  }, [isDirty, hasJsonDraft, resetToImport]);
 
   const handleExport = useCallback((): void => {
+    if (hasJsonDraft) {
+      setValidationMessage('Apply or reset the JSON draft before exporting the save.');
+      setEditorMode('json');
+      return;
+    }
     if (validationErrors.length > 0) {
       setValidationMessage(formatExportBlockMessage(validationErrors.length));
       editorShellRef.current?.focusFirstError();
@@ -113,7 +120,7 @@ const AppShell: React.FC = () => {
     setCopyState('ready');
     setValidationMessage(null);
     setIsExportOpen(true);
-  }, [encryptSave, validationErrors.length]);
+  }, [encryptSave, hasJsonDraft, validationErrors.length]);
 
   const handleCopy = useCallback(async (): Promise<void> => {
     setCopyState('copied');
@@ -149,6 +156,7 @@ const AppShell: React.FC = () => {
           mode={editorMode}
           validationMessage={validationMessage}
           onModeChange={setEditorMode}
+          onDraftDirtyChange={setHasJsonDraft}
         />
       ) : (
         <ImportScreen

@@ -179,13 +179,29 @@ const decodeModernText = (
   );
 
   const compressed = decodePrintableBinary(encodedPayload);
-  const inflated = isMobileSaveType(saveType) ? pako.ungzip(compressed) : pako.inflate(compressed);
-  assertTransportLimit(
-    inflated.length,
-    SAVE_TRANSPORT_LIMITS.maxInflatedBytes,
-    'inflated-payload-too-large',
-    'Decompressed save payload is too large to process safely.',
-  );
+  const inflater = new pako.Inflate({ chunkSize: 64 * 1024 });
+  let inflatedBytes = 0;
+  const chunks: Uint8Array[] = [];
+  inflater.onData = (chunk: Uint8Array) => {
+    inflatedBytes += chunk.length;
+    assertTransportLimit(
+      inflatedBytes,
+      SAVE_TRANSPORT_LIMITS.maxInflatedBytes,
+      'inflated-payload-too-large',
+      'Decompressed save payload is too large to process safely.',
+    );
+    chunks.push(chunk);
+  };
+  inflater.push(compressed, true);
+  if (inflater.err || !inflater.ended) {
+    throw new SaveTransportError('invalid-compression', 'Save payload could not be decompressed.');
+  }
+  const inflated = new Uint8Array(inflatedBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    inflated.set(chunk, offset);
+    offset += chunk.length;
+  }
   return decoder.decode(inflated);
 };
 
@@ -380,6 +396,7 @@ const getDataVersion = (saveData: unknown): number | null => {
 const buildValidationSummary = (
   saveData: SaveObject | null,
   additionalIssues: SaveValidationIssue[] = [],
+  saveType: SaveType = SaveType.PC,
 ): SaveValidationSummary => {
   const issues = [...additionalIssues];
 
@@ -396,7 +413,6 @@ const buildValidationSummary = (
       'error',
     ));
   } else if (shape !== 'player') {
-  saveType: SaveType = SaveType.PC,
     issues.push(issue('invalid-save-shape', 'Save data must contain a direct player antimatter field.', 'error'));
   }
 
@@ -481,6 +497,12 @@ export const validateDecodedSave = (saveData: SaveObject | null, saveType: SaveT
 export const encodeSaveData = (saveData: SaveObject, saveType: SaveType = SaveType.PC): string | null => {
   try {
     const json = JSON.stringify(saveData, editorJsonReplacer);
+    assertTransportLimit(
+      encoder.encode(json).length,
+      SAVE_TRANSPORT_LIMITS.maxInflatedBytes,
+      'inflated-payload-too-large',
+      'Save document is too large to export safely.',
+    );
     const encoded = isMobileSaveType(saveType)
       ? encodeMobileText(saveType === SaveType.Apple ? startingString.apple : startingString.android, json)
       : encodePcText(json);

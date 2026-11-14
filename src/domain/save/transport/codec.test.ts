@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import pako from 'pako';
+import { SAVE_TRANSPORT_LIMITS } from './limits';
 import { readFileSync } from 'node:fs';
 import androidFixture from '../../../../tests/fixtures/save/android.json';
 import appleFixture from '../../../../tests/fixtures/save/apple.json';
@@ -19,6 +21,49 @@ const readTransportFixture = (name: string): string => {
 };
 
 describe('save serialization', () => {
+  it.each([SaveType.PC, SaveType.Android, SaveType.Apple])('stops inflation at the byte limit for %s', (saveType) => {
+    const compressed = saveType === SaveType.PC
+      ? pako.deflate('x'.repeat(32_000_000)) : pako.gzip('x'.repeat(32_000_000));
+    const payload = Buffer.from(compressed).toString('base64').replace(/=+$/gu, '')
+      .replace(/0/gu, '0a').replace(/\+/gu, '0b').replace(/\//gu, '0c');
+    const prefix = saveType === SaveType.PC ? 'AntimatterDimensionsSavefileFormatAAB'
+      : saveType === SaveType.Android ? 'AntimatterDimensionsAndroidSaveFormatAAA' : 'AntimatterDimensionsAppleSaveFormatAAA';
+    let emittedBytes = 0;
+    const originalPush = pako.Inflate.prototype.push;
+    const spy = vi.spyOn(pako.Inflate.prototype, 'push').mockImplementation(function (this: pako.Inflate, ...args: Parameters<typeof originalPush>) {
+      const onData = this.onData;
+      this.onData = (chunk: Uint8Array) => { emittedBytes += chunk.length; onData.call(this, chunk); };
+      return originalPush.apply(this, args);
+    });
+    try {
+      const result = decodeSaveString(`${prefix}${payload}EndOfSavefile`);
+      expect(result.validation.issues.some((issue) => issue.code === 'inflated-payload-too-large')).toBe(true);
+      expect(emittedBytes).toBeGreaterThan(SAVE_TRANSPORT_LIMITS.maxInflatedBytes);
+      expect(emittedBytes).toBeLessThanOrEqual(SAVE_TRANSPORT_LIMITS.maxInflatedBytes + 64 * 1024);
+    } finally { spy.mockRestore(); }
+  });
+
+  it.each([SaveType.PC, SaveType.Android, SaveType.Apple])('rejects oversized UTF-8 documents before compressing for %s', (saveType) => {
+    const deflate = vi.spyOn(pako, 'deflate');
+    const gzip = vi.spyOn(pako, 'gzip');
+    try {
+      expect(encodeSaveData({ antimatter: '10', version: 25, future: 'é'.repeat(8_000_000) }, saveType)).toBeNull();
+      expect(deflate).not.toHaveBeenCalled();
+      expect(gzip).not.toHaveBeenCalled();
+    } finally { deflate.mockRestore(); gzip.mockRestore(); }
+  });
+
+  it.each([SaveType.PC, SaveType.Android, SaveType.Apple])('rejects incomplete compressed streams for %s', (saveType) => {
+    const json = JSON.stringify({ antimatter: '10', version: 25 });
+    const compressed = saveType === SaveType.PC ? pako.deflate(json) : pako.gzip(json);
+    const payload = Buffer.from(compressed.slice(0, -1)).toString('base64').replace(/=+$/gu, '')
+      .replace(/0/gu, '0a').replace(/\+/gu, '0b').replace(/\//gu, '0c');
+    const prefix = saveType === SaveType.PC ? 'AntimatterDimensionsSavefileFormatAAB'
+      : saveType === SaveType.Android ? 'AntimatterDimensionsAndroidSaveFormatAAA' : 'AntimatterDimensionsAppleSaveFormatAAA';
+    expect(decodeSaveString(`${prefix}${payload}EndOfSavefile`).validation.issues)
+      .toEqual(expect.arrayContaining([expect.objectContaining({ code: 'invalid-compression' })]));
+  });
+
   it('round-trips the checked-in PC and Android transport text fixtures', () => {
     for (const [name, saveType] of [
       ['pc.txt', SaveType.PC],

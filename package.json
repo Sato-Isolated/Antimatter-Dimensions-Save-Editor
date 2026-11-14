@@ -32,9 +32,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "gh-pages": "^6.3.0",
+    "jsdom": "26.1.0",
     "rimraf": "^6.0.1",
     "sass": "^1.86.3",
-    "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vite": "^6.3.2",
     "vitest": "^3.2.4"

@@ -1,5 +1,5 @@
 import { getFieldDefinitionForPath } from './fields';
-import { getValueAtPath } from '../document/path';
+import { appendDocumentPath, getValueAtPath, tokenizeDocumentPath } from '../document/path';
 import { DocumentPath, JsonValue, SaveObject, SaveType, SaveValidationIssue } from '../model';
 
 export type DiscoveredSaveFieldKind = 'number' | 'boolean' | 'string' | 'null' | 'object' | 'array';
@@ -68,8 +68,7 @@ export const getDiscoveredSaveFieldKind = (value: unknown): DiscoveredSaveFieldK
 };
 
 const getTopLevelKey = (path: DocumentPath): string => {
-  const firstToken = path.match(/^[^.\[]+/u)?.[0];
-  return firstToken ?? path;
+  return String(tokenizeDocumentPath(path)[0] ?? path);
 };
 
 const humanizeKey = (key: string): string => {
@@ -87,13 +86,9 @@ const humanizeKey = (key: string): string => {
 };
 
 const getPathLabel = (path: DocumentPath): string => {
-  const arrayMatch = path.match(/\[(\d+)\]$/u);
-  if (arrayMatch) {
-    return `Item ${Number.parseInt(arrayMatch[1], 10) + 1}`;
-  }
-
-  const key = path.split('.').pop() ?? path;
-  return humanizeKey(key);
+  const tokens = tokenizeDocumentPath(path);
+  const key = tokens[tokens.length - 1] ?? path;
+  return typeof key === 'number' ? `Item ${key + 1}` : humanizeKey(key);
 };
 
 const getGroupLabel = (path: DocumentPath): string => {
@@ -156,7 +151,7 @@ const walkSaveValue = (
     }
 
     entries.forEach(([key, entry]) => {
-      walkSaveValue(entry, path ? `${path}.${key}` : key, saveType, fields);
+      walkSaveValue(entry, appendDocumentPath(path, key), saveType, fields);
     });
     return;
   }
@@ -186,7 +181,7 @@ export const validateDiscoveredSaveFields = (
 
   for (const baselineField of collectDiscoveredSaveFields(baselineData, saveType)) {
     const currentValue = getValueAtPath(workingData, baselineField.path);
-    if (currentValue === undefined || baselineField.kind === 'null') {
+    if (baselineField.registered || currentValue === undefined || baselineField.kind === 'null') {
       continue;
     }
 

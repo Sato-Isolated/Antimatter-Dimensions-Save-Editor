@@ -19,6 +19,7 @@ import JsonTextEditor, { JsonCursorState, JsonTextEditorHandle } from './JsonTex
 
 interface JsonEditorProps {
   isActive: boolean;
+  onDraftDirtyChange: (dirty: boolean) => void;
 }
 
 const stringifyDocument = (value: unknown): string => {
@@ -249,7 +250,7 @@ const copyTextToClipboard = async (value: string): Promise<boolean> => {
   return didCopy;
 };
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
+const JsonEditor: React.FC<JsonEditorProps> = ({ isActive, onDraftDirtyChange }) => {
   const saveDocument = useSaveSelector((state) => (isActive ? state.document : null));
   const validation = useSaveSelector((state) => (isActive ? state.document?.validation ?? null : null));
   const { replaceSaveData } = useSaveActions();
@@ -272,6 +273,10 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   const editorStatusId = useId();
   const editorValidationId = useId();
   const searchStatusId = useId();
+
+  useEffect(() => {
+    onDraftDirtyChange(draft !== baselineDraft);
+  }, [draft, baselineDraft, onDraftDirtyChange]);
 
   const clearPendingHistoryCommit = () => {
     if (historyCommitTimerRef.current) {
@@ -377,11 +382,13 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   };
 
   const handleFormat = () => {
-    if (!parseState.parsed) {
+    const currentParse = parseDraft(draft);
+    setParseState(currentParse);
+    if (currentParse.errorMessage) {
       return;
     }
 
-    const formattedDraft = stringifyDocument(parseState.parsed);
+    const formattedDraft = stringifyDocument(currentParse.parsed);
     clearPendingHistoryCommit();
     clearPendingParse();
     setDraft(formattedDraft);
@@ -392,22 +399,19 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
   };
 
   const handleReset = () => {
-    if (!baselineDraft) {
+    if (!saveDocument) {
       return;
     }
 
     clearPendingHistoryCommit();
-    clearPendingParse();
-    setDraft(baselineDraft);
-    draftBaseRevisionRef.current = saveDocument?.revision ?? null;
-    setParseState(parseDraft(baselineDraft));
-    setIsParsing(false);
-    setHistory({ entries: [baselineDraft], index: 0 });
+    syncEditorState(stringifyDocument(saveDocument.workingData), true, saveDocument.revision);
     setLiveMessage('Draft reset to the current save.');
   };
 
   const applyDraft = (force = false) => {
-    if (!parseState.isRootObject || !parseState.parsed) {
+    const currentParse = parseDraft(draft);
+    setParseState(currentParse);
+    if (!currentParse.isRootObject || !currentParse.parsed) {
       return;
     }
 
@@ -423,11 +427,11 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ isActive }) => {
       return;
     }
 
-    const committedDraft = stringifyDocument(parseState.parsed);
+    const committedDraft = stringifyDocument(currentParse.parsed);
     clearPendingHistoryCommit();
     clearPendingParse();
     shouldAnnounceValidationRef.current = true;
-    replaceSaveData(parseState.parsed as SaveObject);
+    replaceSaveData(currentParse.parsed as SaveObject);
     draftBaseRevisionRef.current = currentRevision;
     setDraft(committedDraft);
     setBaselineDraft(committedDraft);

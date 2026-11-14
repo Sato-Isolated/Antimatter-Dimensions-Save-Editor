@@ -2,7 +2,13 @@ import { DocumentPath } from '../model';
 
 type PathToken = string | number;
 
-const PATH_TOKEN_PATTERN = /([^.[\]]+)|\[(\d+)\]/g;
+const PATH_TOKEN_PATTERN = /([^.[\]]+)|\[(\d+|"(?:[^"\\]|\\.)*")\]/g;
+
+export const appendDocumentPath = (path: DocumentPath, key: string): DocumentPath => (
+  key && !/[.[\]"\\]/u.test(key)
+    ? `${path ? `${path}.` : ''}${key}`
+    : `${path}[${JSON.stringify(key)}]`
+);
 
 const isObjectRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -43,7 +49,7 @@ export const tokenizeDocumentPath = (path: DocumentPath): PathToken[] => {
     }
 
     if (match[2]) {
-      tokens.push(Number.parseInt(match[2], 10));
+      tokens.push(match[2].startsWith('"') ? JSON.parse(match[2]) as string : Number.parseInt(match[2], 10));
     }
   }
 
@@ -59,7 +65,7 @@ export const getValueAtPath = <T = unknown>(source: unknown, path: DocumentPath)
   let current: unknown = source;
 
   for (const token of tokens) {
-    if (current === null || current === undefined) {
+    if (current === null || current === undefined || !Object.prototype.hasOwnProperty.call(current, token)) {
       return undefined;
     }
 
@@ -83,14 +89,14 @@ export const hasPath = (source: unknown, path: DocumentPath): boolean => {
     }
 
     if (typeof token === 'number') {
-      if (!Array.isArray(current) || token >= current.length) {
+      if (!Array.isArray(current) || !Object.prototype.hasOwnProperty.call(current, token)) {
         return false;
       }
       current = current[token];
       continue;
     }
 
-    if (!isObjectRecord(current) || !(token in current)) {
+    if (!isObjectRecord(current) || !Object.prototype.hasOwnProperty.call(current, token)) {
       return false;
     }
 
@@ -116,11 +122,12 @@ export const setValueAtPath = <T>(source: T, path: DocumentPath, value: unknown)
     const container = cloneContainer(currentValue, token) as Record<string | number, unknown> | unknown[];
 
     if (depth === tokens.length - 1) {
-      (container as Record<string | number, unknown>)[token] = value;
+      Object.defineProperty(container, token, { value, enumerable: true, writable: true, configurable: true });
       return container;
     }
 
     const existingChild = currentValue !== null && currentValue !== undefined
+      && Object.prototype.hasOwnProperty.call(currentValue, token)
       ? (currentValue as Record<string | number, unknown>)[token]
       : undefined;
 
@@ -128,7 +135,9 @@ export const setValueAtPath = <T>(source: T, path: DocumentPath, value: unknown)
       ? createContainerForToken(nextToken)
       : existingChild;
 
-    (container as Record<string | number, unknown>)[token] = update(baseChild, depth + 1);
+    Object.defineProperty(container, token, {
+      value: update(baseChild, depth + 1), enumerable: true, writable: true, configurable: true,
+    });
     return container;
   };
 

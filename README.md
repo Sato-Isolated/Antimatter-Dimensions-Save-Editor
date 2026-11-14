@@ -39,9 +39,9 @@ A powerful web-based tool for editing and managing save files from the Antimatte
 1. Visit [Antimatter Dimensions Save Editor](https://sato-isolated.github.io/Antimatter-Dimensions-Save-Editor/)
 2. Export your save from Antimatter Dimensions
 3. Paste your save data into the Import section
-4. Click "Decrypt" to load your save
+4. Click "Open editor" to load your save
 5. Make your desired changes
-6. Click "Encrypt" to generate the modified save
+6. Click "Export save" to generate the modified save
 7. Copy the encrypted save and import it back into the game
 
 ## Usage
@@ -85,6 +85,9 @@ For advanced users who need direct access to the save file structure:
 - View and edit the complete save file in JSON format
 - Full control over all game variables
 - JSON validation and formatting
+- Apply changes commits the current text; Format also uses the current text
+- Unapplied drafts require confirmation before importing another save and must be applied or reset before export
+- Tab and Shift+Tab move keyboard focus out of the text editor
 
 ### Settings
 
@@ -111,6 +114,12 @@ Validation separates malformed data from gameplay expectations: unusual ranges,
 unknown enum/collection IDs and inferred type changes warn without rewriting the
 save. Negative Black Hole phases and historical fractional versions are preserved.
 See the [validation audit and evidence limits](docs/upstream-compatibility.md).
+
+## Verification
+
+Run `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build`. The test suite includes isolated domain tests, fixture transport round-trips, and React DOM import/edit/validation/export regressions. DOM tests do not replace browser checks or live-game import/export verification.
+
+Transport inflation stops at the 16 MB byte limit, and exports exceeding that uncompressed UTF-8 limit are rejected before compression. Recent-history clearing preserves PC legacy/modern and mobile layouts, along with unknown trailing data.
 
 ## Contributing
 
