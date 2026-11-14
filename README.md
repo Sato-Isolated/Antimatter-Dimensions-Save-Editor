@@ -107,6 +107,11 @@ real save will load in the game; use an untouched backup and perform a manual
 import/export check before relying on an edited save. The editor does not
 apply upstream save migrations automatically.
 
+Validation separates malformed data from gameplay expectations: unusual ranges,
+unknown enum/collection IDs and inferred type changes warn without rewriting the
+save. Negative Black Hole phases and historical fractional versions are preserved.
+See the [validation audit and evidence limits](docs/upstream-compatibility.md).
+
 ## Contributing
 
 1. Fork the repository
