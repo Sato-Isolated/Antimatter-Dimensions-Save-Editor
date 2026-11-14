@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import pako from 'pako';
+import * as pako from 'pako';
 import { SAVE_TRANSPORT_LIMITS } from './limits';
 import { readFileSync } from 'node:fs';
 import androidFixture from '../../../../tests/fixtures/save/android.json';
@@ -14,6 +14,11 @@ import {
   validateDecodedSave,
 } from './codec';
 import { SaveType } from '../model';
+
+vi.mock('pako', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('pako')>();
+  return { ...actual, deflate: vi.fn(actual.deflate), gzip: vi.fn(actual.gzip) };
+});
 
 const cloneFixture = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const readTransportFixture = (name: string): string => {
@@ -32,7 +37,7 @@ describe('save serialization', () => {
     const originalPush = pako.Inflate.prototype.push;
     const spy = vi.spyOn(pako.Inflate.prototype, 'push').mockImplementation(function (this: pako.Inflate, ...args: Parameters<typeof originalPush>) {
       const onData = this.onData;
-      this.onData = (chunk: Uint8Array) => { emittedBytes += chunk.length; onData.call(this, chunk); };
+      this.onData = (chunk: Uint8Array<ArrayBuffer>) => { emittedBytes += chunk.length; onData.call(this, chunk); };
       return originalPush.apply(this, args);
     });
     try {
@@ -44,13 +49,13 @@ describe('save serialization', () => {
   });
 
   it.each([SaveType.PC, SaveType.Android, SaveType.Apple])('rejects oversized UTF-8 documents before compressing for %s', (saveType) => {
-    const deflate = vi.spyOn(pako, 'deflate');
-    const gzip = vi.spyOn(pako, 'gzip');
+    const deflate = vi.mocked(pako.deflate).mockClear();
+    const gzip = vi.mocked(pako.gzip).mockClear();
     try {
       expect(encodeSaveData({ antimatter: '10', version: 25, future: 'é'.repeat(8_000_000) }, saveType)).toBeNull();
       expect(deflate).not.toHaveBeenCalled();
       expect(gzip).not.toHaveBeenCalled();
-    } finally { deflate.mockRestore(); gzip.mockRestore(); }
+    } finally { deflate.mockClear(); gzip.mockClear(); }
   });
 
   it.each([SaveType.PC, SaveType.Android, SaveType.Apple])('rejects incomplete compressed streams for %s', (saveType) => {

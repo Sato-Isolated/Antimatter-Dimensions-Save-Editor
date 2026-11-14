@@ -90,3 +90,48 @@ reported error, not the contents of the original save; reproduction uses synthet
   was not available, so its exact original contents were not tested.
 - blocked: none for implementation or the repository gates. Mobile behavior
   outside the fixture scope remains unverified, not established by PC source.
+
+## Follow-up review and dependency update — 2026-11-14
+
+The remaining local changes were reviewed before updating dependencies. Tests
+confirmed draft protection, current-text JSON apply/format, literal path keys,
+bounded inflation and platform-aware history clearing. Review added fixes for
+new `__proto__` keys (stored as own data without changing prototypes), inherited
+property lookup, and malformed record rows (visible error, no document change).
+It also corrected the misplaced validation parameter in the earlier partial
+commit; the final committed tree contains the verified signature.
+
+The dependency set now uses React 19.3.1, Pako 3.0.3, Vite 8.3.8, Vitest 5.1.0,
+ESLint 10.15.0 and jsdom 31.0.1. TypeScript 6.0.3 is retained because the installed
+typescript-eslint requires `<6.1.0`; TypeScript 7's compiler API transition is
+documented [upstream](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/).
+Node 24 LTS and its type definitions are aligned with CI. CI actions were also
+updated; the lockfile remains frozen during CI installs.
+
+[Pako 3 changes its default compression hash](https://github.com/nodeca/pako/blob/master/CHANGELOG.md).
+Exports explicitly use `legacyHash: true` to retain the fixture byte output,
+and the namespace import replaces its removed default export. Vite's Rolldown
+configuration retains the previous browser targets and separate vendor chunks.
+A scoped override updates typescript-estree's minimatch to 11.0.8 for
+[GHSA-g3hv-75wg-m249](https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249);
+its caller uses the retained `minimatch()` API. Remove the override when the
+parent dependency requires the patched major itself.
+
+- passed: `pnpm install --frozen-lockfile --strict-peer-dependencies`,
+  `pnpm typecheck`, `pnpm lint`, `pnpm test` (196 tests in 24 files),
+  `pnpm build`, `pnpm audit` (no known vulnerabilities), and `git diff --check`.
+  Unit/component, functional and fixture evidence remain distinct.
+- passed: nine Chromium smoke paths against the **production build** using
+  Playwright at `390x844`, `768x1024` and `1536x1024`, for PC/Android/iOS. These
+  check legacy PC paths, negative phases, scientific input, record clearing,
+  JSON draft discard/export protection, immediate apply, keyboard focus, export
+  feedback, unknown values/Infinity preservation, console health and overflow.
+  Malformed record clearing is checked on PC; mobile layouts use synthetic
+  records matching the existing fixture shape. Browser plugin was unavailable;
+  the installed Playwright runtime was reused without new browser dependencies.
+- not executed: GitHub-hosted CI and live-game imports; this request ends with
+  local commits and no disposable target-game session was used. Other browser
+  engines, older target-browser versions and mobile game versions remain
+  unverified. Fixture byte compatibility and browser success do not imply live
+  game compatibility.
+- blocked: none.

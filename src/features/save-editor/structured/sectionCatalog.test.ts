@@ -17,7 +17,7 @@ describe('structured section catalog', () => {
   });
 
   it('keeps the all-values explorer as the final catch-all route', () => {
-    const lastSection = structuredSectionCatalog.at(-1);
+    const lastSection = structuredSectionCatalog[structuredSectionCatalog.length - 1];
 
     expect(lastSection?.id).toBe('all-fields');
     expect(lastSection?.issuePrefixes).toEqual(['*']);

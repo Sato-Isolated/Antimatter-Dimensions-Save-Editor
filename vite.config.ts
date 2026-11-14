@@ -9,33 +9,23 @@ export default defineConfig({
   base: '/Antimatter-Dimensions-Save-Editor/',
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(import.meta.dirname, './src')
     }
   },
   build: {
+    target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     outDir: 'dist',
     emptyOutDir: true,
     chunkSizeWarningLimit: 700,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks(id) {
-          if (!id.includes('node_modules')) {
-            return;
-          }
-
-          if (id.includes('react-icons')) {
-            return 'vendor-icons';
-          }
-
-          if (id.includes('react') || id.includes('react-dom')) {
-            return 'vendor-react';
-          }
-
-          if (id.includes('pako')) {
-            return 'vendor-pako';
-          }
-
-          return 'vendor';
+        codeSplitting: {
+          groups: [
+            { name: 'vendor-icons', test: /node_modules[\\/]react-icons[\\/]/, priority: 20 },
+            { name: 'vendor-react', test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/, priority: 10 },
+            { name: 'vendor-pako', test: /node_modules[\\/]pako[\\/]/, priority: 10 },
+            { name: 'vendor', test: /node_modules/, priority: 0 },
+          ],
         },
       },
     },

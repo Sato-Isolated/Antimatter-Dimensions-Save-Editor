@@ -4,3 +4,6 @@ allowBuilds:
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
+overrides:
+  # GHSA-g3hv-75wg-m249; remove when typescript-estree adopts patched minimatch.
+  '@typescript-eslint/typescript-estree>minimatch': ^11.0.8

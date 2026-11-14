@@ -28,7 +28,7 @@
     /* Modules */
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "baseUrl": "./",
+    "types": ["node"],
     // "rootDir": "./",                                  /* Specify the root folder within your source files. */
     // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

@@ -1,4 +1,4 @@
-import pako from 'pako';
+import * as pako from 'pako';
 import { editorJsonReplacer, editorJsonReviver } from './editorJsonCodec';
 import { SAVE_TRANSPORT_LIMITS } from './limits';
 import { getCandidatePaths, getFieldDefinition, resolveFieldPath } from '../catalog/fields';
@@ -147,12 +147,12 @@ const decodePrintableBinary = (value: string): Uint8Array => {
 };
 
 const encodePcText = (text: string): string => {
-  const compressed = pako.deflate(encoder.encode(text));
+  const compressed = pako.deflate(encoder.encode(text), { legacyHash: true });
   return `${startingString.savefile}AAB${encodePrintableBinary(compressed)}${endingString}`;
 };
 
 const encodeMobileText = (prefix: string, text: string): string => {
-  const compressed = pako.gzip(encoder.encode(text));
+  const compressed = pako.gzip(encoder.encode(text), { legacyHash: true });
   return `${prefix}AAA${encodePrintableBinary(compressed)}${endingString}`;
 };
 

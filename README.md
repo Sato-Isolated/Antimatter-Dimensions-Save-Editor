@@ -117,6 +117,12 @@ See the [validation audit and evidence limits](docs/upstream-compatibility.md).
 
 ## Verification
 
+Development and CI use Node.js 24 LTS (24.15 or newer) and pnpm 10.34.5.
+Install dependencies with `pnpm install --frozen-lockfile`. TypeScript stays
+on 6.0.x to satisfy the current typescript-eslint peer dependency; Node types
+follow the Node 24 runtime. Other direct dependencies use the stable releases
+verified in the lockfile.
+
 Run `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build`. The test suite includes isolated domain tests, fixture transport round-trips, and React DOM import/edit/validation/export regressions. DOM tests do not replace browser checks or live-game import/export verification.
 
 Transport inflation stops at the 16 MB byte limit, and exports exceeding that uncompressed UTF-8 limit are rejected before compression. Recent-history clearing preserves PC legacy/modern and mobile layouts, along with unknown trailing data.
