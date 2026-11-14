@@ -368,7 +368,7 @@ const detectSaveShape = (saveData: unknown): SaveDataShape => {
 };
 
 const getDataVersion = (saveData: unknown): number | null => {
-  if (!isObjectRecord(saveData) || typeof saveData.version !== 'number' || !Number.isInteger(saveData.version)) {
+  if (!isObjectRecord(saveData) || typeof saveData.version !== 'number' || !Number.isFinite(saveData.version)) {
     return null;
   }
 
@@ -404,9 +404,9 @@ const buildValidationSummary = (
   }
 
   if (!('version' in saveData)) {
-    issues.push(issue('missing-version', 'Save data must contain an integer version.', 'error', 'version'));
-  } else if (typeof saveData.version !== 'number' || !Number.isFinite(saveData.version) || !Number.isInteger(saveData.version)) {
-    issues.push(issue('invalid-version', 'Save version must be a finite integer.', 'error', 'version'));
+    issues.push(issue('missing-version', 'Save data must contain a numeric version.', 'error', 'version'));
+  } else if (typeof saveData.version !== 'number' || !Number.isFinite(saveData.version)) {
+    issues.push(issue('invalid-version', 'Save version must be a finite number.', 'error', 'version'));
   }
 
   if (!('lastUpdate' in saveData)) {

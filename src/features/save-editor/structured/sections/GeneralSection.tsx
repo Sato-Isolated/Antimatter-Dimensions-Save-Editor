@@ -164,8 +164,9 @@ const GeneralSection: React.FC<SectionProps> = ({
                   type="number" 
                   id="version" 
                   name="version"
+                  step="any"
                   value={saveData.version || 0}
-                  onChange={(e) => handleValueChange('version', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('version', parseNumericInput(e.target.value, saveData.version))}
                 />
                 {renderValidationIndicator('version')}
               </div>

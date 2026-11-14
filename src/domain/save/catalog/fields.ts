@@ -223,12 +223,12 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         label: 'Version',
         description: 'Save version marker.',
         group: 'overview',
-        kind: 'integer',
+        kind: 'number',
         nativePaths: {
           [SaveType.PC]: ['version'],
           [SaveType.Android]: ['version'],
         },
-        rule: { required: true, minimum: 0, integer: true },
+        rule: { required: true, minimum: 0 },
       }),
     ],
   },
@@ -727,7 +727,6 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['blackHole[0].phase'],
           [SaveType.Android]: ['blackHole[0].phase'],
         },
-        rule: { minimum: 0 },
       }),
       buildField({
         id: 'blackHole0Active',
@@ -821,7 +820,6 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
           [SaveType.PC]: ['blackHole[1].phase'],
           [SaveType.Android]: ['blackHole[1].phase'],
         },
-        rule: { minimum: 0 },
       }),
       buildField({
         id: 'blackHole1Active',
