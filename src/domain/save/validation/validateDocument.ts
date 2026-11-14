@@ -7,7 +7,7 @@ import {
 import { hasBlockingIssues } from './issues';
 
 export interface DocumentValidationDependencies {
-  validateBase: (data: SaveObject) => SaveValidationSummary;
+  validateBase: (data: SaveObject, saveType: SaveType) => SaveValidationSummary;
   validateCatalog: (data: SaveObject, saveType: SaveType) => SaveValidationIssue[];
   validateDiscovered?: (
     data: SaveObject,
@@ -27,7 +27,7 @@ export const validateDocument = (
   baselineData: SaveObject | undefined,
   dependencies: DocumentValidationDependencies,
 ): SaveValidationSummary => {
-  const baseValidation = dependencies.validateBase(data);
+  const baseValidation = dependencies.validateBase(data, saveType);
   const catalogIssues = dependencies.validateCatalog(data, saveType);
   const discoveredIssues = baselineData && dependencies.validateDiscovered
     ? dependencies.validateDiscovered(data, baselineData, saveType)

@@ -1,6 +1,7 @@
 import pako from 'pako';
 import { editorJsonReplacer, editorJsonReviver } from './editorJsonCodec';
 import { SAVE_TRANSPORT_LIMITS } from './limits';
+import { getCandidatePaths, getFieldDefinition, resolveFieldPath } from '../catalog/fields';
 import {
   SaveObject,
   SaveDataShape,
@@ -17,6 +18,7 @@ type UnknownRecord = Record<string, unknown>;
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder('utf-8', { fatal: true });
+const antimatterField = getFieldDefinition('antimatter')!;
 
 const startingString = {
   savefile: 'AntimatterDimensionsSavefileFormat',
@@ -351,12 +353,12 @@ const findInvalidNumberPath = (value: unknown, currentPath = ''): string | null 
   return null;
 };
 
-const detectSaveShape = (saveData: unknown): SaveDataShape => {
+const detectSaveShape = (saveData: unknown, saveType: SaveType): SaveDataShape => {
   if (!isObjectRecord(saveData)) {
     return 'unknown';
   }
 
-  if ('antimatter' in saveData) {
+  if (getCandidatePaths(antimatterField, saveType).some((path) => path in saveData)) {
     return 'player';
   }
 
@@ -386,7 +388,7 @@ const buildValidationSummary = (
     return { success: false, stage: 'early', issues };
   }
 
-  const shape = detectSaveShape(saveData);
+  const shape = detectSaveShape(saveData, saveType);
   if (shape === 'storage-container') {
     issues.push(issue(
       'unsupported-save-container',
@@ -394,13 +396,15 @@ const buildValidationSummary = (
       'error',
     ));
   } else if (shape !== 'player') {
+  saveType: SaveType = SaveType.PC,
     issues.push(issue('invalid-save-shape', 'Save data must contain a direct player antimatter field.', 'error'));
   }
 
-  if (!('antimatter' in saveData)) {
+  const antimatterPath = resolveFieldPath(saveData, antimatterField, saveType);
+  if (!(antimatterPath in saveData)) {
     issues.push(issue('missing-antimatter', 'Save data must contain antimatter.', 'error', 'antimatter'));
-  } else if (!isBigNumberValue(saveData.antimatter)) {
-    issues.push(issue('invalid-antimatter', 'Antimatter must be a valid large numeric value.', 'error', 'antimatter'));
+  } else if (!isBigNumberValue(saveData[antimatterPath])) {
+    issues.push(issue('invalid-antimatter', 'Antimatter must be a valid large numeric value.', 'error', antimatterPath));
   }
 
   if (!('version' in saveData)) {
@@ -470,8 +474,8 @@ export const detectSaveType = (encodedSaveData: string): SaveType => {
   return encodedSaveData.startsWith(startingString.android) ? SaveType.Android : SaveType.PC;
 };
 
-export const validateDecodedSave = (saveData: SaveObject | null): SaveValidationSummary => {
-  return buildValidationSummary(saveData);
+export const validateDecodedSave = (saveData: SaveObject | null, saveType: SaveType = SaveType.PC): SaveValidationSummary => {
+  return buildValidationSummary(saveData, [], saveType);
 };
 
 export const encodeSaveData = (saveData: SaveObject, saveType: SaveType = SaveType.PC): string | null => {
@@ -516,7 +520,7 @@ export const decodeSaveString = (encodedSaveData: string): SaveDecodeResult => {
   try {
     const { decoded, saveType, transportVersion } = decodeText(encodedSaveData);
     const parsed = JSON.parse(decoded, editorJsonReviver) as SaveObject;
-    const shape = detectSaveShape(parsed);
+    const shape = detectSaveShape(parsed, saveType);
 
     return {
       data: parsed,
@@ -524,7 +528,7 @@ export const decodeSaveString = (encodedSaveData: string): SaveDecodeResult => {
       transportVersion,
       dataVersion: getDataVersion(parsed),
       shape,
-      validation: buildValidationSummary(parsed),
+      validation: buildValidationSummary(parsed, [], saveType),
     };
   } catch (error) {
     const saveType = detectSaveType(encodedSaveData);

@@ -40,11 +40,19 @@ describe('validation compatibility regressions', () => {
     expect(decodeSaveString(store.encodeWorkingData()).data).toEqual({ ...data, antimatter: '20' });
   });
 
-  it('accepts the historical resets path without adding dimensionBoosts', () => {
-    const data = { antimatter: '10', version: 9.5, resets: 4 };
+  it.each([9.5, 12.1])('edits historical PC paths without migrating version %s', (version) => {
+    const data = { money: '10', version, resets: 4 };
     const store = createSaveEditorStore();
     expect(store.loadFromEncoded(encodeSaveData(data)! ).success).toBe(true);
     expect(decodeSaveString(store.encodeWorkingData()).data).toEqual(data);
+    store.updateDocumentAtPath('antimatter', '20');
+    store.updateDocumentAtPath('dimensionBoosts', 4.5);
+    expect(decodeSaveString(store.encodeWorkingData()).data).toEqual({ ...data, money: '20', resets: 4.5 });
+  });
+
+  it.each([SaveType.Android, SaveType.Apple])('does not apply PC legacy paths to %s', (saveType) => {
+    const store = createSaveEditorStore();
+    expect(store.loadFromEncoded(encodeSaveData({ money: '10', version: 9.5, resets: 4 }, saveType)! ).success).toBe(false);
   });
 
   it('preserves future collection IDs and warns about inferred unknown-field type changes', () => {

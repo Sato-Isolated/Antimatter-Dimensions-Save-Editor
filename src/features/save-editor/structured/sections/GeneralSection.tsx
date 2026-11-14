@@ -3,7 +3,9 @@ import { SectionProps } from './types';
 import SectionShell, { SectionShellTab } from '../../../../shared/ui/SectionShell';
 import { FaSuperscript, FaInfinity, FaHourglassHalf, FaSun } from 'react-icons/fa';
 import BigNumberInput from '../../../../shared/ui/BigNumberField';
-import { SaveType, isMobileSaveType } from '../../../../domain/save/model';
+import { SaveObject, SaveType, isMobileSaveType } from '../../../../domain/save/model';
+import { resolveRegisteredFieldPath } from '../../../../domain/save/catalog/fields';
+import { getValueAtPath } from '../../../../domain/save/document/path';
 import { parseNumericInput } from './fieldHelpers';
 import { AntimatterDimensionsStruct } from '../../../../Struct';
 
@@ -14,6 +16,10 @@ const GeneralSection: React.FC<SectionProps> = ({
   saveType
 }) => {
   const [activeSubtab, setActiveSubtab] = useState<string>('antimatter');
+  const saveRecord = saveData as unknown as SaveObject;
+  const antimatterPath = resolveRegisteredFieldPath(saveRecord, 'antimatter', saveType);
+  const boostsPath = resolveRegisteredFieldPath(saveRecord, 'dimensionBoosts', saveType);
+  const boosts = getValueAtPath(saveRecord, boostsPath);
 
   // Handle subtab changes
   const handleSubtabClick = (subtabId: string) => {
@@ -57,11 +63,11 @@ const GeneralSection: React.FC<SectionProps> = ({
               <div className="form-group">
                 <BigNumberInput 
                   label="Antimatter"
-                  value={saveData.antimatter} 
-                  onChange={(value) => handleValueChange('antimatter', value)} 
+                  value={getValueAtPath(saveRecord, antimatterPath)}
+                  onChange={(value) => handleValueChange(antimatterPath, value)}
                   saveType={saveType}
                 />
-                {renderValidationIndicator('antimatter')}
+                {renderValidationIndicator(antimatterPath)}
               </div>
               
               <div className="form-group">
@@ -128,12 +134,12 @@ const GeneralSection: React.FC<SectionProps> = ({
                   type="number" 
                   id="dimensionBoosts" 
                   name="dimensionBoosts"
-                  value={saveData.dimensionBoosts || 0}
+                  value={typeof boosts === 'number' ? boosts : 0}
                   min="0"
                   step="any"
-                  onChange={(e) => handleValueChange('dimensionBoosts', parseNumericInput(e.target.value))}
+                  onChange={(e) => handleValueChange(boostsPath, parseNumericInput(e.target.value))}
                 />
-                {renderValidationIndicator('dimensionBoosts')}
+                {renderValidationIndicator(boostsPath)}
               </div>
               
               <div className="form-group">

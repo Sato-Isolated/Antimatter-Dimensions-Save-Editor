@@ -168,7 +168,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         group: 'overview',
         kind: 'big-number',
         nativePaths: {
-          [SaveType.PC]: ['antimatter'],
+          [SaveType.PC]: ['antimatter', 'money'],
           [SaveType.Android]: ['antimatter'],
         },
         rule: { required: true },
@@ -191,7 +191,7 @@ export const saveEditorFieldGroups: SaveFieldGroupDefinition[] = [
         group: 'overview',
         kind: 'number',
         nativePaths: {
-          [SaveType.PC]: ['dimensionBoosts'],
+          [SaveType.PC]: ['dimensionBoosts', 'resets'],
           [SaveType.Android]: ['dimensionBoosts'],
         },
         rule: { minimum: 0 },
