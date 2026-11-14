@@ -111,7 +111,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-1-activations"
                 value={typedSaveData.blackHole?.[0]?.activations || 0}
-                onChange={(e) => handleValueChange('blackHole[0].activations', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].activations', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].activations')}
             </div>
@@ -122,7 +122,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-1-id"
                 value={typedSaveData.blackHole?.[0]?.id || 0}
-                onChange={(e) => handleValueChange('blackHole[0].id', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].id', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].id')}
             </div>
@@ -148,7 +148,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
               <select
                 id="blackHoleAutoPauseMode"
                 value={typedSaveData.blackHoleAutoPauseMode || 0}
-                onChange={(e) => handleValueChange('blackHoleAutoPauseMode', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHoleAutoPauseMode', parseNumericInput(e.target.value))}
               >
                 <option value="0">Off</option>
                 <option value="1">Mode 1</option>
@@ -196,7 +196,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-1-power-upgrade"
                 value={typedSaveData.blackHole?.[0]?.powerUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[0].powerUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].powerUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].powerUpgrades')}
             </div>
@@ -207,7 +207,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-1-interval-upgrade"
                 value={typedSaveData.blackHole?.[0]?.intervalUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[0].intervalUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].intervalUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].intervalUpgrades')}
             </div>
@@ -218,7 +218,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-1-duration-upgrade"
                 value={typedSaveData.blackHole?.[0]?.durationUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[0].durationUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[0].durationUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[0].durationUpgrades')}
             </div>
@@ -230,7 +230,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-2-power-upgrade"
                 value={typedSaveData.blackHole?.[1]?.powerUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[1].powerUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].powerUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].powerUpgrades')}
             </div>
@@ -241,7 +241,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-2-interval-upgrade"
                 value={typedSaveData.blackHole?.[1]?.intervalUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[1].intervalUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].intervalUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].intervalUpgrades')}
             </div>
@@ -252,7 +252,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-2-duration-upgrade"
                 value={typedSaveData.blackHole?.[1]?.durationUpgrades || 0}
-                onChange={(e) => handleValueChange('blackHole[1].durationUpgrades', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].durationUpgrades', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].durationUpgrades')}
             </div>
@@ -307,7 +307,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-2-activations"
                 value={typedSaveData.blackHole?.[1]?.activations || 0}
-                onChange={(e) => handleValueChange('blackHole[1].activations', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].activations', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].activations')}
             </div>
@@ -318,7 +318,7 @@ const BlackHolesSection: React.FC<SectionProps> = ({
                 type="number"
                 id="black-hole-2-id"
                 value={typedSaveData.blackHole?.[1]?.id || 1}
-                onChange={(e) => handleValueChange('blackHole[1].id', parseInt(e.target.value))}
+                onChange={(e) => handleValueChange('blackHole[1].id', parseNumericInput(e.target.value))}
               />
               {renderValidationIndicator('blackHole[1].id')}
             </div>

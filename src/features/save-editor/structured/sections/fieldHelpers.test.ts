@@ -14,6 +14,15 @@ describe('fieldHelpers', () => {
     expect(parseNumericInput('', 3.5)).toBe(3.5);
   });
 
+  it('never replaces empty, invalid, or overflowing input with zero', () => {
+    for (const value of ['', ' ', '1e', '1.5junk', '1e309', 'Infinity', '-Infinity']) {
+      expect(Number.isNaN(parseNumericInput(value))).toBe(true);
+    }
+    expect(parseNumericInput('0')).toBe(0);
+    expect(parseNumericInput('9.5')).toBe(9.5);
+    expect(parseNumericInput('1e3')).toBe(1000);
+  });
+
   it('resolves recent record paths for newer PC saves', () => {
     expect(resolveRecentRecordsPath(newsaveFixture, 'Infinities')).toBe('records.recentInfinities');
     expect(resolveRecentRecordsPath(newsaveFixture, 'Eternities')).toBe('records.recentEternities');

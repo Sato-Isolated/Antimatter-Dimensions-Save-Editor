@@ -185,7 +185,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="reality-seed"
                   value={saveData.reality?.seed || 0}
-                  onChange={(e) => handleValueChange('reality.seed', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.seed', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Primary Reality random seed.</FieldDescription>
                 {renderValidationIndicator('reality.seed')}
@@ -210,7 +210,7 @@ const RealitySection: React.FC<SectionProps> = ({
                   type="number"
                   id="reality-musicSeed"
                   value={saveData.reality?.musicSeed || 0}
-                  onChange={(e) => handleValueChange('reality.musicSeed', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.musicSeed', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Separate seed for the music/randomness stream.</FieldDescription>
                 {renderValidationIndicator('reality.musicSeed')}

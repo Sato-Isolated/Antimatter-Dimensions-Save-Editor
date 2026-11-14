@@ -151,7 +151,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="teresa-unlocks"
                   value={saveData.celestials?.teresa?.unlockBits || 0}
-                  onChange={(e) => handleValueChange('celestials.teresa.unlockBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.teresa.unlockBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.teresa.unlockBits')}
               </div>
@@ -162,7 +162,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="teresa-quotes"
                   value={saveData.celestials?.teresa?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.teresa.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.teresa.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.teresa.quoteBits')}
               </div>
@@ -264,7 +264,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="effarig-unlocks"
                   value={saveData.celestials?.effarig?.unlockBits || 0}
-                  onChange={(e) => handleValueChange('celestials.effarig.unlockBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.effarig.unlockBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.effarig.unlockBits')}
               </div>
@@ -275,7 +275,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="effarig-quotes"
                   value={saveData.celestials?.effarig?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.effarig.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.effarig.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.effarig.quoteBits')}
               </div>
@@ -307,7 +307,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="enslaved-quotes"
                   value={saveData.celestials?.enslaved?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.enslaved.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.enslaved.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.enslaved.quoteBits')}
               </div>
@@ -340,7 +340,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="enslaved-tesseracts"
                   value={saveData.celestials?.enslaved?.tesseracts || 0}
-                  onChange={(e) => handleValueChange('celestials.enslaved.tesseracts', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.enslaved.tesseracts', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.enslaved.tesseracts')}
               </div>
@@ -351,7 +351,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="enslaved-progbits"
                   value={saveData.celestials?.enslaved?.progressBits || 0}
-                  onChange={(e) => handleValueChange('celestials.enslaved.progressBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.enslaved.progressBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.enslaved.progressBits')}
               </div>
@@ -396,7 +396,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="v-quotes"
                   value={saveData.celestials?.v?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.v.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.v.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.v.quoteBits')}
               </div>
@@ -407,7 +407,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="v-unlockBits"
                   value={saveData.celestials?.v?.unlockBits || 0}
-                  onChange={(e) => handleValueChange('celestials.v.unlockBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.v.unlockBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.v.unlockBits')}
               </div>
@@ -418,7 +418,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="v-goalCompletion"
                   value={(saveData.celestials?.v as unknown as { goalCompletion?: number })?.goalCompletion || 0}
-                  onChange={(e) => handleValueChange('celestials.v.goalCompletion', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.v.goalCompletion', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.v.goalCompletion')}
               </div>
@@ -437,7 +437,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="ra-unlocks"
                   value={saveData.celestials?.ra?.unlockBits || 0}
-                  onChange={(e) => handleValueChange('celestials.ra.unlockBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.ra.unlockBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.ra.unlockBits')}
               </div>
@@ -448,7 +448,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="ra-quotes"
                   value={saveData.celestials?.ra?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.ra.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.ra.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.ra.quoteBits')}
               </div>
@@ -493,7 +493,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="laitela-quotes"
                   value={saveData.celestials?.laitela?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.laitela.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.laitela.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.laitela.quoteBits')}
               </div>
@@ -599,7 +599,7 @@ const CelestialsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="pelle-quotes"
                   value={saveData.celestials?.pelle?.quoteBits || 0}
-                  onChange={(e) => handleValueChange('celestials.pelle.quoteBits', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('celestials.pelle.quoteBits', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('celestials.pelle.quoteBits')}
               </div>

@@ -69,7 +69,7 @@ const GlyphsSection: React.FC<SectionProps> = ({
                   type="number"
                   id="protected-rows"
                   value={saveData.reality?.glyphs?.protectedRows || 0}
-                  onChange={(e) => handleValueChange('reality.glyphs.protectedRows', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('reality.glyphs.protectedRows', parseNumericInput(e.target.value))}
                   min="0"
                   max="10"
                 />

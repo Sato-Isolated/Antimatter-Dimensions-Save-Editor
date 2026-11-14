@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
+import { parseNumericInput } from './fieldHelpers';
 import { FaGlobe, FaArrowCircleRight, FaCube, FaChartLine } from 'react-icons/fa';
 import { SaveType } from '../../../../domain/save/model';
 import { 
@@ -154,7 +155,7 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <select
                   id="auto-infinity-mode"
                   value={saveData.auto?.bigCrunch?.mode || 0}
-                  onChange={(e) => handleValueChange('auto.bigCrunch.mode', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('auto.bigCrunch.mode', parseNumericInput(e.target.value))}
                 >
                   <option value="0">Amount</option>
                   <option value="1">Time</option>
@@ -187,7 +188,7 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                   type="number"
                   id="dimboost-amount"
                   value={saveData.auto?.dimBoost?.maxDimBoosts || 0}
-                  onChange={(e) => handleValueChange('auto.dimBoost.maxDimBoosts', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('auto.dimBoost.maxDimBoosts', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('auto.dimBoost.maxDimBoosts')}
               </div>
@@ -198,7 +199,11 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                   type="number"
                   id="dimboost-limit"
                   value={saveData.auto?.dimBoost?.limitDimBoosts ? 1 : 0}
-                  onChange={(e) => handleValueChange('auto.dimBoost.limitDimBoosts', Boolean(parseInt(e.target.value)))}
+                  onChange={(e) => {
+                    if (e.target.value === '0' || e.target.value === '1') {
+                      handleValueChange('auto.dimBoost.limitDimBoosts', e.target.value === '1');
+                    }
+                  }}
                 />
                 {renderValidationIndicator('auto.dimBoost.limitDimBoosts')}
               </div>
@@ -227,7 +232,7 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                   type="number"
                   id="galaxy-limit"
                   value={saveData.auto?.galaxy?.maxGalaxies || 0}
-                  onChange={(e) => handleValueChange('auto.galaxy.maxGalaxies', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('auto.galaxy.maxGalaxies', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('auto.galaxy.maxGalaxies')}
               </div>
@@ -237,8 +242,8 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <input
                   type="number"
                   id="galaxy-bulkAmount"
-                  value={saveData.auto?.galaxy?.buyMaxInterval ? 1 : 0}
-                  onChange={(e) => handleValueChange('auto.galaxy.buyMaxInterval', Boolean(parseInt(e.target.value)))}
+                  value={saveData.auto?.galaxy?.buyMaxInterval || 0}
+                  onChange={(e) => handleValueChange('auto.galaxy.buyMaxInterval', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('auto.galaxy.buyMaxInterval')}
               </div>
@@ -373,7 +378,7 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <select
                   id="auto-eternity-mode"
                   value={saveData.auto?.eternity?.mode || 0}
-                  onChange={(e) => handleValueChange('auto.eternity.mode', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('auto.eternity.mode', parseNumericInput(e.target.value))}
                 >
                   <option value="0">Amount</option>
                   <option value="1">Time</option>
@@ -425,7 +430,7 @@ const AutoBuyersSection: React.FC<SectionProps> = ({
                 <select
                   id="auto-reality-mode"
                   value={saveData.auto?.reality?.mode || 0}
-                  onChange={(e) => handleValueChange('auto.reality.mode', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('auto.reality.mode', parseNumericInput(e.target.value))}
                 >
                   <option value="0">Amount</option>
                   <option value="1">Time</option>

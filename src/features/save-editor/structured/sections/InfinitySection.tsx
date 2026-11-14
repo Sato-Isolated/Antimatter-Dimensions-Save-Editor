@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SectionProps } from './types';
+import { parseNumericInput } from './fieldHelpers';
 import SectionShell, { SectionShellTab } from '../../../../shared/ui/SectionShell';
 import { FaCircle, FaArrowUp, FaTrophy } from 'react-icons/fa';
 import BigNumberInput from '../../../../shared/ui/BigNumberField';
@@ -139,7 +140,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                   min="0"
                   step="1"
                   value={isPCFormat() ? (typedSaveData.IPMultPurchases || 0) : (typedSaveData.ipMultUpgrades || 0)}
-                  onChange={(e) => handleValueChange(isPCFormat() ? 'IPMultPurchases' : 'ipMultUpgrades', parseInt(e.target.value, 10) || 0)}
+                  onChange={(e) => handleValueChange(isPCFormat() ? 'IPMultPurchases' : 'ipMultUpgrades', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Each purchase doubles Infinity Points. The counter is separate from the one-time `ipMult` upgrade entry.</FieldDescription>
                 {renderValidationIndicator(isPCFormat() ? 'IPMultPurchases' : 'ipMultUpgrades')}
@@ -204,7 +205,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                   step="1"
                   id="inf-upgradeBits"
                   value={typedSaveData.infinityUpgradeBits || 0}
-                  onChange={(e) => handleValueChange('infinityUpgradeBits', parseInt(e.target.value, 10) || 0)}
+                  onChange={(e) => handleValueChange('infinityUpgradeBits', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Fixture-derived mobile field. Its bit-to-upgrade mapping is not present in the pinned PC/Web source, so the raw mask is preserved rather than given guessed labels.</FieldDescription>
                 {renderValidationIndicator('infinityUpgradeBits')}
@@ -231,7 +232,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                       step="1"
                       id={`infinity-rebuyable-${definition.index}`}
                       value={typeof value === 'number' ? value : 0}
-                      onChange={(event) => handleValueChange(path, parseInt(event.target.value, 10) || 0)}
+                      onChange={(event) => handleValueChange(path, parseNumericInput(event.target.value))}
                     />
                     <FieldDescription>{definition.description} Maximum: {definition.maximum} purchases.</FieldDescription>
                     {renderValidationIndicator(path)}
@@ -260,7 +261,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                   min="0"
                   step="1"
                   value={typeof ic2Count === 'number' ? ic2Count : 0}
-                  onChange={(e) => handleValueChange(ic2CountPath, parseInt(e.target.value, 10) || 0)}
+                  onChange={(e) => handleValueChange(ic2CountPath, parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>During IC2, the game accumulates elapsed milliseconds here; at 400 ms it triggers Dimensional Sacrifice and wraps the counter.</FieldDescription>
                 {renderValidationIndicator(ic2CountPath)}
@@ -274,7 +275,7 @@ const InfinitySection: React.FC<SectionProps> = ({
                     min="0"
                     step="1"
                     value={typeof ic4Tier === 'number' ? ic4Tier : 0}
-                    onChange={(e) => handleValueChange(ic4TierPath, parseInt(e.target.value, 10) || 0)}
+                    onChange={(e) => handleValueChange(ic4TierPath, parseNumericInput(e.target.value))}
                   />
                   <FieldDescription>Mobile fixture field for the current IC4 dimension tier. It is not the completion bitfield.</FieldDescription>
                   {renderValidationIndicator(ic4TierPath)}

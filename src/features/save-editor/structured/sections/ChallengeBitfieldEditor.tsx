@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseNumericInput } from './fieldHelpers';
 import {
   challengeBitMask,
   ChallengeBitDefinition,
@@ -56,7 +57,7 @@ const ChallengeBitfieldEditor: React.FC<ChallengeBitfieldEditorProps> = ({
           onChange={(event) => {
             const nextValue = event.target.value === ''
               ? Number.NaN
-              : Number.parseInt(event.target.value, 10);
+              : parseNumericInput(event.target.value);
             onChange(path, nextValue);
           }}
         />

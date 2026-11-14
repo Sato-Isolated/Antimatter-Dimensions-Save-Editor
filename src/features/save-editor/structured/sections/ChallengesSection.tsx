@@ -22,7 +22,7 @@ const formatBestTime = (value: unknown): number | '' => (
 
 const parseBestTime = (value: string): number => {
   if (!value.trim()) return Number.MAX_VALUE;
-  const parsed = Number(value);
+  const parsed = parseNumericInput(value);
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : Number.NaN;
 };
 
@@ -114,7 +114,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
             <select
               id="normal-current"
               value={normalCurrentId}
-              onChange={(e) => handleValueChange('challenge.normal.current', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('challenge.normal.current', parseNumericInput(e.target.value))}
             >
               <option value="0">None</option>
               {normalChallengeBits.map((definition) => (
@@ -180,7 +180,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
             <select
               id="infinity-current"
               value={infinityCurrentId}
-              onChange={(e) => handleValueChange('challenge.infinity.current', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('challenge.infinity.current', parseNumericInput(e.target.value))}
             >
               <option value="0">None</option>
               {infinityChallengeBits.map((definition) => (
@@ -246,7 +246,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
             <select
               id="eternity-current"
               value={eternityCurrentId}
-              onChange={(e) => handleValueChange('challenge.eternity.current', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('challenge.eternity.current', parseNumericInput(e.target.value))}
             >
               <option value="0">None</option>
               {eternityChallengeDefinitions.map((definition) => (
@@ -267,7 +267,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
               type="number"
               id="eternity-unlocked"
               value={saveData.challenge?.eternity?.unlocked || 0}
-              onChange={(e) => handleValueChange('challenge.eternity.unlocked', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('challenge.eternity.unlocked', parseNumericInput(e.target.value))}
             />
             <FieldDescription>The legacy/current ID of the Eternity Challenge Time Study selected in this Eternity. Persistent EC unlocks are stored separately in reality.unlockedEC.</FieldDescription>
             {renderValidationIndicator('challenge.eternity.unlocked')}
@@ -279,7 +279,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
               type="number"
               id="eternity-requirementBits"
               value={saveData.challenge?.eternity?.requirementBits || 0}
-              onChange={(e) => handleValueChange('challenge.eternity.requirementBits', parseInt(e.target.value))}
+              onChange={(e) => handleValueChange('challenge.eternity.requirementBits', parseNumericInput(e.target.value))}
             />
             <FieldDescription>Historical cache of EC requirements previously met; it is not the persistent unlock mask. The current unlock mask is reality.unlockedEC.</FieldDescription>
             {renderValidationIndicator('challenge.eternity.requirementBits')}
@@ -301,7 +301,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
                   type="number"
                   id="eterc8ids"
                   value={pcSaveData?.eterc8ids || 0}
-                  onChange={(e) => handleValueChange('eterc8ids', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('eterc8ids', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Infinity Dimension purchases remaining during EC8. The upstream starting limit is 50 and each purchase consumes this value while EC8 is running.</FieldDescription>
                 {renderValidationIndicator('eterc8ids')}
@@ -313,7 +313,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
                   type="number"
                   id="eterc8repl"
                   value={pcSaveData?.eterc8repl || 0}
-                  onChange={(e) => handleValueChange('eterc8repl', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('eterc8repl', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Replicanti upgrades remaining during EC8. The upstream starting limit is 40 and each purchase consumes this value while EC8 is running.</FieldDescription>
                 {renderValidationIndicator('eterc8repl')}
@@ -385,7 +385,7 @@ const ChallengesSection: React.FC<SectionProps> = ({
                   type="number"
                   id="chall9TickspeedCostBumps"
                   value={pcSaveData?.chall9TickspeedCostBumps || 0}
-                  onChange={(e) => handleValueChange('chall9TickspeedCostBumps', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('chall9TickspeedCostBumps', parseNumericInput(e.target.value))}
                 />
                 <FieldDescription>Additional Tickspeed cost-scaling steps recorded while Normal Challenge 9 is active; it resets with Tickspeed.</FieldDescription>
                 {renderValidationIndicator('chall9TickspeedCostBumps')}

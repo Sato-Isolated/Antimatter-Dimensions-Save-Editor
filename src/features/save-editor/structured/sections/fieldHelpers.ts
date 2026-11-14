@@ -1,11 +1,12 @@
 import { hasPath } from '../../../../domain/save/document/path';
+import { parseFiniteDecimal } from '../../../../shared/utils/parseFiniteDecimal';
 
-export const parseNumericInput = (value: string, fallback = 0): number => {
+export const parseNumericInput = (value: string, fallback = Number.NaN): number => {
   if (!value.trim()) {
     return fallback;
   }
 
-  const parsed = Number(value);
+  const parsed = parseFiniteDecimal(value);
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 

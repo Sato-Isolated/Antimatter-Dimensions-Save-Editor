@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { parseFiniteDecimal } from '../utils/parseFiniteDecimal';
 import {
   BitDefinition,
   getBitfieldValue,
@@ -27,7 +28,7 @@ const formatHex = (value: unknown): string => (
 );
 
 const parseRawInteger = (event: React.ChangeEvent<HTMLInputElement>): number => (
-  event.target.value === '' ? Number.NaN : Number(event.target.value)
+  parseFiniteDecimal(event.target.value)
 );
 
 export const BitfieldOptions: React.FC<{

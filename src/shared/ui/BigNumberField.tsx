@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useState } from 'react';
 import { SaveType } from '../../domain/save/model';
+import { parseFiniteDecimal } from '../utils/parseFiniteDecimal';
 
 interface BigNumberFieldProps {
   value: unknown;
@@ -39,7 +40,7 @@ const formatPcDraft = (value: unknown): string => {
     return value;
   }
 
-  if (typeof value === 'number' && Number.isFinite(value)) {
+  if (typeof value === 'number' && (Number.isFinite(value) || value === Number.POSITIVE_INFINITY)) {
     return String(value);
   }
 
@@ -121,7 +122,10 @@ const BigNumberField: React.FC<BigNumberFieldProps> = ({
       return;
     }
 
-    onChange(nextValue);
+    const numericValue = parseFiniteDecimal(nextValue);
+    onChange(nextValue === 'Infinity' || nextValue === '+Infinity'
+      ? Number.POSITIVE_INFINITY
+      : typeof value === 'number' && Number.isFinite(numericValue) ? numericValue : nextValue);
   };
 
   const commitAndroidDraft = () => {
@@ -133,8 +137,8 @@ const BigNumberField: React.FC<BigNumberFieldProps> = ({
       return;
     }
 
-    const parsedMantissa = Number(nextMantissa);
-    const parsedExponent = Number(nextExponent);
+    const parsedMantissa = parseFiniteDecimal(nextMantissa);
+    const parsedExponent = parseFiniteDecimal(nextExponent);
 
     if (!Number.isFinite(parsedMantissa) || !Number.isInteger(parsedExponent)) {
       restoreAndroidDrafts();
@@ -142,6 +146,7 @@ const BigNumberField: React.FC<BigNumberFieldProps> = ({
     }
 
     onChange({
+      ...(isAndroidBigNumber(value) ? value : {}),
       mantissa: parsedMantissa,
       exponent: parsedExponent,
     });

@@ -149,7 +149,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="galaxies" 
                   name="galaxies"
                   value={saveData.galaxies || 0}
-                  onChange={(e) => handleValueChange('galaxies', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('galaxies', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('galaxies')}
               </div>
@@ -298,7 +298,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="totalTickGained" 
                   name="totalTickGained"
                   value={typeof saveData.totalTickGained === 'number' ? saveData.totalTickGained : 0}
-                  onChange={(e) => handleValueChange('totalTickGained', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('totalTickGained', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('totalTickGained')}
               </div>
@@ -310,7 +310,7 @@ const GeneralSection: React.FC<SectionProps> = ({
                   id="totalTickBought" 
                   name="totalTickBought"
                   value={typeof saveData.totalTickBought === 'number' ? saveData.totalTickBought : 0}
-                  onChange={(e) => handleValueChange('totalTickBought', parseInt(e.target.value))}
+                  onChange={(e) => handleValueChange('totalTickBought', parseNumericInput(e.target.value))}
                 />
                 {renderValidationIndicator('totalTickBought')}
               </div>

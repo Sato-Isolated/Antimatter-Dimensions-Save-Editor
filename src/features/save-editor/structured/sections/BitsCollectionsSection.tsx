@@ -21,6 +21,7 @@ import {
 import { getFieldDefinition, resolveFieldPath } from '../../../../domain/save/catalog/fields';
 import { SaveObject, SaveType } from '../../../../domain/save/model';
 import { SectionProps } from './types';
+import { parseNumericInput } from './fieldHelpers';
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -31,7 +32,7 @@ const formatHex = (value: unknown): string =>
   typeof value === 'number' && Number.isInteger(value) && value >= 0 ? `0x${value.toString(16).toUpperCase()}` : '—';
 
 const inputNumber = (event: React.ChangeEvent<HTMLInputElement>): number =>
-  event.target.value === '' ? Number.NaN : Number(event.target.value);
+  parseNumericInput(event.target.value);
 
 interface SegmentedMaskEditorProps {
   definition: BitfieldCatalogEntry;

@@ -12,6 +12,7 @@ import BigNumberInput from '../../../../shared/ui/BigNumberField';
 import BitfieldEditor from '../../../../shared/ui/BitfieldEditor';
 import CollectionEditor from '../../../../shared/ui/CollectionEditor';
 import FieldDescription from '../../../../shared/ui/FieldDescription';
+import JsonValueField from '../../../../shared/ui/JsonValueField';
 import SectionShell, { SectionShellTab } from '../../../../shared/ui/SectionShell';
 import { parseNumericInput } from './fieldHelpers';
 import { SectionProps } from './types';
@@ -273,17 +274,12 @@ const EternitySection: React.FC<SectionProps> = ({
           <h4>Time Studies</h4>
           <div className="eternity-grid">
             <div className="form-group">
-              <label htmlFor="timestudies-studies">Purchased Time Studies (comma separated)</label>
-              <input
-                type="text"
+              <JsonValueField
                 id="timestudies-studies"
-                value={Array.isArray(data.timestudy?.studies) ? data.timestudy.studies.join(',') : ''}
-                onChange={(event) => {
-                  const studies = event.target.value.split(',')
-                    .map((entry) => Number.parseInt(entry.trim(), 10))
-                    .filter((entry) => Number.isInteger(entry));
-                  handleValueChange('timestudy.studies', studies);
-                }}
+                label="Purchased Time Studies (JSON array)"
+                expectation="array"
+                value={data.timestudy?.studies}
+                onChange={(studies) => handleValueChange('timestudy.studies', studies)}
               />
               <FieldDescription>Numeric Time Study IDs purchased in the current save. The selected studies define the Eternity build and challenge path.</FieldDescription>
               {renderValidationIndicator('timestudy.studies')}

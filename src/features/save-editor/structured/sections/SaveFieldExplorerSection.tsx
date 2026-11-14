@@ -3,6 +3,7 @@ import { collectDiscoveredSaveFields, DiscoveredSaveField, getDiscoveredFieldKin
 import { SaveObject } from '../../../../domain/save/model';
 import JsonTextareaField from '../../../../shared/ui/JsonValueField';
 import { SectionProps } from './types';
+import { parseNumericInput } from './fieldHelpers';
 
 type ExplorerFilter = 'all' | 'unmodeled' | 'registered' | 'number' | 'boolean' | 'string' | 'container' | 'null';
 
@@ -45,7 +46,7 @@ const parseNumberDraft = (draft: string): number | undefined => {
     return Number.NEGATIVE_INFINITY;
   }
 
-  const parsed = Number(normalized);
+  const parsed = parseNumericInput(normalized);
   return Number.isNaN(parsed) ? undefined : parsed;
 };
 
